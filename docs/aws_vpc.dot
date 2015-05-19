@@ -1,0 +1,43 @@
+digraph overlay_current
+{
+//  dpi=100
+//  ranksep=1.5
+  rankdir=TB
+  overlap=false
+  clusterrank=local
+
+  {
+    node [shape=ellipse fontsize=12 style=filled fillcolor=white]
+    master
+    el61 [label="slave el6-1"]
+    el62 [label="slave el6-2"]
+    el71 [label="slave el7-1"]
+    el72 [label="slave el7-2"]
+    eip [label="elastic IP"]
+  }
+
+  color=green
+  fontsize=24
+  style=bold
+
+  subgraph cluster_0 {
+    label="VPC"
+
+    eip
+    master
+    el61
+    el62
+    el71
+    el72
+
+    { rank=same el61 el62 el71 el72 }
+  }
+
+  edge [color=blue]
+
+  eip -> master
+  master -> el61
+  master -> el62
+  master -> el71
+  master -> el72
+}
