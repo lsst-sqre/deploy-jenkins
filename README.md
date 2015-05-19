@@ -250,6 +250,41 @@ END
     export VAGRANT_NO_PARALLEL='yes'
     vagrant up
 
+Quickie guide
+-------------
+
+With vagrant, packer, terraform, and the AWS keys enved up:
+
+```
+    1	13:53	git clone -b builder/aws https://github.com/jhoblitt/bento.git
+     2	13:53	cd bento
+     3	13:53	cd packer
+     4	13:53	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-6.6-x86_64.json
+     5	13:53	sed -i -e "s/ami-81d092b1/ami-c2a818aa/" centos-6.6-x86_64.json
+     6	13:54	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-7.1-x86_64.json
+     7	13:54	sed -i -e "s/ami-c7d092f7/ami-96a818fe/" centos-7.1-x86_64.json
+     8	13:54	packer build --only=amazon-ebs centos-6.6-x86_64.json
+     9	14:05	setenv CENTOS6_AMI ami-9a031af2
+    10	14:05	packer build --only=amazon-ebs centos-7.1-x86_64.json
+    11	14:13	setenv CENTOS7_AMI ami-70051c18
+    12	14:13	setenv MASTER_AMI $CENTOS7_AMI
+    13	14:14	cd ..
+    14	14:15	git clone github.com:jhoblitt/sandbox-jenkins-demo.git
+    15	14:15	cd sandbox-jenkins-demo/
+    16	14:16	cd terraform/
+    17	14:17	setenv TF_VAR_aws_access_key $AWS_ACCESS_KEY
+    18	14:18	setenv TF_VAR_aws_secret_key $AWS_SECRET_KEY
+    19	14:18	setenv TF_VAR_aws_region $AWS_RE9	terraform plan
+    21	14:19	terraform apply
+    22	14:21	terraform apply
+    23	14:22	pwd
+    24	14:22	ls
+    25	14:24	cat > aws.rb
+    26	14:26	setenv VAGRANT_DEFAULT_PROVIDER aws
+    27	14:26	setenv VAGRANT_NO_PARALLEL yes
+    vagrant up
+    
+```
 See Also
 ===
 * [`jenkins`](https://jenkins-ci.org/)
