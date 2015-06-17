@@ -9,8 +9,13 @@
 end
 
 ABS_PATH = File.expand_path(File.dirname(__FILE__))
-TF_OUTPUT = "#{ABS_PATH}/terraform/aws.rb"
-load TF_OUTPUT if TF_OUTPUT
+TF_STATE= "#{ABS_PATH}/terraform/terraform.tfstate"
+
+fail "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
+outputs = JSON.parse(File.read(TF_STATE))["modules"].first["outputs"]
+outputs.each_pair do |k, v|
+  Object.const_set(k.upcase, v)
+end
 
 def gen_hostname(boxname)
   "jenkins-#{boxname}"
@@ -133,9 +138,9 @@ Vagrant.configure('2') do |config|
     override.vm.synced_folder '.', '/vagrant', :disabled => true
     override.ssh.private_key_path = ssh_private_key_path
     provider.keypair_name = "jenkins-demo"
-    provider.access_key_id = ENV['AWS_ACCESS_KEY']
-    provider.secret_access_key = ENV['AWS_SECRET_KEY']
-    provider.region = ENV['AWS_REGION']
+    provider.access_key_id = ENV['AWS_ACCESS_KEY_ID']
+    provider.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+    provider.region = AWS_REGION
     provider.subnet_id = SUBNET_ID
     provider.associate_public_ip = true
     provider.security_groups = [
