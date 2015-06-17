@@ -196,6 +196,12 @@ us-east-1: ami-feccd296
     git clone git@github.com:jhoblitt/sandbox-jenkins-demo.git
     cd sandbox-jenkins-demo
 
+### Generate ssh key pair
+
+The ssh key pair is required for both terraform and vagrant.
+
+    (cd jenkins_demo/templates; make)
+
     cd terraform
     make
 
