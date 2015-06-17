@@ -15,7 +15,7 @@ resource "aws_vpc" "jenkins-demo" {
     enable_dns_hostnames = true
 
     tags {
-        Name = "jenkins-demo"
+        Name = "${var.demo_name}"
     }
 }
 
@@ -23,7 +23,7 @@ resource "aws_internet_gateway" "jenkins-demo" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
 
     tags {
-        Name = "jenkins-demo"
+        Name = "${var.demo_name}"
     }
 }
 
@@ -33,7 +33,7 @@ resource "aws_subnet" "jenkins-demo" {
     map_public_ip_on_launch = true
 
     tags {
-        Name = "jenkins-demo"
+        Name = "${var.demo_name}"
     }
 }
 
@@ -45,7 +45,7 @@ resource "aws_route_table" "jenkins-demo" {
     }
 
     tags {
-        Name = "jenkins-demo"
+        Name = "${var.demo_name}"
     }
 }
 
@@ -77,7 +77,7 @@ resource "aws_network_acl" "jenkins-demo" {
     }
 
     tags {
-        Name = "jenkins-demo"
+        Name = "${var.demo_name}"
     }
 }
 
@@ -87,7 +87,7 @@ resource "aws_eip" "jenkins-demo-master" {
 
 resource "aws_security_group" "jenkins-demo-ssh" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
-    name = "jenkins-demo-ssh"
+    name = "${var.demo_name}-ssh"
     description = "allow external ssh"
 
     ingress {
@@ -98,13 +98,13 @@ resource "aws_security_group" "jenkins-demo-ssh" {
     }
 
     tags {
-        Name = "jenkins-demo-ssh"
+        Name = "${var.demo_name}-ssh"
     }
 }
 
 resource "aws_security_group" "jenkins-demo-http" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
-    name = "jenkins-demo-http"
+    name = "${var.demo_name}-http"
     description = "allow external http/https"
 
     ingress {
@@ -122,14 +122,14 @@ resource "aws_security_group" "jenkins-demo-http" {
     }
 
     tags {
-        Name = "jenkins-demo-http"
+        Name = "${var.demo_name}-http"
     }
 }
 
 resource "aws_security_group" "jenkins-demo-internal" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
-    name = "jenkins-demo-internal"
-    description = "allow all jenkins-demo internal traffic"
+    name = "${var.demo_name}-internal"
+    description = "allow all VPC internal traffic"
 
     ingress {
         from_port = 0
@@ -147,6 +147,6 @@ resource "aws_security_group" "jenkins-demo-internal" {
     }
 
     tags {
-        Name = "jenkins-demo-internal"
+        Name = "${var.demo_name}-internal"
     }
 }
