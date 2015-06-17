@@ -4,9 +4,9 @@ provider "aws" {
     secret_key = "${var.aws_secret_key}"
 }
 
-resource "aws_key_pair" "deployer" {
-    key_name = "jenkins-demo"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSL/o5HliZyrs+5lQ0Q+NMEM5O3DzN/Yihr3+SjnOQZm5mei1zvg1sMfUyEYILpGqBGs5S4Gw5Q3oBKWH+YaT32FDKLtOhKsALZ48xkLCpAdNTGr7fXOI24a54UgCMB8riZycQV+nOB3YqCnCw8PxE11EhhOVzijHuipiYNjtmrZxWdoCPI6vfpC23+v1QzzSX5C0c0dU8zZUieUmFRFlZR0SkNUnmgz+KnsrctmxPUAiQc1s8IgJacfWx5+RWJPfp8KxzumfXGizEosxj/X/lctYYd359d4a/MPn+QWciHNZk5iU9iyZolgFFauWGjGNT5SYQO/hNbA9TxfR9Oiud vagrant@jenkins-demo"
+resource "aws_key_pair" "jenkins-demo" {
+    key_name = "${var.demo_name}"
+    public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
 }
 
 resource "aws_vpc" "jenkins-demo" {
