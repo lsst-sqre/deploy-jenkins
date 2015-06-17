@@ -69,7 +69,7 @@ Vagrant is configured via the ['Vagrantfile'](./Vagrantfile).
 
 ### `cloud-init`
 
-There are a number of level configurations needed in a cloud environment.
+There are a number of low-level configurations needed in a cloud environment.
 Including:
 
   * ssh key injection / sudo management
@@ -179,6 +179,7 @@ us-east-1: ami-92ccd2fa
 --> amazon-ebs: 'aws' provider box: ../builds/aws/opscode_centos-6.6_chef-provisionerless.box
 ```
     ../bin/packer build --only=amazon-ebs centos-7.1-x86_64.json
+    ../bin/packer build --only amazon-ebs -var 'source_ami=ami-6bcfc42e' centos-7.1-x86_64.json
 
 ```
 ==> Builds finished. The artifacts of successful builds are:
@@ -256,8 +257,8 @@ With vagrant, packer, terraform, and the AWS keys enved up:
     26	14:26	setenv VAGRANT_DEFAULT_PROVIDER aws
     27	14:26	setenv VAGRANT_NO_PARALLEL yes
     vagrant up
-    
 ```
+
 See Also
 ===
 * [`jenkins`](https://jenkins-ci.org/)
