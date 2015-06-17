@@ -212,39 +212,6 @@ The ssh key pair is required for both terraform and vagrant.
     ./bin/terraform plan
     ./bin/terraform apply
 
-Example output.
-
-    ...
-    Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
-
-    The state of your infrastructure has been saved to the path
-    below. This state is required to modify and destroy your
-    infrastructure, so keep it safe. To inspect the complete state
-    use the `terraform show` command.
-
-    State path: terraform.tfstate
-
-    Outputs:
-
-      ELASTIC_IP                 = 52.6.202.20
-      SECURITY_GROUP_ID_HTTP     = sg-3a163c5e
-      SECURITY_GROUP_ID_INTERNAL = sg-05163c61
-      SECURITY_GROUP_ID_SSH      = sg-39163c5d
-      SUBNET_ID                  = subnet-30397947
-
-Cut'n'paste the variable outputs into `terraform/aws.rb`
-
-```
-cat > aws.rb <<END
-ELASTIC_IP                 = '52.6.202.20'
-SECURITY_GROUP_ID_HTTP     = 'sg-3a163c5e'
-SECURITY_GROUP_ID_INTERNAL = 'sg-05163c61'
-SECURITY_GROUP_ID_SSH      = 'sg-39163c5d'
-SUBNET_ID                  = 'subnet-30397947'
-END
-```
-
-
     vagrant plugin install vagrant-puppet-install
     vagrant plugin install vagrant-librarian-puppet --plugin-version '~> 0.9.0'
     vagrant plugin install vagrant-aws --plugin-version '~> 0.6.0'
