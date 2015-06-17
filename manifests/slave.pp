@@ -1,2 +1,1 @@
-include ::jenkins_demo::profile::base
-include ::jenkins_demo::profile::slave
+include ::jenkins_demo::role::slave
