@@ -14,7 +14,7 @@
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
           <description>Whitespace delimited list of EUPS products to build.</description>
-          <defaultValue>lsst_sims lsst_distrib qserv_distrib git anaconda webserv</defaultValue>
+          <defaultValue>lsst_sims lsst_distrib qserv_distrib webserv</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>SKIP_DEMO</name>
