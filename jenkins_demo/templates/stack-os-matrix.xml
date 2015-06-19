@@ -37,7 +37,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>*/5 * * * *</spec>
+      <spec>30 * * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>true</concurrentBuild>
@@ -73,7 +73,32 @@ sudo -u build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /hom
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <org.jenkinsci.plugins.postbuildscript.PostBuildScript plugin="postbuildscript@0.17">
+      <buildSteps>
+        <hudson.tasks.Shell>
+          <command>sudo -u build${EXECUTOR_NUMBER} killall -9 -u build${EXECUTOR_NUMBER}</command>
+        </hudson.tasks.Shell>
+      </buildSteps>
+      <scriptOnlyIfSuccess>false</scriptOnlyIfSuccess>
+      <scriptOnlyIfFailure>true</scriptOnlyIfFailure>
+      <markBuildUnstable>false</markBuildUnstable>
+      <executeOn>MATRIX</executeOn>
+    </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
+    <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@0.1.9">
+      <token></token>
+      <room>Bot: Jenkins Demo</room>
+      <startNotification>true</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>true</notifyAborted>
+      <notifyNotBuilt>true</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
+    </jenkins.plugins.hipchat.HipChatNotifier>
+  </publishers>
   <buildWrappers/>
   <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
     <runSequentially>false</runSequentially>
