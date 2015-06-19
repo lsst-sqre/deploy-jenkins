@@ -10,19 +10,20 @@ class jenkins_demo::profile::base {
   resources { 'firewall': purge => true }
 
   if $::osfamily == 'RedHat' {
-    include ::epel
-
-    Class['epel'] -> Package<| provider != 'rpm' |>
+    if $::operatingsystem != 'Fedora' {
+      include ::epel
+      Class['epel'] -> Package<| provider != 'rpm' |>
+    }
 
     # note:
     #   * el6.x will update everything
     #   * the jenkins package is only present on the master
-#    class { '::yum_autoupdate':
-#      exclude      => ['kernel*', 'jenkins'],
-#      notify_email => false,
-#      action       => 'apply',
-#      update_cmd   => 'security',
-#    }
+    class { '::yum_autoupdate':
+      exclude      => ['kernel*', 'jenkins'],
+      notify_email => false,
+      action       => 'apply',
+      update_cmd   => 'security',
+    }
   }
 
   # only needed for debugging
