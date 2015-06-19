@@ -4,7 +4,7 @@ class jenkins_demo::profile::slave {
 
   lsststack::lsstsw { 'build0':
     group        => 'jenkins-slave',
-    manage_group => false,
+    manage_group => true,
   }
 
   class { 'sudo':
@@ -27,5 +27,7 @@ class jenkins_demo::profile::slave {
     ui_pass   => 'b0da1e0bf3f79ff02624c2f716913808',
     executors => 1,
     labels    => downcase("${::operatingsystem}-${::operatingsystemmajrelease}"),
+    # don't start slave before lsstsw build env is ready
+    require   => Lsststack::Lsstsw['build0'],
   }
 }
