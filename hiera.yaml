@@ -1,0 +1,7 @@
+---
+:backends:
+   - yaml
+:yaml:
+  :datadir: /tmp/vagrant-puppet/hieradata/
+:hierarchy: secrets
+:logger: console
