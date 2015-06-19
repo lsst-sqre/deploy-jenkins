@@ -22,15 +22,17 @@ class jenkins_demo::profile::master {
   }
 
   jenkins::plugin { 'github': }
-    jenkins::plugin { 'scm-api': }
-    jenkins::plugin { 'git-client': }
     jenkins::plugin { 'git': }
+      jenkins::plugin { 'scm-api': }
+      jenkins::plugin { 'git-client': }
     jenkins::plugin { 'github-api': }
 
   jenkins::plugin { 'github-oauth':
     source => 'https://s3-us-west-2.amazonaws.com/github-oauth-plugin/github-oauth.hpi',
   }
     jenkins::plugin { 'mailer': }
+    #jenkins::plugin { 'github-api': }
+    #jenkins::plugin { 'git': }
 
   jenkins::plugin { 'nodelabelparameter': }
     jenkins::plugin { 'token-macro': }
@@ -44,6 +46,11 @@ class jenkins_demo::profile::master {
     config_filename => $hipchat_xml,
     config_content  => template("${module_name}/plugins/${hipchat_xml}"),
   }
+
+  jenkins::plugin { 'postbuildscript': }
+    #jenkins::plugin { 'mailer': }
+    jenkins::plugin { 'maven-plugin': }
+    jenkins::plugin { 'javadoc': }
 
 
   #
