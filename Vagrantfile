@@ -159,6 +159,7 @@ Vagrant.configure('2') do |config|
       'Ebs.DeleteOnTermination' => 'true',
     }]
     provider.monitoring = true
+    provider.instance_package_timeout = 36600
   end
 
   if Vagrant.has_plugin?('vagrant-librarian-puppet')
