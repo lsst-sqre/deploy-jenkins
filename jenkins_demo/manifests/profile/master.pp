@@ -46,6 +46,7 @@ class jenkins_demo::profile::master {
     jenkins::plugin { 'maven-plugin': }
     jenkins::plugin { 'javadoc': }
 
+  jenkins::plugin { 'greenballs': }
 
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
