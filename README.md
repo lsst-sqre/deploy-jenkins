@@ -210,8 +210,11 @@ The ssh key pair is required for both terraform and vagrant.
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_region=$AWS_REGION
 
-    ./bin/terraform plan
-    ./bin/terraform apply
+    # sanity check
+    ./bin/terraform plan -var 'demo_name=jenkins-demo'
+
+    ./bin/terraform apply -var 'demo_name=jenkins-demo'
+    cd ..
 
     vagrant plugin install vagrant-puppet-install
     vagrant plugin install vagrant-librarian-puppet --plugin-version '~> 0.9.0'
@@ -224,8 +227,74 @@ The ssh key pair is required for both terraform and vagrant.
     export VAGRANT_NO_PARALLEL='yes'
     vagrant up
 
+###create base images
+
+Start up the build slaves first so there isn't state created by the master attempting to create jobs.
+
+    vagrant up el6-1 el7-1
+
+    # sanity check
+    vagrant provision el6-1 el7-1
+
+    vagrant package el6-1
+    rm package.box
+    vagrant package el7-1
+    rm package.box
+
+    vagrant destroy -f el6-1 el7-1
+
+    vagrant up master
+
+    # sanity check
+    vagrant provision master
+
+    vagrant package master
+    rm package.box
+
+    vagrant destroy -f master
+
+    # sanity check
+    vagrant check
+
+```
+$ vagrant package el6-1
+==> el6-1: Burning instance i-bc806b6f into an ami
+==> el6-1: Waiting for the AMI 'ami-ff18e494' to burn...
+==> el6-1: Burn was successful in 60s
+==> el6-1: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+$ rm package.box
+$ vagrant package el7-1
+==> el7-1: Burning instance i-a4ef0477 into an ami
+==> el7-1: Waiting for the AMI 'ami-0515e96e' to burn...
+==> el7-1: Burn was successful in 146s
+==> el7-1: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+$ rm package.box
+$ vagrant destroy -f el6-1 el7-1
+==> el7-1: Terminating the instance...
+==> el7-1: Running cleanup tasks for 'puppet' provisioner...
+==> el6-1: Terminating the instance...
+==> el6-1: Running cleanup tasks for 'puppet' provisioner...
+$ vagrant package master
+==> master: Burning instance i-7c0de6af into an ami
+==> master: Waiting for the AMI 'ami-d312eeb8' to burn...
+==> master: Burn was successful in 417s
+==> master: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+$ rm package.box
+$     vagrant destroy -f master
+==> master: Terminating the instance...
+==> master: Running cleanup tasks for 'puppet' provisioner...
+```
+
+    export CENTOS6_AMI=ami-ff18e494
+    export CENTOS7_AMI=ami-0515e96e
+    export MASTER_AMI=ami-d312eeb8
+
+    vagrant up
+
 Quickie guide
 -------------
+
+XXX - out of date
 
 With vagrant, packer, terraform, and the AWS keys enved up:
 
