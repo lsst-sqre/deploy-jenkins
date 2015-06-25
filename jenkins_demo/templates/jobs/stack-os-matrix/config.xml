@@ -52,7 +52,9 @@
   </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>ARGS=()
+      <command>#!/bin/bash
+
+ARGS=()
 ARGS+=(&apos;--branch&apos;)
 ARGS+=(&quot;$BRANCH&quot;)
 ARGS+=(&apos;--build_number&apos;)
