@@ -54,6 +54,13 @@ class jenkins_demo::profile::master {
 
   jenkins::plugin { 'greenballs': }
 
+  $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
+  jenkins::plugin { 'ansicolor':
+    manage_config   => true,
+    config_filename => $ansicolor_xml,
+    config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
+  }
+
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
