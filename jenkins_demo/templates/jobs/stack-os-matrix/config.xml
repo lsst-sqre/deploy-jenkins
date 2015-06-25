@@ -62,6 +62,7 @@ ARGS+=(&quot;$BUILD_NUMBER&quot;)
 ARGS+=(&apos;--product&apos;)
 ARGS+=(&quot;$PRODUCT&quot;)
 ARGS+=(&apos;--skip_docs&apos;)
+ARGS+=(&apos;--print-fail&apos;)
 
 if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
   ARGS+=(&apos;--skip_demo&apos;)
