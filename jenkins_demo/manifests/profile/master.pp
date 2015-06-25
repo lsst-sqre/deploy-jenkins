@@ -61,6 +61,13 @@ class jenkins_demo::profile::master {
     config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
   }
 
+  $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
+  jenkins::plugin { 'collapsing-console-sections':
+    manage_config   => true,
+    config_filename => $collapsing_xml,
+    config_content  => template("${module_name}/plugins/${collapsing_xml}"),
+  }
+
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
