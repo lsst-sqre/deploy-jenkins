@@ -18,7 +18,7 @@ class jenkins_demo::profile::master {
   include ::jenkins::master # <- I am a swarm master
 
   jenkins::job { 'stack-os-matrix':
-    config => template("${module_name}/stack-os-matrix.xml"),
+    config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
   jenkins::plugin { 'github': }
