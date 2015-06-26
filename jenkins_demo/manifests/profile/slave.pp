@@ -3,8 +3,10 @@ class jenkins_demo::profile::slave {
   include ::lsststack
 
   lsststack::lsstsw { 'build0':
-    group        => 'jenkins-slave',
-    manage_group => true,
+    group           => 'jenkins-slave',
+    manage_group    => true,
+    lsstsw_ensure   => 'latest',
+    buildbot_ensure => 'latest',
   }
 
   class { 'sudo':
