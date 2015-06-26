@@ -73,7 +73,7 @@ if [[ $NO_FETCH == &quot;true&quot; ]]; then
   ARGS+=(&apos;--no-fetch&apos;)
 fi
 
-sudo -u build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;
+sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
