@@ -68,6 +68,8 @@ class jenkins_demo::profile::master {
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
 
+  jenkins::plugin { 'rebuild': }
+
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
