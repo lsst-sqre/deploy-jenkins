@@ -9,7 +9,7 @@
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
           <description>Whitespace delimited list of branches to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly append to the right side of the list.</description>
-          <defaultValue>None</defaultValue>
+          <defaultValue>master</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
