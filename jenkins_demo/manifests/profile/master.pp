@@ -70,6 +70,8 @@ class jenkins_demo::profile::master {
 
   jenkins::plugin { 'rebuild': }
 
+  jenkins::plugin { 'build-user-vars-plugin': }
+
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 

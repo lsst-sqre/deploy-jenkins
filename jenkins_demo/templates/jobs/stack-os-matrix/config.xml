@@ -99,14 +99,15 @@ sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /ho
       <notifyUnstable>true</notifyUnstable>
       <notifyFailure>true</notifyFailure>
       <notifyBackToNormal>true</notifyBackToNormal>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <startJobMessage>$STATUS #$BUILD_NUMBER branch: $BRANCH of $PRODUCT ($label) for &lt;a href=&quot;mailto:$BUILD_USER_EMAIL&quot;&gt;$BUILD_USER&lt;/a&gt; (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</startJobMessage>
+      <completeJobMessage>Completed  #$BUILD_NUMBER branch: $BRANCH of $PRODUCT ($label) for &lt;a href=&quot;mailto:$BUILD_USER_EMAIL&quot;&gt;$BUILD_USER&lt;/a&gt;  $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;)  (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
       <colorMapName>gnome-terminal</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
   </buildWrappers>
   <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
     <runSequentially>false</runSequentially>
