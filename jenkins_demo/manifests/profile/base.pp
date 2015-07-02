@@ -3,6 +3,11 @@ class jenkins_demo::profile::base {
   include ::sysstat
   include ::irqbalance
 
+  host { 'jenkins-master':
+    ensure => 'present',
+    ip     => '192.168.123.10',
+  }
+
   class { 'selinux': mode       => 'enforcing' }
   class { 'timezone': timezone  => 'US/Pacific' }
   class { 'tuned': profile      => 'virtual-host' }

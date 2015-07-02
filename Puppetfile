@@ -24,10 +24,14 @@ mod 'saz/sudo',
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
   :ref => '2343dc1965c98d479bc412378990a3c4482fb8e7'
-mod 'jhoblitt/lsststack',
+mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '2f413ee23997460d1ae218a431b9762ae26ac9f8'
-mod 'jhoblitt/jenkins_demo', :path => './jenkins_demo'
+
+mod 'jhoblitt/ganglia', '~> 2.0'
+mod 'mayflower/php', '~> 3.2'
+
+mod 'lsst/jenkins_demo', :path => './jenkins_demo'
 
 # install ruby-devel & bundler for debugging inside VMs
 mod 'puppetlabs/ruby'
