@@ -27,6 +27,10 @@ mod 'rtyler/jenkins',
 mod 'jhoblitt/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '2f413ee23997460d1ae218a431b9762ae26ac9f8'
+
+mod 'jhoblitt/ganglia', '~> 2.0'
+mod 'mayflower/php', '~> 3.2'
+
 mod 'jhoblitt/jenkins_demo', :path => './jenkins_demo'
 
 # install ruby-devel & bundler for debugging inside VMs
