@@ -9,8 +9,13 @@
 end
 
 ABS_PATH = File.expand_path(File.dirname(__FILE__))
-TF_OUTPUT = "#{ABS_PATH}/terraform/aws.rb"
-load TF_OUTPUT if TF_OUTPUT
+TF_STATE= "#{ABS_PATH}/terraform/terraform.tfstate"
+
+fail "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
+outputs = JSON.parse(File.read(TF_STATE))["modules"].first["outputs"]
+outputs.each_pair do |k, v|
+  Object.const_set(k.upcase, v)
+end
 
 def gen_hostname(boxname)
   "jenkins-#{boxname}"
@@ -69,6 +74,7 @@ Vagrant.configure('2') do |config|
       puppet.manifests_path = "manifests"
       puppet.module_path = "modules"
       puppet.manifest_file = "master.pp"
+      puppet.hiera_config_path = "hiera.yaml"
       puppet.options = [
        '--verbose',
        '--report',
@@ -115,6 +121,7 @@ Vagrant.configure('2') do |config|
     puppet.manifests_path = "manifests"
     puppet.module_path = "modules"
     puppet.manifest_file = "slave.pp"
+    puppet.hiera_config_path = "hiera.yaml"
     puppet.options = [
      '--verbose',
      '--report',
@@ -131,11 +138,12 @@ Vagrant.configure('2') do |config|
     # http://blog.damore.it/2015/01/aws-vagrant-no-host-ip-was-given-to.html
     override.nfs.functional = false
     override.vm.synced_folder '.', '/vagrant', :disabled => true
+    override.vm.synced_folder 'hieradata/', '/tmp/vagrant-puppet/hieradata'
     override.ssh.private_key_path = ssh_private_key_path
     provider.keypair_name = "jenkins-demo"
-    provider.access_key_id = ENV['AWS_ACCESS_KEY']
-    provider.secret_access_key = ENV['AWS_SECRET_KEY']
-    provider.region = ENV['AWS_REGION']
+    provider.access_key_id = ENV['AWS_ACCESS_KEY_ID']
+    provider.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+    provider.region = AWS_REGION
     provider.subnet_id = SUBNET_ID
     provider.associate_public_ip = true
     provider.security_groups = [
@@ -151,6 +159,7 @@ Vagrant.configure('2') do |config|
       'Ebs.DeleteOnTermination' => 'true',
     }]
     provider.monitoring = true
+    provider.instance_package_timeout = 36600
   end
 
   if Vagrant.has_plugin?('vagrant-librarian-puppet')

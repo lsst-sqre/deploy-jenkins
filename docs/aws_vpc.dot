@@ -1,0 +1,75 @@
+digraph top {
+//  dpi=100
+  ranksep=1.25
+  rankdir=TB
+  overlap=false
+  clusterrank=local
+
+  {
+    node [shape=ellipse fontsize=24 style=filled fillcolor=white]
+    eip [label="elastic IP"]
+    nginx [label="nginx proxy"]
+    master [label="jenkins master"]
+    el61 [label="swarm client"]
+    el62 [label="swarm client"]
+    el63 [label="swarm client"]
+    el71 [label="swarm client"]
+    el72 [label="swarm client"]
+    el73 [label="swarm client"]
+  }
+
+  color=lightgrey
+  fontsize=18
+  style=bold
+
+
+  subgraph cluster_0 {
+    label="VPC"
+
+    eip
+
+    subgraph cluster_1 {
+      label="master"
+      nginx
+      master
+    }
+
+    subgraph cluster_2 {
+      label="slave el6-1"
+
+      el61
+    }
+    subgraph cluster_3 {
+      label="slave el6-2"
+      el62
+    }
+    subgraph cluster_4 {
+      label="slave el6-3"
+      el63
+    }
+
+    subgraph cluster_5 {
+      label="slave el7-1"
+      el71
+    }
+    subgraph cluster_6 {
+      label="slave el7-2"
+      el72
+    }
+    subgraph cluster_7 {
+      label="slave el7-3"
+      el73
+    }
+  }
+
+  edge [color=blue]
+
+  eip -> nginx
+  nginx -> master
+  master -> el61
+  master -> el62
+  master -> el63
+  master -> el71
+  master -> el72
+  master -> el73
+}

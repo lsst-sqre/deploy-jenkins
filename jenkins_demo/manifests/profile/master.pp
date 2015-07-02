@@ -18,27 +18,59 @@ class jenkins_demo::profile::master {
   include ::jenkins::master # <- I am a swarm master
 
   jenkins::job { 'stack-os-matrix':
-    config => template("${module_name}/stack-os-matrix.xml"),
+    config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
   jenkins::plugin { 'github': }
-    jenkins::plugin { 'scm-api': }
-    jenkins::plugin { 'git-client': }
     jenkins::plugin { 'git': }
+      jenkins::plugin { 'scm-api': }
+      jenkins::plugin { 'git-client': }
     jenkins::plugin { 'github-api': }
 
   jenkins::plugin { 'github-oauth':
     source => 'https://s3-us-west-2.amazonaws.com/github-oauth-plugin/github-oauth.hpi',
   }
     jenkins::plugin { 'mailer': }
+    #jenkins::plugin { 'github-api': }
+    #jenkins::plugin { 'git': }
 
   jenkins::plugin { 'nodelabelparameter': }
     jenkins::plugin { 'token-macro': }
     jenkins::plugin { 'jquery': }
     jenkins::plugin { 'parameterized-trigger': }
 
-  jenkins::plugin { 'hipchat': }
+  $hipchat = hiera('jenkins::plugins::hipchat')
+  $hipchat_xml = 'jenkins.plugins.hipchat.HipChatNotifier.xml'
+  jenkins::plugin { 'hipchat':
+    manage_config   => true,
+    config_filename => $hipchat_xml,
+    config_content  => template("${module_name}/plugins/${hipchat_xml}"),
+  }
 
+  jenkins::plugin { 'postbuildscript': }
+    #jenkins::plugin { 'mailer': }
+    jenkins::plugin { 'maven-plugin': }
+    jenkins::plugin { 'javadoc': }
+
+  jenkins::plugin { 'greenballs': }
+
+  $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
+  jenkins::plugin { 'ansicolor':
+    manage_config   => true,
+    config_filename => $ansicolor_xml,
+    config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
+  }
+
+  $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
+  jenkins::plugin { 'collapsing-console-sections':
+    manage_config   => true,
+    config_filename => $collapsing_xml,
+    config_content  => template("${module_name}/plugins/${collapsing_xml}"),
+  }
+
+  jenkins::plugin { 'rebuild': }
+
+  jenkins::plugin { 'build-user-vars-plugin': }
 
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy

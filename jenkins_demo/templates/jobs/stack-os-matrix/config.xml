@@ -9,12 +9,12 @@
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
           <description>Whitespace delimited list of branches to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly append to the right side of the list.</description>
-          <defaultValue>None</defaultValue>
+          <defaultValue>master</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
           <description>Whitespace delimited list of EUPS products to build.</description>
-          <defaultValue>lsst_sims lsst_distrib qserv_distrib git anaconda webserv</defaultValue>
+          <defaultValue>lsst_sims lsst_distrib qserv_distrib webserv</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>SKIP_DEMO</name>
@@ -37,7 +37,7 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>*/5 * * * *</spec>
+      <spec>*/30 * * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>true</concurrentBuild>
@@ -52,7 +52,9 @@
   </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>ARGS=()
+      <command>#!/bin/bash
+
+ARGS=()
 ARGS+=(&apos;--branch&apos;)
 ARGS+=(&quot;$BRANCH&quot;)
 ARGS+=(&apos;--build_number&apos;)
@@ -60,6 +62,8 @@ ARGS+=(&quot;$BUILD_NUMBER&quot;)
 ARGS+=(&apos;--product&apos;)
 ARGS+=(&quot;$PRODUCT&quot;)
 ARGS+=(&apos;--skip_docs&apos;)
+ARGS+=(&apos;--print-fail&apos;)
+ARGS+=(&apos;--color&apos;)
 
 if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
   ARGS+=(&apos;--skip_demo&apos;)
@@ -69,12 +73,42 @@ if [[ $NO_FETCH == &quot;true&quot; ]]; then
   ARGS+=(&apos;--no-fetch&apos;)
 fi
 
-sudo -u build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;
+sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
-  <buildWrappers/>
+  <publishers>
+    <org.jenkinsci.plugins.postbuildscript.PostBuildScript plugin="postbuildscript@0.17">
+      <buildSteps>
+        <hudson.tasks.Shell>
+          <command>sudo -u build${EXECUTOR_NUMBER} killall -9 -u build${EXECUTOR_NUMBER}</command>
+        </hudson.tasks.Shell>
+      </buildSteps>
+      <scriptOnlyIfSuccess>false</scriptOnlyIfSuccess>
+      <scriptOnlyIfFailure>true</scriptOnlyIfFailure>
+      <markBuildUnstable>false</markBuildUnstable>
+      <executeOn>MATRIX</executeOn>
+    </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
+    <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@0.1.9">
+      <token></token>
+      <room></room>
+      <startNotification>true</startNotification>
+      <notifySuccess>true</notifySuccess>
+      <notifyAborted>true</notifyAborted>
+      <notifyNotBuilt>true</notifyNotBuilt>
+      <notifyUnstable>true</notifyUnstable>
+      <notifyFailure>true</notifyFailure>
+      <notifyBackToNormal>true</notifyBackToNormal>
+      <startJobMessage>$STATUS #$BUILD_NUMBER branch: $BRANCH of $PRODUCT ($label) for &lt;a href=&quot;mailto:$BUILD_USER_EMAIL&quot;&gt;$BUILD_USER&lt;/a&gt; (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</startJobMessage>
+      <completeJobMessage>Completed  #$BUILD_NUMBER branch: $BRANCH of $PRODUCT ($label) for &lt;a href=&quot;mailto:$BUILD_USER_EMAIL&quot;&gt;$BUILD_USER&lt;/a&gt;  $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;)  (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</completeJobMessage>
+    </jenkins.plugins.hipchat.HipChatNotifier>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.1">
+      <colorMapName>gnome-terminal</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.4"/>
+  </buildWrappers>
   <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
     <runSequentially>false</runSequentially>
   </executionStrategy>
