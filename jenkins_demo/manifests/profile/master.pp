@@ -39,12 +39,15 @@ class jenkins_demo::profile::master {
     jenkins::plugin { 'jquery': }
     jenkins::plugin { 'parameterized-trigger': }
 
-  $hipchat = hiera('jenkins::plugins::hipchat')
-  $hipchat_xml = 'jenkins.plugins.hipchat.HipChatNotifier.xml'
-  jenkins::plugin { 'hipchat':
-    manage_config   => true,
-    config_filename => $hipchat_xml,
-    config_content  => template("${module_name}/plugins/${hipchat_xml}"),
+  $hipchat = hiera('jenkins::plugins::hipchat', undef)
+
+  if $hipchat {
+    $hipchat_xml = 'jenkins.plugins.hipchat.HipChatNotifier.xml'
+    jenkins::plugin { 'hipchat':
+      manage_config   => true,
+      config_filename => $hipchat_xml,
+      config_content  => template("${module_name}/plugins/${hipchat_xml}"),
+    }
   }
 
   jenkins::plugin { 'postbuildscript': }
