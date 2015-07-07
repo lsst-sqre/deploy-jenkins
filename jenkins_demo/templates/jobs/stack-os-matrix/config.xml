@@ -28,6 +28,10 @@
         </hudson.model.BooleanParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <assignedNode>master</assignedNode>
@@ -87,7 +91,7 @@ sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /ho
       <scriptOnlyIfSuccess>false</scriptOnlyIfSuccess>
       <scriptOnlyIfFailure>true</scriptOnlyIfFailure>
       <markBuildUnstable>false</markBuildUnstable>
-      <executeOn>MATRIX</executeOn>
+      <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@0.1.9">
       <token></token>
