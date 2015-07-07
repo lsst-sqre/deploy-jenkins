@@ -30,6 +30,7 @@ mod 'lsst/lsststack',
 
 mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'mayflower/php', '~> 3.2'
+mod 'puppetlabs/concat', '~> 1.2'
 
 mod 'lsst/jenkins_demo', :path => './jenkins_demo'
 
