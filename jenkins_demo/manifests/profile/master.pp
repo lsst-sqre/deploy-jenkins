@@ -78,6 +78,29 @@ class jenkins_demo::profile::master {
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
+  $access_log          = '/var/log/nginx/jenkins.access.log'
+  $error_log           = '/var/log/nginx/jenkins.error.log'
+  $private_dir         = '/var/private'
+  $ssl_cert_path       = "${private_dir}/cert_chain.pem"
+  $ssl_key_path        = "${private_dir}/private.key"
+  $ssl_dhparam_path    = "${private_dir}/dhparam.pem"
+  $ssl_root_chain_path = "${private_dir}/root_chain.pem"
+  $ssl_cert            = hiera('ssl_cert', undef)
+  $ssl_chain_cert      = hiera('ssl_chain_cert', undef)
+  $ssl_root_cert       = hiera('ssl_root_cert', undef)
+  $ssl_key             = hiera('ssl_key', undef)
+  $add_header          = hiera('add_header', undef)
+
+  $proxy_set_header = [
+    'Host            $host',
+    'X-Real-IP       $remote_addr',
+    'X-Forwarded-For $proxy_add_x_forwarded_for',
+  ]
+
+  if $ssl_cert and $ssl_key {
+    $enable_ssl = true
+  }
+
   selboolean { 'httpd_can_network_connect':
     value      => on,
     persistent => true,
@@ -90,20 +113,105 @@ class jenkins_demo::profile::master {
     ],
   }
 
-  nginx::resource::vhost { 'jenkins':
+  if $enable_ssl {
+    file { $private_dir:
+      ensure => directory,
+      mode   => '0700',
+    }
+
+    exec { 'openssl dhparam -out dhparam.pem 2048':
+      path    => ['/usr/bin'],
+      cwd     => $private_dir,
+      umask   => '0400',
+      creates => $ssl_dhparam_path,
+    }
+
+    # note that nginx needs the signed cert and the CA chain in the same file
+    concat { $ssl_cert_path:
+      ensure => present,
+      mode   => '0444',
+      backup => false,
+      before => Class['::nginx'],
+    }
+    concat::fragment { 'public - signed cert':
+      target  => $ssl_cert_path,
+      order   => 1,
+      content => $ssl_cert,
+    }
+    concat::fragment { 'public - chain cert':
+      target  => $ssl_cert_path,
+      order   => 2,
+      content => $ssl_chain_cert,
+    }
+
+    file { $ssl_key_path:
+      ensure    => file,
+      mode      => '0400',
+      content   => $ssl_key,
+      backup    => false,
+      show_diff => false,
+      before    => Class['::nginx'],
+    }
+
+    concat { $ssl_root_chain_path:
+      ensure => present,
+      mode   => '0444',
+      backup => false,
+      before => Class['::nginx'],
+    }
+    concat::fragment { 'root-chain - chain cert':
+      target  => $ssl_root_chain_path,
+      order   => 1,
+      content => $ssl_chain_cert,
+    }
+    concat::fragment { 'root-chain - root cert':
+      target  => $ssl_root_chain_path,
+      order   => 2,
+      content => $ssl_root_cert,
+    }
+
+    nginx::resource::vhost { 'jenkins':
+      ensure                => present,
+      listen_port           => 443,
+      ssl                   => true,
+      rewrite_to_https      => false,
+      access_log            => $access_log,
+      error_log             => $error_log,
+      ssl_key               => $ssl_key_path,
+      ssl_cert              => $ssl_cert_path,
+      ssl_dhparam           => $ssl_dhparam_path,
+      ssl_session_timeout   => '1d',
+      ssl_cache             => 'shared:SSL:50m',
+      ssl_stapling          => true,
+      ssl_stapling_verify   => true,
+      ssl_trusted_cert      => $ssl_root_chain_path,
+      resolver              => [ '8.8.8.8', '4.4.4.4'],
+      proxy                 => 'http://jenkins',
+      proxy_redirect        => 'default',
+      proxy_connect_timeout => '150',
+      proxy_set_header      => $proxy_set_header,
+      add_header            => $add_header,
+    }
+  }
+
+  # If ssl is enabled, the ssl vhost takes the resource name 'jenkins' so that
+  # any nginx::resource::location resources in other profiles (E.g.
+  # jenkins_demo::profile::ganglia::web) will inject into the primary vhost.
+  $vhost = $enable_ssl ? {
+    true    => 'jenkins-www',
+    default => 'jenkins',
+  }
+
+  nginx::resource::vhost { $vhost:
     ensure                => present,
-    server_name           => ['jenkins-master'],
     listen_port           => 80,
     ssl                   => false,
-    access_log            => '/var/log/nginx/jenkins.access.log',
-    error_log             => '/var/log/nginx/jenkins.error.log',
+    rewrite_to_https      => $enable_ssl,
+    access_log            => $access_log,
+    error_log             => $error_log,
     proxy                 => 'http://jenkins',
     proxy_redirect        => 'default',
-    proxy_set_header      => [
-      'Host            $host',
-      'X-Real-IP       $remote_addr',
-      'X-Forwarded-For $proxy_add_x_forwarded_for',
-    ],
     proxy_connect_timeout => '150',
+    proxy_set_header      => $proxy_set_header,
   }
 }

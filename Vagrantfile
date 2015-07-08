@@ -81,7 +81,6 @@ Vagrant.configure('2') do |config|
        '--show_diff',
        '--pluginsync',
        '--disable_warnings=deprecations',
-       '--parser=future',
       ]
     end
   end
@@ -115,7 +114,7 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '3.7.5'
+  config.puppet_install.puppet_version = '3.8.1'
 
   config.vm.provision "puppet", type: :puppet do |puppet|
     puppet.manifests_path = "manifests"
@@ -128,7 +127,6 @@ Vagrant.configure('2') do |config|
      '--show_diff',
      '--pluginsync',
      '--disable_warnings=deprecations',
-     '--parser=future',
     ]
   end
 
