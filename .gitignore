@@ -1,6 +1,8 @@
 .bundle
 Gemfile.lock
+hieradata/common.yaml
 jenkins_demo/templates/id_rsa*
+keys/
 .librarian
 modules
 *.orig

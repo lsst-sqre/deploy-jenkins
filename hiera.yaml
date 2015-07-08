@@ -3,5 +3,5 @@
    - yaml
 :yaml:
   :datadir: /tmp/vagrant-puppet/hieradata/
-:hierarchy: secrets
+:hierarchy: common
 :logger: console

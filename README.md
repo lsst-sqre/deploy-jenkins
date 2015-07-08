@@ -108,7 +108,7 @@ administrator.
 
 The demo attaches an elastic IP address (public IP) but does not manage DNS
 configuration for this address.  There are a number of ways of automatically
-handling this including via the terraform aws provider.
+handling this including via the terraform AWS provider.
 
 ### jenkins plugins
 
@@ -196,6 +196,53 @@ us-east-1: ami-feccd296
 
     git clone git@github.com:jhoblitt/sandbox-jenkins-demo.git
     cd sandbox-jenkins-demo
+
+### Edit hiera data as necessary
+
+This demo uses a simple [`hiera`](http://docs.puppetlabs.com/hiera/)
+configuration for providing configuration data to the puppet manifests used to
+provision the nodes. The literal configuration file used by hiera/puppet, if
+present, is `hieradata/common.yaml`.
+
+However, some configuration data, such as the hipchat API token, must be kept
+confidential.  A rubygem named
+[`hiera-eyaml`](https://github.com/TomPoulton/hiera-eyaml) is used to maintain
+a "shadow" hiera configuration
+[`hieradata/common.eyaml`](hieradata/common.eyaml) that contains mixed
+plaintext and encrypted values.  Confidential data that is specific to LSST/DM
+is present in this file and the correct private key ring needs to be present
+under the `./keys/` directory in order to decrypt it.
+
+    keys/
+    ├── private_key.pkcs7.pem
+    └── public_key.pkcs7.pem
+
+If you do not have access to LSST/DM keys, you can either copy `common.yaml` to
+`common.eyaml` and manually edit it or generate a new `eyaml` key set to
+maintain your own version of `common.eyaml` (the LSST/DM encrypted values would
+need to be removed).
+
+*It is essential that the eyaml keys are kept confidential and not published in
+this repository.*
+
+#### `eyaml` setup
+
+A [Gemfile] is provided to install `hiera-eyaml`.  A working ruby + bundler
+install is assumed.
+
+    bundle install
+
+#### provided rake convenience tasks
+
+    bundle exec rake -T
+
+    rake createkeys  # generate new eyaml keys
+    rake decrypt     # decrypt common.eyaml -> common.yaml
+    rake edit        # edit common.eyaml (requires keys)
+
+#### decrypt `common.eyaml`
+
+    bundle exec rake decrypt
 
 ### Generate ssh key pair
 
@@ -340,3 +387,5 @@ See Also
 * [`terraform`](https://www.terraform.io/)
 * [`vagrant`](https://www.vagrantup.com/)
 * [`puppet`](https://puppetlabs.com/)
+* [`hiera`](http://docs.puppetlabs.com/hiera/)
+* [`hiera-eyaml`](https://github.com/TomPoulton/hiera-eyaml)
