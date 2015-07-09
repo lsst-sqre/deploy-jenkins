@@ -100,6 +100,8 @@ class jenkins_demo::profile::master {
   jenkins::plugin { 'build-user-vars-plugin': }
 
   jenkins::plugin { 'envinject': }
+
+  jenkins::plugin { 'purge-build-queue-plugin': }
     #jenkins::plugin { 'maven-plugin': }
 
   #
