@@ -31,7 +31,7 @@ manage_etc_hosts: true
 end
 
 def n_slaves
-  (1..2)
+  (1..3)
 end
 
 def ssh_private_key_path
