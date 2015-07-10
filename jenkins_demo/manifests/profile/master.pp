@@ -135,6 +135,11 @@ class jenkins_demo::profile::master {
     persistent => true,
   }
 
+  selboolean { 'httpd_setrlimit':
+    value      => on,
+    persistent => true,
+  }
+
   nginx::resource::upstream { 'jenkins':
     ensure  => present,
     members => [
