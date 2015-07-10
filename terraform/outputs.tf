@@ -21,3 +21,7 @@ output "SECURITY_GROUP_ID_INTERNAL" {
 output "AWS_DEFAULT_REGION" {
   value = "${var.aws_default_region}"
 }
+
+output "DEMO_NAME" {
+  value = "${var.demo_name}"
+}
