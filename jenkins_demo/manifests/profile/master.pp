@@ -17,8 +17,32 @@ class jenkins_demo::profile::master {
   # lint:endignore
   include ::jenkins::master # <- I am a swarm master
 
+  # run a jnlp slave to execute jobs that need to be bound to the
+  # jenkins-master node (E.g., backups).  This provides some priviledge
+  # seperation between the master process and the builds as they will be
+  # executed under the jenkins-slave user.  jenkins user.
+  class { 'jenkins::slave':
+    masterurl    => 'http://jenkins-master:8080',
+    executors    => 1,
+    slave_mode   => 'exclusive',
+    install_java => false,
+  }
+
   jenkins::job { 'stack-os-matrix':
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
+  }
+
+  $jenkins_ebs_snapshot = hiera('jenkins::jobs::jenkins_ebs_snapshot', undef)
+  if $jenkins_ebs_snapshot {
+    class { 'python' :
+      version    => 'system',
+      pip        => true,
+      dev        => true,
+      virtualenv => true,
+    }
+    jenkins::job { 'jenkins-ebs-snapshot':
+      config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
+    }
   }
 
   jenkins::plugin { 'github': }
@@ -74,6 +98,9 @@ class jenkins_demo::profile::master {
   jenkins::plugin { 'rebuild': }
 
   jenkins::plugin { 'build-user-vars-plugin': }
+
+  jenkins::plugin { 'envinject': }
+    #jenkins::plugin { 'maven-plugin': }
 
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
