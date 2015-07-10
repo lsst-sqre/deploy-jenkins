@@ -18,6 +18,6 @@ output "SECURITY_GROUP_ID_INTERNAL" {
   value = "${aws_security_group.jenkins-demo-internal.id}"
 }
 
-output "AWS_REGION" {
-  value = "${var.aws_region}"
+output "AWS_DEFAULT_REGION" {
+  value = "${var.aws_default_region}"
 }

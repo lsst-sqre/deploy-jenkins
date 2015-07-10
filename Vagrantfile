@@ -141,7 +141,7 @@ Vagrant.configure('2') do |config|
     provider.keypair_name = "jenkins-demo"
     provider.access_key_id = ENV['AWS_ACCESS_KEY_ID']
     provider.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
-    provider.region = AWS_REGION
+    provider.region = AWS_DEFAULT_REGION
     provider.subnet_id = SUBNET_ID
     provider.associate_public_ip = true
     provider.security_groups = [

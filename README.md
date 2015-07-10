@@ -149,7 +149,7 @@ Sandbox
 -------
     export AWS_ACCESS_KEY_ID=<...>
     export AWS_SECRET_ACCESS_KEY=<...>
-    export AWS_REGION=us-east-1
+    export AWS_DEFAULT_REGION=us-east-1
 
     git clone -b builder/aws https://github.com/jhoblitt/bento.git
     cd bento
@@ -160,11 +160,11 @@ Sandbox
     cd ../packer
 
     # centos 6 x86_64 HVM https://aws.amazon.com/marketplace/pp/B00NQAYLWO
-    sed -i -e "s/us-west-2/${AWS_REGION}/" centos-6.6-x86_64.json
+    sed -i -e "s/us-west-2/${AWS_DEFAULT_REGION}/" centos-6.6-x86_64.json
     sed -i -e "s/ami-81d092b1/ami-c2a818aa/" centos-6.6-x86_64.json
 
     # centos 7 x86_64 HVM https://aws.amazon.com/marketplace/pp/B00O7WM7QW
-    sed -i -e "s/us-west-2/${AWS_REGION}/" centos-7.1-x86_64.json
+    sed -i -e "s/us-west-2/${AWS_DEFAULT_REGION}/" centos-7.1-x86_64.json
     sed -i -e "s/ami-c7d092f7/ami-96a818fe/" centos-7.1-x86_64.json
 
     # sanity check
@@ -255,7 +255,7 @@ The ssh key pair is required for both terraform and vagrant.
 
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
-    export TF_VAR_aws_region=$AWS_REGION
+    export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
 
     # sanity check
     ./bin/terraform plan -var 'demo_name=jenkins-demo'
@@ -349,9 +349,9 @@ With vagrant, packer, terraform, and the AWS keys enved up:
     1	13:53	git clone -b builder/aws https://github.com/jhoblitt/bento.git
      2	13:53	cd bento
      3	13:53	cd packer
-     4	13:53	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-6.6-x86_64.json
+     4	13:53	sed -i -e "s/us-west-2/${AWS_DEFAULT_REGION}/" centos-6.6-x86_64.json
      5	13:53	sed -i -e "s/ami-81d092b1/ami-c2a818aa/" centos-6.6-x86_64.json
-     6	13:54	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-7.1-x86_64.json
+     6	13:54	sed -i -e "s/us-west-2/${AWS_DEFAULT_REGION}/" centos-7.1-x86_64.json
      7	13:54	sed -i -e "s/ami-c7d092f7/ami-96a818fe/" centos-7.1-x86_64.json
      8	13:54	packer build --only=amazon-ebs centos-6.6-x86_64.json
      9	14:05	setenv CENTOS6_AMI ami-9a031af2
@@ -364,7 +364,7 @@ With vagrant, packer, terraform, and the AWS keys enved up:
     16	14:16	cd terraform/
     17	14:17	setenv TF_VAR_aws_access_key $AWS_ACCESS_KEY
     18	14:18	setenv TF_VAR_aws_secret_key $AWS_SECRET_KEY
-    19	14:18	setenv TF_VAR_aws_region $AWS_RE9	terraform plan
+    19	14:18	setenv TF_VAR_AWS_DEFAULT_REGION $AWS_RE9	terraform plan
     21	14:19	terraform apply
     22	14:21	terraform apply
     23	14:22	pwd
