@@ -338,6 +338,31 @@ $     vagrant destroy -f master
 
     vagrant up
 
+###Save env vars
+
+The shell snippet below will store all of the important environment variables
+that have been set into a script called `creds.sh`, intended to be sourced
+before performing vagrant/terraform operations in a clean shell.
+
+    cat > creds.sh <<END
+    export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+    export CENTOS6_AMI=$CENTOS6_AMI
+    export CENTOS7_AMI=$CENTOS7_AMI
+    export MASTER_AMI=$MASTER_AMI
+
+    export VAGRANT_DEFAULT_PROVIDER='aws'
+    export VAGRANT_NO_PARALLEL='yes'
+
+    export TF_VAR_aws_access_key=$TF_VAR_aws_access_key
+    export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
+    export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
+    export TF_VAR_demo_name=$TF_VAR_demo_name
+    END
+
+
 Quickie guide
 -------------
 
