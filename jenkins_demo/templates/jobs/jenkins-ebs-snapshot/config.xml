@@ -4,7 +4,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.11.3">
-      <projectUrl>https://github.com/jhoblitt/ec2-snapshot/</projectUrl>
+      <projectUrl>https://github.com/lsst-sqre/ec2-snapshot/</projectUrl>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
@@ -46,7 +46,7 @@
   <publishers>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@0.1.9">
       <token/>
-      <room>Bot: Jenkins Demo Test</room>
+      <room></room>
       <startNotification>true</startNotification>
       <notifySuccess>true</notifySuccess>
       <notifyAborted>true</notifyAborted>
