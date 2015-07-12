@@ -19,7 +19,7 @@ class jenkins_demo::profile::master {
 
   # run a jnlp slave to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
-  # seperation between the master process and the builds as they will be
+  # separation between the master process and the builds as they will be
   # executed under the jenkins-slave user.  jenkins user.
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
@@ -100,6 +100,8 @@ class jenkins_demo::profile::master {
   jenkins::plugin { 'build-user-vars-plugin': }
 
   jenkins::plugin { 'envinject': }
+
+  jenkins::plugin { 'purge-build-queue-plugin': }
     #jenkins::plugin { 'maven-plugin': }
 
   #
@@ -117,6 +119,7 @@ class jenkins_demo::profile::master {
   $ssl_root_cert       = hiera('ssl_root_cert', undef)
   $ssl_key             = hiera('ssl_key', undef)
   $add_header          = hiera('add_header', undef)
+  $www_host            = hiera('www_host', 'jenkins-master')
 
   $proxy_set_header = [
     'Host            $host',
@@ -133,12 +136,27 @@ class jenkins_demo::profile::master {
     persistent => true,
   }
 
+  selboolean { 'httpd_setrlimit':
+    value      => on,
+    persistent => true,
+  }
+
   nginx::resource::upstream { 'jenkins':
     ensure  => present,
     members => [
       'localhost:8080',
     ],
   }
+
+  # If SSL is enabled and we are catching an DNS cname, we need to redirect to
+  # the canonical https URL in one step.  If we do a http -> https redirect, as
+  # is enabled by puppet-nginx's rewrite_to_https param, the the U-A will catch
+  # a certificate error before getting to the redirect to the canonical name.
+  $raw_prepend = [
+    "if ( \$host != \'${www_host}\' ) {",
+    '  return 301 https://citest.lsst.codes$request_uri;',
+    '}',
+  ]
 
   if $enable_ssl {
     file { $private_dir:
@@ -218,6 +236,7 @@ class jenkins_demo::profile::master {
       proxy_connect_timeout => '150',
       proxy_set_header      => $proxy_set_header,
       add_header            => $add_header,
+      raw_prepend           => $raw_prepend,
     }
   }
 
@@ -233,12 +252,16 @@ class jenkins_demo::profile::master {
     ensure                => present,
     listen_port           => 80,
     ssl                   => false,
-    rewrite_to_https      => $enable_ssl,
     access_log            => $access_log,
     error_log             => $error_log,
     proxy                 => 'http://jenkins',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '150',
     proxy_set_header      => $proxy_set_header,
+    # see comment above $raw_prepend declaration
+    raw_prepend           => $enable_ssl ? {
+      true     => $raw_prepend,
+      default  => undef,
+    },
   }
 }

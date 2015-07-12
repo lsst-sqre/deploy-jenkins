@@ -89,6 +89,35 @@ Profiles](http://www.craigdunn.org/2012/05/239/) pattern.
   * The puppet modules in use are listed in the [Puppetfile](./Puppetfile).
   * The site module is under the [`jenkins_demo`](./jenkins_demo) directory.
 
+### metric collection
+
+A full production deployment would likely involve additional jenkins plugins
+for metric collection and instance level metrics collected external to jenkins
+which are then made available to end users via a web interface.
+
+#### `ganglia`
+
+The [`ganglia`](http://ganglia.info/) monitoring system is used to collect
+general host metrics from the build slaves and are accessible from the web
+interface as https://<jenkins-master>/ganglia/.
+
+A possible improvement would be to create `gmetric` values from jenkins when
+certain events occur, such as the start and finish of jobs.
+
+#### AWS cloud watch
+
+The demo enables cloud watch metric collection about the instances which is
+completely external to jenkins and not visible without AWS account credentials.
+
+### backups
+
+A simple backup solution is provided via a jenkins job named
+`jenkins-ec2-snapshot` that will create EBS snapshots of the jenkins-master
+using the [`ec-snapshot`](https://github.com/lsst-sqre/ec2-snapshot) script.
+
+_Note that this requires valid AWS credientials to be present in
+`common.yaml`_.
+
 Notable omissions
 ---
 
@@ -113,27 +142,20 @@ handling this including via the terraform AWS provider.
 ### jenkins plugins
 
 There are a number of plugins that are not configured via this demo as it would
-require exposing secrets. This includes github oauth integration, hipchat
-notifications, and email notifications.
+require exposing secrets. This includes github oauth integration and email
+notifications.
 
-### metric collection
-
-The demo enables cloud watch metric collection about the instances which is
-completely external to jenkins and not visible external to the AWS account.  A
-full production deployment would likely involved additional jenkins plugins for
-metric collection and instance level metrics collected external to jenkins
-which are then made available to end users via a web interface.
-
-### backups
-
-There are absolutely no provisions taken for backing up either jenkins data or
-snapshotting the instances.
 
 Prerequisites
 -------------
 
 * Vagrant 1.7.x
 * `git` - needed to clone this repo
+
+Only needed to use `hiera-eyaml` to decrypt/edit `common.eyaml`
+
+* ruby 1.9.3+
+* bundler
 
 
 Vagrant plugins
@@ -145,11 +167,16 @@ These are required:
 * vagrant-librarian-puppet '~> 0.9.0'
 * vagrant-aws '~> 0.7.0'
 
-Sandbox
--------
+Setup and Deployment
+--------------------
+
+### Build updated and vagrant friendly AMIs
+
+#### Download & prepare packer
+
     export AWS_ACCESS_KEY_ID=<...>
     export AWS_SECRET_ACCESS_KEY=<...>
-    export AWS_REGION=us-east-1
+    export AWS_DEFAULT_REGION=us-east-1
 
     git clone -b builder/aws https://github.com/jhoblitt/bento.git
     cd bento
@@ -157,47 +184,90 @@ Sandbox
     cd bin
     wget https://dl.bintray.com/mitchellh/packer/packer_0.7.5_linux_amd64.zip
     unzip packer_0.7.5_linux_amd64.zip
-    cd ../packer
+    cd ..
 
-    # centos 6 x86_64 HVM https://aws.amazon.com/marketplace/pp/B00NQAYLWO
-    sed -i -e "s/us-west-2/${AWS_REGION}/" centos-6.6-x86_64.json
-    sed -i -e "s/ami-81d092b1/ami-c2a818aa/" centos-6.6-x86_64.json
+#### Select Official Centos AMI to use as base image
 
-    # centos 7 x86_64 HVM https://aws.amazon.com/marketplace/pp/B00O7WM7QW
-    sed -i -e "s/us-west-2/${AWS_REGION}/" centos-7.1-x86_64.json
-    sed -i -e "s/ami-c7d092f7/ami-96a818fe/" centos-7.1-x86_64.json
+EC2 AMI IDs are per region so you need to select the correct AMI ID for the
+region in which you plan to build.  _Note that it is possible to copy AMIs
+between EC2 regions after they are built.  However, each region will still have
+a unique AMI ID_
 
-    # sanity check
-    git diff
-    ../bin/packer build --only=amazon-ebs centos-6.6-x86_64.json
+##### [CentOS 6 (x86_64) - with Updates HVM](https://aws.amazon.com/marketplace/pp/B00NQAYLWO)
+
+AMI IDs for version `6 - 2014-09-29`:
+
+Region                    | ID
+:------------------------ | :-----------:
+US East (N. Virginia)     | ami-c2a818aa
+US West (Oregon)          | ami-81d092b1
+US West (N. California)   | ami-57cfc412
+EU (Frankfurt)            | ami-46c4f65b
+EU (Ireland)              | ami-30ff5c47
+Asia Pacific (Singapore)  | ami-b4a582e6
+Asia Pacific (Sydney)     | ami-b3523089
+Asia Pacific (Tokyo)      | ami-13614b12
+South America (Sao Paulo) | ami-9b952086
+
+##### [CentOS 7 (x86_64) with Updates HVM](https://aws.amazon.com/marketplace/pp/B00O7WM7QW)
+
+AMI IDs for version `7 - 2014-09-29`:
+
+Region                     | ID
+:------------------------- | :-----------:
+US East (N. Virginia)      | ami-96a818fe
+US West (Oregon)           | ami-c7d092f7
+US West (N. California)    | ami-6bcfc42e
+EU (Frankfurt)             | ami-7cc4f661
+EU (Ireland)               | ami-e4ff5c93
+Asia Pacific (Singapore)   | ami-aea582fc
+Asia Pacific (Sydney)      | ami-bd523087
+Asia Pacific (Tokyo)       | ami-89634988
+South America (Sao Paulo)  | ami-bf9520a2
+
+### Build centos 6.6 AMI
+
+    ./bin/packer build --only amazon-ebs -var 'source_ami=ami-c2a818aa' centos-6.6-x86_64.json
 
 ```
+Build 'amazon-ebs' finished.
+
 ==> Builds finished. The artifacts of successful builds are:
 --> amazon-ebs: AMIs were created:
 
-us-east-1: ami-92ccd2fa
---> amazon-ebs: 'aws' provider box: ../builds/aws/opscode_centos-6.6_chef-provisionerless.box
+us-east-1: ami-974d85fc
+--> amazon-ebs: 'aws' provider box: builds/__unset_box_basename__.aws.box
 ```
-    ../bin/packer build --only=amazon-ebs centos-7.1-x86_64.json
-    ../bin/packer build --only amazon-ebs -var 'source_ami=ami-6bcfc42e' centos-7.1-x86_64.json
+
+### Build centos 7.1 AMI
+
+    ./bin/packer build --only amazon-ebs -var 'source_ami=ami-96a818fe' centos-7.1-x86_64.json
 
 ```
+Build 'amazon-ebs' finished.
+
 ==> Builds finished. The artifacts of successful builds are:
 --> amazon-ebs: AMIs were created:
 
-us-east-1: ami-feccd296
---> amazon-ebs: 'aws' provider box: ../builds/aws/opscode_centos-7.1_chef-provisionerless.box
+us-east-1: ami-3331f958
+--> amazon-ebs: 'aws' provider box: builds/__unset_box_basename__.aws.box
 ```
 
-    export CENTOS6_AMI=ami-92ccd2fa
-    export CENTOS7_AMI=ami-feccd296
+### Declare new AMI IDs
+
+To be used by vagrant.
+
+    export CENTOS6_AMI=ami-974d85fc
+    export CENTOS7_AMI=ami-3331f958
     export MASTER_AMI=$CENTOS7_AMI
     cd ..
+
+### Clone & prepare demo
 
     git clone git@github.com:jhoblitt/sandbox-jenkins-demo.git
     cd sandbox-jenkins-demo
 
-### Edit hiera data as necessary
+#### Edit hiera data as necessary
 
 This demo uses a simple [`hiera`](http://docs.puppetlabs.com/hiera/)
 configuration for providing configuration data to the puppet manifests used to
@@ -217,6 +287,18 @@ under the `./keys/` directory in order to decrypt it.
     ├── private_key.pkcs7.pem
     └── public_key.pkcs7.pem
 
+```shell
+$ rsync -av /<path to keys>/keys/ keys/
+sending incremental file list
+created directory keys
+./
+private_key.pkcs7.pem
+public_key.pkcs7.pem
+
+sent 2,949 bytes  received 84 bytes  6,066.00 bytes/sec
+total size is 2,725  speedup is 0.90
+```
+
 If you do not have access to LSST/DM keys, you can either copy `common.yaml` to
 `common.eyaml` and manually edit it or generate a new `eyaml` key set to
 maintain your own version of `common.eyaml` (the LSST/DM encrypted values would
@@ -225,14 +307,14 @@ need to be removed).
 *It is essential that the eyaml keys are kept confidential and not published in
 this repository.*
 
-#### `eyaml` setup
+##### `eyaml` setup
 
 A [Gemfile] is provided to install `hiera-eyaml`.  A working ruby + bundler
 install is assumed.
 
     bundle install
 
-#### provided rake convenience tasks
+##### provided rake convenience tasks
 
     bundle exec rake -T
 
@@ -240,28 +322,35 @@ install is assumed.
     rake decrypt     # decrypt common.eyaml -> common.yaml
     rake edit        # edit common.eyaml (requires keys)
 
-#### decrypt `common.eyaml`
+##### decrypt `common.eyaml`
 
     bundle exec rake decrypt
 
-### Generate ssh key pair
+#### Generate ssh key pair
 
 The ssh key pair is required for both terraform and vagrant.
 
     (cd jenkins_demo/templates; make)
+
+### Run terraform to configure AWS VPC
 
     cd terraform
     make
 
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
-    export TF_VAR_aws_region=$AWS_REGION
+    export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
+    export TF_VAR_demo_name=${USER}-demo
 
     # sanity check
-    ./bin/terraform plan -var 'demo_name=jenkins-demo'
+    ./bin/terraform plan
 
-    ./bin/terraform apply -var 'demo_name=jenkins-demo'
+    ./bin/terraform apply
     cd ..
+
+### Create AWS EC2 instances with vagrant
+
+#### Install required vagrant plugins
 
     vagrant plugin install vagrant-puppet-install
     vagrant plugin install vagrant-librarian-puppet --plugin-version '~> 0.9.0'
@@ -270,13 +359,19 @@ The ssh key pair is required for both terraform and vagrant.
     # sanity check
     vagrant plugin list
 
+#### Disable parallel actions
+
+One of the vagrant plugins currently in use [sadly] is not compatible with
+vagrant parallel providers.  That means vagrant is unable to create EC2
+instances in parallel.
+
     export VAGRANT_DEFAULT_PROVIDER='aws'
     export VAGRANT_NO_PARALLEL='yes'
-    vagrant up
 
-###create base images
+#### create pre-provisoined base images
 
-Start up the build slaves first so there isn't state created by the master attempting to create jobs.
+Start up the build slaves first so there isn't state created by the master
+attempting to create jobs.
 
     vagrant up el6-1 el7-1
 
@@ -332,48 +427,40 @@ $     vagrant destroy -f master
 ==> master: Running cleanup tasks for 'puppet' provisioner...
 ```
 
+#### Declare new AMI IDs
+
     export CENTOS6_AMI=ami-ff18e494
     export CENTOS7_AMI=ami-0515e96e
     export MASTER_AMI=ami-d312eeb8
 
+### Save env vars
+
+The shell snippet below will store all of the important environment variables
+that have been set into a script called `creds.sh`, intended to be sourced
+before performing vagrant/terraform operations in a clean shell.
+
+    cat > creds.sh <<END
+    export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+    export CENTOS6_AMI=$CENTOS6_AMI
+    export CENTOS7_AMI=$CENTOS7_AMI
+    export MASTER_AMI=$MASTER_AMI
+
+    export VAGRANT_DEFAULT_PROVIDER='aws'
+    export VAGRANT_NO_PARALLEL='yes'
+
+    export TF_VAR_aws_access_key=$TF_VAR_aws_access_key
+    export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
+    export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
+    export TF_VAR_demo_name=$TF_VAR_demo_name
+    END
+
+### Start all demo instances
+
+    . ./creds.sh
     vagrant up
-
-Quickie guide
--------------
-
-XXX - out of date
-
-With vagrant, packer, terraform, and the AWS keys enved up:
-
-```
-    1	13:53	git clone -b builder/aws https://github.com/jhoblitt/bento.git
-     2	13:53	cd bento
-     3	13:53	cd packer
-     4	13:53	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-6.6-x86_64.json
-     5	13:53	sed -i -e "s/ami-81d092b1/ami-c2a818aa/" centos-6.6-x86_64.json
-     6	13:54	sed -i -e "s/us-west-2/${AWS_REGION}/" centos-7.1-x86_64.json
-     7	13:54	sed -i -e "s/ami-c7d092f7/ami-96a818fe/" centos-7.1-x86_64.json
-     8	13:54	packer build --only=amazon-ebs centos-6.6-x86_64.json
-     9	14:05	setenv CENTOS6_AMI ami-9a031af2
-    10	14:05	packer build --only=amazon-ebs centos-7.1-x86_64.json
-    11	14:13	setenv CENTOS7_AMI ami-70051c18
-    12	14:13	setenv MASTER_AMI $CENTOS7_AMI
-    13	14:14	cd ..
-    14	14:15	git clone github.com:jhoblitt/sandbox-jenkins-demo.git
-    15	14:15	cd sandbox-jenkins-demo/
-    16	14:16	cd terraform/
-    17	14:17	setenv TF_VAR_aws_access_key $AWS_ACCESS_KEY
-    18	14:18	setenv TF_VAR_aws_secret_key $AWS_SECRET_KEY
-    19	14:18	setenv TF_VAR_aws_region $AWS_RE9	terraform plan
-    21	14:19	terraform apply
-    22	14:21	terraform apply
-    23	14:22	pwd
-    24	14:22	ls
-    25	14:24	cat > aws.rb
-    26	14:26	setenv VAGRANT_DEFAULT_PROVIDER aws
-    27	14:26	setenv VAGRANT_NO_PARALLEL yes
-    vagrant up
-```
 
 See Also
 ===
@@ -389,3 +476,5 @@ See Also
 * [`puppet`](https://puppetlabs.com/)
 * [`hiera`](http://docs.puppetlabs.com/hiera/)
 * [`hiera-eyaml`](https://github.com/TomPoulton/hiera-eyaml)
+* [`ganglia`](http://ganglia.info/)
+* [`ec-snapshot`](https://github.com/lsst-sqre/ec2-snapshot)

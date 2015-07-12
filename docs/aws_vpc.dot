@@ -9,13 +9,26 @@ digraph top {
     node [shape=ellipse fontsize=24 style=filled fillcolor=white]
     eip [label="elastic IP"]
     nginx [label="nginx proxy"]
-    master [label="jenkins master"]
-    el61 [label="swarm client"]
-    el62 [label="swarm client"]
-    el63 [label="swarm client"]
-    el71 [label="swarm client"]
-    el72 [label="swarm client"]
-    el73 [label="swarm client"]
+    jmaster [label="jenkins master"]
+    jswarm [label="swarm client"]
+    jel61 [label="swarm client"]
+    jel61 [label="swarm client"]
+    jel62 [label="swarm client"]
+    jel63 [label="swarm client"]
+    jel71 [label="swarm client"]
+    jel72 [label="swarm client"]
+    jel73 [label="swarm client"]
+
+    phpfpm [label="php-fpm\n(ganglia web)"]
+    gmetad
+    gmond
+
+    gel61 [label="gmond"]
+    gel62 [label="gmond"]
+    gel63 [label="gmond"]
+    gel71 [label="gmond"]
+    gel72 [label="gmond"]
+    gel73 [label="gmond"]
   }
 
   color=lightgrey
@@ -31,45 +44,83 @@ digraph top {
     subgraph cluster_1 {
       label="master"
       nginx
-      master
+      jmaster
+      jswarm
+      phpfpm
+      gmetad
+      gmond
     }
 
     subgraph cluster_2 {
       label="slave el6-1"
 
-      el61
+      jel61
+      gel61
     }
     subgraph cluster_3 {
       label="slave el6-2"
-      el62
+      jel62
+      gel62
     }
     subgraph cluster_4 {
       label="slave el6-3"
-      el63
+      jel63
+      gel63
     }
 
     subgraph cluster_5 {
       label="slave el7-1"
-      el71
+      jel71
+      gel71
     }
     subgraph cluster_6 {
       label="slave el7-2"
-      el72
+      jel72
+      gel72
     }
     subgraph cluster_7 {
       label="slave el7-3"
-      el73
+      jel73
+      gel73
     }
   }
 
-  edge [color=blue]
-
+  // https
+  edge [color=red]
   eip -> nginx
-  nginx -> master
-  master -> el61
-  master -> el62
-  master -> el63
-  master -> el71
-  master -> el72
-  master -> el73
+
+  // http
+  edge [color=orange]
+  nginx -> jmaster
+
+  // jnlp
+  edge [color=blue]
+  jmaster -> jswarm
+  jmaster -> jel61
+  jmaster -> jel62
+  jmaster -> jel63
+  jmaster -> jel71
+  jmaster -> jel72
+  jmaster -> jel73
+
+  // fastcgi
+  edge [color=khaki3]
+  nginx -> phpfpm
+
+  // filesystem
+  edge [color=black]
+  phpfpm -> gmetad
+
+  // ganglia xml
+  edge [color=magenta]
+  gmetad -> gmond
+
+  // gmond
+  edge [color=green4]
+  gmond -> gel61 [dir=back]
+  gmond -> gel62 [dir=back]
+  gmond -> gel63 [dir=back]
+  gmond -> gel71 [dir=back]
+  gmond -> gel72 [dir=back]
+  gmond -> gel73 [dir=back]
 }

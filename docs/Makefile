@@ -3,7 +3,7 @@ TEMPFILE := $(shell mktemp -u)
 all: aws_vpc.png
 
 %.png : %.dot
-	unflatten $< -o ${TEMPFILE}
+	unflatten $< -l2 -o ${TEMPFILE}
 	dot -Tpng ${TEMPFILE} -o $@
 	rm ${TEMPFILE}
 
