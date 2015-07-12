@@ -154,7 +154,7 @@ class jenkins_demo::profile::master {
   # a certificate error before getting to the redirect to the canonical name.
   $raw_prepend = [
     "if ( \$host != \'${www_host}\' ) {",
-    '  return 301 https://citest.lsst.codes$request_uri;',
+    "  return 301 https://${www_host}\$request_uri;",
     '}',
   ]
 
