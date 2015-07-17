@@ -1,6 +1,12 @@
 changelog
 =========
 
+0.2.4
+-----
+
+* add psmisc package to build slaves
+
+
 0.2.3
 -----
 
