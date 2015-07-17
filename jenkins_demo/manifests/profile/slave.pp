@@ -30,4 +30,7 @@ class jenkins_demo::profile::slave {
       Host['jenkins-master'],
     ],
   }
+
+  # provides killall on el6 & el7 -- needed by stack-os-matrix
+  ensure_packages(['psmisc'])
 }
