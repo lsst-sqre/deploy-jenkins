@@ -1,6 +1,24 @@
 changelog
 =========
 
+0.2.3
+-----
+
+* add missing 0.2.[12] changelog
+
+
+0.2.2
+-----
+
+* remove accidentally hard coded test urls
+
+
+0.2.1
+-----
+
+* remove accidentally hard coded test urls
+
+
 0.2.0
 -----
 
