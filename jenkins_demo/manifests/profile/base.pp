@@ -2,6 +2,7 @@ class jenkins_demo::profile::base {
   include ::augeas
   include ::sysstat
   include ::irqbalance
+  include ::ntp
 
   host { 'jenkins-master':
     ensure => 'present',
