@@ -31,6 +31,12 @@ class jenkins_demo::profile::base {
     }
   }
 
+  # disable postfix on el6/el7 as we don't need an mta
+  service { 'postfix':
+    ensure => 'stopped',
+    enable => false,
+  }
+
   # only needed for debugging
   class { '::ruby::dev':
     bundler_ensure => 'latest',
