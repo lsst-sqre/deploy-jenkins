@@ -41,5 +41,5 @@ class jenkins_demo::profile::base {
   class { '::ruby::dev':
     bundler_ensure => 'latest',
   }
-  ensure_packages(['git'])
+  ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }
