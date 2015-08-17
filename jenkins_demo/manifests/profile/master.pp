@@ -32,6 +32,14 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
+  jenkins::job { 'qserv-os-matrix':
+    config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
+  }
+
+  jenkins::job { 'dax_webserv-os-matrix':
+    config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
+  }
+
   $jenkins_ebs_snapshot = hiera('jenkins::jobs::jenkins_ebs_snapshot', undef)
   if $jenkins_ebs_snapshot {
     class { 'python' :

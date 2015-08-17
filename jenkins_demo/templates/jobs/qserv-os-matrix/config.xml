@@ -14,12 +14,12 @@
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
           <description>Whitespace delimited list of EUPS products to build.</description>
-          <defaultValue>lsst_sims lsst_distrib</defaultValue>
+          <defaultValue>qserv_distrib</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>SKIP_DEMO</name>
           <description>Do not run the demo after all packages have completed building.</description>
-          <defaultValue>false</defaultValue>
+          <defaultValue>true</defaultValue>
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>NO_FETCH</name>
