@@ -160,23 +160,41 @@ class jenkins_demo::profile::master {
 
   if $enable_ssl {
     file { $private_dir:
-      ensure => directory,
-      mode   => '0700',
+      ensure   => directory,
+      mode     => '0750',
+      selrange => 's0',
+      selrole  => 'object_r',
+      seltype  => 'httpd_config_t',
+      seluser  => 'system_u',
     }
 
     exec { 'openssl dhparam -out dhparam.pem 2048':
       path    => ['/usr/bin'],
       cwd     => $private_dir,
-      umask   => '0400',
+      umask   => '0433',
       creates => $ssl_dhparam_path,
+    } ->
+    file { $ssl_dhparam_path:
+      ensure   => file,
+      mode     => '0400',
+      selrange => 's0',
+      selrole  => 'object_r',
+      seltype  => 'httpd_config_t',
+      seluser  => 'system_u',
+      replace  => false,
+      backup   => false,
     }
 
     # note that nginx needs the signed cert and the CA chain in the same file
     concat { $ssl_cert_path:
-      ensure => present,
-      mode   => '0444',
-      backup => false,
-      before => Class['::nginx'],
+      ensure   => present,
+      mode     => '0444',
+      selrange => 's0',
+      selrole  => 'object_r',
+      seltype  => 'httpd_config_t',
+      seluser  => 'system_u',
+      backup   => false,
+      before   => Class['::nginx'],
     }
     concat::fragment { 'public - signed cert':
       target  => $ssl_cert_path,
@@ -192,6 +210,10 @@ class jenkins_demo::profile::master {
     file { $ssl_key_path:
       ensure    => file,
       mode      => '0400',
+      selrange  => 's0',
+      selrole   => 'object_r',
+      seltype   => 'httpd_config_t',
+      seluser   => 'system_u',
       content   => $ssl_key,
       backup    => false,
       show_diff => false,
@@ -199,10 +221,14 @@ class jenkins_demo::profile::master {
     }
 
     concat { $ssl_root_chain_path:
-      ensure => present,
-      mode   => '0444',
-      backup => false,
-      before => Class['::nginx'],
+      ensure   => present,
+      mode     => '0444',
+      selrange => 's0',
+      selrole  => 'object_r',
+      seltype  => 'httpd_config_t',
+      seluser  => 'system_u',
+      backup   => false,
+      before   => Class['::nginx'],
     }
     concat::fragment { 'root-chain - chain cert':
       target  => $ssl_root_chain_path,

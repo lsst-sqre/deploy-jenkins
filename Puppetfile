@@ -7,7 +7,7 @@ mod 'jhoblitt/sysstat'
 
 mod 'maestrodev/wget', '~> 1.7.0'
 mod 'puppetlabs/firewall', '~> 1.5.0'
-mod 'jfryman/nginx', '~> 0.2.6'
+mod 'jfryman/nginx', '~> 0.2.7'
 mod 'jfryman/selinux', '~> 0.2.3'
 mod 'saz/timezone', '~> 3.3.0'
 mod 'puppetlabs/ntp', '~> 3.3.0'
@@ -30,7 +30,11 @@ mod 'lsst/lsststack',
 
 mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'mayflower/php', '~> 3.2'
-mod 'puppetlabs/concat', '~> 1.2'
+# https://github.com/puppetlabs/puppetlabs-concat/pull/361
+mod 'puppetlabs/concat',
+  :git => 'https://github.com/puppetlabs/puppetlabs-concat.git',
+  :ref => 'fd4f1e2d46a86f1659da420f4ce042882d38e021'
+
 mod 'stankevich/python', '~> 1.9'
 
 mod 'lsst/jenkins_demo', :path => './jenkins_demo'
