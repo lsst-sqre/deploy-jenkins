@@ -1,6 +1,12 @@
 changelog
 =========
 
+0.3.0
+-----
+
+* split qserv_distrib & dax_webserv out of stack-os-matrix
+* fix compatibility with jfryman/nginx v0.2.7
+
 0.2.4
 -----
 
