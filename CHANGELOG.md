@@ -1,6 +1,11 @@
 changelog
 =========
 
+0.3.1
+-----
+* rename hipchat room "Bot: Jenkins Demo -> Bot:Jenkins"
+
+
 0.3.0
 -----
 
