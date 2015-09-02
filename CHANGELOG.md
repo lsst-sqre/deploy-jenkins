@@ -1,8 +1,16 @@
 changelog
 =========
 
+0.4.0
+-----
+
+* use devtoolset-3 for CI builds on EL6
+* do not explicitly set "master" as the default branch in the `stack-os-matrix`
+  family of jobs
+
 0.3.1
 -----
+
 * rename hipchat room "Bot: Jenkins Demo -> Bot:Jenkins"
 
 
@@ -11,6 +19,7 @@ changelog
 
 * split qserv_distrib & dax_webserv out of stack-os-matrix
 * fix compatibility with jfryman/nginx v0.2.7
+
 
 0.2.4
 -----
