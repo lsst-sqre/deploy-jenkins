@@ -8,8 +8,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of branches to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly append to the right side of the list.</description>
-          <defaultValue>master</defaultValue>
+          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
@@ -59,8 +59,12 @@
       <command>#!/bin/bash
 
 ARGS=()
-ARGS+=(&apos;--branch&apos;)
-ARGS+=(&quot;$BRANCH&quot;)
+
+if [ ! -z &quot;$BRANCH&quot; ]; then
+  ARGS+=(&apos;--branch&apos;)
+  ARGS+=(&quot;$BRANCH&quot;)
+fi
+
 ARGS+=(&apos;--build_number&apos;)
 ARGS+=(&quot;$BUILD_NUMBER&quot;)
 ARGS+=(&apos;--product&apos;)
