@@ -39,7 +39,7 @@ Tooling
 
 The Centos project supplies "official" `x86_64 HVM` Amazon Machine Images
 (AMIs) for both Centos 6 and 7 in all EC2 regions.  However, the images are
-slightly out of date, 6.5 vs. 6.6 and 7.0 vs. 7.1, and the Centos 6 image does
+slightly out of date, 6.5 vs. 6.7 and 7.0 vs. 7.1, and the Centos 6 image does
 not include [`cloud-init`](https://cloudinit.readthedocs.org/en/latest/) or is
 it compatible with vagrant.  The popular
 [`chef/bento`](https://github.com/chef/bento) [`packer`](https://packer.io/)
@@ -182,8 +182,8 @@ Setup and Deployment
     cd bento
     mkdir bin
     cd bin
-    wget https://dl.bintray.com/mitchellh/packer/packer_0.7.5_linux_amd64.zip
-    unzip packer_0.7.5_linux_amd64.zip
+    wget https://dl.bintray.com/mitchellh/packer/packer_0.8.6_linux_amd64.zip
+    unzip packer_0.8.6_linux_amd64.zip
     cd ..
 
 #### Select Official Centos AMI to use as base image
@@ -225,9 +225,9 @@ Asia Pacific (Sydney)      | ami-bd523087
 Asia Pacific (Tokyo)       | ami-89634988
 South America (Sao Paulo)  | ami-bf9520a2
 
-### Build centos 6.6 AMI
+### Build centos 6.7 AMI
 
-    ./bin/packer build --only amazon-ebs -var 'source_ami=ami-c2a818aa' centos-6.6-x86_64.json
+    ./bin/packer build --only amazon-ebs -var 'source_ami=ami-c2a818aa' centos-6.7-x86_64.json
 
 ```
 Build 'amazon-ebs' finished.
