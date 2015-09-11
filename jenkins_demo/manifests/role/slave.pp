@@ -10,7 +10,7 @@ class jenkins_demo::role::slave {
       Class['::jenkins_demo::profile::slave']
 
     file_line { 'enable devtoolset-3':
-      line    => 'source scl_source devtoolset-3',
+      line    => '. /opt/rh/devtoolset-3/enable',
       path    => '/home/build0/.bashrc',
       require => User['build0'],
     }
