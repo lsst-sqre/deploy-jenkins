@@ -21,12 +21,17 @@ def gen_hostname(boxname)
   "jenkins-#{boxname}"
 end
 
-def ci_hostname(hostname, provider)
+def ci_hostname(hostname, provider, role=nil)
   provider.user_data = <<-EOS
 #cloud-config
 hostname: #{hostname}
 fqdn: #{hostname}
 manage_etc_hosts: true
+write_files:
+  - path: /etc/facter/facts.d/role.txt
+    owner: root:root
+    permissions: '0644'
+    content: "role=#{role}"
   EOS
 end
 
@@ -56,7 +61,7 @@ Vagrant.configure('2') do |config|
     define.vm.hostname = hostname
 
     define.vm.provider :aws do |provider, override|
-      ci_hostname(hostname, provider)
+      ci_hostname(hostname, provider, 'master')
 
       provider.ami = master_ami
       provider.private_ip_address = '192.168.123.10'
@@ -73,10 +78,11 @@ Vagrant.configure('2') do |config|
     define.vm.provision "puppet", type: :puppet, preserve_order: true do |puppet|
       puppet.manifests_path = "manifests"
       puppet.module_path = "modules"
-      puppet.manifest_file = "master.pp"
+      puppet.manifest_file = "default.pp"
       puppet.hiera_config_path = "hiera.yaml"
       puppet.options = [
        '--verbose',
+       '--trace',
        '--report',
        '--show_diff',
        '--pluginsync',
@@ -91,7 +97,7 @@ Vagrant.configure('2') do |config|
       define.vm.hostname = hostname
 
       define.vm.provider :aws do |provider, override|
-        ci_hostname(hostname, provider)
+        ci_hostname(hostname, provider, 'slave')
 
         provider.ami = centos6_ami
         provider.tags = { 'Name' => hostname }
@@ -105,7 +111,7 @@ Vagrant.configure('2') do |config|
       define.vm.hostname = hostname
 
       define.vm.provider :aws do |provider, override|
-        ci_hostname(hostname, provider)
+        ci_hostname(hostname, provider, 'slave')
 
         provider.ami = centos7_ami
         provider.tags = { 'Name' => hostname }
@@ -119,10 +125,11 @@ Vagrant.configure('2') do |config|
   config.vm.provision "puppet", type: :puppet do |puppet|
     puppet.manifests_path = "manifests"
     puppet.module_path = "modules"
-    puppet.manifest_file = "slave.pp"
+    puppet.manifest_file = "default.pp"
     puppet.hiera_config_path = "hiera.yaml"
     puppet.options = [
      '--verbose',
+     '--trace',
      '--report',
      '--show_diff',
      '--pluginsync',
