@@ -292,6 +292,10 @@ class jenkins_demo::profile::master {
     proxy_redirect        => 'default',
     proxy_connect_timeout => '150',
     proxy_set_header      => $proxy_set_header,
+    rewrite_to_https      => $enable_ssl ? {
+      true    => true,
+      default => false,
+    },
     # see comment above $raw_prepend declaration
     raw_prepend           => $enable_ssl ? {
       true     => $raw_prepend,

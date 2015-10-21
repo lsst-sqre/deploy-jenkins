@@ -2,13 +2,13 @@ class jenkins_demo::profile::base {
   include ::augeas
   include ::sysstat
   include ::irqbalance
+  include ::ntp
 
   host { 'jenkins-master':
     ensure => 'present',
     ip     => '192.168.123.10',
   }
 
-  class { 'selinux': mode       => 'enforcing' }
   class { 'timezone': timezone  => 'US/Pacific' }
   class { 'tuned': profile      => 'virtual-host' }
   class { 'firewall': ensure    => 'stopped' }
@@ -31,9 +31,15 @@ class jenkins_demo::profile::base {
     }
   }
 
+  # disable postfix on el6/el7 as we don't need an mta
+  service { 'postfix':
+    ensure => 'stopped',
+    enable => false,
+  }
+
   # only needed for debugging
   class { '::ruby::dev':
     bundler_ensure => 'latest',
   }
-  ensure_packages(['git'])
+  ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }
