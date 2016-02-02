@@ -35,7 +35,7 @@ mod 'puppetlabs/concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat.git',
   :ref => 'fd4f1e2d46a86f1659da420f4ce042882d38e021'
 
-mod 'stankevich/python', '~> 1.9'
+mod 'stankevich/python', '~> 1.11'
 
 mod 'lsst/jenkins_demo', :path => './jenkins_demo'
 

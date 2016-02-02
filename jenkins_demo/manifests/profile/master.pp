@@ -44,9 +44,9 @@ class jenkins_demo::profile::master {
   if $jenkins_ebs_snapshot {
     class { 'python' :
       version    => 'system',
-      pip        => true,
-      dev        => true,
-      virtualenv => true,
+      pip        => 'present',
+      dev        => 'present',
+      virtualenv => 'present',
     }
     jenkins::job { 'jenkins-ebs-snapshot':
       config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
