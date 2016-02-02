@@ -120,7 +120,7 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '3.8.1'
+  config.puppet_install.puppet_version = '3.8.5'
 
   config.vm.provision "puppet", type: :puppet do |puppet|
     puppet.manifests_path = "manifests"
