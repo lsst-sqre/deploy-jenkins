@@ -298,8 +298,8 @@ class jenkins_demo::profile::master {
     },
     # see comment above $raw_prepend declaration
     raw_prepend           => $enable_ssl ? {
-      true     => $raw_prepend,
-      default  => undef,
+      true    => $raw_prepend,
+      default => undef,
     },
   }
 }
