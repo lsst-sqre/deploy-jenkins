@@ -60,7 +60,7 @@ class jenkins_demo::profile::master {
     jenkins::plugin { 'github-api': }
 
   jenkins::plugin { 'github-oauth':
-    source => 'https://s3-us-west-2.amazonaws.com/github-oauth-plugin/github-oauth.hpi',
+    version => '0.22.2',
   }
     jenkins::plugin { 'mailer': }
     #jenkins::plugin { 'github-api': }
