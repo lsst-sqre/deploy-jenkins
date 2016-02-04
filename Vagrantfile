@@ -1,11 +1,13 @@
-%w{
+required_plugins = %w{
   vagrant-librarian-puppet
   vagrant-puppet-install
   vagrant-aws
-}.each do |plugin|
-  unless Vagrant.has_plugin?(plugin)
-    raise "#{plugin} not installed"
-  end
+}
+plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
+if not plugins_to_install.empty?
+  puts "Installing plugins: #{plugins_to_install.join(' ')}"
+  system "vagrant plugin install #{plugins_to_install.join(' ')}"
+  exec "vagrant #{ARGV.join(' ')}"
 end
 
 ABS_PATH = File.expand_path(File.dirname(__FILE__))
