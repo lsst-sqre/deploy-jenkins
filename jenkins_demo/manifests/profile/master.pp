@@ -7,7 +7,7 @@ class jenkins_demo::profile::master {
   class { 'jenkins':
     configure_firewall => false,
     cli                => true,
-    executors          => 0,
+    #executors          => 0,
     config_hash        => {
       'JENKINS_LISTEN_ADDRESS' => { 'value' => '' },
       'JENKINS_HTTPS_PORT'     => { 'value' => '' },
@@ -16,6 +16,32 @@ class jenkins_demo::profile::master {
   }
   # lint:endignore
   include ::jenkins::master # <- I am a swarm master
+
+  jenkins_num_executors{ 0: ensure => present }
+
+  $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
+  $j = hiera('jenkinsx', undef)
+
+  file { $admin_key_path:
+    ensure  => file,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0664',
+    content => $j['ssh_private_key'],
+  }
+
+  class { 'jenkins::cli::config':
+    ssh_private_key => $admin_key_path,
+  }
+
+  $user_hash = hiera('jenkinsx::user', undef)
+  create_resources('jenkins_user', $user_hash)
+
+  $strategy = hiera('jenkinsx::authorization_strategy', undef)
+  create_resources('jenkins_authorization_strategy', $strategy)
+
+  $realm = hiera('jenkinsx::security_realm', undef)
+  create_resources('jenkins_security_realm', $realm)
 
   # run a jnlp slave to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
