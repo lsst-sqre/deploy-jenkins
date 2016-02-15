@@ -15,3 +15,12 @@ variable "demo_name" {
     description = "AWS tag name to use on resources."
     default = "jenkins-demo"
 }
+
+variable "aws_zone_id" {
+    description = "route53 Hosted Zone ID to manage DNS records in."
+}
+
+variable "domain_name" {
+    description = "DNS domain name to use when creating route53 records."
+    default = "lsst.codes"
+}

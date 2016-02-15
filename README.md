@@ -341,6 +341,8 @@ The ssh key pair is required for both terraform and vagrant.
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
     export TF_VAR_demo_name=${USER}-demo
+    export TF_VAR_aws_zone_id=Z3TH0HRSNU67AM
+    export TF_VAR_domain_name=lsst.codes
 
     # sanity check
     ./bin/terraform plan
@@ -455,6 +457,8 @@ before performing vagrant/terraform operations in a clean shell.
     export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
     export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
     export TF_VAR_demo_name=$TF_VAR_demo_name
+    export TF_VAR_aws_zone_id=$TF_VAR_aws_zone_id
+    export TF_VAR_domain_name=$TF_VAR_domain_name
     END
 
 ### Start all demo instances
