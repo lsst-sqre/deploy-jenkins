@@ -195,35 +195,23 @@ a unique AMI ID_
 
 ##### [CentOS 6 (x86_64) - with Updates HVM](https://aws.amazon.com/marketplace/pp/B00NQAYLWO)
 
-AMI IDs for version `6 - 2014-09-29`:
+AMI IDs for version `6 - 2015-09-28`:
 
 Region                    | ID
 :------------------------ | :-----------:
-US East (N. Virginia)     | ami-c2a818aa
-US West (Oregon)          | ami-81d092b1
-US West (N. California)   | ami-57cfc412
-EU (Frankfurt)            | ami-46c4f65b
-EU (Ireland)              | ami-30ff5c47
-Asia Pacific (Singapore)  | ami-b4a582e6
-Asia Pacific (Sydney)     | ami-b3523089
-Asia Pacific (Tokyo)      | ami-13614b12
-South America (Sao Paulo) | ami-9b952086
+US East (N. Virginia)     | ami-57cd8732
+US West (Oregon)          | ami-1255b321
+US West (N. California)   | ami-45844401
 
 ##### [CentOS 7 (x86_64) with Updates HVM](https://aws.amazon.com/marketplace/pp/B00O7WM7QW)
 
-AMI IDs for version `7 - 2014-09-29`:
+AMI IDs for version `7 - 2015-09-28`:
 
 Region                     | ID
 :------------------------- | :-----------:
-US East (N. Virginia)      | ami-96a818fe
-US West (Oregon)           | ami-c7d092f7
-US West (N. California)    | ami-6bcfc42e
-EU (Frankfurt)             | ami-7cc4f661
-EU (Ireland)               | ami-e4ff5c93
-Asia Pacific (Singapore)   | ami-aea582fc
-Asia Pacific (Sydney)      | ami-bd523087
-Asia Pacific (Tokyo)       | ami-89634988
-South America (Sao Paulo)  | ami-bf9520a2
+US East (N. Virginia)      | ami-61bbf104
+US West (Oregon)           | ami-d440a6e7
+US West (N. California)    | ami-f77fbeb3
 
 ### Build centos 6.7 AMI
 
@@ -341,6 +329,8 @@ The ssh key pair is required for both terraform and vagrant.
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
     export TF_VAR_demo_name=${USER}-demo
+    export TF_VAR_aws_zone_id=Z3TH0HRSNU67AM
+    export TF_VAR_domain_name=lsst.codes
 
     # sanity check
     ./bin/terraform plan
@@ -455,6 +445,8 @@ before performing vagrant/terraform operations in a clean shell.
     export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
     export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
     export TF_VAR_demo_name=$TF_VAR_demo_name
+    export TF_VAR_aws_zone_id=$TF_VAR_aws_zone_id
+    export TF_VAR_domain_name=$TF_VAR_domain_name
     END
 
 ### Start all demo instances

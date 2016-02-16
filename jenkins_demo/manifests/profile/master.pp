@@ -7,7 +7,7 @@ class jenkins_demo::profile::master {
   class { 'jenkins':
     configure_firewall => false,
     cli                => true,
-    executors          => 0,
+    #executors          => 0,
     config_hash        => {
       'JENKINS_LISTEN_ADDRESS' => { 'value' => '' },
       'JENKINS_HTTPS_PORT'     => { 'value' => '' },
@@ -16,6 +16,32 @@ class jenkins_demo::profile::master {
   }
   # lint:endignore
   include ::jenkins::master # <- I am a swarm master
+
+  jenkins_num_executors{ 0: ensure => present }
+
+  $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
+  $j = hiera('jenkinsx', undef)
+
+  file { $admin_key_path:
+    ensure  => file,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0664',
+    content => $j['ssh_private_key'],
+  }
+
+  class { 'jenkins::cli::config':
+    ssh_private_key => $admin_key_path,
+  }
+
+  $user_hash = hiera('jenkinsx::user', undef)
+  create_resources('jenkins_user', $user_hash)
+
+  $strategy = hiera('jenkinsx::authorization_strategy', undef)
+  create_resources('jenkins_authorization_strategy', $strategy)
+
+  $realm = hiera('jenkinsx::security_realm', undef)
+  create_resources('jenkins_security_realm', $realm)
 
   # run a jnlp slave to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
@@ -44,9 +70,9 @@ class jenkins_demo::profile::master {
   if $jenkins_ebs_snapshot {
     class { 'python' :
       version    => 'system',
-      pip        => true,
-      dev        => true,
-      virtualenv => true,
+      pip        => 'present',
+      dev        => 'present',
+      virtualenv => 'present',
     }
     jenkins::job { 'jenkins-ebs-snapshot':
       config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
@@ -60,7 +86,7 @@ class jenkins_demo::profile::master {
     jenkins::plugin { 'github-api': }
 
   jenkins::plugin { 'github-oauth':
-    source => 'https://s3-us-west-2.amazonaws.com/github-oauth-plugin/github-oauth.hpi',
+    version => '0.22.2',
   }
     jenkins::plugin { 'mailer': }
     #jenkins::plugin { 'github-api': }
@@ -298,8 +324,8 @@ class jenkins_demo::profile::master {
     },
     # see comment above $raw_prepend declaration
     raw_prepend           => $enable_ssl ? {
-      true     => $raw_prepend,
-      default  => undef,
+      true    => $raw_prepend,
+      default => undef,
     },
   }
 }
