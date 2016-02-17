@@ -43,6 +43,9 @@ class jenkins_demo::profile::master {
   $realm = hiera('jenkinsx::security_realm', undef)
   create_resources('jenkins_security_realm', $realm)
 
+  $creds = hiera('jenkinsx::credentials', undef)
+  create_resources('jenkins_credentials', $creds)
+
   # run a jnlp slave to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
   # separation between the master process and the builds as they will be
@@ -54,16 +57,14 @@ class jenkins_demo::profile::master {
     install_java => false,
   }
 
-  jenkins::job { 'stack-os-matrix':
-    config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
+  jenkins_job { 'citest':
+    ensure => present,
+    config => template("${module_name}/jobs/citest/config.xml"),
   }
 
-  jenkins::job { 'qserv-os-matrix':
-    config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
-  }
-
-  jenkins::job { 'dax_webserv-os-matrix':
-    config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
+  jenkins_job { 'ts_wep':
+    ensure => present,
+    config => template("${module_name}/jobs/ts_wep/config.xml"),
   }
 
   $jenkins_ebs_snapshot = hiera('jenkins::jobs::jenkins_ebs_snapshot', undef)
@@ -74,10 +75,15 @@ class jenkins_demo::profile::master {
       dev        => 'present',
       virtualenv => 'present',
     }
-    jenkins::job { 'jenkins-ebs-snapshot':
+    jenkins_job { 'jenkins-ebs-snapshot':
+      ensure => present,
       config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
     }
   }
+
+  jenkins::plugin { 'stash-pullrequest-builder': }
+  # may need deps
+  jenkins::plugin { 'stashNotifier': }
 
   jenkins::plugin { 'github': }
     jenkins::plugin { 'git': }
