@@ -157,7 +157,7 @@ Vagrant.configure('2') do |config|
       SECURITY_GROUP_ID_INTERNAL,
       SECURITY_GROUP_ID_SSH,
     ]
-    provider.instance_type = 'c4.2xlarge'
+    provider.instance_type = 'c4.xlarge'
     provider.ebs_optimized = true
     provider.block_device_mapping = [{
       'DeviceName'              => '/dev/sda1',
