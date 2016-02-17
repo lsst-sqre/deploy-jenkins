@@ -14,7 +14,7 @@ class jenkins_demo::profile::slave {
 
   class { 'jenkins::slave':
     masterurl => 'http://jenkins-master:8080',
-    executors => 1,
+    executors => 4,
     labels    => downcase("${::operatingsystem}-${::operatingsystemmajrelease}"),
     require   => [
       Host['jenkins-master'],
