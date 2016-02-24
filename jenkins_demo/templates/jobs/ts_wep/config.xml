@@ -23,7 +23,6 @@
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    <gitTool>devtoolset-3</gitTool>
     <submoduleCfg class="list"/>
     <extensions/>
   </scm>
@@ -73,6 +72,12 @@ python setup.py test
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
+      <token></token>
+      <room></room>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
+    </jenkins.plugins.hipchat.HipChatNotifier>
     <org.jenkinsci.plugins.stashNotifier.StashNotifier plugin="stashNotifier@1.10.2">
       <stashServerBaseUrl>https://stash.lsstcorp.org</stashServerBaseUrl>
       <credentialsId>2b378da7-1b7f-4518-8216-62808de2eb6e</credentialsId>
@@ -84,7 +89,7 @@ python setup.py test
       <disableInprogressNotification>false</disableInprogressNotification>
       <globalConfig>
         <adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>
-        <jenkinsUrl>http://jenkins-demo.ts.lsst.codes/</jenkinsUrl>
+        <jenkinsUrl>http://ts-ci.lsst.codes/</jenkinsUrl>
       </globalConfig>
     </org.jenkinsci.plugins.stashNotifier.StashNotifier>
   </publishers>
