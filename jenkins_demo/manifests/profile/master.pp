@@ -54,15 +54,15 @@ class jenkins_demo::profile::master {
     install_java => false,
   }
 
-  jenkins::job { 'stack-os-matrix':
+  jenkins_job { 'stack-os-matrix':
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
-  jenkins::job { 'qserv-os-matrix':
+  jenkins_job { 'qserv-os-matrix':
     config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
   }
 
-  jenkins::job { 'dax_webserv-os-matrix':
+  jenkins_job { 'dax_webserv-os-matrix':
     config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
   }
 
@@ -74,7 +74,8 @@ class jenkins_demo::profile::master {
       dev        => 'present',
       virtualenv => 'present',
     }
-    jenkins::job { 'jenkins-ebs-snapshot':
+
+    jenkins_job { 'jenkins-ebs-snapshot':
       config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
     }
   }
