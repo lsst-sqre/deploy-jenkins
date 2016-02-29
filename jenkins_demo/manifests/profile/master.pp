@@ -79,6 +79,9 @@ class jenkins_demo::profile::master {
     }
   }
 
+  # needed for github API tokens
+  jenkins::plugin { 'plain-credentials': }
+
   jenkins::plugin { 'github': }
     jenkins::plugin { 'git': }
       jenkins::plugin { 'scm-api': }
