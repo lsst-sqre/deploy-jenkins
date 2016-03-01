@@ -23,7 +23,7 @@ mod 'saz/sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => 'c538cc46520943709da4860459f65b018aa7fbbb'
+  :ref => '353a92433d167d1391d4486c25ca740073ffe595'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '9eaf2c4e22c2d5981423fd3145b23097caa778c5'
