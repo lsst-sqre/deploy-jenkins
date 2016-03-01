@@ -43,6 +43,9 @@ class jenkins_demo::profile::master {
   $realm = hiera('jenkinsx::security_realm', undef)
   create_resources('jenkins_security_realm', $realm)
 
+  $creds = hiera('jenkinsx::credentials', undef)
+  create_resources('jenkins_credentials', $creds)
+
   # run a jnlp slave to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
   # separation between the master process and the builds as they will be
@@ -54,15 +57,15 @@ class jenkins_demo::profile::master {
     install_java => false,
   }
 
-  jenkins::job { 'stack-os-matrix':
+  jenkins_job { 'stack-os-matrix':
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
-  jenkins::job { 'qserv-os-matrix':
+  jenkins_job { 'qserv-os-matrix':
     config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
   }
 
-  jenkins::job { 'dax_webserv-os-matrix':
+  jenkins_job { 'dax_webserv-os-matrix':
     config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
   }
 
@@ -74,10 +77,50 @@ class jenkins_demo::profile::master {
       dev        => 'present',
       virtualenv => 'present',
     }
-    jenkins::job { 'jenkins-ebs-snapshot':
+
+    jenkins_job { 'jenkins-ebs-snapshot':
       config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
     }
   }
+
+  jenkins_job { 'run-rebuild':
+    config => template("${module_name}/jobs/run-rebuild/config.xml"),
+  }
+
+  jenkins_job { 'run-publish':
+    config => template("${module_name}/jobs/run-publish/config.xml"),
+  }
+
+  $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
+  if $lsst_dev {
+    # puppet-jenkins does not presently support the management of nodes
+    # XXX this is a dirty hack
+    file { [
+      '/var/lib/jenkins/nodes',
+      '/var/lib/jenkins/nodes/lsst-dev',
+    ]:
+      ensure => directory,
+      owner  => 'jenkins',
+      group  => 'jenkins',
+      mode   => '0755',
+    }
+
+    file { '/var/lib/jenkins/nodes/lsst-dev/config.xml':
+      ensure  => file,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0644',
+      # the sshslave plugin version shows up in the dump making it non-idempotent
+      replace => false,
+      content => template("${module_name}/nodes/lsst-dev/config.xml"),
+      notify  => Class['jenkins::service'],
+    }
+  }
+
+  jenkins::plugin { 'validating-string-parameter': }
+
+  # needed for github API tokens
+  jenkins::plugin { 'plain-credentials': }
 
   jenkins::plugin { 'github': }
     jenkins::plugin { 'git': }

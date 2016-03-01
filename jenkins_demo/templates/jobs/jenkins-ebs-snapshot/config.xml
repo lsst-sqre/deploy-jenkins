@@ -71,10 +71,6 @@
           <name>AWS_SECRET_ACCESS_KEY</name>
           <value><%= @jenkins_ebs_snapshot['aws_secret_access_key'] %></value>
         </EnvInjectPasswordEntry>
-        <EnvInjectPasswordEntry>
-          <name>AWS_DEFAULT_REGION</name>
-          <value><%= @jenkins_ebs_snapshot['aws_default_region'] %></value>
-        </EnvInjectPasswordEntry>
       </passwordEntries>
     </EnvInjectPasswordWrapper>
   </buildWrappers>
