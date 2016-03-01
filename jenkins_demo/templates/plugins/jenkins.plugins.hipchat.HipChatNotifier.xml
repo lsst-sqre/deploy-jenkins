@@ -1,8 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jenkins.plugins.hipchat.HipChatNotifier_-DescriptorImpl plugin="hipchat@0.1.9">
+<jenkins.plugins.hipchat.HipChatNotifier_-DescriptorImpl plugin="hipchat@1.0.0">
   <server>api.hipchat.com</server>
   <token><%= @hipchat['token'] %></token>
   <v2Enabled>false</v2Enabled>
   <room><%= @hipchat['room'] %></room>
   <sendAs><%= @hipchat['sendas'] %></sendAs>
+  <defaultNotifications>
+    <jenkins.plugins.hipchat.model.NotificationConfig>
+      <notifyEnabled>false</notifyEnabled>
+      <textFormat>false</textFormat>
+      <notificationType>STARTED</notificationType>
+      <color>GREEN</color>
+      <messageTemplate>$JOB_NAME #$BUILD_NUMBER $STATUS ($CHANGES_OR_CAUSE) (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;)  (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</messageTemplate>
+    </jenkins.plugins.hipchat.model.NotificationConfig>
+    <jenkins.plugins.hipchat.model.NotificationConfig>
+      <notifyEnabled>false</notifyEnabled>
+      <textFormat>false</textFormat>
+      <notificationType>SUCCESS</notificationType>
+      <color>GREEN</color>
+      <messageTemplate>$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</messageTemplate>
+    </jenkins.plugins.hipchat.model.NotificationConfig>
+    <jenkins.plugins.hipchat.model.NotificationConfig>
+      <notifyEnabled>true</notifyEnabled>
+      <textFormat>false</textFormat>
+      <notificationType>ABORTED</notificationType>
+      <color>GRAY</color>
+      <messageTemplate>$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</messageTemplate>
+    </jenkins.plugins.hipchat.model.NotificationConfig>
+    <jenkins.plugins.hipchat.model.NotificationConfig>
+      <notifyEnabled>true</notifyEnabled>
+      <textFormat>false</textFormat>
+      <notificationType>FAILURE</notificationType>
+      <color>RED</color>
+      <messageTemplate>$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</messageTemplate>
+    </jenkins.plugins.hipchat.model.NotificationConfig>
+  </defaultNotifications>
 </jenkins.plugins.hipchat.HipChatNotifier_-DescriptorImpl>
