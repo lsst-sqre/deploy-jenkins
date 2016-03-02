@@ -1,6 +1,5 @@
 .bundle
 creds.sh
-Gemfile.lock
 hieradata/common.yaml
 jenkins_demo/templates/id_rsa*
 keys/
@@ -9,7 +8,6 @@ modules
 *.orig
 *.patch
 pkg/
-Puppetfile.lock
 *.rej
 .rspec_system/
 spec/fixtures/manifests/
