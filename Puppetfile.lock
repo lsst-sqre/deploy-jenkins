@@ -1,12 +1,11 @@
 FORGE
   remote: https://forgeapi.puppetlabs.com
   specs:
-    camptocamp-archive (0.8.1)
     camptocamp-augeas (1.4.2)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     darin-zypprepo (1.0.2)
     example42-puppi (2.1.12)
-    example42-yum (2.1.25)
+    example42-yum (2.1.26)
       example42-puppi (>= 2.0.0)
     jfryman-nginx (0.2.7)
       puppetlabs-apt (< 3.0.0, >= 1.8.0)
@@ -14,20 +13,22 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
     jfryman-selinux (0.2.6)
       puppetlabs-stdlib (>= 0)
-    jhoblitt-ganglia (2.1.0)
+    jhoblitt-ganglia (2.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
     jhoblitt-sysstat (1.1.0)
     juniorsysadmin-irqbalance (1.0.4)
       puppetlabs-stdlib (< 5.0.0, >= 3.0.0)
-    maestrodev-wget (1.7.1)
+    maestrodev-wget (1.7.3)
     mayflower-php (3.4.2)
       darin-zypprepo (~> 1.0)
       example42-yum (~> 2.0)
       puppetlabs-apt (< 3.0.0, >= 1.0.0)
       puppetlabs-inifile (~> 1.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
-    nanliu-staging (1.0.3)
-    puppetlabs-apt (2.2.1)
+    puppet-archive (0.4.8)
+      puppetlabs-pe_gem (>= 0.0.1)
+      puppetlabs-stdlib (>= 2.2.1)
+    puppetlabs-apt (2.2.2)
       puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
     puppetlabs-firewall (1.5.0)
     puppetlabs-inifile (1.4.3)
@@ -35,6 +36,7 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 2.4.0)
     puppetlabs-ntp (3.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-pe_gem (0.2.0)
     puppetlabs-ruby (0.4.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     puppetlabs-stdlib (4.11.0)
@@ -46,20 +48,7 @@ FORGE
     stankevich-python (1.11.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
       stahnma-epel (< 2.0.0, >= 1.0.1)
-    thias-tuned (1.0.2)
-
-GIT
-  remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: 353a92433d167d1391d4486c25ca740073ffe595
-  sha: 353a92433d167d1391d4486c25ca740073ffe595
-  specs:
-    rtyler-jenkins (1.6.1)
-      camptocamp-archive (>= 0.8.0)
-      darin-zypprepo (< 2.0.0, >= 1.0.1)
-      nanliu-staging (< 2.0.0, >= 1.0.0)
-      puppetlabs-apt (< 3.0.0, >= 0.0.3)
-      puppetlabs-java (< 2.0.0, >= 1.0.1)
-      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+    thias-tuned (1.0.3)
 
 GIT
   remote: https://github.com/jhoblitt/aco-yum_autoupdate.git
@@ -68,6 +57,18 @@ GIT
   specs:
     aco-yum_autoupdate (0.6.1)
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+
+GIT
+  remote: https://github.com/jhoblitt/puppet-jenkins.git
+  ref: 27c1bbf4b768ae5ae49835ee7266453e77909520
+  sha: 27c1bbf4b768ae5ae49835ee7266453e77909520
+  specs:
+    rtyler-jenkins (1.6.1)
+      darin-zypprepo (< 2.0.0, >= 1.0.1)
+      puppet-archive (>= 0.4.8)
+      puppetlabs-apt (< 3.0.0, >= 0.0.3)
+      puppetlabs-java (< 2.0.0, >= 1.0.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
