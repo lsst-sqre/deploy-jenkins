@@ -117,50 +117,22 @@ class jenkins_demo::profile::master {
     }
   }
 
-  jenkins::plugin { 'validating-string-parameter': }
-
-  # needed for github API tokens
-  jenkins::plugin { 'plain-credentials': }
-
-  jenkins::plugin { 'github': }
-    jenkins::plugin { 'git': }
-      jenkins::plugin { 'scm-api': }
-      jenkins::plugin { 'git-client': }
-    jenkins::plugin { 'github-api': }
-
-  jenkins::plugin { 'github-oauth':
-    version => '0.22.2',
-  }
-    jenkins::plugin { 'mailer': }
-    #jenkins::plugin { 'github-api': }
-    #jenkins::plugin { 'git': }
-
-  jenkins::plugin { 'nodelabelparameter': }
-    jenkins::plugin { 'token-macro': }
-    jenkins::plugin { 'jquery': }
-    jenkins::plugin { 'parameterized-trigger': }
-
   $hipchat = hiera('jenkins::plugins::hipchat', undef)
 
   if $hipchat {
     $hipchat_xml = 'jenkins.plugins.hipchat.HipChatNotifier.xml'
     jenkins::plugin { 'hipchat':
       manage_config   => true,
+      version         => '1.0.0',
       config_filename => $hipchat_xml,
       config_content  => template("${module_name}/plugins/${hipchat_xml}"),
     }
   }
 
-  jenkins::plugin { 'postbuildscript': }
-    #jenkins::plugin { 'mailer': }
-    jenkins::plugin { 'maven-plugin': }
-    jenkins::plugin { 'javadoc': }
-
-  jenkins::plugin { 'greenballs': }
-
   $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
   jenkins::plugin { 'ansicolor':
     manage_config   => true,
+    version         => '0.4.2',
     config_filename => $ansicolor_xml,
     config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
   }
@@ -168,18 +140,10 @@ class jenkins_demo::profile::master {
   $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
   jenkins::plugin { 'collapsing-console-sections':
     manage_config   => true,
+    version         => '1.4.1',
     config_filename => $collapsing_xml,
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
-
-  jenkins::plugin { 'rebuild': }
-
-  jenkins::plugin { 'build-user-vars-plugin': }
-
-  jenkins::plugin { 'envinject': }
-
-  jenkins::plugin { 'purge-build-queue-plugin': }
-    #jenkins::plugin { 'maven-plugin': }
 
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy

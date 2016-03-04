@@ -1,3 +1,111 @@
 ---
 classes:
   - jenkins_demo::role::master
+jenkins::version: '1.651-1.1'
+jenkins::master::version: '1.22'
+# XXX there is no recursive plugin dep resolution; so we have to do this by
+# hand -- ugh
+jenkins::plugin_hash:
+  # hipchat deps
+  workflow-step-api:
+    version: '1.14'
+  junit:
+    version: '1.11'
+  # /hipchat deps
+  matrix-project:
+    version: '1.6'
+  # matrix-project deps
+  script-security:
+    version: '1.17'
+  # junit
+  # /matrix-project deps
+  # /hipchat deps
+  validating-string-parameter:
+    version: '2.3'
+  plain-credentials:
+    version: '1.1'
+  # plain-credentials deps
+  credentials:
+    version: '1.25'
+  # plain-credentials -> credentials deps
+  icon-shim:
+    version: '2.0.3'
+  # /plain-credentials deps
+  github:
+    version: '1.17.1'
+  # github deps
+  token-macro:
+    version: '1.12.1'
+  # credentials
+  # plain-credentials
+  git:
+    version: '2.4.2'
+  github-api:
+    version: '1.72'
+  # github -> git deps
+  scm-api:
+    version: '1.0'
+  git-client:
+    version: '1.19.5'
+  # /github -> git deps
+  # /github deps
+  github-oauth:
+    version: '0.22.3'
+  # github-oauth deps
+  # github-api:
+  # git
+  mailer:
+    version: '1.16'
+  # /github-oauth deps
+  credentials-binding:
+    version: '1.6'
+  # credentials-binding deps
+  # /credentials-binding deps
+  nodelabelparameter:
+    version: '1.7.1'
+  # nodelabelparameter deps
+  # token-macro:
+  jquery:
+    version: '1.11.2-0'
+  # /nodelabelparameter deps
+  postbuildscript:
+    version: '0.17'
+  # postbuildscript deps
+  # mailer
+  maven-plugin:
+    version: '2.12.1'
+  # maven-plugin deps
+  # javadoc
+  # mailer
+  # junit
+  javadoc:
+    version: '1.3'
+  # /postbuildscript deps
+  greenballs:
+    version: '1.15'
+  rebuild:
+    version: '1.25'
+  build-user-vars-plugin:
+    version: '1.5'
+  # build-user-vars-plugin deps
+  # mailer
+  # /build-user-vars-plugin deps
+  envinject:
+    version: '1.92.1'
+  purge-build-queue-plugin:
+    version: '1.0'
+  ssh-credentials:
+    version: '1.11'
+  # ssh-credentials deps
+  # credentials
+  # /ssh-credentials deps
+  ssh-slaves:
+    version: '1.10'
+  # ssh-slaves deps
+  # ssh-credentials
+  # credentials
+  # /ssh-slaves deps
+  antisamy-markup-formatter:
+    version: '1.3'
+  external-monitor-job:
+    version: '1.4'

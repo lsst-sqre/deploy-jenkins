@@ -3,15 +3,16 @@
   <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.11.3">
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.17.1">
       <projectUrl>https://github.com/lsst-sqre/ec2-snapshot/</projectUrl>
+      <displayName/>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.2">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -44,22 +45,15 @@
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@0.1.9">
+    <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
       <token/>
-      <room></room>
-      <startNotification>true</startNotification>
-      <notifySuccess>true</notifySuccess>
-      <notifyAborted>true</notifyAborted>
-      <notifyNotBuilt>true</notifyNotBuilt>
-      <notifyUnstable>true</notifyUnstable>
-      <notifyFailure>true</notifyFailure>
-      <notifyBackToNormal>true</notifyBackToNormal>
-      <startJobMessage>$JOB_NAME #$BUILD_NUMBER $STATUS ($CHANGES_OR_CAUSE) (&lt;a href="$URL"&gt;Job&lt;/a&gt;)  (&lt;a href="$URL/console"&gt;Console&lt;/a&gt;)</startJobMessage>
-      <completeJobMessage>$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (&lt;a href="$URL"&gt;Job&lt;/a&gt;) (&lt;a href="$URL/console"&gt;Console&lt;/a&gt;)</completeJobMessage>
+      <room/>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
-    <EnvInjectPasswordWrapper plugin="envinject@1.91.3">
+    <EnvInjectPasswordWrapper plugin="envinject@1.92.1">
       <injectGlobalPasswords>false</injectGlobalPasswords>
       <maskPasswordParameters>true</maskPasswordParameters>
       <passwordEntries>
