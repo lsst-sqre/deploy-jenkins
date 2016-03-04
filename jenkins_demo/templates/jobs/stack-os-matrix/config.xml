@@ -67,8 +67,12 @@ fi
 
 ARGS+=(&apos;--build_number&apos;)
 ARGS+=(&quot;$BUILD_NUMBER&quot;)
-ARGS+=(&apos;--product&apos;)
-ARGS+=(&quot;$PRODUCT&quot;)
+
+if [ ! -z &quot;$PRODUCT&quot; ]; then
+  ARGS+=(&apos;--product&apos;)
+  ARGS+=(&quot;$PRODUCT&quot;)
+fi
+
 ARGS+=(&apos;--skip_docs&apos;)
 ARGS+=(&apos;--print-fail&apos;)
 ARGS+=(&apos;--color&apos;)
