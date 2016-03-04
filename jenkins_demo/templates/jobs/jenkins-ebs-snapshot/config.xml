@@ -1,12 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project>
+<?xml version="1.0" encoding="UTF-8"?><project>
   <actions/>
-  <description></description>
+  <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.17.1">
       <projectUrl>https://github.com/lsst-sqre/ec2-snapshot/</projectUrl>
-      <displayName></displayName>
+      <displayName/>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
@@ -47,61 +46,10 @@
   </builders>
   <publishers>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
-      <notifications>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>false</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>STARTED</notificationType>
-          <color>GREEN</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>false</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>SUCCESS</notificationType>
-          <color>GREEN</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>true</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>ABORTED</notificationType>
-          <color>GRAY</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>true</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>NOT_BUILT</notificationType>
-          <color>GRAY</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>true</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>UNSTABLE</notificationType>
-          <color>YELLOW</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>true</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>FAILURE</notificationType>
-          <color>RED</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-        <jenkins.plugins.hipchat.model.NotificationConfig>
-          <notifyEnabled>false</notifyEnabled>
-          <textFormat>false</textFormat>
-          <notificationType>BACK_TO_NORMAL</notificationType>
-          <color>GREEN</color>
-          <messageTemplate></messageTemplate>
-        </jenkins.plugins.hipchat.model.NotificationConfig>
-      </notifications>
-      <startJobMessage>$JOB_NAME #$BUILD_NUMBER $STATUS ($CHANGES_OR_CAUSE) (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;)  (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</startJobMessage>
-      <completeJobMessage>$JOB_NAME #$BUILD_NUMBER $STATUS after $DURATION (&lt;a href=&quot;$URL&quot;&gt;Job&lt;/a&gt;) (&lt;a href=&quot;$URL/console&quot;&gt;Console&lt;/a&gt;)</completeJobMessage>
+      <token/>
+      <room/>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
