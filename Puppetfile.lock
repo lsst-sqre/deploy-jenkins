@@ -51,17 +51,9 @@ FORGE
     thias-tuned (1.0.3)
 
 GIT
-  remote: https://github.com/jhoblitt/aco-yum_autoupdate.git
-  ref: bugfix/operatingsystemmajrelease-is-a-string
-  sha: bed2c07e369e0a1cfd10a6d1dc91a827c62dc43d
-  specs:
-    aco-yum_autoupdate (0.6.1)
-      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
-
-GIT
-  remote: https://github.com/jhoblitt/puppet-jenkins.git
-  ref: 27c1bbf4b768ae5ae49835ee7266453e77909520
-  sha: 27c1bbf4b768ae5ae49835ee7266453e77909520
+  remote: https://github.com/jenkinsci/puppet-jenkins.git
+  ref: a67bbc520441a7ead23b1dace83d27165df187de
+  sha: a67bbc520441a7ead23b1dace83d27165df187de
   specs:
     rtyler-jenkins (1.6.1)
       darin-zypprepo (< 2.0.0, >= 1.0.1)
@@ -69,6 +61,14 @@ GIT
       puppetlabs-apt (< 3.0.0, >= 0.0.3)
       puppetlabs-java (< 2.0.0, >= 1.0.1)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+
+GIT
+  remote: https://github.com/jhoblitt/aco-yum_autoupdate.git
+  ref: bugfix/operatingsystemmajrelease-is-a-string
+  sha: bed2c07e369e0a1cfd10a6d1dc91a827c62dc43d
+  specs:
+    aco-yum_autoupdate (0.6.1)
+      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
