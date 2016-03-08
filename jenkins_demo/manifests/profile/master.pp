@@ -145,6 +145,22 @@ class jenkins_demo::profile::master {
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
 
+  $github_xml = 'github-plugin-configuration.xml'
+  jenkins::plugin { 'github':
+    manage_config   => true,
+    version         => '1.17.1',
+    config_filename => $github_xml,
+    config_content  => template("${module_name}/plugins/${github_xml}"),
+  }
+
+  $ghprb_xml = 'org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
+  jenkins::plugin { 'ghprb':
+    manage_config   => true,
+    version         => '1.30.6',
+    config_filename => $ghprb_xml,
+    config_content  => template("${module_name}/plugins/${ghprb_xml}"),
+  }
+
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
 
