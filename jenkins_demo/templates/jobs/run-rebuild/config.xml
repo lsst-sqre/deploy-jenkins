@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project>
+<?xml version="1.0" encoding="UTF-8"?><project>
   <actions/>
   <description>Execute lsstswBuild.sh (this is similar to executing rebuild from lsstsw)</description>
   <keepDependencies>false</keepDependencies>
@@ -12,13 +11,13 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue></defaultValue>
+          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
           <description>Whitespace delimited list of EUPS products to build.</description>
-          <defaultValue></defaultValue>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>SKIP_DEMO</name>
@@ -51,39 +50,39 @@
 
 ARGS=()
 
-if [ ! -z &quot;$BRANCH&quot; ]; then
-  ARGS+=(&apos;--branch&apos;)
-  ARGS+=(&quot;$BRANCH&quot;)
+if [ ! -z "$BRANCH" ]; then
+  ARGS+=('--branch')
+  ARGS+=("$BRANCH")
 fi
 
-ARGS+=(&apos;--build_number&apos;)
-ARGS+=(&quot;$BUILD_NUMBER&quot;)
-ARGS+=(&apos;--product&apos;)
-ARGS+=(&quot;$PRODUCT&quot;)
-ARGS+=(&apos;--print-fail&apos;)
-ARGS+=(&apos;--color&apos;)
+ARGS+=('--build_number')
+ARGS+=("$BUILD_NUMBER")
+ARGS+=('--product')
+ARGS+=("$PRODUCT")
+ARGS+=('--print-fail')
+ARGS+=('--color')
 
-if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--skip_demo&apos;)
+if [[ $SKIP_DEMO == "true" ]]; then
+  ARGS+=('--skip_demo')
 fi
 
-if [[ $SKIP_DOCS == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--skip_docs&apos;)
+if [[ $SKIP_DOCS == "true" ]]; then
+  ARGS+=('--skip_docs')
 fi
 
-if [[ $NO_FETCH == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--no-fetch&apos;)
+if [[ $NO_FETCH == "true" ]]; then
+  ARGS+=('--no-fetch')
 fi
 
-LSSTSW=$HOME $HOME/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;</command>
+LSSTSW=$HOME $HOME/buildbot-scripts/lsstswBuild.sh "${ARGS[@]}"</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <token/>
+      <room/>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
