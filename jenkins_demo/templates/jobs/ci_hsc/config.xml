@@ -97,7 +97,7 @@
           <configs>
             <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
               <properties>PRODUCT=ci_hsc
-BUILD=$BUILD_BRANCH</properties>
+BRANCH=$BUILD_BRANCH</properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
             <hudson.plugins.parameterizedtrigger.BooleanParameters>
               <configs>
