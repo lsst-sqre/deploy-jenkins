@@ -117,6 +117,25 @@ class jenkins_demo::profile::master {
     }
   }
 
+
+  # XXX this is [also] a dirty hack
+  $jenkins_url = hiera('www_host', 'jenkins-master')
+  file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
+      ensure  => file,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0644',
+      notify  => Class['jenkins::service'],
+      content => inline_template(
+"<?xml version='1.0' encoding='UTF-8'?>
+<jenkins.model.JenkinsLocationConfiguration>
+  <adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>
+  <jenkinsUrl>https://<%= @jenkins_url %>/</jenkinsUrl>
+</jenkins.model.JenkinsLocationConfiguration>
+"),
+  }
+
+
   $hipchat = hiera('jenkins::plugins::hipchat', undef)
 
   if $hipchat {
