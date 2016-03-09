@@ -5,7 +5,7 @@
   <keepDependencies>true</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.17.1">
-      <projectUrl>https://github.com/jhoblitt/ci_hsc/</projectUrl>
+      <projectUrl>https://github.com/lsst/ci_hsc/</projectUrl>
       <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -26,7 +26,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/jhoblitt/ci_hsc.git</url>
+        <url>https://github.com/lsst/ci_hsc.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
