@@ -123,3 +123,5 @@ jenkins::plugin_hash:
   # token-macro
   # build-flow-plugin
   # /ghprb deps
+  parameterized-trigger:
+    version: '2.30'

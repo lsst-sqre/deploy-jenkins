@@ -91,6 +91,10 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/run-publish/config.xml"),
   }
 
+  jenkins_job { 'ci_hsc':
+    config => template("${module_name}/jobs/ci_hsc/config.xml"),
+  }
+
   $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
   if $lsst_dev {
     # puppet-jenkins does not presently support the management of nodes
