@@ -2,7 +2,7 @@
 classes:
   - jenkins_demo::role::master
 jenkins::version: '1.651-1.1'
-jenkins::master::version: '1.22'
+jenkins::master::version: '2.0'
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
