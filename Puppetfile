@@ -23,8 +23,8 @@ mod 'saz/sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 # pending the merger of https://github.com/jenkinsci/puppet-jenkins/pull/519
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/jhoblitt/puppet-jenkins.git',
-  :ref => '27c1bbf4b768ae5ae49835ee7266453e77909520'
+  :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
+  :ref => 'a67bbc520441a7ead23b1dace83d27165df187de'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '9eaf2c4e22c2d5981423fd3145b23097caa778c5'

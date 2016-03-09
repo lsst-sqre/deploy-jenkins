@@ -91,6 +91,10 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/run-publish/config.xml"),
   }
 
+  jenkins_job { 'ci_hsc':
+    config => template("${module_name}/jobs/ci_hsc/config.xml"),
+  }
+
   $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
   if $lsst_dev {
     # puppet-jenkins does not presently support the management of nodes
@@ -116,6 +120,25 @@ class jenkins_demo::profile::master {
       notify  => Class['jenkins::service'],
     }
   }
+
+
+  # XXX this is [also] a dirty hack
+  $jenkins_url = hiera('www_host', 'jenkins-master')
+  file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
+      ensure  => file,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0644',
+      notify  => Class['jenkins::service'],
+      content => inline_template(
+"<?xml version='1.0' encoding='UTF-8'?>
+<jenkins.model.JenkinsLocationConfiguration>
+  <adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>
+  <jenkinsUrl>https://<%= @jenkins_url %>/</jenkinsUrl>
+</jenkins.model.JenkinsLocationConfiguration>
+"),
+  }
+
 
   $hipchat = hiera('jenkins::plugins::hipchat', undef)
 
@@ -143,6 +166,22 @@ class jenkins_demo::profile::master {
     version         => '1.4.1',
     config_filename => $collapsing_xml,
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
+  }
+
+  $github_xml = 'github-plugin-configuration.xml'
+  jenkins::plugin { 'github':
+    manage_config   => true,
+    version         => '1.17.1',
+    config_filename => $github_xml,
+    config_content  => template("${module_name}/plugins/${github_xml}"),
+  }
+
+  $ghprb_xml = 'org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
+  jenkins::plugin { 'ghprb':
+    manage_config   => true,
+    version         => '1.30.6',
+    config_filename => $ghprb_xml,
+    config_content  => template("${module_name}/plugins/${ghprb_xml}"),
   }
 
   #

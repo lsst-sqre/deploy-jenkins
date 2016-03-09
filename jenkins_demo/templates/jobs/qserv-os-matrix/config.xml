@@ -1,7 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<matrix-project plugin="matrix-project@1.6">
+<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
   <actions/>
-  <description></description>
+  <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -12,8 +11,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue></defaultValue>
+          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
@@ -60,32 +59,32 @@
 
 ARGS=()
 
-if [[ ! -z &quot;$BRANCH&quot; ]]; then
-  ARGS+=(&apos;--branch&apos;)
-  ARGS+=(&quot;$BRANCH&quot;)
+if [[ ! -z "$BRANCH" ]]; then
+  ARGS+=('--branch')
+  ARGS+=("$BRANCH")
 fi
 
-ARGS+=(&apos;--build_number&apos;)
-ARGS+=(&quot;$BUILD_NUMBER&quot;)
+ARGS+=('--build_number')
+ARGS+=("$BUILD_NUMBER")
 
-if [[ ! -z &quot;$PRODUCT&quot; ]]; then
-  ARGS+=(&apos;--product&apos;)
-  ARGS+=(&quot;$PRODUCT&quot;)
+if [[ ! -z "$PRODUCT" ]]; then
+  ARGS+=('--product')
+  ARGS+=("$PRODUCT")
 fi
 
-ARGS+=(&apos;--skip_docs&apos;)
-ARGS+=(&apos;--print-fail&apos;)
-ARGS+=(&apos;--color&apos;)
+ARGS+=('--skip_docs')
+ARGS+=('--print-fail')
+ARGS+=('--color')
 
-if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--skip_demo&apos;)
+if [[ $SKIP_DEMO == "true" ]]; then
+  ARGS+=('--skip_demo')
 fi
 
-if [[ $NO_FETCH == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--no-fetch&apos;)
+if [[ $NO_FETCH == "true" ]]; then
+  ARGS+=('--no-fetch')
 fi
 
-sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh &quot;${ARGS[@]}&quot;
+sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh "${ARGS[@]}"
 </command>
     </hudson.tasks.Shell>
   </builders>
@@ -102,11 +101,11 @@ sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /ho
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
+      <token/>
+      <room/>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
