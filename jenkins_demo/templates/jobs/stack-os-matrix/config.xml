@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project plugin="matrix-project@1.6">
   <actions/>
-  <description/>
+  <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -11,8 +12,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue/>
+          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
@@ -60,12 +61,12 @@
 ARGS=()
 
 # append lsst_ci to PRODUCT list unless SKIP_DEMO is set
-if [[ $SKIP_DEMO != &amp;quot;true&amp;quot; ]]; then
-  if [[ -z &amp;quot;$PRODUCT&amp;quot; ]]; then
+if [[ $SKIP_DEMO != &quot;true&quot; ]]; then
+  if [[ -z &quot;$PRODUCT&quot; ]]; then
     # lsstsw default targets
-    PRODUCT=&amp;quot;lsst_sims lsst_distrib qserv_distrib dax_webserv&amp;quot;
+    PRODUCT=&quot;lsst_sims lsst_distrib qserv_distrib dax_webserv&quot;
   fi
-  PRODUCT=&amp;quot;$PRODUCT lsst_ci&amp;quot;
+  PRODUCT=&quot;$PRODUCT lsst_ci&quot;
 fi
 
 if [[ ! -z &quot;$BRANCH&quot; ]]; then
@@ -110,11 +111,11 @@ sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; LSSTSW=&quot;/home/build${EXECUTOR_
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token/>
-      <room/>
+      <token></token>
+      <room></room>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage/>
-      <completeJobMessage/>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
