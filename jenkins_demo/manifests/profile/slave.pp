@@ -20,12 +20,14 @@ class jenkins_demo::profile::slave {
 
   Class['::wget'] -> Class['::jenkins::slave']
 
+  $platform = downcase("${::operatingsystem}-${::operatingsystemmajrelease}")
   class { 'jenkins::slave':
-    masterurl => 'http://jenkins-master:8080',
-    executors => 1,
-    labels    => downcase("${::operatingsystem}-${::operatingsystemmajrelease}"),
+    masterurl  => 'http://jenkins-master:8080',
+    slave_name => $::hostname,
+    executors  => 1,
+    labels     => "${::hostname} ${platform}",
     # don't start slave before lsstsw build env is ready
-    require   => [
+    require    => [
       Lsststack::Lsstsw['build0'],
       Host['jenkins-master'],
     ],

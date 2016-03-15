@@ -52,6 +52,8 @@ class jenkins_demo::profile::master {
   # executed under the jenkins-slave user.  jenkins user.
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
+    slave_name   => $::hostname,
+    labels       => $::hostname,
     executors    => 1,
     slave_mode   => 'exclusive',
     install_java => false,

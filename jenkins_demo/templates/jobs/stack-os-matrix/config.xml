@@ -59,32 +59,41 @@
 
 ARGS=()
 
-if [[ ! -z "$BRANCH" ]]; then
-  ARGS+=('--branch')
-  ARGS+=("$BRANCH")
+# append lsst_ci to PRODUCT list unless SKIP_DEMO is set
+if [[ $SKIP_DEMO != &amp;quot;true&amp;quot; ]]; then
+  if [[ -z &amp;quot;$PRODUCT&amp;quot; ]]; then
+    # lsstsw default targets
+    PRODUCT=&amp;quot;lsst_sims lsst_distrib qserv_distrib dax_webserv&amp;quot;
+  fi
+  PRODUCT=&amp;quot;$PRODUCT lsst_ci&amp;quot;
 fi
 
-ARGS+=('--build_number')
-ARGS+=("$BUILD_NUMBER")
-
-if [[ ! -z "$PRODUCT" ]]; then
-  ARGS+=('--product')
-  ARGS+=("$PRODUCT")
+if [[ ! -z &quot;$BRANCH&quot; ]]; then
+  ARGS+=(&apos;--branch&apos;)
+  ARGS+=(&quot;$BRANCH&quot;)
 fi
 
-ARGS+=('--skip_docs')
-ARGS+=('--print-fail')
-ARGS+=('--color')
+ARGS+=(&apos;--build_number&apos;)
+ARGS+=(&quot;$BUILD_NUMBER&quot;)
 
-if [[ $SKIP_DEMO == "true" ]]; then
-  ARGS+=('--skip_demo')
+if [[ ! -z &quot;$PRODUCT&quot; ]]; then
+  ARGS+=(&apos;--product&apos;)
+  ARGS+=(&quot;$PRODUCT&quot;)
 fi
 
-if [[ $NO_FETCH == "true" ]]; then
-  ARGS+=('--no-fetch')
+ARGS+=(&apos;--skip_docs&apos;)
+ARGS+=(&apos;--print-fail&apos;)
+ARGS+=(&apos;--color&apos;)
+
+if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
+  ARGS+=(&apos;--skip_demo&apos;)
 fi
 
-sudo -iu build${EXECUTOR_NUMBER} LSSTSW=/home/build${EXECUTOR_NUMBER}/lsstsw /home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh "${ARGS[@]}"
+if [[ $NO_FETCH == &quot;true&quot; ]]; then
+  ARGS+=(&apos;--no-fetch&apos;)
+fi
+
+sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; LSSTSW=&quot;/home/build${EXECUTOR_NUMBER}/lsstsw&quot; &quot;/home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh&quot; &quot;${ARGS[@]}&quot;
 </command>
     </hudson.tasks.Shell>
   </builders>
