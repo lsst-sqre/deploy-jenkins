@@ -125,3 +125,5 @@ jenkins::plugin_hash:
   # /ghprb deps
   parameterized-trigger:
     version: '2.30'
+  cloudbees-folder:
+    version: '5.5'
