@@ -142,3 +142,5 @@ jenkins::plugin_hash:
   # jquery
   # script-security
   # /extended-choice-parameter deps
+  cloudbees-folder:
+    version: '5.5'

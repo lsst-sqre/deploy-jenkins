@@ -98,6 +98,10 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/validate_drp/config.xml"),
   }
 
+  jenkins_job { 'seeds':
+    config => template("${module_name}/jobs/seeds/config.xml"),
+  }
+
   $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
   if $lsst_dev {
     # puppet-jenkins does not presently support the management of nodes
