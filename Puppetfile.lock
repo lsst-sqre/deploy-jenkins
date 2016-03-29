@@ -25,7 +25,7 @@ FORGE
       puppetlabs-apt (< 3.0.0, >= 1.0.0)
       puppetlabs-inifile (~> 1.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
-    puppet-archive (0.4.8)
+    puppet-archive (0.5.1)
       puppetlabs-pe_gem (>= 0.0.1)
       puppetlabs-stdlib (>= 2.2.1)
     puppetlabs-apt (2.2.2)
@@ -52,8 +52,8 @@ FORGE
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: a67bbc520441a7ead23b1dace83d27165df187de
-  sha: a67bbc520441a7ead23b1dace83d27165df187de
+  ref: 321ce4f71ccf15bd8801713f20f4ca6c3cea4bc1
+  sha: 321ce4f71ccf15bd8801713f20f4ca6c3cea4bc1
   specs:
     rtyler-jenkins (1.6.1)
       darin-zypprepo (< 2.0.0, >= 1.0.1)
