@@ -127,3 +127,5 @@ jenkins::plugin_hash:
     version: '2.30'
   cloudbees-folder:
     version: '5.5'
+  job-dsl:
+    version: '1.44'
