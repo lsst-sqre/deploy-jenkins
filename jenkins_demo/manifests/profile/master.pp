@@ -93,10 +93,6 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/run-publish/config.xml"),
   }
 
-  jenkins_job { 'ci_hsc':
-    config => template("${module_name}/jobs/ci_hsc/config.xml"),
-  }
-
   jenkins_job { 'seeds':
     config => template("${module_name}/jobs/seeds/config.xml"),
   }
