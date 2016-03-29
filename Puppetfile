@@ -21,10 +21,10 @@ mod 'aco/yum_autoupdate',
 mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
-# pending the merger of https://github.com/jenkinsci/puppet-jenkins/pull/519
+# unrelased xtype improvements
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => 'a67bbc520441a7ead23b1dace83d27165df187de'
+  :ref => '321ce4f71ccf15bd8801713f20f4ca6c3cea4bc1'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '9eaf2c4e22c2d5981423fd3145b23097caa778c5'

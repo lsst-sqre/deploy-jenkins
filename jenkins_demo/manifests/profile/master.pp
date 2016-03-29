@@ -54,7 +54,7 @@ class jenkins_demo::profile::master {
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     labels       => $::hostname,
-    executors    => 1,
+    executors    => 8,
     slave_mode   => 'exclusive',
     install_java => false,
   }
@@ -93,8 +93,12 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/run-publish/config.xml"),
   }
 
-  jenkins_job { 'ci_hsc':
-    config => template("${module_name}/jobs/ci_hsc/config.xml"),
+  jenkins_job { 'seeds':
+    config => template("${module_name}/jobs/seeds/config.xml"),
+  }
+
+  jenkins_job { 'seeds/dm-jobs':
+    config => template("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml"),
   }
 
   $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
