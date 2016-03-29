@@ -144,3 +144,5 @@ jenkins::plugin_hash:
   # /extended-choice-parameter deps
   cloudbees-folder:
     version: '5.5'
+  job-dsl:
+    version: '1.44'
