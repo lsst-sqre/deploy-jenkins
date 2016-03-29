@@ -54,7 +54,7 @@ class jenkins_demo::profile::master {
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     labels       => $::hostname,
-    executors    => 1,
+    executors    => 8,
     slave_mode   => 'exclusive',
     install_java => false,
   }
