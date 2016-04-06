@@ -14,6 +14,10 @@ output "SECURITY_GROUP_ID_HTTP" {
   value = "${aws_security_group.jenkins-demo-http.id}"
 }
 
+output "SECURITY_GROUP_ID_SLAVEPORT" {
+  value = "${aws_security_group.jenkins-demo-slaveport.id}"
+}
+
 output "SECURITY_GROUP_ID_INTERNAL" {
   value = "${aws_security_group.jenkins-demo-internal.id}"
 }

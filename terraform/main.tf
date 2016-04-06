@@ -126,6 +126,23 @@ resource "aws_security_group" "jenkins-demo-http" {
     }
 }
 
+resource "aws_security_group" "jenkins-demo-slaveport" {
+    vpc_id = "${aws_vpc.jenkins-demo.id}"
+    name = "${var.demo_name}-slaveport"
+    description = "allow external access to jenkins slave agent port"
+
+    ingress {
+        from_port = 55555
+        to_port = 55555
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags {
+        Name = "${var.demo_name}-slaveport"
+    }
+}
+
 resource "aws_security_group" "jenkins-demo-internal" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
     name = "${var.demo_name}-internal"

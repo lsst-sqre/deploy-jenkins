@@ -18,6 +18,7 @@ class jenkins_demo::profile::master {
   include ::jenkins::master # <- I am a swarm master
 
   jenkins_num_executors{ 0: ensure => present }
+  jenkins_slaveagent_port{ 55555: ensure => present }
 
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = hiera('jenkinsx', undef)
