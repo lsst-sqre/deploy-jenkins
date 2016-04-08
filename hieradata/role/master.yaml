@@ -125,3 +125,10 @@ jenkins::plugin_hash:
   # /ghprb deps
   parameterized-trigger:
     version: '2.30'
+  kubernetes:
+    version: '0.5'
+  # kubernetes deps
+  durable-task:
+    version: '1.9'
+  # credentials
+  # /kubernetes deps
