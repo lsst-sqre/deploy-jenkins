@@ -57,7 +57,6 @@ class jenkins_demo::profile::master {
     labels       => $::hostname,
     executors    => 8,
     slave_mode   => 'exclusive',
-    install_java => false,
   }
 
   jenkins_job { 'stack-os-matrix':
