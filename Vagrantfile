@@ -77,21 +77,6 @@ Vagrant.configure('2') do |config|
       provider.instance_type = 'c4.large'
       provider.tags = { 'Name' => hostname }
     end
-
-    define.vm.provision "puppet", type: :puppet, preserve_order: true do |puppet|
-      puppet.manifests_path = "manifests"
-      puppet.module_path = "modules"
-      puppet.manifest_file = "default.pp"
-      puppet.hiera_config_path = "hiera.yaml"
-      puppet.options = [
-       '--verbose',
-       '--trace',
-       '--report',
-       '--show_diff',
-       '--pluginsync',
-       '--disable_warnings=deprecations',
-      ]
-    end
   end
 
   n_slaves.each do |slave_id|
@@ -123,19 +108,22 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '3.8.5'
+  config.puppet_install.puppet_version = '4.4.1'
 
   config.vm.provision "puppet", type: :puppet do |puppet|
-    puppet.manifests_path = "manifests"
-    puppet.module_path = "modules"
-    puppet.manifest_file = "default.pp"
     puppet.hiera_config_path = "hiera.yaml"
+    puppet.environment_path  = "environments"
+    puppet.environment       = "jenkins"
+    puppet.manifests_path    = "environments/jenkins/manifests"
+    puppet.manifest_file     = "default.pp"
+    # puppet does not allow uppercase variables
+    puppet.facter            = outputs.map {|k,v| [k.downcase, v]}.to_h
+
     puppet.options = [
      '--verbose',
      '--trace',
      '--report',
      '--show_diff',
-     '--pluginsync',
      '--disable_warnings=deprecations',
     ]
   end
@@ -172,6 +160,7 @@ Vagrant.configure('2') do |config|
 
   if Vagrant.has_plugin?('vagrant-librarian-puppet')
     config.librarian_puppet.placeholder_filename = ".gitkeep"
+    config.librarian_puppet.puppetfile_dir = "environments/jenkins/modules"
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")

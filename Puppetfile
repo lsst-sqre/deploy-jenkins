@@ -7,7 +7,11 @@ mod 'jhoblitt/sysstat'
 
 mod 'maestrodev/wget', '~> 1.7.0'
 mod 'puppetlabs/firewall', '~> 1.5.0'
-mod 'jfryman/nginx', '~> 0.2.7'
+# https://github.com/jfryman/puppet-nginx/pull/778
+# is required to work under puppet 4.4.1
+mod 'jfryman/nginx',
+  :git => 'https://github.com/jfryman/puppet-nginx.git',
+  :ref => '56e1c591bf5bfd06c34782c66953b3bc4b10fafa'
 mod 'jfryman/selinux', '~> 0.2.3'
 mod 'saz/timezone', '~> 3.3.0'
 mod 'puppetlabs/ntp', '~> 3.3.0'
