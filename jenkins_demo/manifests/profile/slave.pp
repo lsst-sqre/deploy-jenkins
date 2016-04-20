@@ -35,4 +35,19 @@ class jenkins_demo::profile::slave {
 
   # provides killall on el6 & el7 -- needed by stack-os-matrix
   ensure_packages(['psmisc'])
+
+  # packages requested by Dave Mills
+  ensure_packages([
+    'tk',
+    'tk-devel',
+    'swig',
+    'ncurses-libs',
+    'xterm',
+    'xorg-x11-fonts-misc',
+    'java-1.8.0-openjdk-devel',
+    'boost-python',
+    'boost-python-devel',
+    'maven',
+    'python-devel',
+  ])
 }
