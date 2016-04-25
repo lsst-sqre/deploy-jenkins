@@ -67,12 +67,31 @@ Vagrant.configure('2') do |config|
 
       provider.ami = master_ami
       provider.private_ip_address = '192.168.123.10'
-      provider.elastic_ip = ELASTIC_IP
+      provider.elastic_ip = JENKINS_IP
       provider.security_groups = [
         SECURITY_GROUP_ID_INTERNAL,
         SECURITY_GROUP_ID_SSH,
         SECURITY_GROUP_ID_HTTP,
         SECURITY_GROUP_ID_SLAVEPORT,
+      ]
+      provider.instance_type = 'c4.large'
+      provider.tags = { 'Name' => hostname }
+    end
+  end
+
+  config.vm.define 'squash', primary: true do |define|
+    hostname = gen_hostname('squash')
+    define.vm.hostname = hostname
+
+    define.vm.provider :aws do |provider, override|
+      ci_hostname(hostname, provider, 'squash')
+
+      provider.ami = master_ami
+      provider.elastic_ip = SQUASH_IP
+      provider.security_groups = [
+        SECURITY_GROUP_ID_INTERNAL,
+        SECURITY_GROUP_ID_SSH,
+        SECURITY_GROUP_ID_HTTP,
       ]
       provider.instance_type = 'c4.large'
       provider.tags = { 'Name' => hostname }

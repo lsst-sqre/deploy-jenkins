@@ -1,5 +1,5 @@
 class jenkins_demo::profile::ganglia::gmond {
-  $www_host = hiera('www_host', 'jenkins-master')
+  $jenkins_fqdn = hiera('jenkins_fqdn', $::jenkins_fqdn)
 
   $udp_recv_channel = [
     {port  => 8649, bind => 'localhost'},
@@ -16,7 +16,7 @@ class jenkins_demo::profile::ganglia::gmond {
     cluster_name                   => 'jenkins',
     cluster_owner                  => 'Large Synoptic Suvery Telescope',
     cluster_latlong                => 'N32.2332147 W110.9481163',
-    cluster_url                    => $www_host,
+    cluster_url                    => $jenkins_fqdn,
     host_location                  => 'Amazon Web Services',
     udp_recv_channel               => $udp_recv_channel,
     udp_send_channel               => $udp_send_channel,

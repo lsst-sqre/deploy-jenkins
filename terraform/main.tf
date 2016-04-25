@@ -10,7 +10,7 @@ resource "aws_key_pair" "jenkins-demo" {
 }
 
 resource "aws_vpc" "jenkins-demo" {
-    cidr_block = "192.168.123.0/24"
+    cidr_block = "192.168.0.0/16"
     enable_dns_support = true
     enable_dns_hostnames = true
 
@@ -85,6 +85,10 @@ resource "aws_eip" "jenkins-demo-master" {
     vpc = true
 }
 
+resource "aws_eip" "jenkins-demo-squash" {
+    vpc = true
+}
+
 resource "aws_security_group" "jenkins-demo-ssh" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
     name = "${var.demo_name}-ssh"
@@ -117,6 +121,14 @@ resource "aws_security_group" "jenkins-demo-http" {
     ingress {
         from_port = 443
         to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    # django testing
+    ingress {
+        from_port = 8000
+        to_port = 8000
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }

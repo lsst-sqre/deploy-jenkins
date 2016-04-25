@@ -125,7 +125,7 @@ class jenkins_demo::profile::master {
 
 
   # XXX this is [also] a dirty hack
-  $jenkins_url = hiera('www_host', 'jenkins-master')
+  $jenkins_url = hiera('jenkins_fqdn', $::jenkins_fqdn)
   file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
       ensure  => file,
       owner   => 'jenkins',
@@ -201,7 +201,7 @@ class jenkins_demo::profile::master {
   $ssl_root_cert       = hiera('ssl_root_cert', undef)
   $ssl_key             = hiera('ssl_key', undef)
   $add_header          = hiera('add_header', undef)
-  $www_host            = hiera('www_host', 'jenkins-master')
+  $jenkins_fqdn        = hiera('jenkins_fqdn', $::jenkins_fqdn)
 
   $proxy_set_header = [
     'Host            $host',
@@ -235,8 +235,8 @@ class jenkins_demo::profile::master {
   # is enabled by puppet-nginx's rewrite_to_https param, the the U-A will catch
   # a certificate error before getting to the redirect to the canonical name.
   $raw_prepend = [
-    "if ( \$host != \'${www_host}\' ) {",
-    "  return 301 https://${www_host}\$request_uri;",
+    "if ( \$host != \'${jenkins_fqdn}\' ) {",
+    "  return 301 https://${jenkins_fqdn}\$request_uri;",
     '}',
   ]
 

@@ -1,5 +1,17 @@
-output "ELASTIC_IP" {
+output "JENKINS_IP" {
   value = "${aws_eip.jenkins-demo-master.public_ip}"
+}
+
+output "JENKINS_FQDN" {
+  value = "${aws_route53_record.jenkins-demo-master.fqdn}"
+}
+
+output "SQUASH_IP" {
+  value = "${aws_eip.jenkins-demo-squash.public_ip}"
+}
+
+output "SQUASH_FQDN" {
+  value = "${aws_route53_record.jenkins-demo-squash.fqdn}"
 }
 
 output "SUBNET_ID" {
@@ -28,4 +40,16 @@ output "AWS_DEFAULT_REGION" {
 
 output "DEMO_NAME" {
   value = "${var.demo_name}"
+}
+
+output "RDS_FQDN" {
+  value = "${aws_route53_record.jenkins-demo-qadb.fqdn}"
+}
+
+output "RDS_PASSWORD" {
+  value = "${var.rds_password}"
+}
+
+output "BOKEH_FQDN" {
+  value = "${aws_route53_record.jenkins-demo-bokeh.fqdn}"
 }

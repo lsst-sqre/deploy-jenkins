@@ -1,5 +1,5 @@
 BIN_DIR=./bin
-TF_VERSION=0.6.3
+TF_VERSION=0.6.14
 ZIP_FILE=terraform_$(TF_VERSION)_linux_amd64.zip
 
 $(BIN_DIR):
