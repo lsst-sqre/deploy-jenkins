@@ -49,7 +49,7 @@ FORGE
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: master
+  ref: d70fd6f6ccc5a8eae7a9f7c1f7d17efd34ad87e7
   sha: d70fd6f6ccc5a8eae7a9f7c1f7d17efd34ad87e7
   specs:
     rtyler-jenkins (1.6.1)
