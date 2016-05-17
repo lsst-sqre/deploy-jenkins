@@ -3,7 +3,7 @@ resource "aws_db_instance" "jenkins-demo" {
     engine                    = "mariadb"
     engine_version            = "10.0.17"
     instance_class            = "db.m4.large"
-    identifier                = "qa"
+    identifier                = "${var.demo_name}"
     name                      = "qadb"
     username                  = "admin"
     password                  = "${var.rds_password}"
@@ -40,8 +40,7 @@ resource "aws_subnet" "jenkins-demo-db2" {
 }
 
 resource "aws_db_subnet_group" "jenkins-demo" {
-    # XXX rename me to qadb
-    name = "qa"
+    name = "${var.demo_name}"
     description = "Our main group of subnets"
     subnet_ids = [ "${aws_subnet.jenkins-demo-db1.id}", "${aws_subnet.jenkins-demo-db2.id}" ]
     tags {
