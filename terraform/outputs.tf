@@ -47,6 +47,7 @@ output "RDS_FQDN" {
 }
 
 output "RDS_PASSWORD" {
+  sensitive = true
   value = "${var.rds_password}"
 }
 
