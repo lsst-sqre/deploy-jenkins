@@ -5,6 +5,15 @@ These are condensed deployment instructions intended for a developer working on
 only the Squash/qa-dashboard components.  There are more pedantic instructions
 in the primary [README.md](./README.md).
 
+Prerequisites
+---
+
+* vagrant >= 1.8.1
+* `git` (needed to clone this repo)
+* ruby >= 1.9.3
+* ruby bundler gem
+*
+
 Clone Source
 ---
 
@@ -29,7 +38,8 @@ Configuration
     # must be at least 8 chars
     export TF_VAR_rds_password=<...>
 
-Save env configuration as `creds.sh` as convenience in the future
+It is recommended to save the env var configuration in a file named `creds.sh`
+for convenience.
 
     cat > creds.sh <<END
     export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
