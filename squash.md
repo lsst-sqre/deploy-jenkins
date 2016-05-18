@@ -27,7 +27,7 @@ Configuration
     export AWS_SECRET_ACCESS_KEY=<...>
     export AWS_DEFAULT_REGION=us-west-2
 
-    export CENTOS7_AMI=ami-a613e4c6
+    export SQUASH_AMI=ami-a613e4c6
 
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
@@ -46,7 +46,7 @@ for convenience.
     export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
     export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 
-    export CENTOS7_AMI=$CENTOS7_AMI
+    export SQUASH_AMI=$SQUASH_AMI
     export VAGRANT_DEFAULT_PROVIDER='aws'
     export VAGRANT_NO_PARALLEL='yes'
 

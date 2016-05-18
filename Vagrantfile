@@ -57,6 +57,10 @@ def centos7_ami
   ENV['CENTOS7_AMI'] || 'ami-c91321f9'
 end
 
+def squash_ami
+  ENV['SQUASH_AMI'] || 'ami-a613e4c6'
+end
+
 Vagrant.configure('2') do |config|
   config.vm.define 'master', primary: true do |define|
     hostname = gen_hostname('master')
@@ -86,7 +90,7 @@ Vagrant.configure('2') do |config|
     define.vm.provider :aws do |provider, override|
       ci_hostname(hostname, provider, 'squash')
 
-      provider.ami = master_ami
+      provider.ami = squash_ami
       provider.elastic_ip = SQUASH_IP
       provider.security_groups = [
         SECURITY_GROUP_ID_INTERNAL,
