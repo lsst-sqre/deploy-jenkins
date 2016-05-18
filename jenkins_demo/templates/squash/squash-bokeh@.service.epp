@@ -1,0 +1,18 @@
+[Unit]
+Description=squash bokeh server
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=uwsgi
+Group=uwsgi
+Environment="VIRTUAL_ENV=/opt/apps/qa-dashboard/venv"
+Environment="PATH=/opt/apps/qa-dashboard/venv/bin:$PATH"
+WorkingDirectory=/opt/apps/qa-dashboard/squash
+ExecStart=/opt/apps/qa-dashboard/venv/bin/bokeh serve --log-level=info --port=%i --host=localhost:%i --host=<%= $bokeh_fqdn %> --host=<%= $squash_fqdn %> --use-xheaders
+Restart=always
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

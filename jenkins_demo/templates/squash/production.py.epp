@@ -1,0 +1,24 @@
+# Specific settings for production
+#
+# Set the environment variable DJANGO_SETTINGS_MODULE to
+# 'squash.settings.production' in order to use this file, for example:
+#
+# export DJANGO_SETTINGS_MODULE=squash.settings.production
+
+from .defaults import *
+
+DEBUG = False
+
+BOKEH_URL = 'https://<%= $bokeh_fqdn %>'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'qadb',
+        'HOST': '<%= $rds_fqdn %>',
+        'USER': 'admin',
+        'PASSWORD': '<%= $rds_password %>',
+    }
+}
+
+ALLOWED_HOSTS = ['localhost', '<%= $squash_fqdn %>']

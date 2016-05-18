@@ -2,9 +2,8 @@
 creds.sh
 hieradata/common.yaml
 jenkins_demo/templates/id_rsa*
-keys/
-.librarian
-modules
+keys
+environments/**/modules
 *.orig
 *.patch
 pkg/

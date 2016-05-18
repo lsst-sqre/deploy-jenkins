@@ -1,0 +1,20 @@
+[uwsgi]
+
+plugins = python
+project = squash
+base = /opt/apps/qa-dashboard
+
+chdir = %(base)/%(project)
+home = %(base)/%(project)
+virtualenv = %(base)/venv
+module = %(project).wsgi:application
+
+master = true
+processes = <%= $instances %>
+
+socket = /run/uwsgi/%(project).sock
+chmod-socket = 666
+vacuum = true
+
+# this *will break* uwsgi-2.0.12-2.el7.x86_64
+#env = DJANGO_SETTINGS_MODULE="squash.settings.production"
