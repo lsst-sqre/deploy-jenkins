@@ -9,7 +9,7 @@ resource "aws_db_instance" "jenkins-demo" {
     username                  = "admin"
     password                  = "${var.rds_password}"
     #parameter_group_name     = "default.mysql5.6"
-    final_snapshot_identifier = "oops"
+    final_snapshot_identifier = "${var.demo_name}-final"
     skip_final_snapshot       = false
     copy_tags_to_snapshot     = true
     backup_retention_period   = 30
