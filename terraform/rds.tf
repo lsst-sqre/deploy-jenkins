@@ -16,6 +16,8 @@ resource "aws_db_instance" "jenkins-demo" {
     vpc_security_group_ids    = [ "${aws_security_group.jenkins-demo-internal.id}" ]
     db_subnet_group_name      = "${aws_db_subnet_group.jenkins-demo.id}"
     multi_az                  = false
+    backup_window             = "07:00-07:55"
+    maintenance_window        = "Tue:08:00-Tue:11:00"
 }
 
 resource "aws_subnet" "jenkins-demo-db1" {
