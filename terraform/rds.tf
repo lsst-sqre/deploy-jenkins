@@ -1,5 +1,5 @@
 resource "aws_db_instance" "jenkins-demo" {
-    allocated_storage         = 50
+    allocated_storage         = 100
     storage_type              = "gp2"
     engine                    = "mariadb"
     engine_version            = "10.0.17"
