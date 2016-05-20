@@ -12,9 +12,6 @@ pkg/
 spec/fixtures/manifests/
 spec/fixtures/modules/
 *.swp
-terraform/aws.rb
-terraform/bin
-terraform/*tfstate*
 tmp
 .tmp
 .vagrant

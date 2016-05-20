@@ -8,5 +8,10 @@ $(BIN_DIR):
 	cd $@; wget -nc https://releases.hashicorp.com/terraform/$(TF_VERSION)/$(ZIP_FILE)
 	cd $@; unzip $(ZIP_FILE)
 
+dev: override.tf
+
+override.tf: env/dev.tf
+	-cp $< $@
+
 clean:
-	-rm -rf bin
+	-rm -rf bin override.tf
