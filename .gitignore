@@ -1,6 +1,7 @@
 .bundle
 creds.sh
 hieradata/common.yaml
+hieradata/role/squash.yaml
 jenkins_demo/templates/id_rsa*
 keys
 environments/**/modules
