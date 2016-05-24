@@ -1,5 +1,6 @@
 resource "aws_db_instance" "jenkins-demo" {
-    allocated_storage         = 50
+    allocated_storage         = 100
+    storage_type              = "gp2"
     engine                    = "mariadb"
     engine_version            = "10.0.17"
     instance_class            = "db.m4.large"
@@ -8,13 +9,15 @@ resource "aws_db_instance" "jenkins-demo" {
     username                  = "admin"
     password                  = "${var.rds_password}"
     #parameter_group_name     = "default.mysql5.6"
-    final_snapshot_identifier = "oops"
+    final_snapshot_identifier = "${var.demo_name}-final"
     skip_final_snapshot       = false
     copy_tags_to_snapshot     = true
     backup_retention_period   = 30
     vpc_security_group_ids    = [ "${aws_security_group.jenkins-demo-internal.id}" ]
     db_subnet_group_name      = "${aws_db_subnet_group.jenkins-demo.id}"
     multi_az                  = false
+    backup_window             = "07:00-07:55"
+    maintenance_window        = "Tue:08:00-Tue:11:00"
 }
 
 resource "aws_subnet" "jenkins-demo-db1" {

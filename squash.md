@@ -17,7 +17,7 @@ Prerequisites
 Clone Source
 ---
 
-    git clone git@github.com:jhoblitt/sandbox-jenkins-demo.git -b tickets/DM-5844 sandbox-jenkins-demo-squashtest
+    git clone git@github.com:lsst-sqre/sandbox-jenkins-demo.git
     cd sandbox-jenkins-demo-squashtest/
 
 Configuration
@@ -84,6 +84,8 @@ Generate ssh key pair
     cd terraform
     # install terraform locally
     make
+    # only if this is a NON-PRODUCTION instance
+    make dev
     # sanity check
     ./bin/terraform plan
     # create AWS VPC env
