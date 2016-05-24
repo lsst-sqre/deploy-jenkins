@@ -3,6 +3,9 @@ class jenkins_demo::profile::squash::oauth {
     http_address      => '127.0.0.1:4180',
     upstreams         => [ 'http://127.0.0.1:9090' ],
     # override w/ 32b string, see: https://golang.org/pkg/crypto/aes/#NewCipher
+    cookie_name       => $::demo_name,
+    cookie_domain     => $::domain_name,
+    cookie_secure     => true,
     cookie_secret     => '1234',
     pass_access_token => false,
     pass_host_header  => true,
