@@ -5,6 +5,7 @@ class jenkins_demo::role::squash {
   include ::jenkins_demo::profile::squash::install
   include ::jenkins_demo::profile::squash::bokeh
   include ::jenkins_demo::profile::squash::uwsgi
+  include ::jenkins_demo::profile::squash::oauth
 
   Class['jenkins_demo::profile::squash::install'] ~>
     Class['jenkins_demo::profile::squash::uwsgi']

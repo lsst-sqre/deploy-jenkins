@@ -12,8 +12,9 @@ module = %(project).wsgi:application
 master = true
 processes = <%= $instances %>
 
-socket = /run/uwsgi/%(project).sock
-chmod-socket = 666
+http-socket = :9090
+#socket = /run/uwsgi/%(project).sock
+#chmod-socket = 666
 vacuum = true
 
 # this *will break* uwsgi-2.0.12-2.el7.x86_64

@@ -8,6 +8,7 @@ class jenkins_demo::profile::squash(
   $uwsgi_instances = $::jenkins_demo::profile::squash::params::uwsgi_instances,
   $rds_fqdn        = $::jenkins_demo::profile::squash::params::rds_fqdn,
   $rds_password    = $::jenkins_demo::profile::squash::params::rds_password,
+  $oauth_config    = $::jenkins_demo::profile::squash::params::oauth_config,
 ) inherits jenkins_demo::profile::squash::params {
   include ::nginx
 
@@ -25,7 +26,7 @@ class jenkins_demo::profile::squash(
   $ssl_root_cert       = hiera('ssl_root_cert', undef)
   $ssl_key             = hiera('ssl_key', undef)
   $add_header          = hiera('add_header', undef)
-  $uwsgi_sock          = 'unix:/run/uwsgi/squash.sock'
+  #$uwsgi_sock          = 'unix:/run/uwsgi/squash.sock'
   #=> 'unix:/home/vagrant/qa-dashboard/squash/squash.sock',
   $base                = '/opt/apps/qa-dashboard'
 
@@ -64,6 +65,16 @@ class jenkins_demo::profile::squash(
   $bokeh_members = range(0, $end).reduce([]) |Array $memo, Integer $n| {
     $port = $bokeh_base_port + $n
     $memo + "localhost:${port}"
+  }
+
+  nginx::resource::upstream { 'oauth2_proxy':
+    ensure  => present,
+    members => [ 'localhost:4180' ],
+  }
+
+  nginx::resource::upstream { 'qa-dashboard':
+    ensure  => present,
+    members => [ 'localhost:9090' ],
   }
 
   nginx::resource::upstream { 'squash-bokeh':
@@ -156,25 +167,28 @@ class jenkins_demo::profile::squash(
     }
 
     nginx::resource::vhost { 'squash':
-      ensure              => present,
-      server_name         => [ $squash_fqdn ],
-      listen_port         => 443,
-      ssl                 => true,
-      rewrite_to_https    => false,
-      access_log          => $squash_access_log,
-      error_log           => $squash_error_log,
-      ssl_key             => $ssl_key_path,
-      ssl_cert            => $ssl_cert_path,
-      ssl_dhparam         => $ssl_dhparam_path,
-      ssl_session_timeout => '1d',
-      ssl_cache           => 'shared:SSL:50m',
-      ssl_stapling        => true,
-      ssl_stapling_verify => true,
-      ssl_trusted_cert    => $ssl_root_chain_path,
-      resolver            => [ '8.8.8.8', '4.4.4.4'],
-      raw_prepend         => $squash_raw_prepend,
-      uwsgi               => $uwsgi_sock,
-      add_header          => $add_header,
+      ensure                => present,
+      server_name           => [ $squash_fqdn ],
+      listen_port           => 443,
+      ssl                   => true,
+      rewrite_to_https      => false,
+      access_log            => $squash_access_log,
+      error_log             => $squash_error_log,
+      ssl_key               => $ssl_key_path,
+      ssl_cert              => $ssl_cert_path,
+      ssl_dhparam           => $ssl_dhparam_path,
+      ssl_session_timeout   => '1d',
+      ssl_cache             => 'shared:SSL:50m',
+      ssl_stapling          => true,
+      ssl_stapling_verify   => true,
+      ssl_trusted_cert      => $ssl_root_chain_path,
+      resolver              => [ '8.8.8.8', '4.4.4.4'],
+      #uwsgi                => $uwsgi_sock,
+      proxy                 => 'http://oauth2_proxy',
+      proxy_redirect        => 'default',
+      proxy_connect_timeout => '30',
+      add_header            => $add_header,
+      raw_prepend           => $squash_raw_prepend,
     }
 
     if hiera('ssl_cert', undef) and hiera('ssl_key', undef) {
@@ -194,22 +208,34 @@ class jenkins_demo::profile::squash(
   }
 
   nginx::resource::vhost { $vhost:
-    ensure           => present,
-    server_name      => [ $squash_fqdn ],
-    listen_port      => 80,
-    ssl              => false,
-    access_log       => $squash_access_log,
-    error_log        => $squash_error_log,
-    uwsgi            => $uwsgi_sock,
-    rewrite_to_https => $enable_ssl ? {
-      true    => true,
-      default => false,
+    ensure                => present,
+    server_name           => [ $squash_fqdn ],
+    listen_port           => 80,
+    ssl                   => false,
+    access_log            => $squash_access_log,
+    error_log             => $squash_error_log,
+    #uwsgi                => $uwsgi_sock,
+    proxy                 => 'http://oauth2_proxy',
+    proxy_redirect        => 'default',
+    proxy_connect_timeout => '30',
+    rewrite_to_https      => $enable_ssl ? {
+      true                => true,
+      default             => false,
     },
     # see comment above $raw_prepend declaration
-    raw_prepend      => $enable_ssl ? {
+    raw_prepend           => $enable_ssl ? {
       true    => $squash_raw_prepend,
       default => undef,
     },
+  }
+
+  nginx::resource::location { '/api':
+    ensure                => present,
+    priority              => $priority,
+    vhost                 => 'squash',
+    proxy                 => 'http://qa-dashboard',
+    proxy_redirect        => 'default',
+    proxy_connect_timeout => '30',
   }
 
   nginx::resource::location { '/static':
