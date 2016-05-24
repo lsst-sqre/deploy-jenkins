@@ -15,6 +15,8 @@ digraph top {
     bokeh [label="bokeh"]
     rds [label="RDS (qadb)"]
     django [label="django (qa-dashboard)"]
+    oauth2_proxy [label="oauth2_proxy"]
+    github [label="github API"]
   }
 
   color=lightgrey
@@ -43,6 +45,7 @@ digraph top {
         django
       }
 
+      oauth2_proxy
       bokeh
     }
 
@@ -50,6 +53,8 @@ digraph top {
 
   }
   { rank=same; rds django bokeh }
+  { rank=same; oauth2_proxy github }
+  { rank=same; squash_vhost bokeh_vhost }
 
   // https
   edge [color=red]
@@ -57,17 +62,17 @@ digraph top {
   eip -> squash_vhost
   eip -> bokeh_vhost
   django -> bokeh_vhost
+  oauth2_proxy -> github
 
   // http
   edge [color=orange]
   bokeh_vhost -> bokeh
+  squash_vhost -> django [fontsize=18 label="/api"]
+  squash_vhost -> oauth2_proxy [fontsize=18 label="/"]
+  oauth2_proxy -> django
 
   // mysql
   edge [color=blue]
   //django -> rds [constraint=false]
   django -> rds
-
-  // uwsgi
-  edge [color=khaki3]
-  squash_vhost -> django
 }
