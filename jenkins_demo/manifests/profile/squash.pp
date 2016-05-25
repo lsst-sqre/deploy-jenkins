@@ -64,23 +64,28 @@ class jenkins_demo::profile::squash(
 
   $bokeh_members = range(0, $end).reduce([]) |Array $memo, Integer $n| {
     $port = $bokeh_base_port + $n
-    $memo + "localhost:${port}"
-  }
-
-  nginx::resource::upstream { 'oauth2_proxy':
-    ensure  => present,
-    members => [ 'localhost:4180' ],
+    $memo + "127.0.0.1:${port}"
   }
 
   nginx::resource::upstream { 'qa-dashboard':
     ensure  => present,
-    members => [ 'localhost:9090' ],
+    members => [ '127.0.0.1:9090' ],
+  }
+
+  nginx::resource::upstream { 'qa-dashboard-oauth':
+    ensure  => present,
+    members => [ '127.0.0.1:4180' ],
   }
 
   nginx::resource::upstream { 'squash-bokeh':
     ensure               => present,
     members              => $bokeh_members,
     upstream_cfg_prepend => { ip_hash => '' },
+  }
+
+  nginx::resource::upstream { 'squash-bokeh-oauth':
+    ensure  => present,
+    members => [ '127.0.0.1:4181' ],
   }
 
   file { $private_dir:
@@ -183,7 +188,7 @@ class jenkins_demo::profile::squash(
     ssl_trusted_cert      => $ssl_root_chain_path,
     resolver              => [ '8.8.8.8', '4.4.4.4'],
     #uwsgi                => $uwsgi_sock,
-    proxy                 => 'http://oauth2_proxy',
+    proxy                 => 'http://qa-dashboard-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
     add_header            => $add_header,
@@ -206,7 +211,7 @@ class jenkins_demo::profile::squash(
     access_log            => $squash_access_log,
     error_log             => $squash_error_log,
     #uwsgi                => $uwsgi_sock,
-    proxy                 => 'http://oauth2_proxy',
+    proxy                 => 'http://qa-dashboard-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
     # see comment above $raw_prepend declaration
@@ -272,12 +277,17 @@ class jenkins_demo::profile::squash(
     ssl_stapling_verify   => true,
     ssl_trusted_cert      => $ssl_root_chain_path,
     resolver              => [ '8.8.8.8', '4.4.4.4'],
-    proxy                 => 'http://squash-bokeh',
+    proxy                 => 'http://squash-bokeh-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
     proxy_set_header      => $proxy_set_header,
     raw_prepend           => $bokeh_raw_prepend,
     add_header            => $add_header,
+    location_raw_append   => @("EOT"/$)
+      if ( \$remote_addr ~* '${::squash_ip}' ) {
+        proxy_pass            http://squash-bokeh;
+      }
+    |EOT
   }
 
   nginx::resource::vhost { 'bokeh-http':
@@ -288,7 +298,7 @@ class jenkins_demo::profile::squash(
     access_log            => $bokeh_access_log,
     error_log             => $bokeh_error_log,
     rewrite_to_https      => true,
-    proxy                 => 'http://squash-bokeh',
+    proxy                 => 'http://squash-bokeh-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
     proxy_set_header      => $proxy_set_header,
