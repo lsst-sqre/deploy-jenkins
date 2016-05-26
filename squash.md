@@ -1,6 +1,8 @@
 Squash deployment
 ===
 
+![Squash AWS diagram](./docs/aws_squash.png)
+
 These are condensed deployment instructions intended for a developer working on
 only the Squash/qa-dashboard components.  There are more pedantic instructions
 in the primary [README.md](./README.md).
@@ -12,13 +14,14 @@ Prerequisites
 * `git` (needed to clone this repo)
 * ruby >= 1.9.3
 * ruby bundler gem
-*
+
 
 Clone Source
 ---
 
     git clone git@github.com:lsst-sqre/sandbox-jenkins-demo.git
     cd sandbox-jenkins-demo-squashtest/
+
 
 Configuration
 ---
@@ -59,6 +62,7 @@ for convenience.
     export TF_VAR_rds_password=$TF_VAR_rds_password
     END
 
+
 Install `eyaml` key ring
 ---
 
@@ -72,12 +76,14 @@ Install `eyaml` key ring
     cd ..
     ln -s .lsst-certs/eyaml-keys keys
 
+
 Generate ssh key pair
 ---
 
     (cd jenkins_demo/templates; make)
 
-Generate ssh key pair
+
+Create AWS VPC resources
 ---
 
     . creds.sh
@@ -92,12 +98,69 @@ Generate ssh key pair
     ./bin/terraform apply
     cd ..
 
+
 Decrypt eyaml values and install puppet modules
 ---
 
     bundle install
     bundle exec rake decrypt
     bundle exec librarian-puppet install
+
+
+Configure github oauth2
+---
+
+`oauth2_proxy` is used to provide basic user authentication.  At present, there
+is no programmatic way to register an oauth application with github and manual
+configuration is required.
+
+A `squash` deployment technically requires two applications to be registered
+with github due to different callback URLs being needed for `qa-dashboard` and
+the `bokeh` server.  However, in practice, it appears that only `qa-dashboard`
+needs to be registered as any websocket connections to `bokeh` that do not
+already have a valid `oauth2_proxy` cookie would be unable to complete the
+oauth2 authentication process.
+
+This one-liner will construct the appropriate callback URL for the current
+sandbox.
+
+    (cd ./terraform; ./bin/terraform show | grep SQUASH_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/oauth2\/callback/')
+
+Example output.:
+
+    https://jhoblitt-squash-squash.lsst.codes/oauth2/callback
+
+### Register a new application
+
+A "personal" application may be registered via:
+
+https://github.com/settings/applications/new
+
+**Note that a production application should be attached to a github org.**
+
+An application name and homepage URL are required but the values are not
+significant. The callback URL must __exactly__ match the constructed URL.
+
+### Edit oauth2 configuration
+
+    bundle exec rake edit[hieradata/role/squash.eyaml]
+
+Insert the `Client ID` and `Client Secret` strings into the `oauth_config`
+hash.
+
+    jenkins_demo::profile::squash::oauth_config:
+      client_id: XXXXXXXXXXXXXXXXXXXX
+      client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Values in the `oauth_config` hash are used by both `oauth2_proxy` instances.
+
+### github oauth2 documentation
+
+Useful documentation for understanding github's oauth2 support:
+
+* https://developer.github.com/v3/oauth/
+* https://developer.github.com/guides/basics-of-authentication/
+
 
 Change qa-dashboard repo and ref
 ---
@@ -135,7 +198,8 @@ Occasionally (rarely), there are issues with the yum mirror selected (luck of
 the draw) for downloading required packages. If this happens on the initial
 deployment, it is recommended to destroy and recreate the instance.
 
-Initializing django database
+
+Initialize django database
 ---
 
     vagrant ssh squash
