@@ -54,3 +54,7 @@ output "RDS_PASSWORD" {
 output "BOKEH_FQDN" {
   value = "${aws_route53_record.jenkins-demo-bokeh.fqdn}"
 }
+
+output "DOMAIN_NAME" {
+  value = "${var.domain_name}"
+}

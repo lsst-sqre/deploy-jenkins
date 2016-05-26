@@ -11,4 +11,5 @@ class jenkins_demo::profile::squash::params {
   $uwsgi_instances = $::processors['count'] * 2
   $rds_fqdn        = $::rds_fqdn
   $rds_password    = $::rds_password
+  $oauth_config    = {}
 }

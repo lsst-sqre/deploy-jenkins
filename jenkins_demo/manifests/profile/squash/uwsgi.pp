@@ -40,10 +40,11 @@ class jenkins_demo::profile::squash::uwsgi {
   }
 
   # needed in order for nginx to access the unix domain socket
-  selinux::module { 'squash-uwsgi-sock':
-    ensure  => 'present',
-    content => epp("${module_name}/squash/squash.te.epp"),
-  }
+  # XXX this is not needed when uwsgi is listening on an ip socket
+  #selinux::module { 'squash-uwsgi-sock':
+  #  ensure  => 'present',
+  #  content => epp("${module_name}/squash/squash.te.epp"),
+  #}
 
   service { 'uwsgi':
     ensure  => running,

@@ -64,7 +64,7 @@ lsststack::lsstsw::lsst_build_branch: master
 lsststack::lsstsw::lsst_build_ensure: present
 nginx::config::confd_purge: true
 nginx::config::vhost_purge: true
-nginx::config::spdy: 'on'
+nginx::config::http2: 'on'
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.7.12&openssl=1.0.1e&hsts=yes&profile=modern
 # enabled TLSv1 to support android < 4.4
 nginx::config::ssl_protocols: 'TLSv1 TLSv1.1 TLSv1.2'
