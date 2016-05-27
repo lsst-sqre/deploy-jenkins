@@ -5,7 +5,7 @@ jenkinsx:
 jenkinsx::authorization_strategy:
   org.jenkinsci.plugins.GithubAuthorizationStrategy:
       arguments:
-        - 'jhoblitt, frossie'
+        - 'jhoblitt, frossie, jonathansick, jmatt'
         - false
         - false
         - false
