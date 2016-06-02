@@ -222,7 +222,10 @@ Initialize django database
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser --username $QA_USER --email $QA_USER_EMAIL --noinput
+    python manage.py loaddata initial_data
 
+    # the password can be changed after the fact via
+    python manage.py changepassword $QA_USER
 
 Applying changes to a running squash VM instance
 ---

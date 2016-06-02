@@ -218,7 +218,7 @@ class jenkins_demo::profile::squash(
     raw_prepend           => $squash_raw_prepend,
   }
 
-  nginx::resource::location { '/api':
+  nginx::resource::location { '~ ^.*/api':
     ensure                => present,
     priority              => $priority,
     vhost                 => 'squash-https',

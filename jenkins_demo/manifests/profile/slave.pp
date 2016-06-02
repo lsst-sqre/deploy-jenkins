@@ -35,4 +35,12 @@ class jenkins_demo::profile::slave {
 
   # provides killall on el6 & el7 -- needed by stack-os-matrix
   ensure_packages(['psmisc'])
+
+  # virtualenv is needed by validate_drp
+  class { 'python':
+    version    => 'system',
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'present',
+  }
 }

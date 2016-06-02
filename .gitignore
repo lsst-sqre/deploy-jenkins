@@ -1,10 +1,11 @@
 .bundle
 creds.sh
+environments/**/modules
 hieradata/common.yaml
 hieradata/role/squash.yaml
 jenkins_demo/templates/id_rsa*
 keys
-environments/**/modules
+.lsst-certs
 *.orig
 *.patch
 pkg/
