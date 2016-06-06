@@ -48,7 +48,7 @@ output "RDS_FQDN" {
 
 output "RDS_PASSWORD" {
   sensitive = true
-  value = "${var.rds_password}"
+  value     = "${var.rds_password}"
 }
 
 output "BOKEH_FQDN" {
