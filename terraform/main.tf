@@ -29,6 +29,7 @@ resource "aws_internet_gateway" "jenkins-demo" {
 
 resource "aws_subnet" "jenkins-demo" {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
+    availability_zone = "${var.aws_default_region}c"
     cidr_block = "192.168.123.0/24"
     map_public_ip_on_launch = true
 
