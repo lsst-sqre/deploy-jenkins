@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
   <actions/>
-  <description/>
+  <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.17.1">
       <projectUrl>https://github.com/lsst-sqre/ec2-snapshot/</projectUrl>
-      <displayName/>
+      <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
@@ -46,26 +47,21 @@
   </builders>
   <publishers>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token/>
-      <room/>
-      <startJobMessage/>
-      <completeJobMessage/>
+      <token></token>
+      <room></room>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
-    <EnvInjectPasswordWrapper plugin="envinject@1.92.1">
-      <injectGlobalPasswords>false</injectGlobalPasswords>
-      <maskPasswordParameters>true</maskPasswordParameters>
-      <passwordEntries>
-        <EnvInjectPasswordEntry>
-          <name>AWS_ACCESS_KEY_ID</name>
-          <value><%= @jenkins_ebs_snapshot['aws_access_key_id'] %></value>
-        </EnvInjectPasswordEntry>
-        <EnvInjectPasswordEntry>
-          <name>AWS_SECRET_ACCESS_KEY</name>
-          <value><%= @jenkins_ebs_snapshot['aws_secret_access_key'] %></value>
-        </EnvInjectPasswordEntry>
-      </passwordEntries>
-    </EnvInjectPasswordWrapper>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.6">
+      <bindings>
+        <org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+          <credentialsId>jenkins-aws</credentialsId>
+          <usernameVariable>AWS_ACCESS_KEY_ID</usernameVariable>
+          <passwordVariable>AWS_SECRET_ACCESS_KEY</passwordVariable>
+        </org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+      </bindings>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
   </buildWrappers>
 </project>

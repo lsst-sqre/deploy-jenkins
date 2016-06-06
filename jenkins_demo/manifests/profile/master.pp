@@ -71,18 +71,15 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
   }
 
-  $jenkins_ebs_snapshot = hiera('jenkins::jobs::jenkins_ebs_snapshot', undef)
-  if $jenkins_ebs_snapshot {
-    class { 'python' :
-      version    => 'system',
-      pip        => 'present',
-      dev        => 'present',
-      virtualenv => 'present',
-    }
+  class { 'python' :
+    version    => 'system',
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'present',
+  }
 
-    jenkins_job { 'jenkins-ebs-snapshot':
-      config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
-    }
+  jenkins_job { 'jenkins-ebs-snapshot':
+    config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
   }
 
   jenkins_job { 'run-rebuild':
