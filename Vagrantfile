@@ -174,7 +174,7 @@ Vagrant.configure('2') do |config|
     provider.ebs_optimized = true
     provider.block_device_mapping = [{
       'DeviceName'              => '/dev/sda1',
-      'Ebs.VolumeSize'          => 200,
+      'Ebs.VolumeSize'          => 500,
       'Ebs.VolumeType'          => 'gp2',
       'Ebs.DeleteOnTermination' => 'true',
     }]
