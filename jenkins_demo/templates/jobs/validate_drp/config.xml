@@ -9,7 +9,60 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
   </properties>
-  <scm class="hudson.scm.NullSCM"/>
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
+    <scms>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>https://github.com/lsst/lsstsw.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>lsstsw</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+          <hudson.plugins.git.extensions.impl.CloneOption>
+            <shallow>true</shallow>
+            <noTags>false</noTags>
+            <reference></reference>
+          </hudson.plugins.git.extensions.impl.CloneOption>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>https://github.com/lsst-sqre/buildbot-scripts.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>buildbot-scripts</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+          <hudson.plugins.git.extensions.impl.CloneOption>
+            <shallow>true</shallow>
+            <noTags>false</noTags>
+            <reference></reference>
+          </hudson.plugins.git.extensions.impl.CloneOption>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+    </scms>
+  </scm>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
@@ -36,77 +89,37 @@
         <string>decam</string>
       </values>
     </hudson.matrix.TextAxis>
+    <hudson.matrix.TextAxis>
+      <name>python</name>
+      <values>
+        <string>py2</string>
+      </values>
+    </hudson.matrix.TextAxis>
   </axes>
+  <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
 # allow access to lsstsw from jenkins-slave user
-sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; chmod a+rx /home/build${EXECUTOR_NUMBER}
+#sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; chmod a+rx /home/build${EXECUTOR_NUMBER}
 
 ARCHIVE=&quot;${WORKSPACE}/archive&quot;
 DRP=&quot;${WORKSPACE}/validate_drp&quot;
-LSSTSW=${LSSTSW:-/home/build${EXECUTOR_NUMBER}/lsstsw}
-LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
 # leave validate_drp results in workspace for debugging purproses but always start with a clean dir
 rm -rf &quot;$ARCHIVE&quot; &quot;$DRP&quot;
 mkdir -p &quot;$ARCHIVE&quot; &quot;$DRP&quot;</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>#!/bin/bash -e
-
-ARCHIVE=&quot;${WORKSPACE}/archive&quot;
-DRP=&quot;${WORKSPACE}/validate_drp&quot;
-LSSTSW=${LSSTSW:-/home/build${EXECUTOR_NUMBER}/lsstsw}
-LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
-
-ARGS=()
-
-# append lsst_ci to PRODUCT list unless SKIP_DEMO is set
-if [[ $SKIP_DEMO != &quot;true&quot; ]]; then
-  if [[ -z &quot;$PRODUCT&quot; ]]; then
-    # lsstsw default targets
-    PRODUCT=&quot;lsst_sims lsst_distrib qserv_distrib dax_webserv&quot;
-  fi
-  PRODUCT=&quot;$PRODUCT lsst_ci&quot;
-fi
-
-if [[ ! -z &quot;$BRANCH&quot; ]]; then
-  ARGS+=(&apos;--branch&apos;)
-  ARGS+=(&quot;$BRANCH&quot;)
-fi
-
-ARGS+=(&apos;--build_number&apos;)
-ARGS+=(&quot;$BUILD_NUMBER&quot;)
-
-if [[ ! -z &quot;$PRODUCT&quot; ]]; then
-  ARGS+=(&apos;--product&apos;)
-  ARGS+=(&quot;$PRODUCT&quot;)
-fi
-
-ARGS+=(&apos;--skip_docs&apos;)
-ARGS+=(&apos;--print-fail&apos;)
-ARGS+=(&apos;--color&apos;)
-
-if [[ $SKIP_DEMO == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--skip_demo&apos;)
-fi
-
-if [[ $NO_FETCH == &quot;true&quot; ]]; then
-  ARGS+=(&apos;--no-fetch&apos;)
-fi
-
-sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; LSSTSW=&quot;/home/build${EXECUTOR_NUMBER}/lsstsw&quot; &quot;/home/build${EXECUTOR_NUMBER}/buildbot-scripts/lsstswBuild.sh&quot; &quot;${ARGS[@]}&quot;
-
-cp &quot;${LSSTSW_BUILD_DIR}/manifest.txt&quot; &quot;$ARCHIVE&quot;</command>
+      <command>./buildbot-scripts/jenkins_wrapper.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
 ARCHIVE=&quot;${WORKSPACE}/archive&quot;
 DRP=&quot;${WORKSPACE}/validate_drp&quot;
-LSSTSW=${LSSTSW:-/home/build${EXECUTOR_NUMBER}/lsstsw}
+LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
 cd &quot;$DRP&quot;
@@ -151,7 +164,7 @@ cp &quot;$OUTPUT&quot; &quot;$ARCHIVE&quot;</command>
 ARCHIVE=&quot;${WORKSPACE}/archive&quot;
 DRP=&quot;${WORKSPACE}/validate_drp&quot;
 POST=&quot;${WORKSPACE}/post-qa&quot;
-LSSTSW=${LSSTSW:-/home/build${EXECUTOR_NUMBER}/lsstsw}
+LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
 case &quot;$dataset&quot; in
@@ -189,13 +202,19 @@ post-qa --lsstsw &quot;$LSSTSW&quot; --qa-json &quot;$OUTPUT&quot; --api-url &qu
     <org.jenkinsci.plugins.postbuildscript.PostBuildScript plugin="postbuildscript@0.17">
       <buildSteps>
         <hudson.tasks.Shell>
-          <command>sudo -u build${EXECUTOR_NUMBER} killall -9 -u build${EXECUTOR_NUMBER}</command>
+          <command>Z=$(lsof -d 200 -t)
+if [[ ! -z $Z ]]; then
+  kill -9 $Z
+fi
+
+rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
+</command>
         </hudson.tasks.Shell>
       </buildSteps>
       <scriptOnlyIfSuccess>false</scriptOnlyIfSuccess>
       <scriptOnlyIfFailure>true</scriptOnlyIfFailure>
       <markBuildUnstable>false</markBuildUnstable>
-      <executeOn>MATRIX</executeOn>
+      <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
       <token></token>
