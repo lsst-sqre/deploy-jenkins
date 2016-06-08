@@ -70,15 +70,6 @@ jenkinsx::user:
     public_keys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
 jenkins::swarm::version: '1.22'
-lsststack::lsstsw::lsstsw_repo: 'https://github.com/lsst/lsstsw.git'
-lsststack::lsstsw::lsstsw_branch: master
-lsststack::lsstsw::lsstsw_ensure: latest
-lsststack::lsstsw::buildbot_repo: 'https://github.com/lsst-sqre/buildbot-scripts.git'
-lsststack::lsstsw::buildbot_branch: master
-lsststack::lsstsw::buildbot_ensure: latest
-lsststack::lsstsw::lsst_build_repo: 'https://github.com/lsst/lsst_build.git'
-lsststack::lsstsw::lsst_build_branch: master
-lsststack::lsstsw::lsst_build_ensure: present
 nginx::config::confd_purge: true
 nginx::config::vhost_purge: true
 nginx::config::http2: 'on'
