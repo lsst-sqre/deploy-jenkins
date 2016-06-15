@@ -16,7 +16,7 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
+          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &apos;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -35,6 +35,9 @@
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <browser class="hudson.plugins.git.browser.GithubWeb">
+      <url>https://github.com/lsst/ci_hsc/</url>
+    </browser>
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.CloneOption>
@@ -44,6 +47,7 @@
       </hudson.plugins.git.extensions.impl.CloneOption>
     </extensions>
   </scm>
+  <quietPeriod>1800</quietPeriod>
   <assignedNode>jenkins-master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
@@ -95,10 +99,6 @@
       <configs>
         <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
           <configs>
-            <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
-              <properties>PRODUCT=ci_hsc
-BRANCH=$BUILD_BRANCH</properties>
-            </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
             <hudson.plugins.parameterizedtrigger.BooleanParameters>
               <configs>
                 <hudson.plugins.parameterizedtrigger.BooleanParameterConfig>
@@ -107,6 +107,10 @@ BRANCH=$BUILD_BRANCH</properties>
                 </hudson.plugins.parameterizedtrigger.BooleanParameterConfig>
               </configs>
             </hudson.plugins.parameterizedtrigger.BooleanParameters>
+            <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+              <properties>PRODUCT=ci_hsc
+BRANCH=$BUILD_BRANCH</properties>
+            </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
           </configs>
           <projects>stack-os-matrix</projects>
           <condition>ALWAYS</condition>
@@ -141,11 +145,13 @@ BRANCH=$BUILD_BRANCH</properties>
   <buildWrappers>
     <EnvInjectBuildWrapper plugin="envinject@1.92.1">
       <info>
-        <groovyScriptContent>if (binding.variables.containsKey(&apos;ghprbSourceBranch&apos;)) {
+        <groovyScriptContent>
+if (binding.variables.containsKey(&apos;ghprbSourceBranch&apos;)) {
   return [BUILD_BRANCH: ghprbSourceBranch]
 } else {
   return [BUILD_BRANCH: BRANCH]
-}</groovyScriptContent>
+}
+</groovyScriptContent>
         <loadFilesFromMaster>false</loadFilesFromMaster>
       </info>
     </EnvInjectBuildWrapper>
