@@ -63,14 +63,6 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
-  jenkins_job { 'qserv-os-matrix':
-    config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
-  }
-
-  jenkins_job { 'dax_webserv-os-matrix':
-    config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
-  }
-
   class { 'python' :
     version    => 'system',
     pip        => 'present',
