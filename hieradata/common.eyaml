@@ -112,6 +112,7 @@ ssl_cert: |
   IyCI9y9GWYb5BrRv4kapRzTt7adY7i6xeKtImTdlhSZE0+bhhg2NKOJ7eiVXrJZ0
   5xtHKuYfzrt0owK/zYHP5605nCgvpAAMbDDfkMOIVXsSBJ2JhMaHS7pR0TTb0kOv
   7QN0jg1o89L9mFRJ0dpwZXACaKroKgmdr+Nt4IV6OnaOKae9ILOIQHcU
+  -----END CERTIFICATE-----
 # alphassl intermediary
 ssl_chain_cert: |
   -----BEGIN CERTIFICATE-----
