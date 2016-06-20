@@ -1,3 +1,4 @@
 ---
 classes:
   - jenkins_demo::role::slave
+lsststack::install_convenience: true

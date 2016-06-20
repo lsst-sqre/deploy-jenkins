@@ -32,7 +32,7 @@ FORGE
     puppetlabs-gcc (0.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.0.0)
     puppetlabs-inifile (1.5.0)
-    puppetlabs-java (1.5.0)
+    puppetlabs-java (1.6.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.4.0)
     puppetlabs-ntp (3.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)

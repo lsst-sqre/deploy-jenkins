@@ -1,24 +1,5 @@
 class jenkins_demo::profile::slave {
-  include ::wget # needed by jenkins
   include ::lsststack
-
-  lsststack::lsstsw { 'build0':
-    group             => 'jenkins-slave',
-    manage_group      => true,
-    lsstsw_ensure     => 'latest',
-    buildbot_ensure   => 'latest',
-    lsst_build_ensure => 'latest',
-  }
-
-  class { 'sudo':
-    purge               => false,
-    config_file_replace => false,
-  }
-  sudo::conf { 'jenkins-slave':
-    content  => 'jenkins-slave ALL=(%jenkins-slave) NOPASSWD: ALL',
-  }
-
-  Class['::wget'] -> Class['::jenkins::slave']
 
   $platform = downcase("${::operatingsystem}-${::operatingsystemmajrelease}")
   class { 'jenkins::slave':
@@ -28,13 +9,14 @@ class jenkins_demo::profile::slave {
     labels     => "${::hostname} ${platform}",
     # don't start slave before lsstsw build env is ready
     require    => [
-      Lsststack::Lsstsw['build0'],
+      Class['lsststack'],
       Host['jenkins-master'],
     ],
   }
 
-  # provides killall on el6 & el7 -- needed by stack-os-matrix
+  # provides killall on el6 & el7
   ensure_packages(['psmisc'])
+  ensure_packages(['lsof'])
 
   # virtualenv is needed by validate_drp
   class { 'python':

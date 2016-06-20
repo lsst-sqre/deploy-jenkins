@@ -63,14 +63,6 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
   }
 
-  jenkins_job { 'qserv-os-matrix':
-    config => template("${module_name}/jobs/qserv-os-matrix/config.xml"),
-  }
-
-  jenkins_job { 'dax_webserv-os-matrix':
-    config => template("${module_name}/jobs/dax_webserv-os-matrix/config.xml"),
-  }
-
   class { 'python' :
     version    => 'system',
     pip        => 'present',
@@ -96,6 +88,14 @@ class jenkins_demo::profile::master {
 
   jenkins_job { 'validate_drp':
     config => template("${module_name}/jobs/validate_drp/config.xml"),
+  }
+
+  jenkins_job { 'seeds':
+    config => template("${module_name}/jobs/seeds/config.xml"),
+  }
+
+  jenkins_job { 'seeds/dm-jobs':
+    config => template("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml"),
   }
 
   $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)

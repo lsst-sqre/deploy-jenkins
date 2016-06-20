@@ -132,3 +132,17 @@ jenkins::plugin_hash:
     version: '1.9'
   # credentials
   # /kubernetes deps
+  dynamic-axis:
+    version: '1.0.3'
+  multiple-scms:
+    version: '0.6'
+  extended-choice-parameter:
+    version: '0.74'
+  # extended-choice-parameter deps
+  # jquery
+  # script-security
+  # /extended-choice-parameter deps
+  cloudbees-folder:
+    version: '5.5'
+  job-dsl:
+    version: '1.44'
