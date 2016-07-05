@@ -6,7 +6,7 @@
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>false</autoRebuild>
-      <rebuildDisabled>true</rebuildDisabled>
+      <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
@@ -57,9 +57,12 @@
       <command>#!/bin/bash -e
 
 export EUPSPKG_SOURCE=&quot;$EUPSPKG_SOURCE&quot;
+# setup.sh will unset $PRODUCTS
+export PUBLISH_PRODUCTS=&quot;$PRODUCTS&quot;
 
 source &quot;${HOME}/bin/setup.sh&quot;
-publish -b $BUILD_ID -t $TAG $PRODUCTS</command>
+
+publish -b &quot;$BUILD_ID&quot; -t &quot;$TAG&quot; &quot;$PUBLISH_PRODUCTS&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
   <actions/>
   <description>Execute lsstswBuild.sh (this is similar to executing rebuild from lsstsw)</description>
   <keepDependencies>false</keepDependencies>
@@ -11,13 +12,13 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue/>
+          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
           <description>Whitespace delimited list of EUPS products to build.</description>
-          <defaultValue/>
+          <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
           <name>SKIP_DEMO</name>
@@ -32,7 +33,35 @@
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.scm.NullSCM"/>
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
+    <scms>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>https://github.com/lsst-sqre/buildbot-scripts.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>*/master</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>buildbot-scripts</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+          <hudson.plugins.git.extensions.impl.CloneOption>
+            <shallow>true</shallow>
+            <noTags>false</noTags>
+            <reference></reference>
+          </hudson.plugins.git.extensions.impl.CloneOption>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+    </scms>
+  </scm>
   <assignedNode>lsst-dev</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
@@ -44,45 +73,30 @@
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>/home/lsstsw</customWorkspace>
   <builders>
     <hudson.tasks.Shell>
-      <command>#!/bin/bash
+      <command>#!/bin/bash -e
 
-ARGS=()
+export LSSTSW=&quot;$WORKSPACE&quot;
 
-if [ ! -z "$BRANCH" ]; then
-  ARGS+=('--branch')
-  ARGS+=("$BRANCH")
-fi
-
-ARGS+=('--build_number')
-ARGS+=("$BUILD_NUMBER")
-ARGS+=('--product')
-ARGS+=("$PRODUCT")
-ARGS+=('--print-fail')
-ARGS+=('--color')
-
-if [[ $SKIP_DEMO == "true" ]]; then
-  ARGS+=('--skip_demo')
-fi
-
-if [[ $SKIP_DOCS == "true" ]]; then
-  ARGS+=('--skip_docs')
-fi
-
-if [[ $NO_FETCH == "true" ]]; then
-  ARGS+=('--no-fetch')
-fi
-
-LSSTSW=$HOME $HOME/buildbot-scripts/lsstswBuild.sh "${ARGS[@]}"</command>
+./buildbot-scripts/jenkins_wrapper.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>build/manifest.txt</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+    </hudson.tasks.ArtifactArchiver>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token/>
-      <room/>
-      <startJobMessage/>
-      <completeJobMessage/>
+      <token></token>
+      <room></room>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
