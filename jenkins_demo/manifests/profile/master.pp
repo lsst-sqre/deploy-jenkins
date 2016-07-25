@@ -166,7 +166,7 @@ class jenkins_demo::profile::master {
   $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
   jenkins::plugin { 'collapsing-console-sections':
     manage_config   => true,
-    version         => '1.4.1',
+    version         => '1.5.0',
     config_filename => $collapsing_xml,
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
@@ -174,7 +174,7 @@ class jenkins_demo::profile::master {
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.17.1',
+    version         => '1.19.2',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
@@ -182,7 +182,7 @@ class jenkins_demo::profile::master {
   $ghprb_xml = 'org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
   jenkins::plugin { 'ghprb':
     manage_config   => true,
-    version         => '1.30.6',
+    version         => '1.32.8',
     config_filename => $ghprb_xml,
     config_content  => template("${module_name}/plugins/${ghprb_xml}"),
   }
