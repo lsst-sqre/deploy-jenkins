@@ -1,12 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project>
+<?xml version="1.0" encoding="UTF-8"?><project>
   <actions/>
-  <description></description>
+  <description/>
   <keepDependencies>true</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.17.1">
       <projectUrl>https://github.com/lsst/ci_hsc/</projectUrl>
-      <displayName></displayName>
+      <displayName/>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
       <autoRebuild>true</autoRebuild>
@@ -16,8 +15,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &apos;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue></defaultValue>
+          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  'master' is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -43,7 +42,7 @@
       <hudson.plugins.git.extensions.impl.CloneOption>
         <shallow>true</shallow>
         <noTags>false</noTags>
-        <reference></reference>
+        <reference/>
       </hudson.plugins.git.extensions.impl.CloneOption>
     </extensions>
   </scm>
@@ -58,36 +57,36 @@
       <spec>H 0,8,16 * * *</spec>
     </hudson.triggers.TimerTrigger>
     <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.17.1">
-      <spec></spec>
+      <spec/>
     </com.cloudbees.jenkins.GitHubPushTrigger>
     <org.jenkinsci.plugins.ghprb.GhprbTrigger plugin="ghprb@1.30.6">
       <spec>H/5 * * * *</spec>
       <latestVersion>3</latestVersion>
       <configVersion>3</configVersion>
-      <adminlist></adminlist>
+      <adminlist/>
       <allowMembersOfWhitelistedOrgsAsAdmin>false</allowMembersOfWhitelistedOrgsAsAdmin>
-      <orgslist></orgslist>
+      <orgslist/>
       <cron>H/5 * * * *</cron>
-      <buildDescTemplate></buildDescTemplate>
+      <buildDescTemplate/>
       <onlyTriggerPhrase>false</onlyTriggerPhrase>
       <useGitHubHooks>true</useGitHubHooks>
       <permitAll>true</permitAll>
-      <whitelist></whitelist>
+      <whitelist/>
       <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
       <displayBuildErrorsOnDownstreamBuilds>false</displayBuildErrorsOnDownstreamBuilds>
       <whiteListTargetBranches>
         <org.jenkinsci.plugins.ghprb.GhprbBranch>
-          <branch></branch>
+          <branch/>
         </org.jenkinsci.plugins.ghprb.GhprbBranch>
       </whiteListTargetBranches>
       <gitHubAuthId>df50ffaa-e0dd-4ecc-a5cf-d6f637334534</gitHubAuthId>
-      <triggerPhrase></triggerPhrase>
+      <triggerPhrase/>
       <extensions>
         <org.jenkinsci.plugins.ghprb.extensions.status.GhprbSimpleStatus>
-          <commitStatusContext></commitStatusContext>
-          <triggeredStatus></triggeredStatus>
-          <startedStatus></startedStatus>
-          <statusUrl></statusUrl>
+          <commitStatusContext/>
+          <triggeredStatus/>
+          <startedStatus/>
+          <statusUrl/>
           <addTestResults>false</addTestResults>
         </org.jenkinsci.plugins.ghprb.extensions.status.GhprbSimpleStatus>
       </extensions>
@@ -136,17 +135,17 @@ BRANCH=$BUILD_BRANCH</properties>
   </builders>
   <publishers>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <token/>
+      <room/>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
     <EnvInjectBuildWrapper plugin="envinject@1.92.1">
       <info>
         <groovyScriptContent>
-if (binding.variables.containsKey(&apos;ghprbSourceBranch&apos;)) {
+if (binding.variables.containsKey('ghprbSourceBranch')) {
   return [BUILD_BRANCH: ghprbSourceBranch]
 } else {
   return [BUILD_BRANCH: BRANCH]

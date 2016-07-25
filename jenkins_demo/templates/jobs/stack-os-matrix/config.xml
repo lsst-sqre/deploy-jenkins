@@ -1,7 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<matrix-project plugin="matrix-project@1.6">
+<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
   <actions/>
-  <description></description>
+  <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -12,8 +11,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue></defaultValue>
+          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
@@ -80,7 +79,7 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference></reference>
+            <reference/>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -105,7 +104,7 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference></reference>
+            <reference/>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -147,7 +146,7 @@
       </axisValues>
     </ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis>
   </axes>
-  <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
+  <combinationFilter>!(label=="centos-6" &amp;&amp; python=="py3")</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>./buildbot-scripts/jenkins_wrapper.sh</command>
@@ -162,7 +161,7 @@ if [[ ! -z $Z ]]; then
   kill -9 $Z
 fi
 
-rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
+rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
 </command>
         </hudson.tasks.Shell>
       </buildSteps>
@@ -172,11 +171,11 @@ rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
+      <token/>
+      <room/>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
@@ -185,11 +184,11 @@ rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <EnvInjectBuildWrapper plugin="envinject@1.92.1">
       <info>
-        <groovyScriptContent>if (binding.variables.containsKey(&apos;compiler&apos;)) {
-  if (compiler == &apos;clang&apos;) {  
-    return [CC: &apos;clang&apos;, CXX: &apos;clang++&apos;]
+        <groovyScriptContent>if (binding.variables.containsKey('compiler')) {
+  if (compiler == 'clang') {  
+    return [CC: 'clang', CXX: 'clang++']
   } else {
-    return [CC: &apos;gcc&apos;, CXX: &apos;g++&apos;]
+    return [CC: 'gcc', CXX: 'g++']
   }
 } else {
   return null
