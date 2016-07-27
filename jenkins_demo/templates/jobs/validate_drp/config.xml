@@ -1,7 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<matrix-project plugin="matrix-project@1.6">
+<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
   <actions/>
-  <description></description>
+  <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -32,7 +31,7 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference></reference>
+            <reference/>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -57,7 +56,7 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference></reference>
+            <reference/>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -96,20 +95,20 @@
       </values>
     </hudson.matrix.TextAxis>
   </axes>
-  <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
+  <combinationFilter>!(label=="centos-6" &amp;&amp; python=="py3")</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
 # allow access to lsstsw from jenkins-slave user
-#sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; chmod a+rx /home/build${EXECUTOR_NUMBER}
+#sudo -iu "build${EXECUTOR_NUMBER}" chmod a+rx /home/build${EXECUTOR_NUMBER}
 
-ARCHIVE=&quot;${WORKSPACE}/archive&quot;
-DRP=&quot;${WORKSPACE}/validate_drp&quot;
+ARCHIVE="${WORKSPACE}/archive"
+DRP="${WORKSPACE}/validate_drp"
 
 # leave validate_drp results in workspace for debugging purproses but always start with a clean dir
-rm -rf &quot;$ARCHIVE&quot; &quot;$DRP&quot;
-mkdir -p &quot;$ARCHIVE&quot; &quot;$DRP&quot;</command>
+rm -rf "$ARCHIVE" "$DRP"
+mkdir -p "$ARCHIVE" "$DRP"</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>./buildbot-scripts/jenkins_wrapper.sh</command>
@@ -117,77 +116,77 @@ mkdir -p &quot;$ARCHIVE&quot; &quot;$DRP&quot;</command>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
-ARCHIVE=&quot;${WORKSPACE}/archive&quot;
-DRP=&quot;${WORKSPACE}/validate_drp&quot;
+ARCHIVE="${WORKSPACE}/archive"
+DRP="${WORKSPACE}/validate_drp"
 LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
-cd &quot;$DRP&quot;
+cd "$DRP"
 
-. &quot;${LSSTSW}/bin/setup.sh&quot;
+. "${LSSTSW}/bin/setup.sh"
 
-eval &quot;$(grep -E &apos;^BUILD=&apos; &quot;$LSSTSW_BUILD_DIR&quot;/manifest.txt)&quot;
+eval "$(grep -E '^BUILD=' "$LSSTSW_BUILD_DIR"/manifest.txt)"
 
 #DEPS=(pipe_tasks obs_cfht validation_data_cfht validate_drp)
 #DEPS=(pipe_tasks obs_decam validation_data_decam validate_drp)
 DEPS=(validate_drp)
 
-for p in &quot;${DEPS[@]}&quot;; do
-    setup &quot;$p&quot; -t &quot;$BUILD&quot;
+for p in "${DEPS[@]}"; do
+    setup "$p" -t "$BUILD"
 done
 
 #mkdir -p ~/.config/matplotlib
-#echo &quot;backend: agg&quot; &gt; ~/.config/matplotlib/matplotlibrc
+#echo "backend: agg" &gt; ~/.config/matplotlib/matplotlibrc
 
-case &quot;$dataset&quot; in
+case "$dataset" in
   cfht)
-    RUN=&quot;$VALIDATE_DRP_DIR/examples/runCfhtTest.sh&quot;
-    OUTPUT=&quot;${DRP}/Cfht_output_r.json&quot;
+    RUN="$VALIDATE_DRP_DIR/examples/runCfhtTest.sh"
+    OUTPUT="${DRP}/Cfht_output_r.json"
     ;;
   decam)
-    RUN=&quot;$VALIDATE_DRP_DIR/examples/runDecamTest.sh&quot;
-    OUTPUT=&quot;${DRP}/Decam_output_z.json&quot;
+    RUN="$VALIDATE_DRP_DIR/examples/runDecamTest.sh"
+    OUTPUT="${DRP}/Decam_output_z.json"
     ;;
   *)
-    &gt;&amp;2 echo &quot;Unknown DATASET: $dataset&quot;
+    &gt;&amp;2 echo "Unknown DATASET: $dataset"
     exit 1
     ;;
 esac
 
 #rm -f ~/.config/matplotlib/matplotlibrc
-&quot;$RUN&quot; --noplot
-cp &quot;$OUTPUT&quot; &quot;$ARCHIVE&quot;</command>
+"$RUN" --noplot
+cp "$OUTPUT" "$ARCHIVE"</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
-ARCHIVE=&quot;${WORKSPACE}/archive&quot;
-DRP=&quot;${WORKSPACE}/validate_drp&quot;
-POST=&quot;${WORKSPACE}/post-qa&quot;
+ARCHIVE="${WORKSPACE}/archive"
+DRP="${WORKSPACE}/validate_drp"
+POST="${WORKSPACE}/post-qa"
 LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
-case &quot;$dataset&quot; in
+case "$dataset" in
   cfht)
-    OUTPUT=&quot;${DRP}/Cfht_output_r.json&quot;
+    OUTPUT="${DRP}/Cfht_output_r.json"
     ;;
   decam)
-    OUTPUT=&quot;${DRP}/Decam_output_z.json&quot;
+    OUTPUT="${DRP}/Decam_output_z.json"
     ;;
   *)
-    &gt;&amp;2 echo &quot;Unknown DATASET: $dataset&quot;
+    &gt;&amp;2 echo "Unknown DATASET: $dataset"
     exit 1
     ;;
 esac
 
-mkdir -p &quot;$POST&quot;
-cd &quot;$POST&quot;
+mkdir -p "$POST"
+cd "$POST"
 
 virtualenv venv
 . venv/bin/activate
 pip install post-qa==1.0.0
 
-post-qa --lsstsw &quot;$LSSTSW&quot; --qa-json &quot;$OUTPUT&quot; --api-url &quot;$SQUASH_URL/jobs/&quot;  --api-user &quot;$SQUASH_USER&quot; --api-password &quot;$SQUASH_PASS&quot;</command>
+post-qa --lsstsw "$LSSTSW" --qa-json "$OUTPUT" --api-url "$SQUASH_URL/jobs/"  --api-user "$SQUASH_USER" --api-password "$SQUASH_PASS"</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -207,7 +206,7 @@ if [[ ! -z $Z ]]; then
   kill -9 $Z
 fi
 
-rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
+rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
 </command>
         </hudson.tasks.Shell>
       </buildSteps>
@@ -217,11 +216,11 @@ rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token></token>
-      <room></room>
+      <token/>
+      <room/>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage></startJobMessage>
-      <completeJobMessage></completeJobMessage>
+      <startJobMessage/>
+      <completeJobMessage/>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>

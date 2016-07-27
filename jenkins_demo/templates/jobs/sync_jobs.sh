@@ -3,13 +3,13 @@
 trap 'exit' INT
 
 if [[ $# -eq 0 ]]; then
-  jobs=$(ls -1)
+  jobs=$(find . -name config.xml)
 else
   jobs=$*
 fi
 
-for d in $jobs; do
-  if [[ -d "$d" ]]; then
-    vagrant scp "master:/var/lib/jenkins/jobs/$d/config.xml" "$d/config.xml"
+for c in $jobs; do
+  if [[ -e "$c" ]]; then
+    vagrant scp "master:/var/lib/jenkins/jobs/$c" "$c"
   fi
 done

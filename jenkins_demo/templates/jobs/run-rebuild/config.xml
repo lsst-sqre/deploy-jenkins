@@ -35,7 +35,7 @@
   </properties>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
     <scms>
-      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+      <hudson.plugins.git.GitSCM plugin="git@2.5.2">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -57,6 +57,7 @@
             <shallow>true</shallow>
             <noTags>false</noTags>
             <reference></reference>
+            <depth>0</depth>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>

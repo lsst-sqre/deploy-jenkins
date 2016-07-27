@@ -5,7 +5,7 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     camptocamp-systemd (0.2.2)
     darin-zypprepo (1.0.2)
-    example42-puppi (2.1.14)
+    example42-puppi (2.2.1)
     example42-yum (2.1.27)
       example42-puppi (>= 2.0.0)
     jhoblitt-ganglia (2.2.0)
@@ -51,18 +51,6 @@ FORGE
     thias-tuned (1.0.3)
 
 GIT
-  remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: d70fd6f6ccc5a8eae7a9f7c1f7d17efd34ad87e7
-  sha: d70fd6f6ccc5a8eae7a9f7c1f7d17efd34ad87e7
-  specs:
-    rtyler-jenkins (1.6.1)
-      darin-zypprepo (< 2.0.0, >= 1.0.1)
-      puppet-archive (>= 0.4.8)
-      puppetlabs-apt (< 3.0.0, >= 0.0.3)
-      puppetlabs-java (< 2.0.0, >= 1.0.1)
-      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
-
-GIT
   remote: https://github.com/jfryman/puppet-nginx.git
   ref: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
   sha: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
@@ -87,6 +75,18 @@ GIT
   specs:
     aco-yum_autoupdate (0.6.1)
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+
+GIT
+  remote: https://github.com/jhoblitt/puppet-jenkins.git
+  ref: 7653cf12cec954d784ee748156e538f005ec7d53
+  sha: 7653cf12cec954d784ee748156e538f005ec7d53
+  specs:
+    rtyler-jenkins (1.6.1)
+      darin-zypprepo (< 2.0.0, >= 1.0.1)
+      puppet-archive (>= 0.4.8)
+      puppetlabs-apt (< 3.0.0, >= 0.0.3)
+      puppetlabs-java (< 2.0.0, >= 1.0.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git

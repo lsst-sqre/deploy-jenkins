@@ -30,8 +30,8 @@ mod 'saz/sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 # unrelased xtype improvements
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => 'd70fd6f6ccc5a8eae7a9f7c1f7d17efd34ad87e7'
+  :git => 'https://github.com/jhoblitt/puppet-jenkins.git',
+  :ref => '7653cf12cec954d784ee748156e538f005ec7d53'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '9eaf2c4e22c2d5981423fd3145b23097caa778c5'
