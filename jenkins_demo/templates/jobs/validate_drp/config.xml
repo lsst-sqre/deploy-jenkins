@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project plugin="matrix-project@1.7.1">
   <actions/>
-  <description/>
+  <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -10,7 +11,7 @@
   </properties>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
     <scms>
-      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+      <hudson.plugins.git.GitSCM plugin="git@2.5.2">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -31,11 +32,12 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference/>
+            <reference></reference>
+            <depth>0</depth>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
-      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+      <hudson.plugins.git.GitSCM plugin="git@2.5.2">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -56,7 +58,8 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference/>
+            <reference></reference>
+            <depth>0</depth>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -95,20 +98,20 @@
       </values>
     </hudson.matrix.TextAxis>
   </axes>
-  <combinationFilter>!(label=="centos-6" &amp;&amp; python=="py3")</combinationFilter>
+  <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
 # allow access to lsstsw from jenkins-slave user
-#sudo -iu "build${EXECUTOR_NUMBER}" chmod a+rx /home/build${EXECUTOR_NUMBER}
+#sudo -iu &quot;build${EXECUTOR_NUMBER}&quot; chmod a+rx /home/build${EXECUTOR_NUMBER}
 
-ARCHIVE="${WORKSPACE}/archive"
-DRP="${WORKSPACE}/validate_drp"
+ARCHIVE=&quot;${WORKSPACE}/archive&quot;
+DRP=&quot;${WORKSPACE}/validate_drp&quot;
 
 # leave validate_drp results in workspace for debugging purproses but always start with a clean dir
-rm -rf "$ARCHIVE" "$DRP"
-mkdir -p "$ARCHIVE" "$DRP"</command>
+rm -rf &quot;$ARCHIVE&quot; &quot;$DRP&quot;
+mkdir -p &quot;$ARCHIVE&quot; &quot;$DRP&quot;</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>./buildbot-scripts/jenkins_wrapper.sh</command>
@@ -116,77 +119,77 @@ mkdir -p "$ARCHIVE" "$DRP"</command>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
-ARCHIVE="${WORKSPACE}/archive"
-DRP="${WORKSPACE}/validate_drp"
+ARCHIVE=&quot;${WORKSPACE}/archive&quot;
+DRP=&quot;${WORKSPACE}/validate_drp&quot;
 LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
-cd "$DRP"
+cd &quot;$DRP&quot;
 
-. "${LSSTSW}/bin/setup.sh"
+. &quot;${LSSTSW}/bin/setup.sh&quot;
 
-eval "$(grep -E '^BUILD=' "$LSSTSW_BUILD_DIR"/manifest.txt)"
+eval &quot;$(grep -E &apos;^BUILD=&apos; &quot;$LSSTSW_BUILD_DIR&quot;/manifest.txt)&quot;
 
 #DEPS=(pipe_tasks obs_cfht validation_data_cfht validate_drp)
 #DEPS=(pipe_tasks obs_decam validation_data_decam validate_drp)
 DEPS=(validate_drp)
 
-for p in "${DEPS[@]}"; do
-    setup "$p" -t "$BUILD"
+for p in &quot;${DEPS[@]}&quot;; do
+    setup &quot;$p&quot; -t &quot;$BUILD&quot;
 done
 
 #mkdir -p ~/.config/matplotlib
-#echo "backend: agg" &gt; ~/.config/matplotlib/matplotlibrc
+#echo &quot;backend: agg&quot; &gt; ~/.config/matplotlib/matplotlibrc
 
-case "$dataset" in
+case &quot;$dataset&quot; in
   cfht)
-    RUN="$VALIDATE_DRP_DIR/examples/runCfhtTest.sh"
-    OUTPUT="${DRP}/Cfht_output_r.json"
+    RUN=&quot;$VALIDATE_DRP_DIR/examples/runCfhtTest.sh&quot;
+    OUTPUT=&quot;${DRP}/Cfht_output_r.json&quot;
     ;;
   decam)
-    RUN="$VALIDATE_DRP_DIR/examples/runDecamTest.sh"
-    OUTPUT="${DRP}/Decam_output_z.json"
+    RUN=&quot;$VALIDATE_DRP_DIR/examples/runDecamTest.sh&quot;
+    OUTPUT=&quot;${DRP}/Decam_output_z.json&quot;
     ;;
   *)
-    &gt;&amp;2 echo "Unknown DATASET: $dataset"
+    &gt;&amp;2 echo &quot;Unknown DATASET: $dataset&quot;
     exit 1
     ;;
 esac
 
 #rm -f ~/.config/matplotlib/matplotlibrc
-"$RUN" --noplot
-cp "$OUTPUT" "$ARCHIVE"</command>
+&quot;$RUN&quot; --noplot
+cp &quot;$OUTPUT&quot; &quot;$ARCHIVE&quot;</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>#!/bin/bash -e
 
-ARCHIVE="${WORKSPACE}/archive"
-DRP="${WORKSPACE}/validate_drp"
-POST="${WORKSPACE}/post-qa"
+ARCHIVE=&quot;${WORKSPACE}/archive&quot;
+DRP=&quot;${WORKSPACE}/validate_drp&quot;
+POST=&quot;${WORKSPACE}/post-qa&quot;
 LSSTSW=${LSSTSW:-${WORKSPACE}/lsstsw}
 LSSTSW_BUILD_DIR=${LSSTSW_BUILD_DIR:-${LSSTSW}/build}
 
-case "$dataset" in
+case &quot;$dataset&quot; in
   cfht)
-    OUTPUT="${DRP}/Cfht_output_r.json"
+    OUTPUT=&quot;${DRP}/Cfht_output_r.json&quot;
     ;;
   decam)
-    OUTPUT="${DRP}/Decam_output_z.json"
+    OUTPUT=&quot;${DRP}/Decam_output_z.json&quot;
     ;;
   *)
-    &gt;&amp;2 echo "Unknown DATASET: $dataset"
+    &gt;&amp;2 echo &quot;Unknown DATASET: $dataset&quot;
     exit 1
     ;;
 esac
 
-mkdir -p "$POST"
-cd "$POST"
+mkdir -p &quot;$POST&quot;
+cd &quot;$POST&quot;
 
 virtualenv venv
 . venv/bin/activate
 pip install post-qa==1.0.0
 
-post-qa --lsstsw "$LSSTSW" --qa-json "$OUTPUT" --api-url "$SQUASH_URL/jobs/"  --api-user "$SQUASH_USER" --api-password "$SQUASH_PASS"</command>
+post-qa --lsstsw &quot;$LSSTSW&quot; --qa-json &quot;$OUTPUT&quot; --api-url &quot;$SQUASH_URL/jobs/&quot;  --api-user &quot;$SQUASH_USER&quot; --api-password &quot;$SQUASH_PASS&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -206,7 +209,7 @@ if [[ ! -z $Z ]]; then
   kill -9 $Z
 fi
 
-rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
+rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
 </command>
         </hudson.tasks.Shell>
       </buildSteps>
@@ -216,11 +219,11 @@ rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token/>
-      <room/>
+      <token></token>
+      <room></room>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage/>
-      <completeJobMessage/>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
@@ -232,12 +235,13 @@ rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
         <propertiesContent>BRANCH=master
 PRODUCT=validate_drp
 SKIP_DEMO=true
+SKIP_DOCS=true
 NO_FETCH=false</propertiesContent>
         <loadFilesFromMaster>false</loadFilesFromMaster>
       </info>
     </EnvInjectBuildWrapper>
     <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.5"/>
-    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.6">
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.8">
       <bindings>
         <org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
           <credentialsId>squash-api-user</credentialsId>
