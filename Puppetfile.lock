@@ -45,7 +45,7 @@ FORGE
       puppetlabs-stdlib (>= 2.3.0)
     stahnma-epel (1.2.2)
       puppetlabs-stdlib (>= 3.0.0)
-    stankevich-python (1.12.0)
+    stankevich-python (1.14.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
       stahnma-epel (< 2.0.0, >= 1.0.1)
     thias-tuned (1.0.3)
