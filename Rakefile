@@ -21,3 +21,13 @@ task :edit, [:file] do |t, args|
   sh "eyaml #{t} #{args[:file]}"
   Rake::Task[:decrypt].invoke
 end
+
+desc 'run librarian-puppet'
+task :librarian do
+  sh "librarian-puppet update"
+end
+
+task :default => [
+  :decrypt,
+  :librarian,
+]
