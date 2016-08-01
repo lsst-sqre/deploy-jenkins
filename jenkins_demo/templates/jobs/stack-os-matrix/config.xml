@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><matrix-project plugin="matrix-project@1.6">
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project plugin="matrix-project@1.7.1">
   <actions/>
-  <description/>
+  <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.25">
@@ -11,8 +12,8 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>BRANCH</name>
-          <description>Whitespace delimited list of 'refs' to attempt to build.  Priority is highest -&gt; lowest from left to right.  "master' is implicitly appended to the right side of the list, if not specified.</description>
-          <defaultValue/>
+          <description>Whitespace delimited list of &apos;refs&apos; to attempt to build.  Priority is highest -&gt; lowest from left to right.  &quot;master&apos; is implicitly appended to the right side of the list, if not specified.</description>
+          <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>PRODUCT</name>
@@ -58,7 +59,7 @@
   </properties>
   <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
     <scms>
-      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+      <hudson.plugins.git.GitSCM plugin="git@2.5.2">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -79,11 +80,12 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference/>
+            <reference></reference>
+            <depth>0</depth>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
-      <hudson.plugins.git.GitSCM plugin="git@2.4.2">
+      <hudson.plugins.git.GitSCM plugin="git@2.5.2">
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
@@ -104,7 +106,8 @@
           <hudson.plugins.git.extensions.impl.CloneOption>
             <shallow>true</shallow>
             <noTags>false</noTags>
-            <reference/>
+            <reference></reference>
+            <depth>0</depth>
           </hudson.plugins.git.extensions.impl.CloneOption>
         </extensions>
       </hudson.plugins.git.GitSCM>
@@ -146,7 +149,7 @@
       </axisValues>
     </ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis>
   </axes>
-  <combinationFilter>!(label=="centos-6" &amp;&amp; python=="py3")</combinationFilter>
+  <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
   <builders>
     <hudson.tasks.Shell>
       <command>./buildbot-scripts/jenkins_wrapper.sh</command>
@@ -161,7 +164,7 @@ if [[ ! -z $Z ]]; then
   kill -9 $Z
 fi
 
-rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
+rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
 </command>
         </hudson.tasks.Shell>
       </buildSteps>
@@ -171,11 +174,11 @@ rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
       <executeOn>AXES</executeOn>
     </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
     <jenkins.plugins.hipchat.HipChatNotifier plugin="hipchat@1.0.0">
-      <token/>
-      <room/>
+      <token></token>
+      <room></room>
       <matrixTriggerMode>BOTH</matrixTriggerMode>
-      <startJobMessage/>
-      <completeJobMessage/>
+      <startJobMessage></startJobMessage>
+      <completeJobMessage></completeJobMessage>
     </jenkins.plugins.hipchat.HipChatNotifier>
   </publishers>
   <buildWrappers>
@@ -184,11 +187,12 @@ rm -rf "${WORKDIR}/lsstsw/stack/.lockDir"
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <EnvInjectBuildWrapper plugin="envinject@1.92.1">
       <info>
-        <groovyScriptContent>if (binding.variables.containsKey('compiler')) {
-  if (compiler == 'clang') {  
-    return [CC: 'clang', CXX: 'clang++']
+        <propertiesContent>SKIP_DOCS=true</propertiesContent>
+        <groovyScriptContent>if (binding.variables.containsKey(&apos;compiler&apos;)) {
+  if (compiler == &apos;clang&apos;) {  
+    return [CC: &apos;clang&apos;, CXX: &apos;clang++&apos;]
   } else {
-    return [CC: 'gcc', CXX: 'g++']
+    return [CC: &apos;gcc&apos;, CXX: &apos;g++&apos;]
   }
 } else {
   return null
