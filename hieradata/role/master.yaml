@@ -209,3 +209,5 @@ jenkins::plugin_hash:
   workflow-multibranch:
     version: '2.8'
   # /pipeline/workflow deps
+  copyartifact:
+    version: '1.38.1'
