@@ -80,7 +80,6 @@
     <hudson.matrix.LabelAxis>
       <name>label</name>
       <values>
-        <string>centos-6</string>
         <string>centos-7</string>
       </values>
     </hudson.matrix.LabelAxis>
@@ -88,7 +87,6 @@
       <name>dataset</name>
       <values>
         <string>cfht</string>
-        <string>decam</string>
       </values>
     </hudson.matrix.TextAxis>
     <hudson.matrix.TextAxis>
@@ -187,7 +185,7 @@ cd &quot;$POST&quot;
 
 virtualenv venv
 . venv/bin/activate
-pip install post-qa==1.0.0
+pip install post-qa==1.1.0
 
 post-qa --lsstsw &quot;$LSSTSW&quot; --qa-json &quot;$OUTPUT&quot; --api-url &quot;$SQUASH_URL/jobs/&quot;  --api-user &quot;$SQUASH_USER&quot; --api-password &quot;$SQUASH_PASS&quot;</command>
     </hudson.tasks.Shell>
