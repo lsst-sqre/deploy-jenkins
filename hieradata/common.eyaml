@@ -36,6 +36,12 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: 'github API personal access token (jhoblitt)'
     secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANHjRocpiuLlp/nE+jqa0EVm3HSiUG8gszuSGrmPmcejeycmOSVX7iULqld3ztKvLmoPkrUegzXIhGo20g+enH1lRwofQ2Hc9sXOQaAjpwZ4ZhKIYloIHPb5nxVI5RH2FzCZhiFcspI0mtrnoawoPoYXU73+JlLG6krdL8xRaK2zKPz6zw42AOVtRZOE6xhjepscmnTnP1Vy3RdFqp7vjiyMjPu1wd1O8xTmdP9AD0u+YoXxbyPKbVPAmViDi+wXTZtex24dYEfuVs1E2KrzTO5WGnKTVLYwkuk9+dzaztd/t8/FXRltbuP34KQ3Y6O+xU2IKDwaBKMKEGxy8Mj4DLDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjIXoP6ko83jK7X58W66W4gDBAkZ26N5vOzqycdq9PDNwHVrFCB+P6tQZujsfdtO6CgcmSy1GtViaPeFsI/WFJ1ig=]
+  github-api-token-sqreadmin:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'github API personal access token (sqreadmin)'
+    secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsaRg/6pRMuSf4Sv4OuO2OQzj1tmaS0q3rnCBNS+LHC5V2+5h7HTbX8YUzsbjWCkaWtDFyR/yvyLRTndwZi6FrgmpJg4fcCJSU0qza1ldWJvrBc8Tm2YDZk+yZyoyOacFtq0LFMJSBh+AvTFRiwOuN1tFA0d7L/0hdFkPEo6rQnZ/YdMwCPAMO6jZqHRb2Ig1NNRqTWxjFfTdXhA59tOvfREFT6XeqMf621+AvYlYkML6A3qLlodc+Dynk+0Uhll+S5HtAjwxIQroRsFbs4gJZm5P8YV4CCGW/bvLxpO4P/IUhNnqNWAqsM5o1VWkMIbmq5eXUv8jXuLBUlAmmAsAWDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAaDYlGyTMJ+HMQZRM+9dQ+gDBAj5KobAV2G4AxUpMhEvJECp5py1XiaZUdiAK5ptX4R4fZ14xJyJ5unJRp9vMk+6A=]
   squash-api-url:
     domain: null
     scope: GLOBAL
