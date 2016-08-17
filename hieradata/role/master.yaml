@@ -1,7 +1,7 @@
 ---
 classes:
   - jenkins_demo::role::master
-jenkins::version: '2.7.1-1.1'
+jenkins::version: '2.7.2-1.1'
 jenkins::lts: true
 jenkins::master::version: '2.1'
 jenkins::config_hash:
@@ -134,8 +134,15 @@ jenkins::plugin_hash:
   run-condition:
     version: '1.0'
   # /parameterized-trigger deps
-  kubernetes:
-    version: '0.7'
+  # kubernetes plugin may (?) have been preventing jenkins 2.7.2 from starting
+  # up with this error message in the log:
+  # WARNING: could not start trigger while loading project 'ci-ci/jenkins-dm-jobs'
+  # java.lang.NullPointerException
+  #   at hudson.scheduler.CronTabList.create(CronTabList.java:104)
+  # ...
+  # INFO: Failed to instantiate optional component org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential$DescriptorImpl; skipping
+  #kubernetes:
+  #  version: '0.7'
   # kubernetes deps
   durable-task:
     version: '1.12'
