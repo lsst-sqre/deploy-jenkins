@@ -1,0 +1,310 @@
+---
+classes:
+  - jenkins_demo::role::master
+jenkins::version: '2.7.2-1.1'
+jenkins::lts: true
+jenkins::master::version: '2.2'
+jenkins::config_hash:
+  JENKINS_JAVA_OPTIONS:
+    value: '-Djenkins.install.runSetupWizard=false'
+# XXX there is no recursive plugin dep resolution; so we have to do this by
+# hand -- ugh
+jenkins::plugin_hash:
+  # hipchat deps
+  junit:
+    version: '1.15'
+  # workflow-step-api:
+  # /hipchat deps
+  matrix-project:
+    version: '1.7.1'
+  # matrix-project deps
+  script-security:
+    version: '1.21'
+  # junit
+  # /matrix-project deps
+  # /hipchat deps
+  validating-string-parameter:
+    version: '2.3'
+  plain-credentials:
+    version: '1.2'
+  # plain-credentials deps
+  # credentials:
+  # plain-credentials -> credentials deps
+  icon-shim:
+    version: '2.0.3'
+  # /plain-credentials deps
+  # github deps
+  token-macro:
+    version: '1.12.1'
+  # credentials
+  # plain-credentials
+  git:
+    version: '2.5.2'
+  github-api:
+    version: '1.76'
+  # github -> git deps
+  scm-api:
+    version: '1.2'
+  git-client:
+    version: '1.19.6'
+  # /github -> git deps
+  # /github deps
+  github-oauth:
+    version: '0.24'
+  # github-oauth deps
+  # github-api:
+  # git
+  mailer:
+    version: '1.17'
+  # /github-oauth deps
+  credentials-binding:
+    version: '1.8'
+  # credentials-binding deps
+  # /credentials-binding deps
+  nodelabelparameter:
+    version: '1.7.2'
+  # nodelabelparameter deps
+  # token-macro:
+  jquery:
+    version: '1.11.2-0'
+  # /nodelabelparameter deps
+  postbuildscript:
+    version: '0.17'
+  # postbuildscript deps
+  # mailer
+  maven-plugin:
+    version: '2.13'
+  # maven-plugin deps
+  # javadoc
+  # mailer
+  # junit
+  javadoc:
+    version: '1.4'
+  # /postbuildscript deps
+  greenballs:
+    version: '1.15'
+  rebuild:
+    version: '1.25'
+  build-user-vars-plugin:
+    version: '1.5'
+  # build-user-vars-plugin deps
+  # mailer
+  # /build-user-vars-plugin deps
+  envinject:
+    version: '1.92.1'
+  purge-build-queue-plugin:
+    version: '1.0'
+  ssh-credentials:
+    version: '1.12'
+  # ssh-credentials deps
+  # credentials
+  # /ssh-credentials deps
+  ssh-slaves:
+    version: '1.11'
+  # ssh-slaves deps
+  # ssh-credentials
+  # credentials
+  # /ssh-slaves deps
+  antisamy-markup-formatter:
+    version: '1.5'
+  external-monitor-job:
+    version: '1.5'
+  # ghprb deps
+  ssh-agent:
+    version: '1.13'
+  bouncycastle-api:
+    version: '1.648.3'
+  # ghprb -> ssh-agent deps
+  # workflow-step-api
+  # ssh-credentials
+  # credentials
+  # /ghprb -> ssh-agent deps
+  # credentials
+  # github-api
+  # matrix-project
+  # git
+  # plain-credentials
+  # token-macro
+  # build-flow-plugin
+  # /ghprb deps
+  parameterized-trigger:
+    version: '2.31'
+  conditional-buildstep:
+    version: '1.3.5'
+  run-condition:
+    version: '1.0'
+  # /parameterized-trigger deps
+  # kubernetes plugin may (?) have been preventing jenkins 2.7.2 from starting
+  # up with this error message in the log:
+  # WARNING: could not start trigger while loading project 'ci-ci/jenkins-dm-jobs'
+  # java.lang.NullPointerException
+  #   at hudson.scheduler.CronTabList.create(CronTabList.java:104)
+  # ...
+  # INFO: Failed to instantiate optional component org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential$DescriptorImpl; skipping
+  #kubernetes:
+  #  version: '0.7'
+  # kubernetes deps
+  durable-task:
+    version: '1.12'
+  # credentials
+  # /kubernetes deps
+  dynamic-axis:
+    version: '1.0.3'
+  multiple-scms:
+    version: '0.6'
+  extended-choice-parameter:
+    version: '0.74'
+  # extended-choice-parameter deps
+  # jquery
+  # script-security
+  # /extended-choice-parameter deps
+  cloudbees-folder:
+    version: '5.12'
+  job-dsl:
+    version: '1.48'
+  structs:
+    version: '1.3'
+  # /job-dsl deps
+  workflow-scm-step:
+    version: '2.2'
+  # update manager really seems to think these two plugins are needed
+  windows-slaves:
+    version: '1.1'
+  matrix-auth:
+    version: '1.4'
+  ### pipeline/workflow deps
+  workflow-aggregator:
+    version: '2.2'
+  jquery-detached:
+    version: '1.2.1'
+  workflow-api:
+    version: '2.1'
+  workflow-support:
+    version: '2.2'
+  workflow-step-api:
+    version: '2.3'
+  workflow-job:
+    version: '2.5'
+  pipeline-stage-view:
+    version: '1.7'
+  pipeline-rest-api:
+    version: '1.7'
+  handlebars:
+    version: '1.1.1'
+  momentjs:
+    version: '1.1.1'
+  pipeline-build-step:
+    version: '2.2'
+  ace-editor:
+    version: '1.1'
+  git-server:
+    version: '1.7'
+  branch-api:
+    version: '1.10'
+  workflow-durable-task-step:
+    version: '2.4'
+  pipeline-input-step:
+    version: '2.1'
+  pipeline-stage-step:
+    version: '2.1'
+  workflow-basic-steps:
+    version: '2.1'
+  workflow-cps:
+    version: '2.11'
+  workflow-cps-global-lib:
+    version: '2.2'
+  workflow-multibranch:
+    version: '2.8'
+  # /pipeline/workflow deps
+  copyartifact:
+    version: '1.38.1'
+jenkinsx:
+  ssh_private_key: &jenkinsx_ssh_private_key |
+    ENC[PKCS7,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]
+# the ssh keypair used to connect to osx slaves is different from the regular
+# key pair due to the greater potential of the private key leaking from the
+# system jenkins role account.
+jenkinsx::osx:
+  ssh_private_key: |
+    ENC[PKCS7,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]
+  # the public key value is not used from hiera, it is here only as
+  # documentation.
+  ssh_public_key: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfXrhjxagJrhTSDhfJebjGUswDNfj4CNxM4NtthEi84opss7jBYJhnb567R1RFK1SBSOBuquQe/GpViQhelqJ4FoHzCYCygX58wreugAToQu33Aqn0iFLQLyBNSSuZmtIm/zp1pH2ygCii922RvwZeAznwF0ZH9VvdSFT208ups4BPVd+k+shc0QpsWRc8xiGGRmIexDHLXdnBOFvDncwKyjm1Op6txJTjfweqmn3ARJkVmGprKJYxRjXBDPwtv70DFU0xecCkCV5caS3h5XV8yGIU++BsbH/EDLtSNbcoS1JN6kSYBL26AzrVy0mE6LYybJZ4hbWsh6NKsVkkt+Kn jenkins-osx
+jenkinsx::authorization_strategy:
+  org.jenkinsci.plugins.GithubAuthorizationStrategy:
+      arguments:
+        - 'jhoblitt, frossie, jonathansick, jmatt'
+        - false
+        - false
+        - false
+        - 'lsst, lsst-sqre, lsst-dm'
+        - false
+        - false
+        - false
+        - true
+jenkinsx::security_realm:
+  org.jenkinsci.plugins.GithubSecurityRealm:
+    arguments:
+      - https://github.com
+      - https://api.github.com
+      - ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAAUZSHbsj/R0CEqpuPhjee6Rn7tIp1VivUM4cZeJDv+jQCb9hHZYghLNpZW/v3Oe2n+3Ks4e5XhkgEI8imTJe+CJV0bf7V/ZTGv5KimEGNmF4P63vPBPLm7Pzyay02nQ+/L3ueGqCrodnVL6/GB0cLjav7F92lPMrSSvngdjejKheB9V43yOIoe7gYK00s3vw0DbzW+OuvK9L20ULkuFg3nrSrQGDFD7HqGnJ1cMmlhPAozi5kiG2qOz9+hZKJhFX1uc3Kmy7tNoVvVDJw9qtPlVxcDsWMz0j2+rUD+RXqIAGwWOovLLSoyI+a5cD3hr9ZfP27jxnjerRsRLJeJsTvDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCKfRX2jNOAMGYRouIz+eZTgCCnXMSb8/F4cmTqiO2J0aDnWrzcqphvRkrg5U6fQcBNxQ==]
+      - ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVgKdWH0fpvu6TtTHzm0SnZC400D+6DE5cL6icxjLkI9wINQp/TGfOd2e5JFyw8xdI1eBW9U8eqimBd45dFIvl9Gn422KFyapEs3Q4xtsccqLlYK/713I/q2WqRXy3o7V6PMd7nLEGjim4UrJO2XNuSYjnTSMkLLUEXg1SUDljIR7JW6j2L4nlDhxgRCBEbVJ0q7nAIEMzOwNvnJdoglVtMeBF5RMXoKP4/P9Sk9ZQB1iSNXwmbMNJ4Fj8Jzswy70VRsa3eYtO9/Gt++vbrLwNmX6siFwSMIVE0+r49zVcRZ6Tf2AQjmSlIkw2JNYNG/U3jhMWurUk1Sh01ZqgwKLvDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAimo7Oo99Vs51BjJALRxBegDDiiNgy+i1lB0o5ZZjDAISBh8Fy7m4V/dUb+RU2vgUNIzz+qJqCyH9jJqWoZky6EbM=]
+      - read:org
+jenkinsx::credentials:
+  jenkins-admin-ssh-private-key:
+    domain: null
+    scope: SYSTEM
+    impl: BasicSSHUserPrivateKey
+    description: 'jenkins admin'
+    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKgsgQD9ZhrCcE+GnquYztHLvrlZRIFsug0mTmm3591FxF+6q1ZTMd/w+V9E3J4qiVchusM0Qbxwli8rAx08x7naCUtB5rQX+4O2tmm7tzj3fqN3MwNvT2ukI8G75fm6f8a60eJGGxRFbpN5Gs07iQMwdjs6Aewr3y9bGhBay/EE0jcxsJOqzogFIU+Bq6myeKkOi3WDewcnRzVETch+qxw7p/yt4lmFENCmASPuognj0UWFRgXBJa7L/PUyDWlnb0PW03CydG8MUI4SvDppuTz0h2/ePTBV1CKmBelPJ3nyjAvVWnw5YOGvb0PK48Q9XvIe+d3JRWcn2UdsW7gIGuTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA8NBqNbwlXl/epMf82vAPWgBCasLqdDPmJCXumNTUW6ryO]
+    private_key: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALDS9Bz8Trg4FLZi1CItnqBJu57gilqdGjhk9KY+jpy42FzBXJeI8Y/UA3i0bDQtIjusklFAGiAvvqyJhJ7EkdL3Z1lhoL+lyRu6CK3cMLUHi8SSBkn791+raTI1tpc2bul6fLpAMFv+hhBYC87CdMOrmhypCshGZPxX/vSIjpXCgYtwaxqsuySGQHowj4vhgl8jY7HrAgHiz3iu/Xj/bh26aQy1J1rUk1NoFIwEk9s0xup1dc1c9E2eane98PXxB7LOUvs9BYBybruMgmj4r3xwGM3SNvD70tKHLztumGNjR6LvFUO9bXYeSz57qGchi4CIt+tcBEHn0B52CFJMOYTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBvZ27T8P46Ts1bnmD6nS1CgCDCvqLpPfrZGxpoGUyx1IL24m89c0qtCpgPKj5JllAXwQ==]
+  github-api-token-jhoblitt:
+    domain: null
+    scope: SYSTEM
+    impl: StringCredentialsImpl
+    description: 'github API personal access token (jhoblitt)'
+    secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAN+vj+C9DTyezAejklbcDF5Ds/60w7w39XC/AHeNDg29f6UrR5eFWfDHu0VSY03jKJNyvcso0nY/959X4QCoBDf52jOxrMs2gTjzs/SECC+u0ykgNMByXb89nMnu+QRccVyDs2eH5w4T7FNEGKErnxLGvrEnuhf3fxPdkXdCGw8XCY+i4FzlveXX57xBBRbhA0fyonNsAS6e9/0rRj4DCurCpopmX31ZeqViU0Bb40DDCQPNGdk5pP5RtvacNbWuvsPLh4S38kEYY7zO+DU5vdj6Sw1FWciwDxJTlIZaF+DmbaEUCnbovF6txf29PTm1arOEK+K9gjCb9/xGPyrJO3zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCBhdpdKQw7tasLoF8wcoQngDB71xBvPwhRoeGmAVa7Kb3JJxpoVUp6/m8uMKeDKdSFj89fcYtbca5eMDHbaBESjsU=]
+  github-api-token-sqreadmin:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'github API personal access token (sqreadmin)'
+    secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALe8M7HQKwk9KGrC/nL9mhsWfKXSkmQmZJFW50QzXKO7zikl+bTnLB3H/1gU7p3mz5U1YuMNI+G+uVcEXK7JC2V9KMAqhbCTmkIHmUUgFpcSsROLSGUgA1qQ35HRuoi6D4URn0S0SV5apC6IASQ83RCurKNgyd6OGtCpIY/oFzr8v9kgJCQ/at9BVbcgr8SBS0EzSWC0/wFKncOrJWV+8BPIrvz/+IuiDg3N+NdqgWHLkgzFSuKPbBh4uM8PoHLuo0ENjTKFnDwuLLMJHmpKqbR7/tnfMoeNPqjjMe2ijOh9ZufiGmoo7Awh7WxxaATYHO4fdGH/cD4PKDq612/gaWDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC15LzBF0JnNHx85w8+WEazgDCmMTsQ53VMP7Q+iwQ7uNvhqPsgj/m4WCmlucAVy7JI1UWERnPFpZfi7pgsVDMK58M=]
+  squash-api-url:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'URL of Squash API endpoint'
+    secret: https://%{::squash_fqdn}/dashboard/api
+  squash-api-user:
+    domain: null
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: 'user/pass for Squash API endpoint'
+    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAX5P2uf77hmJYpqsGfh27BeF8M3pl6ponkUFGrmR1vMqT1pRhPFgCaWiij3EdwResb8y3R8WblaxSnX0V0tNlHoMvW4/K46SCSr+AJgeKgjXYd7HChOsLNggEUiQf270DQ86jcd5t1zFkDGQqCIBg0XZYZNB8UR9Vt8buhz3Kf9xJ6AbniSB2KkWOoyY+5il7Ql5Z/FVnImwZaN4o4uQ222P1e7S29jnhmx/HsJVhCjNJMX6itC2FX2HNcYjqCdJ+jwECqEhxJC/RLlyvVbWIwTyN0Pz27l9uFsrF7ib30Y9eRpVRSsNmX37yYKJYzP6HQIEKkgRjUlleALeKocS2bDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAsUULo7IaZvNl6oWgqEi1GgBAF42N9d0m/55TbP8Nx93ax]
+    password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAdEk5VF1Q2POPmWl8kDkYyTMD8K+rRCGkhgUsn3/9yi/SIh/teiKVtOb4xP0A+/TO2OywZWD3axwXFPf/4Ouje7+NbBI9xBTWmvCz2V5VenD0MTPdLMK9Q4VluK0zqfNnpmutDqqspV3DtEEYtG4STAZMPnRGW0gvUB7vePN6XnPQhUe6RY0gTHqXtQhG9vqfRzqhiqqQbloTmHDkjT+a8dOaNYMUoTUWlHaFIfPO0o1+j00hPOOjbgbxcJsPOtRQvlRhjqGplg5GjdEvFo74dLbdwAjMPj7fJuFRDIL8hCigw2PvE8jpwEBQ9hJZjVaKjuNLRVJbkpUAbs7Svr8WrTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBqYC8CdRMEOnzaOau1k4bFgBDmD5Mr4Q2I6274H64VJXvx]
+  jenkins-aws:
+    domain: null
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: 'jenkins AWS credentialst'
+    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHVcQE+nrjvZ1VnwPEJUrMliG2j765lP2+UKxuZL6f+e8YTkELZs0qIIL7vuPL8Pb8dxivovMghTFED3JeYlemPuS9N8PqhvR2vepdI+ByQz3oKvbgVgx+QOyhB0W6gWAFzJ61PvaYi4NqpEtNfxM3EP3qw0Lf/SRxoE2hMplR+wxq0f87L46SYSYWvb9lVglJVeF7JINHVckduzWx4kTuIfOUDsef09gQsGQMPMVDgGoXIdNHmcBVlwU3qGzuXq7BB2UH5VhTgdoEfggVRTg9PthZzcWw5pwvB+lXmNj0xjWE988pqFVEQd2kg/YEB3NHmQaBBLfQfDGZ5cbTkoq0zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCBBCKvnE13z0juKgDStsyIgCDbxtgctupfrVX9e9fABPwW6L/40+rQBUMbvKuVWNARGQ==]
+    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlxnJ/ZXSzNLx1Ol3/3Wk0AlEapyFX6xVm5/cftzHa6E6Q4hCwGd20fkYt8eY4556Xc8S1uzczmcqG+UEYruzlFFFnzEuM9T2poA/WkMJUr35rr1RB3q0v5K4DPLt8sOYpMShUw13EEjuBO8tAhQPMgu5Bv7CbOZEp78g7LHG4oM0VuDkEMU8Arz+ITQaA16uAc3cfpLg38B7HaDt3D9UHsuYV1dzW5xvMFaKPkLNGregPXzEvrz1VvuJncg8hKvL7mkYnZh3d3Vk7gVPcJgZ7xtK2t1CRp5TZ0xNagZENpEojPvMutAJmfe7RNQ2JAu2p574mPcLQXYf0Rrkn60m0DBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB/sHtvho1V1aapODpd5akEgDCrc4TCJz0tbT7k8xYiGGg06msMdTi8f2aa3Dro6eD6SbXUZedfu9MysMyG1F1RqOs=]
+jenkins::plugins::hipchat:
+    token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAUt06mfezEQZFcDeO8ui/Le1Xu99yD3QucKT0aLNiVSXjwi0oHoKOrOQ8ENvQcfbzEMbsiu4Zo4fL+vjBFjsc+wJhnrH6/6PtMiX8akvlFbNCWKeUBcEB0qzWwDNcJk/IV+mRcOLfZkbtYeMmx8eKY1BL2A3ZLz6EnRve7VoWCgZnqiJ1mIL71GJdQ3DCoSPnSIySvPh9ukw5RgNwt5iUQd61aHe4lNKvNlM8hc6dL745u2LmNvAB+js9bTR93efAknJDQPcnzb0ub1JFd44dXtlQL/lbMGp646QNtlJTC+JApl8boxF0w/6GExYWBbvOONj5lROSrX6Cb2CQ0PiZyjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC2AZXhZ+Bx6GgqJZzAlUhugCB8MxbN+W3Ch8p+rIByOQ2lEYDp34KdeFbAVP9yXsw1CQ==]
+    room: 'Test Bot: Xenkins'
+    sendas: Jenkins
+jenkinsx::nodes:
+  #- lsst-dev
+  #- osx-1
+jenkinsx::user:
+  jhoblitt:
+    api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
+    public_keys:
+      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
+# XXX these keys must be duplicated between master & slave roles
+jenkins::slave::version: '2.2'
+jenkins::slave::source: "https://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/2.2/"
+jenkins::slave::ui_user: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAUIztBVQqMo5IWUjjRWhBeMGKcIhwy5wsrGcSDqLirn6/zqAeRHFHGdiLrbTf/GrcTW1ju5mTagYO2tKMYApaVaxUlHMhuAI8QPk61+p4wchjn2jZOFmAPqjZlsAbcJxqpvVZa235aa1f31VWJC/8VLh5hfRZmDV8luEpndUfgdWzv5nAek9rJQrAK3AESOOyileSXwT6F78mIUQOVMcIOaP4TGzoimwNdO7cjZz+OCQVs1MznIpeqq+78PZgTPykMZicI36nRYs6XHOTlFs14ch1+i2zCWqxPhwSd7cOzvWDCqNNFXUDGEsv/zuxJxyh2AX//TDJrVK3lnVPQ/LDGDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBANtyvlfa/KEdHPG1jaZ33vgBAf4QJzzeobeV8At/9CbnKn]
+jenkins::slave::ui_pass: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsaua97OO8Eoj2i//lUMRaZEoGwRABya7lrbDmOI3pB4kICkLR+PLtyNOw0KzF/Z0T3Tz8B+4FV8isqXEcvEVtAJ6ivzfXcZ4yhcxBlfFP6w782d6z05zRUbF/RwjsyJeovlri8gJRmG8hlWDQEF46Zos4eUDIlvsORYHzpMT20GyEqRCukFA2Mn5JG+Gis51cdnxPX5bX49iD4Vi9wYqk2ALSAZv1jyRsMKtp3sPN5gXxwJ8SuLNWbo7OIi3VwKl+U9ULEPzH3gmsJENDVaLTePzlWFtmXC9v0Q5orozR3d9xCgEavuH2j1yQ3uSlpqf52dv5WSkH7MUvTHBozAOYTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCkThZ/YR7NtGRPk+91cn0sgDB1hHuPQNbZOcRL3T80VrZ+r1+YXqqHiIXc5WoAyzMIv0taMBoMFHXv01NehfKkY0U=]

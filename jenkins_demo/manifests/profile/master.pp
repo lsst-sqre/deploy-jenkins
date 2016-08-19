@@ -98,32 +98,32 @@ class jenkins_demo::profile::master {
     config => template("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml"),
   }
 
-  $lsst_dev = hiera('jenkinsx::nodes::lsst_dev', false)
-  if $lsst_dev {
-    # puppet-jenkins does not presently support the management of nodes
-    # XXX this is a dirty hack
-    file { [
-      '/var/lib/jenkins/nodes',
-      '/var/lib/jenkins/nodes/lsst-dev',
-    ]:
-      ensure => directory,
-      owner  => 'jenkins',
-      group  => 'jenkins',
-      mode   => '0755',
-    }
-
-    file { '/var/lib/jenkins/nodes/lsst-dev/config.xml':
-      ensure  => file,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      mode    => '0644',
-      # the sshslave plugin version shows up in the dump making it non-idempotent
-      replace => false,
-      content => template("${module_name}/nodes/lsst-dev/config.xml"),
-      notify  => Class['jenkins::service'],
+  # puppet-jenkins does not presently support the management of nodes
+  # XXX this is a dirty hack
+  $nodes = hiera('jenkinsx::nodes', false)
+  if $nodes {
+    $nodes.each |$n| {
+      jenkins_demo::profile::jenkins::node { $n: }
     }
   }
 
+  $osx = hiera('jenkinsx::osx', undef)
+  if $osx {
+    file { '/var/lib/jenkins/.ssh':
+      ensure => directory,
+      owner  => 'jenkins',
+      group  => 'jenkins',
+      mode   => '0700',
+    }
+
+    file { '/var/lib/jenkins/.ssh/id_rsa':
+      ensure  => file,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0600',
+      content => $osx['ssh_private_key'],
+    }
+  }
 
   # XXX this is [also] a dirty hack
   $jenkins_url = hiera('jenkins_fqdn', $::jenkins_fqdn)

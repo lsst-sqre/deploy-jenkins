@@ -2,6 +2,8 @@
 creds.sh
 environments/**/modules
 hieradata/common.yaml
+hieradata/role/master.yaml
+hieradata/role/slave.yaml
 hieradata/role/squash.yaml
 jenkins_demo/templates/id_rsa*
 keys
