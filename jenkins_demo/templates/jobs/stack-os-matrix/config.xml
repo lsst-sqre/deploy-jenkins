@@ -132,16 +132,6 @@
         <string>default</string>
       </axisValues>
     </ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis>
-    <ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis plugin="dynamic-axis@1.0.3">
-      <name>compiler</name>
-      <values>
-        <string>compiler</string>
-      </values>
-      <varName>compiler</varName>
-      <axisValues>
-        <string>default</string>
-      </axisValues>
-    </ca.silvermaplesolutions.jenkins.plugins.daxis.DynamicAxis>
   </axes>
   <combinationFilter>!(label==&quot;centos-6&quot; &amp;&amp; python==&quot;py3&quot;)</combinationFilter>
   <builders>
