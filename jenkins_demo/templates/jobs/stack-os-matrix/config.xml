@@ -164,7 +164,7 @@ if [[ ! -z $Z ]]; then
   kill -9 $Z
 fi
 
-rm -rf &quot;${WORKDIR}/lsstsw/stack/.lockDir&quot;
+rm -rf &quot;${WORKSPACE}/lsstsw/stack/.lockDir&quot;
 </command>
         </hudson.tasks.Shell>
       </buildSteps>
