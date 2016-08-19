@@ -42,18 +42,6 @@
           <multiSelectDelimiter> </multiSelectDelimiter>
           <projectName>stack-os-matrix</projectName>
         </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
-        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
-          <name>compiler</name>
-          <description>C/C++ compiler suite</description>
-          <quoteValue>false</quoteValue>
-          <saveJSONParameterToFile>false</saveJSONParameterToFile>
-          <visibleItemCount>2</visibleItemCount>
-          <type>PT_SINGLE_SELECT</type>
-          <value>gcc</value>
-          <defaultValue>gcc</defaultValue>
-          <multiSelectDelimiter> </multiSelectDelimiter>
-          <projectName>stack-os-matrix</projectName>
-        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
         <hudson.plugins.matrix__configuration__parameter.MatrixCombinationsParameterDefinition plugin="matrix-combinations-parameter@1.0.9">
           <name>label</name>
           <description></description>
