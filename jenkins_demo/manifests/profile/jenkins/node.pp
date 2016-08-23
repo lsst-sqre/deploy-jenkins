@@ -1,4 +1,7 @@
-define jenkins_demo::profile::jenkins::node {
+define jenkins_demo::profile::jenkins::node(
+  $template,
+  $params = {},
+){
   # puppet-jenkins does not presently support the management of nodes
   # XXX this is a dirty hack
 
@@ -23,7 +26,7 @@ define jenkins_demo::profile::jenkins::node {
     mode    => '0644',
     # the sshslave plugin version shows up in the dump making it non-idempotent
     replace => false,
-    content => template("${module_name}/nodes/${title}/config.xml"),
+    content => epp($template, $params),
     notify  => Class['jenkins::service'],
   }
 }
