@@ -1,15 +1,16 @@
+<%- | String $name, String $host, String $label = '' | -%>
 <?xml version='1.0' encoding='UTF-8'?>
 <slave>
-  <name>osx-1</name>
+  <name><%= $name %></name>
   <description></description>
   <remoteFS>/Users/square/jenkins</remoteFS>
   <numExecutors>1</numExecutors>
   <mode>EXCLUSIVE</mode>
   <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
   <launcher class="hudson.slaves.CommandLauncher">
-    <agentCommand>ssh -a -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/id_rsa  -o ProxyCommand=&apos;ssh -a -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/id_rsa root@lsst-dm-mac.lsst.org nc 140.252.33.70 22&apos; square@140.252.33.70 &quot;cd jenkins &amp;&amp; java -jar slave.jar&quot;</agentCommand>
+    <agentCommand>ssh -a -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/id_rsa  -o ProxyCommand=&apos;ssh -a -o StrictHostKeyChecking=no -i /var/lib/jenkins/.ssh/id_rsa root@lsst-dm-mac.lsst.org nc <%= $host %> 22&apos; square@<%= $host %>; &quot;if ! hash /usr/local/bin/wget 2&gt;/dev/null; then /usr/local/bin/brew install wget; fi &amp;&amp; mkdir -p jenkins &amp;&amp; cd jenkins &amp;&amp; if [[ ! -e slave.jar ]]; then /usr/local/bin/wget https://<%= $::jenkins_fqdn %>/jnlpJars/slave.jar; fi &amp;&amp; java -jar slave.jar</agentCommand>
   </launcher>
-  <label>SQuaREs-Mac-4 osx-10.11</label>
+  <label><%= $label %></label>
   <nodeProperties>
     <hudson.slaves.EnvironmentVariablesNodeProperty>
       <envVars serialization="custom">

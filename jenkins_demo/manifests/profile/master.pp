@@ -102,9 +102,7 @@ class jenkins_demo::profile::master {
   # XXX this is a dirty hack
   $nodes = hiera('jenkinsx::nodes', false)
   if $nodes {
-    $nodes.each |$n| {
-      jenkins_demo::profile::jenkins::node { $n: }
-    }
+    create_resources('jenkins_demo::profile::jenkins::node', $nodes)
   }
 
   $osx = hiera('jenkinsx::osx', undef)
