@@ -206,6 +206,7 @@ class jenkins_demo::profile::master {
     'Host            $host',
     'X-Real-IP       $remote_addr',
     'X-Forwarded-For $proxy_add_x_forwarded_for',
+    'X-Forwarded-Proto https',
   ]
 
   if $ssl_cert and $ssl_key {
