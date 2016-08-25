@@ -218,8 +218,6 @@ jenkins::plugin_hash:
   # /pipeline/workflow deps
   copyartifact:
     version: '1.38.1'
-  matrix-combinations-parameter:
-    version: '1.0.9'
   uno-choice: # aka, Active Choices
     version: '1.4'
   # Active Choices deps
