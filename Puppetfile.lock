@@ -1,7 +1,7 @@
 FORGE
   remote: https://forgeapi.puppetlabs.com
   specs:
-    camptocamp-augeas (1.4.2)
+    camptocamp-augeas (1.5.1)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     camptocamp-systemd (0.2.2)
     darin-zypprepo (1.0.2)
@@ -45,9 +45,9 @@ FORGE
       puppetlabs-stdlib (>= 2.3.0)
     stahnma-epel (1.2.2)
       puppetlabs-stdlib (>= 3.0.0)
-    stankevich-python (1.14.0)
+    stankevich-python (1.15.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
-      stahnma-epel (< 2.0.0, >= 1.0.1)
+      stahnma-epel (< 2.0.0, >= 1.2.2)
     thias-tuned (1.0.3)
 
 GIT
