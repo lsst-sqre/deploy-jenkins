@@ -105,10 +105,9 @@ Decrypt eyaml values and install puppet modules
 ---
 
     bundle install
-    bundle exec rake decrypt
-    bundle exec librarian-puppet install
+    bundle exec rake
 
-NOTE: make sure you are running this on a clean repository otherwise the 'bundle exec rake decrypt' will not update the corresponding yaml files.
+NOTE: make sure you are running this on a clean repository otherwise the 'bundle exec rake' will not update the corresponding yaml files.
 
 Configure github oauth2
 ---
