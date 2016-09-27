@@ -90,6 +90,8 @@ Create AWS VPC resources
     cd terraform
     # install terraform locally
     make
+    # enable aws rds instance for squash data
+    make rds
     # only if this is a NON-PRODUCTION instance
     make dev
     # sanity check

@@ -60,3 +60,12 @@ resource "aws_route53_record" "jenkins-demo-qadb" {
   ttl     = "300"
   records = ["${aws_db_instance.jenkins-demo.address}"]
 }
+
+output "RDS_FQDN" {
+  value = "${aws_route53_record.jenkins-demo-qadb.fqdn}"
+}
+
+output "RDS_PASSWORD" {
+  sensitive = true
+  value     = "${var.rds_password}"
+}

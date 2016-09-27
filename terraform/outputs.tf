@@ -42,15 +42,6 @@ output "DEMO_NAME" {
   value = "${var.demo_name}"
 }
 
-output "RDS_FQDN" {
-  value = "${aws_route53_record.jenkins-demo-qadb.fqdn}"
-}
-
-output "RDS_PASSWORD" {
-  sensitive = true
-  value     = "${var.rds_password}"
-}
-
 output "BOKEH_FQDN" {
   value = "${aws_route53_record.jenkins-demo-bokeh.fqdn}"
 }

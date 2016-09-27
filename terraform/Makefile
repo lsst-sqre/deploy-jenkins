@@ -13,8 +13,17 @@ $(1): env/$(1).tf
 	-cp $$< override.tf
 endef
 
+define OPT_TEMPLATE
+$(1): opt/$(1).tf
+	-cp $$< $(1).tf
+
+no$(1): $(1).tf
+	-rm $(1).tf
+endef
+
 $(eval $(call ENV_TEMPLATE,dev))
 $(eval $(call ENV_TEMPLATE,prod))
+$(eval $(call OPT_TEMPLATE,rds))
 
 clean:
 	-rm -rf bin override.tf
