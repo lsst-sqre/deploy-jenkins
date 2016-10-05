@@ -70,10 +70,6 @@ class jenkins_demo::profile::master {
     virtualenv => 'present',
   }
 
-  jenkins_job { 'jenkins-ebs-snapshot':
-    config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
-  }
-
   jenkins_job { 'run-rebuild':
     config => template("${module_name}/jobs/run-rebuild/config.xml"),
   }
