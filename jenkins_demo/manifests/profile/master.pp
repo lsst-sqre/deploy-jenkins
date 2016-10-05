@@ -153,6 +153,18 @@ class jenkins_demo::profile::master {
     }
   }
 
+  $slack = hiera('jenkins::plugins::slack', undef)
+
+  if $slack {
+    $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
+    jenkins::plugin { 'slack':
+      manage_config   => true,
+      version         => '2.0.1',
+      config_filename => $slack_xml,
+      config_content  => template("${module_name}/plugins/${slack_xml}"),
+    }
+  }
+
   $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
   jenkins::plugin { 'ansicolor':
     manage_config   => true,
