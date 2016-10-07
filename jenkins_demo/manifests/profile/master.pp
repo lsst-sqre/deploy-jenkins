@@ -70,10 +70,6 @@ class jenkins_demo::profile::master {
     virtualenv => 'present',
   }
 
-  jenkins_job { 'validate_drp':
-    config => template("${module_name}/jobs/validate_drp/config.xml"),
-  }
-
   jenkins_job { 'seeds':
     config => template("${module_name}/jobs/seeds/config.xml"),
   }
