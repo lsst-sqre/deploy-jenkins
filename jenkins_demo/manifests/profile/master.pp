@@ -70,10 +70,6 @@ class jenkins_demo::profile::master {
     virtualenv => 'present',
   }
 
-  jenkins_job { 'run-rebuild':
-    config => template("${module_name}/jobs/run-rebuild/config.xml"),
-  }
-
   jenkins_job { 'validate_drp':
     config => template("${module_name}/jobs/validate_drp/config.xml"),
   }
