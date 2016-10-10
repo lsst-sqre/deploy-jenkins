@@ -59,10 +59,6 @@ class jenkins_demo::profile::master {
     slave_mode   => 'exclusive',
   }
 
-  jenkins_job { 'stack-os-matrix':
-    config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
-  }
-
   class { 'python' :
     version    => 'system',
     pip        => 'present',
