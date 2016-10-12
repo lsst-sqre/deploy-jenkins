@@ -59,35 +59,11 @@ class jenkins_demo::profile::master {
     slave_mode   => 'exclusive',
   }
 
-  jenkins_job { 'stack-os-matrix':
-    config => template("${module_name}/jobs/stack-os-matrix/config.xml"),
-  }
-
   class { 'python' :
     version    => 'system',
     pip        => 'present',
     dev        => 'present',
     virtualenv => 'present',
-  }
-
-  jenkins_job { 'jenkins-ebs-snapshot':
-    config => template("${module_name}/jobs/jenkins-ebs-snapshot/config.xml"),
-  }
-
-  jenkins_job { 'run-rebuild':
-    config => template("${module_name}/jobs/run-rebuild/config.xml"),
-  }
-
-  jenkins_job { 'run-publish':
-    config => template("${module_name}/jobs/run-publish/config.xml"),
-  }
-
-  jenkins_job { 'ci_hsc':
-    config => template("${module_name}/jobs/ci_hsc/config.xml"),
-  }
-
-  jenkins_job { 'validate_drp':
-    config => template("${module_name}/jobs/validate_drp/config.xml"),
   }
 
   jenkins_job { 'seeds':
@@ -153,6 +129,18 @@ class jenkins_demo::profile::master {
     }
   }
 
+  $slack = hiera('jenkins::plugins::slack', undef)
+
+  if $slack {
+    $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
+    jenkins::plugin { 'slack':
+      manage_config   => true,
+      version         => '2.0.1',
+      config_filename => $slack_xml,
+      config_content  => template("${module_name}/plugins/${slack_xml}"),
+    }
+  }
+
   $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
   jenkins::plugin { 'ansicolor':
     manage_config   => true,
@@ -172,7 +160,7 @@ class jenkins_demo::profile::master {
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.19.2',
+    version         => '1.22.1',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
@@ -180,7 +168,7 @@ class jenkins_demo::profile::master {
   $ghprb_xml = 'org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
   jenkins::plugin { 'ghprb':
     manage_config   => true,
-    version         => '1.32.8',
+    version         => '1.33.1',
     config_filename => $ghprb_xml,
     config_content  => template("${module_name}/plugins/${ghprb_xml}"),
   }

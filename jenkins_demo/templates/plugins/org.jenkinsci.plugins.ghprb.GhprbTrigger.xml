@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<org.jenkinsci.plugins.ghprb.GhprbTrigger_-DescriptorImpl plugin="ghprb@1.30.6">
+<org.jenkinsci.plugins.ghprb.GhprbTrigger_-DescriptorImpl plugin="ghprb@1.33.1">
   <configVersion>1</configVersion>
   <whitelistPhrase>.*add\W+to\W+whitelist.*</whitelistPhrase>
   <okToTestPhrase>.*ok\W+to\W+test.*</okToTestPhrase>
@@ -8,6 +8,7 @@
   <cron>H/5 * * * *</cron>
   <useComments>false</useComments>
   <useDetailedComments>false</useDetailedComments>
+  <manageWebhooks>true</manageWebhooks>
   <unstableAs>FAILURE</unstableAs>
   <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
   <displayBuildErrorsOnDownstreamBuilds>false</displayBuildErrorsOnDownstreamBuilds>
@@ -17,7 +18,7 @@
       <credentialsId>github-api-token-jhoblitt</credentialsId>
       <id>df50ffaa-e0dd-4ecc-a5cf-d6f637334534</id>
       <description>jhoblitt API access token</description>
-      <secret></secret>
+      <secret>KGTdx4TUi71vSib2d5iaXQ==</secret>
     </org.jenkinsci.plugins.ghprb.GhprbGitHubAuth>
   </githubAuth>
   <adminlist></adminlist>
