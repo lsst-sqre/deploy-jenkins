@@ -11,6 +11,7 @@ class jenkins_demo::profile::squash(
   $oauth_config    = $::jenkins_demo::profile::squash::params::oauth_config,
 ) inherits jenkins_demo::profile::squash::params {
   include ::nginx
+  include ::jenkins_demo::profile::scl::python35
 
   $squash_access_log   = '/var/log/nginx/squash.access.log'
   $squash_error_log    = '/var/log/nginx/squash.error.log'
