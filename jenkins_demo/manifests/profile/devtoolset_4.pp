@@ -1,11 +1,11 @@
-class jenkins_demo::profile::devtoolset_3 {
+class jenkins_demo::profile::devtoolset_4 {
 
   ensure_packages(['centos-release-scl'])
 
   package {[
-    'devtoolset-3-gcc',
-    'devtoolset-3-gcc-c++',
-    'devtoolset-3-gcc-gfortran',
+    'devtoolset-4-gcc',
+    'devtoolset-4-gcc-c++',
+    'devtoolset-4-gcc-gfortran',
   ]:
     ensure  => present,
     require => Package['centos-release-scl'],

@@ -201,14 +201,16 @@ class jenkins_demo::profile::master {
     $enable_ssl = true
   }
 
-  selboolean { 'httpd_can_network_connect':
-    value      => on,
-    persistent => true,
-  }
+  if $::selinux {
+    selboolean { 'httpd_can_network_connect':
+      value      => on,
+      persistent => true,
+    }
 
-  selboolean { 'httpd_setrlimit':
-    value      => on,
-    persistent => true,
+    selboolean { 'httpd_setrlimit':
+      value      => on,
+      persistent => true,
+    }
   }
 
   nginx::resource::upstream { 'jenkins':

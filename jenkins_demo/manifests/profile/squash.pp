@@ -34,14 +34,16 @@ class jenkins_demo::profile::squash(
     fail('tls cert and private key are required')
   }
 
-  selboolean { 'httpd_can_network_connect':
-    value      => on,
-    persistent => true,
-  }
+  if $::selinux {
+    selboolean { 'httpd_can_network_connect':
+      value      => on,
+      persistent => true,
+    }
 
-  selboolean { 'httpd_setrlimit':
-    value      => on,
-    persistent => true,
+    selboolean { 'httpd_setrlimit':
+      value      => on,
+      persistent => true,
+    }
   }
 
   # If SSL is enabled and we are catching an DNS cname, we need to redirect to
