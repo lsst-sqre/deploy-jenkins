@@ -17,7 +17,7 @@ define OPT_TEMPLATE
 $(1): opt/$(1).tf
 	-cp $$< $(1).tf
 
-no$(1): $(1).tf
+no$(1):
 	-rm $(1).tf
 endef
 
