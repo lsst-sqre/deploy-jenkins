@@ -8,6 +8,11 @@ FORGE
     example42-puppi (2.2.1)
     example42-yum (2.1.27)
       example42-puppi (>= 2.0.0)
+    garethr-docker (5.3.0)
+      puppetlabs-apt (<= 3.0.0, >= 1.8.0)
+      puppetlabs-stdlib (>= 4.1.0)
+      stahnma-epel (>= 0.0.6)
+    golja-gnupg (1.2.3)
     jhoblitt-ganglia (2.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
     jhoblitt-oauth2_proxy (1.2.0)
@@ -16,6 +21,9 @@ FORGE
     jhoblitt-sysstat (1.1.0)
     juniorsysadmin-irqbalance (1.0.4)
       puppetlabs-stdlib (< 5.0.0, >= 3.0.0)
+    maestrodev-rvm (1.13.1)
+      golja-gnupg (>= 1.2.0)
+      puppetlabs-stdlib (>= 4.2.0)
     maestrodev-wget (1.7.3)
     mayflower-php (3.4.2)
       darin-zypprepo (~> 1.0)
@@ -51,6 +59,18 @@ FORGE
     thias-tuned (1.0.3)
 
 GIT
+  remote: https://github.com/jenkinsci/puppet-jenkins.git
+  ref: 037a5914fff777552b543d7178456bd8903a71ac
+  sha: 037a5914fff777552b543d7178456bd8903a71ac
+  specs:
+    rtyler-jenkins (1.7.0)
+      darin-zypprepo (< 2.0.0, >= 1.0.1)
+      puppet-archive (>= 0.4.8)
+      puppetlabs-apt (< 3.0.0, >= 0.0.3)
+      puppetlabs-java (< 2.0.0, >= 1.0.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+
+GIT
   remote: https://github.com/jfryman/puppet-nginx.git
   ref: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
   sha: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
@@ -75,18 +95,6 @@ GIT
   specs:
     aco-yum_autoupdate (0.6.1)
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
-
-GIT
-  remote: https://github.com/jhoblitt/puppet-jenkins.git
-  ref: 7653cf12cec954d784ee748156e538f005ec7d53
-  sha: 7653cf12cec954d784ee748156e538f005ec7d53
-  specs:
-    rtyler-jenkins (1.6.1)
-      darin-zypprepo (< 2.0.0, >= 1.0.1)
-      puppet-archive (>= 0.4.8)
-      puppetlabs-apt (< 3.0.0, >= 0.0.3)
-      puppetlabs-java (< 2.0.0, >= 1.0.1)
-      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
@@ -123,6 +131,7 @@ DEPENDENCIES
   aco-yum_autoupdate (>= 0)
   camptocamp-augeas (>= 0)
   camptocamp-systemd (~> 0.2.2)
+  garethr-docker (~> 5.3.0)
   jfryman-nginx (>= 0)
   jfryman-selinux (>= 0)
   jhoblitt-ganglia (~> 2.0)
@@ -131,8 +140,10 @@ DEPENDENCIES
   juniorsysadmin-irqbalance (~> 1.0.4)
   lsst-jenkins_demo (>= 0)
   lsst-lsststack (>= 0)
+  maestrodev-rvm (~> 1.13.1)
   maestrodev-wget (~> 1.7.0)
   mayflower-php (~> 3.2)
+  puppet-archive (~> 0.5)
   puppetlabs-concat (>= 0)
   puppetlabs-firewall (~> 1.5.0)
   puppetlabs-gcc (>= 0)
