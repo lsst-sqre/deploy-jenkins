@@ -44,6 +44,8 @@ class jenkins_demo::profile::slave {
   # provides killall on el6 & el7
   ensure_packages(['psmisc'])
   ensure_packages(['lsof'])
+  # unzip is needed my packer-newintsall
+  ensure_packages(['unzip'])
 
   # virtualenv is needed by validate_drp
   class { 'python':
