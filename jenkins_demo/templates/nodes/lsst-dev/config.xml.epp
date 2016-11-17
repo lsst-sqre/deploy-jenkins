@@ -7,7 +7,7 @@
   <mode>EXCLUSIVE</mode>
   <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
   <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.10">
-    <host>lsst-dev.ncsa.illinois.edu</host>
+    <host>lsst-dev-old.ncsa.illinois.edu</host>
     <port>22</port>
     <credentialsId>jenkins-admin-ssh-private-key</credentialsId>
     <javaPath>/home/lsstsw/jdk1.8.0_73/bin/java</javaPath>
