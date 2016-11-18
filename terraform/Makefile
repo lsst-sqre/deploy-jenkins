@@ -25,5 +25,10 @@ $(eval $(call ENV_TEMPLATE,dev))
 $(eval $(call ENV_TEMPLATE,prod))
 $(eval $(call OPT_TEMPLATE,rds))
 
+tf := $(wildcard *.tf)
+
+fmt:
+	$(foreach src, $(tf), $(BIN_DIR)/terraform fmt $(src);)
+
 clean:
 	-rm -rf bin override.tf
