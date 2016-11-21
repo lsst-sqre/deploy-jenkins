@@ -28,10 +28,10 @@ mod 'aco/yum_autoupdate',
 mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
-# unrelased xtype improvements
+# unrelased slave groups
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/jhoblitt/puppet-jenkins.git',
-  :ref => '7653cf12cec954d784ee748156e538f005ec7d53'
+  :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
+  :ref => '037a5914fff777552b543d7178456bd8903a71ac'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
@@ -54,3 +54,6 @@ mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
 mod 'camptocamp/systemd', '~> 0.2.2'
 mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
+mod 'garethr/docker', '~> 5.3.0'
+mod 'maestrodev/rvm', '~> 1.13.1'
+mod 'puppet/archive', '~> 0.5'

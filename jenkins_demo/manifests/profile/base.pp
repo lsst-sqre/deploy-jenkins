@@ -11,8 +11,8 @@ class jenkins_demo::profile::base {
 
   class { 'timezone': timezone  => 'US/Pacific' }
   class { 'tuned': profile      => 'virtual-host' }
-  class { 'firewall': ensure    => 'stopped' }
-  resources { 'firewall': purge => true }
+  #class { 'firewall': ensure    => 'stopped' }
+  #resources { 'firewall': purge => true }
 
   if $::osfamily == 'RedHat' {
     if $::operatingsystem != 'Fedora' {
