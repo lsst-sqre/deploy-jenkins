@@ -180,8 +180,8 @@ It is recommend the `jenkins-dm-jobs` clone *not* be nested under the
     hub clone lsst-sqre/jenkins-dm-jobs jenkins-dm-jobs-<topic>
     cd jenkins-dm-jobs-<topic>
     hub fork
-    git checkout -b tickets/<DM-XXXX>-<topic>
-    git push $USER tickets/<DM-XXXX>-<topic>
+    git checkout -b tickets/<DM-XXXX>-<topic>-dev
+    git push $USER tickets/<DM-XXXX>-<topic>-dev
 
 return to the `sandbox-jenkins-demo` clone
 
@@ -322,7 +322,7 @@ Initialize django database
     # the password can be changed after the fact via
     python manage.py changepassword $QA_USER
 
-Applying changes to a running squash VM instance
+Applying changes to a running instance
 ---
 
     . creds.sh
@@ -330,6 +330,57 @@ Applying changes to a running squash VM instance
     vagrant rsync squash
     vagrant provision squash
 
+
+Jenkins job development workflow
+---
+
+* Make changes to `jenkins-dm-jobs` and push the dev branch.
+
+XXX jenkins can automatically trigger the seed job for `jenkins-dm-jobs` upon
+push but it needs to be configured with credentials that can setup web-hooks in
+the developers fork.  This procedure should be documented at some point...
+
+* Trigger a build of the `seed` job. Eg.
+
+https://ci.lsst.codes/job/seeds/job/dm-jobs/build?delay=0sec
+
+* iterate as necessary
+
+* prepare a clean "PR" branch
+
+Job development will often require dev/test commits that should not be merged to master.  So as not to "break" the dev branch, it is recommended that a separate "sanitized" branch be used for PRs back to master.
+
+Eg.
+
+    git checkout -b tickets/<DM-XXXX>-<topic> # no -dev postfix
+    git rebase -i origin/master # remove any (TESTING) commits
+    git push $USER tickets/<DM-XXXX>-<topic>
+    hub pull-request
+
+
+#### building dev branches
+
+Often the source repo(s)/branch(es) in a job under development will need to be
+pointed at a forks in order to decouple the production environment from
+dev/test instances. A common example of this is when changes to
+`lsst-sqre/buildbot-scripts` are required.  Such changes obviously should not
+be merged into the production branch.  The recommend procedure to to prefix the commit message of dev/test only changesets with `(TESTING)`.  This is to make it obvious which commits should not be included in a PR back to the master branch.
+
+#### timer triggered jobs
+
+XXX There are a number of jobs present in `jenkins-dm-jobs` which are
+periodically triggered by timers. This includes periodic builds of the DM
+pipeline code, weekly tagging and backups.  In particular, it is not desirable
+for weekly tags or backups to be run concurrently between the production and
+any development jenkins instances.  These jobs either need to be split out into
+a separate repo or a development template which disables them needs to be
+provided.
+
+At present, the simplest solution is to simply remove all timer triggered jobs
+from the dev branch. Eg.
+
+    git rm validate_drp.groovy jenkins_ebs_snapshot.groovy weekly_release.groovy run_rebuild.groovy stack_wrappers.groovy sqre_github_snapshot.groovy
+    git commit -m "(TESTING) remove timer triggered jobs"
 
 Cleanup
 ---
