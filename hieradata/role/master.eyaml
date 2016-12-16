@@ -112,13 +112,6 @@ jenkins::plugin_hash:
     version: '1.5'
   external-monitor-job:
     version: '1.6'
-  # ghprb is declared in master.pp
-  # ghprb deps
-  ssh-agent:
-    version: '1.13'
-  bouncycastle-api:
-    version: '1.648.3'
-  # ghprb -> ssh-agent deps
   # workflow-step-api
   # ssh-credentials
   # credentials
