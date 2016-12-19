@@ -1,4 +1,7 @@
-class jenkins_demo::profile::master {
+class jenkins_demo::profile::master(
+  $seed_url = 'https://github.com/lsst-sqre/jenkins-dm-jobs',
+  $seed_ref = '*/master',
+) {
   include ::wget # needed by jenkins
   include ::nginx
 
@@ -71,7 +74,10 @@ class jenkins_demo::profile::master {
   }
 
   jenkins_job { 'seeds/dm-jobs':
-    config => template("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml"),
+    config => epp("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
+      seed_url => $seed_url,
+      seed_ref => $seed_ref,
+    }),
   }
 
   # puppet-jenkins does not presently support the management of nodes
