@@ -18,10 +18,10 @@ class jenkins_demo::profile::ganglia::web {
     priority            => $priority,
     vhost               => 'jenkins',
     location_custom_cfg => {
-      alias             => '/usr/share/ganglia',
-      rewrite           => '^(/ganglia)(/.*?\.php)(/.*)?$ /...$document_root/...$1/...$2/...$3 last',
-      access_log        => '/var/log/nginx/ganglia.access.log',
-      error_log         => '/var/log/nginx/ganglia.error.log',
+      alias      => '/usr/share/ganglia',
+      rewrite    => '^(/ganglia)(/.*?\.php)(/.*)?$ /...$document_root/...$1/...$2/...$3 last',
+      access_log => '/var/log/nginx/ganglia.access.log',
+      error_log  => '/var/log/nginx/ganglia.error.log',
     }
   }
 
@@ -37,10 +37,10 @@ class jenkins_demo::profile::ganglia::web {
     internal            => true,
     autoindex           => 'off',
     location_custom_cfg => {
-      access_log        => '/var/log/nginx/ganglia.access.log',
-      error_log         => '/var/log/nginx/ganglia.error.log',
+      access_log => '/var/log/nginx/ganglia.access.log',
+      error_log  => '/var/log/nginx/ganglia.error.log',
     },
-    raw_append => [
+    raw_append          => [
       'location ~ ^/\.\.\.(?<p_doc_root>.*)/\.\.\.(?<p_prefix>.*)/\.\.\.(?<p_script>.*\.php)/\.\.\.(?<p_pathinfo>.*)$ {',
       '  fastcgi_pass  127.0.0.1:9000;',
       '  fastcgi_index index.php;',
