@@ -52,11 +52,11 @@ class jenkins_demo::profile::master {
   # separation between the master process and the builds as they will be
   # executed under the jenkins-slave user.  jenkins user.
   class { 'jenkins::slave':
-    masterurl    => 'http://jenkins-master:8080',
-    slave_name   => $::hostname,
-    labels       => $::hostname,
-    executors    => 8,
-    slave_mode   => 'exclusive',
+    masterurl  => 'http://jenkins-master:8080',
+    slave_name => $::hostname,
+    labels     => $::hostname,
+    executors  => 8,
+    slave_mode => 'exclusive',
   }
 
   class { 'python' :
@@ -338,6 +338,7 @@ class jenkins_demo::profile::master {
     default => 'jenkins',
   }
 
+  # lint:ignore:selector_inside_resource
   nginx::resource::vhost { $vhost:
     ensure                => present,
     listen_port           => 80,
@@ -358,4 +359,5 @@ class jenkins_demo::profile::master {
       default => undef,
     },
   }
+  # lint:endignore
 }
