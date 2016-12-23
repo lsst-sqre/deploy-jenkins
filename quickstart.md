@@ -114,11 +114,15 @@ Create AWS VPC resources
 Configure github oauth2
 ---
 
-    (cd ./terraform; ./bin/terraform show | egrep 'JENKINS_FQDN|SQUASH_FQDN' | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/oauth2\/callback/')
+    (
+        cd ./terraform;
+        ./bin/terraform show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
+        ./bin/terraform show | grep SQUASH_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/oauth2\/callback/'
+    )
 
 Example output.:
 
-    https://jhoblitt-jenkins-ci.lsst.codes/oauth2/callback
+    https://jhoblitt-jenkins-ci.lsst.codes/securityRealm/finishLogin
     https://jhoblitt-jenkins-squash.lsst.codes/oauth2/callback
 
 ### Register a new application(s)
