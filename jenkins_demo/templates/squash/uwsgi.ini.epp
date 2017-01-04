@@ -7,3 +7,5 @@ stats = /run/uwsgi/stats.sock
 chmod-socket = 660
 emperor-tyrant = true
 cap = setgid,setuid
+plugin-dir = /opt/uwsgi
+plugins = python

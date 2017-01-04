@@ -1,5 +1,6 @@
 [uwsgi]
 
+plugin-dir = /opt/uwsgi
 plugins = python
 project = squash
 base = /opt/apps/qa-dashboard

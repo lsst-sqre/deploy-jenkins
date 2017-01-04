@@ -11,6 +11,7 @@ class jenkins_demo::profile::squash(
   $oauth_config    = $::jenkins_demo::profile::squash::params::oauth_config,
 ) inherits jenkins_demo::profile::squash::params {
   include ::nginx
+  # el7 ships with py2.7
   include ::jenkins_demo::profile::scl::python35
 
   $squash_access_log   = '/var/log/nginx/squash.access.log'
@@ -242,7 +243,8 @@ class jenkins_demo::profile::squash(
     ensure         => present,
     priority       => $priority,
     vhost          => 'squash-https',
-    location_alias => "${base}/venv/lib/python2.7/site-packages/rest_framework/static/rest_framework",
+    # XXX this is horrible -- need a front end static asset manager
+    location_alias => "${base}/venv/lib/python3.5/site-packages/rest_framework/static/rest_framework",
     index_files    => [], # disable
   }
 
@@ -313,7 +315,8 @@ class jenkins_demo::profile::squash(
     location       => '/static',
     priority       => $priority,
     vhost          => 'bokeh-https',
-    location_alias => "${base}/venv/lib/python2.7/site-packages/bokeh/server/static",
+    # XXX this is horrible -- need a front end static asset manager
+    location_alias => "${base}/venv/lib/python3.5/site-packages/bokeh/server/static",
     index_files    => [], # disable
   }
 }

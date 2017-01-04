@@ -206,6 +206,7 @@ Initialize django database
 
     vagrant ssh squash
     cd /opt/apps/qa-dashboard
+    . /opt/rh/rh-python35/enable
     . venv/bin/activate
     cd squash
 
