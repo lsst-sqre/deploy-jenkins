@@ -31,7 +31,7 @@ mod 'saz/sudo',
 # unrelased slave groups
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '037a5914fff777552b543d7178456bd8903a71ac'
+  :ref => '20f851ef712b04055682fe9728e3091a6386d5ca'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
@@ -52,7 +52,8 @@ mod 'puppetlabs/ruby', '~> 0.5.0'
 
 mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
-mod 'camptocamp/systemd', '~> 0.2.2'
+# 0.3.0 adds systemd fact
+mod 'camptocamp/systemd', '~> 0.3'
 mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
 mod 'garethr/docker', '~> 5.3.0'
 mod 'maestrodev/rvm', '~> 1.13.1'

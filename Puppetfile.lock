@@ -3,7 +3,7 @@ FORGE
   specs:
     camptocamp-augeas (1.5.1)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
-    camptocamp-systemd (0.2.2)
+    camptocamp-systemd (0.4.0)
     darin-zypprepo (1.0.2)
     example42-puppi (2.2.1)
     example42-yum (2.1.28)
@@ -48,6 +48,7 @@ FORGE
     puppetlabs-ruby (0.5.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     puppetlabs-stdlib (4.14.0)
+    puppetlabs-transition (0.1.0)
     puppetlabs-vcsrepo (1.2.0)
     saz-timezone (3.3.0)
       puppetlabs-stdlib (>= 2.3.0)
@@ -60,15 +61,17 @@ FORGE
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: 037a5914fff777552b543d7178456bd8903a71ac
-  sha: 037a5914fff777552b543d7178456bd8903a71ac
+  ref: 20f851ef712b04055682fe9728e3091a6386d5ca
+  sha: 20f851ef712b04055682fe9728e3091a6386d5ca
   specs:
     rtyler-jenkins (1.7.0)
+      camptocamp-systemd (>= 0.3.0)
       darin-zypprepo (< 2.0.0, >= 1.0.1)
       puppet-archive (>= 0.4.8)
       puppetlabs-apt (< 3.0.0, >= 0.0.3)
       puppetlabs-java (< 2.0.0, >= 1.0.1)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
+      puppetlabs-transition (< 1.0.0, >= 0.1.0)
 
 GIT
   remote: https://github.com/jfryman/puppet-nginx.git
@@ -130,7 +133,7 @@ PATH
 DEPENDENCIES
   aco-yum_autoupdate (>= 0)
   camptocamp-augeas (>= 0)
-  camptocamp-systemd (~> 0.2.2)
+  camptocamp-systemd (~> 0.3)
   garethr-docker (~> 5.3.0)
   jfryman-nginx (>= 0)
   jfryman-selinux (>= 0)
