@@ -131,7 +131,7 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '4.4.1'
+  config.puppet_install.puppet_version = '4.8.1'
 
   config.vm.provision "puppet", type: :puppet do |puppet|
     puppet.hiera_config_path = "hiera.yaml"
