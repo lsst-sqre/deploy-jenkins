@@ -1,0 +1,9 @@
+[uwsgi]
+uid = uwsgi
+gid = uwsgi
+pidfile = /run/uwsgi/uwsgi.pid
+emperor = /etc/uwsgi.d
+stats = /run/uwsgi/stats.sock
+chmod-socket = 660
+emperor-tyrant = true
+cap = setgid,setuid
