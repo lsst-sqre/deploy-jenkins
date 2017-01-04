@@ -52,7 +52,8 @@ mod 'puppetlabs/ruby', '~> 0.5.0'
 
 mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
-mod 'camptocamp/systemd', '~> 0.2.2'
+# 0.3.0 adds systemd fact
+mod 'camptocamp/systemd', '~> 0.3'
 mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
 mod 'garethr/docker', '~> 5.3.0'
 mod 'maestrodev/rvm', '~> 1.13.1'
