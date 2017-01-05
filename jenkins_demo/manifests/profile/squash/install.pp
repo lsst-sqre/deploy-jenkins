@@ -1,6 +1,7 @@
 class jenkins_demo::profile::squash::install {
   # a compiler is needed to build the python mysql bindings
   include ::gcc
+  require ::mariadbrepo
 
   # the 'squash' user only exists to own code to ensure that a running service
   # does not have permission to modify it
@@ -26,12 +27,14 @@ class jenkins_demo::profile::squash::install {
   }
 
   $pkgs = [
-    'mariadb-devel',
+    # needed to build pypi mysqlclient
+    'MariaDB-devel',
+    'MariaDB-client',
+    'openssl-devel',
+    'zlib-devel',
   ]
 
-  package { $pkgs:
-    ensure => present,
-  }
+  ensure_packages($pkgs)
 
   class { 'python':
     version    => 'system',
@@ -105,6 +108,9 @@ class jenkins_demo::profile::squash::install {
     refreshonly => true,
     subscribe   => Vcsrepo[$base],
     notify      => Service[$service],
-    require     => Package[$scls],
+    require     => [
+      Package[$scls],
+      Package[$pkgs],
+    ],
   }
 }

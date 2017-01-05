@@ -34,8 +34,8 @@ FORGE
     puppet-archive (0.5.1)
       puppetlabs-pe_gem (>= 0.0.1)
       puppetlabs-stdlib (>= 2.2.1)
-    puppetlabs-apt (2.3.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
+    puppetlabs-apt (1.8.0)
+      puppetlabs-stdlib (>= 2.2.1)
     puppetlabs-firewall (1.5.0)
     puppetlabs-gcc (0.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.0.0)
@@ -58,6 +58,9 @@ FORGE
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
       stahnma-epel (< 2.0.0, >= 1.2.2)
     thias-tuned (1.0.3)
+    yguenane-mariadbrepo (0.2.1)
+      puppetlabs-apt (< 2.0.0, >= 1.7.0)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.1)
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
@@ -160,4 +163,5 @@ DEPENDENCIES
   stahnma-epel (>= 0)
   stankevich-python (~> 1.12)
   thias-tuned (~> 1.0.2)
+  yguenane-mariadbrepo (~> 0.2.1)
 
