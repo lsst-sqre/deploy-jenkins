@@ -12,6 +12,7 @@ resource "aws_db_instance" "jenkins-demo" {
   apply_immediately = true
 
   allow_major_version_upgrade = true
+  auto_minor_version_upgrade  = false
 
   #parameter_group_name     = "default.mysql5.6"
   final_snapshot_identifier = "${var.demo_name}-final"
