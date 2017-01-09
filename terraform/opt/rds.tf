@@ -2,12 +2,16 @@ resource "aws_db_instance" "jenkins-demo" {
   allocated_storage = 100
   storage_type      = "gp2"
   engine            = "mariadb"
-  engine_version    = "10.0.17"
+  #  aws rds describe-db-engine-versions --engine mariadb
+  engine_version    = "10.1.19"
   instance_class    = "db.m4.large"
   identifier        = "${var.demo_name}"
   name              = "qadb"
   username          = "admin"
   password          = "${var.rds_password}"
+  apply_immediately = true
+
+  allow_major_version_upgrade = true
 
   #parameter_group_name     = "default.mysql5.6"
   final_snapshot_identifier = "${var.demo_name}-final"
