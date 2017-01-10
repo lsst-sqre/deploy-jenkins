@@ -15,14 +15,17 @@ TF_STATE= "#{ABS_PATH}/terraform/terraform.tfstate"
 
 fail "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
 outputs = JSON.parse(File.read(TF_STATE))["modules"].first["outputs"]
-outputs.each_pair do |k, v|
+outputs = case outputs.first[1]
+when Array
   # tf ~ 0.6
-  if v.kind_of?(Array)
-    Object.const_set(k.upcase, v)
+  outputs.map {|k,v| [k.downcase, v]}.to_h
+when Hash
   # tf >= 0.8 ?
-  elsif v.kind_of?(Hash)
-    Object.const_set(k.upcase, v['value'])
-  end
+  outputs.map {|k,v| [k.downcase, v['value']]}.to_h
+end
+
+outputs.each do |k, v|
+  Object.const_set(k.upcase, v)
 end
 
 def gen_hostname(boxname)
@@ -146,7 +149,7 @@ Vagrant.configure('2') do |config|
     puppet.manifests_path    = "environments/jenkins/manifests"
     puppet.manifest_file     = "default.pp"
     # puppet does not allow uppercase variables
-    puppet.facter            = outputs.map {|k,v| [k.downcase, v]}.to_h
+    puppet.facter            = outputs
 
     puppet.options = [
      '--verbose',
