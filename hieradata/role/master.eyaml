@@ -10,11 +10,8 @@ jenkins::config_hash:
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
-  # hipchat deps
   junit:
     version: '1.18'
-  # workflow-step-api:
-  # /hipchat deps
   matrix-project:
     version: '1.7.1'
   # matrix-project deps
@@ -22,7 +19,6 @@ jenkins::plugin_hash:
     version: '1.24'
   # junit
   # /matrix-project deps
-  # /hipchat deps
   validating-string-parameter:
     version: '2.3'
   plain-credentials:
