@@ -8,6 +8,7 @@ jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
     value: '-Djenkins.install.runSetupWizard=false'
 jenkins::default_plugins: []
+jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
