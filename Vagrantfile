@@ -16,7 +16,13 @@ TF_STATE= "#{ABS_PATH}/terraform/terraform.tfstate"
 fail "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
 outputs = JSON.parse(File.read(TF_STATE))["modules"].first["outputs"]
 outputs.each_pair do |k, v|
-  Object.const_set(k.upcase, v)
+  # tf ~ 0.6
+  if v.kind_of?(Array)
+    Object.const_set(k.upcase, v)
+  # tf >= 0.8 ?
+  elsif v.kind_of?(Hash)
+    Object.const_set(k.upcase, v['value'])
+  end
 end
 
 def gen_hostname(boxname)
