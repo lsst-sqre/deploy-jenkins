@@ -14,6 +14,16 @@ jenkins::purge_plugins: true
 jenkins::plugin_hash:
   credentials:
     version: '2.1.10'
+  support-core:
+    version: '2.38'
+  # support-core deps
+  metrics:
+    version: '3.1.2.9'
+  jackson2-api:
+    version: '2.7.3'
+  bouncycastle-api:
+    version: '2.16.0'
+  # /support-core deps
   junit:
     version: '1.18'
   matrix-project:
