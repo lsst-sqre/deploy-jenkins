@@ -122,17 +122,9 @@ class jenkins_demo::profile::master(
 "),
   }
 
-
-  $hipchat = hiera('jenkins::plugins::hipchat', undef)
-
-  if $hipchat {
-    $hipchat_xml = 'jenkins.plugins.hipchat.HipChatNotifier.xml'
-    jenkins::plugin { 'hipchat':
-      manage_config   => true,
-      version         => '1.0.0',
-      config_filename => $hipchat_xml,
-      config_content  => template("${module_name}/plugins/${hipchat_xml}"),
-    }
+  # cleanup jenkins plugin configuration
+  file { '/var/lib/jenkins/jenkins.plugins.hipchat.HipChatNotifier.xml':
+    ensure => absent,
   }
 
   $slack = hiera('jenkins::plugins::slack', undef)
