@@ -7,9 +7,12 @@ jenkins::master::version: '2.2'
 jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
     value: '-Djenkins.install.runSetupWizard=false'
+jenkins::default_plugins: []
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
+  credentials:
+    version: '2.1.10'
   junit:
     version: '1.18'
   matrix-project:
