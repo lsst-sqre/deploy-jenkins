@@ -7,9 +7,23 @@ jenkins::master::version: '2.2'
 jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
     value: '-Djenkins.install.runSetupWizard=false'
+jenkins::default_plugins: []
+jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
+  credentials:
+    version: '2.1.10'
+  support-core:
+    version: '2.38'
+  # support-core deps
+  metrics:
+    version: '3.1.2.9'
+  jackson2-api:
+    version: '2.7.3'
+  bouncycastle-api:
+    version: '2.16.0'
+  # /support-core deps
   junit:
     version: '1.18'
   matrix-project:

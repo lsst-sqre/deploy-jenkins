@@ -1,7 +1,7 @@
 FORGE
   remote: https://forgeapi.puppetlabs.com
   specs:
-    camptocamp-augeas (1.5.1)
+    camptocamp-augeas (1.6.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     camptocamp-systemd (0.4.0)
     darin-zypprepo (1.0.2)
@@ -61,8 +61,8 @@ FORGE
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: 20f851ef712b04055682fe9728e3091a6386d5ca
-  sha: 20f851ef712b04055682fe9728e3091a6386d5ca
+  ref: 2ba331dee1a74c20af2f042635818c5e4c61ead3
+  sha: 2ba331dee1a74c20af2f042635818c5e4c61ead3
   specs:
     rtyler-jenkins (1.7.0)
       camptocamp-systemd (>= 0.3.0)

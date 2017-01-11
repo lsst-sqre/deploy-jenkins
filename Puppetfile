@@ -31,7 +31,7 @@ mod 'saz/sudo',
 # unrelased slave groups
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '20f851ef712b04055682fe9728e3091a6386d5ca'
+  :ref => '2ba331dee1a74c20af2f042635818c5e4c61ead3'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
