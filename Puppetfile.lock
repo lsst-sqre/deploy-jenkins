@@ -47,7 +47,7 @@ FORGE
     puppetlabs-pe_gem (0.2.0)
     puppetlabs-ruby (0.5.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
-    puppetlabs-stdlib (4.14.0)
+    puppetlabs-stdlib (4.15.0)
     puppetlabs-transition (0.1.0)
     puppetlabs-vcsrepo (1.2.0)
     saz-timezone (3.3.0)
@@ -61,14 +61,14 @@ FORGE
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: 2ba331dee1a74c20af2f042635818c5e4c61ead3
-  sha: 2ba331dee1a74c20af2f042635818c5e4c61ead3
+  ref: 48e825698e3fcefa634f1edd5e689148faa87d8d
+  sha: 48e825698e3fcefa634f1edd5e689148faa87d8d
   specs:
     rtyler-jenkins (1.7.0)
-      camptocamp-systemd (>= 0.3.0)
+      camptocamp-systemd (< 1.0.0, >= 0.3.0)
       darin-zypprepo (< 2.0.0, >= 1.0.1)
-      puppet-archive (>= 0.4.8)
-      puppetlabs-apt (< 3.0.0, >= 0.0.3)
+      puppet-archive (< 2.0.0, >= 0.4.8)
+      puppetlabs-apt (< 3.0.0, >= 2.1.0)
       puppetlabs-java (< 2.0.0, >= 1.0.1)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
       puppetlabs-transition (< 1.0.0, >= 0.1.0)
