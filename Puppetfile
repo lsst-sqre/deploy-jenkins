@@ -28,10 +28,9 @@ mod 'aco/yum_autoupdate',
 mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
-# unrelased slave groups
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '2ba331dee1a74c20af2f042635818c5e4c61ead3'
+  :ref => '48e825698e3fcefa634f1edd5e689148faa87d8d'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
