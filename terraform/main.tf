@@ -127,14 +127,6 @@ resource "aws_security_group" "jenkins-demo-http" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # django testing
-  ingress {
-    from_port   = 8000
-    to_port     = 8000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags {
     Name = "${var.demo_name}-http"
   }

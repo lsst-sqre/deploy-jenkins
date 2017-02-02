@@ -1,12 +1,25 @@
 class jenkins_demo::profile::squash::uwsgi {
-  $user = 'uwsgi'
-  $group = $user
+  include ::systemd
+
+  $user    = 'uwsgi'
+  $group   = $user
+  $base    = '/opt/uwsgi'
+  $scl     = 'rh-python35'
+  $scl_cmd = "scl enable ${scl} --"
+  $service = 'uwsgi'
 
   $pkgs = [
-    'uwsgi',
-    'uwsgi-plugin-common',
-    'uwsgi-plugin-python',
-    'uwsgi-logger-systemd',
+    'jansson-devel',
+    'libattr-devel',
+    'libcap-devel',
+    'libevent-devel',
+    'libuuid-devel',
+    'libxml2-devel',
+    'libxslt-devel',
+    'openssl-devel',
+    'pcre-devel',
+    'zlib-devel',
+    'xz-libs',
   ]
 
   group { $group:
@@ -22,12 +35,50 @@ class jenkins_demo::profile::squash::uwsgi {
     managehome => false,
   }
 
-  package { $pkgs:
-    ensure => present,
+  ensure_packages($pkgs)
+
+  vcsrepo { $base:
+    ensure   => latest,
+    provider => 'git',
+    owner    => $user,
+    group    => $group,
+    source   => 'https://github.com/unbit/uwsgi.git',
+    revision => '2.0.14',
+  } ->
+  exec { 'build uwsgi core':
+    command   => "${scl_cmd} python uwsgiconfig.py --build core",
+    cwd       => $base,
+    umask     => '0022',
+    creates   => "${base}/uwsgi",
+    provider  => 'shell',
+    logoutput => true,
+    notify    => Service[$service],
+    require   => [
+      Package[$pkgs],
+      Package[$scl],
+    ],
+  } ->
+  exec { 'build uwsgi python plugin':
+    command   => "${scl_cmd} python uwsgiconfig.py --plugin plugins/python core",
+    cwd       => $base,
+    umask     => '0022',
+    creates   => "${base}/python_plugin.so",
+    provider  => 'shell',
+    logoutput => true,
+    notify    => Service[$service],
+    require   => [
+      Package[$pkgs],
+      Package[$scl],
+    ],
   }
 
   $service_config = {
     'instances' => $::jenkins_demo::profile::squash::uwsgi_instances,
+  }
+
+  file { '/etc/uwsgi.d':
+    ensure => directory,
+    mode   => '0755',
   }
 
   file { '/etc/uwsgi.d/squash.ini':
@@ -36,7 +87,14 @@ class jenkins_demo::profile::squash::uwsgi {
     group   => $user,
     mode    => '0644',
     content => epp("${module_name}/squash/squash.ini.epp", $service_config),
-    require => Package[$pkgs],
+    notify  => Service[$service],
+  }
+
+  file { '/etc/uwsgi.ini':
+    ensure  => file,
+    mode    => '0644',
+    content => epp("${module_name}/squash/uwsgi.ini.epp"),
+    notify  => Service[$service],
   }
 
   # needed in order for nginx to access the unix domain socket
@@ -46,12 +104,17 @@ class jenkins_demo::profile::squash::uwsgi {
   #  content => epp("${module_name}/squash/squash.te.epp"),
   #}
 
-  service { 'uwsgi':
+  systemd::unit_file { "${service}.service":
+    content => epp("${module_name}/squash/${service}.service.epp",
+      { path => $base }),
+    notify  => Service[$service],
+  }
+
+  service { $service:
     ensure  => running,
     enable  => true,
     require => [
       Package[$pkgs],
-      File['/etc/uwsgi.d/squash.ini'],
     ],
   }
 }
