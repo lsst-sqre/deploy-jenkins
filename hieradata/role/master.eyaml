@@ -397,24 +397,55 @@ jenkins::plugins::slack:
 #jenkinsx::nodes:
 #  lsst-dev:
 #    template: "%{module_name}/nodes/lsst-dev/config.xml.epp"
-#  osx-1:
+#  elcapitan-1:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-1
-#      host: 140.252.32.190
-#      label: squares-mac-3 osx osx-10.11
-#  osx-2:
+#      name: elcapitan-1
+#      host: mac-os-x-el-capitan-build-1.lsst.codes
+#      proxy: lsst-dm-mac.lsst.org
+#      label: osx osx-10.11 elcapitan-1
+#  elcapitan-2:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-2
-#      host: 140.252.32.192
-#      label: squares-mac-5 osx osx-10.11
-#  osx-3:
+#      name: elcapitan-2
+#      host: mac-os-x-el-capitan-build-2.lsst.codes
+#      proxy: lsst-dm-mac.lsst.org
+#      label: osx osx-10.11 elcapitan-2
+#  elcapitan-3:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-3
-#      host: 140.252.32.193
-#      label: squares-mac-6 osx osx-10.11
+#      name: elcapitan-3
+#      host: mac-os-x-el-capitan-build-3.lsst.codes
+#      proxy: lsst-dm-mac-2.lsst.org
+#      label: osx osx-10.11 elcapitan-3
+#  elcapitan-4:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: elcapitan-4
+#      host: mac-os-x-el-capitan-build-4.lsst.codes
+#      proxy: lsst-dm-mac-2.lsst.org
+#      label: osx osx-10.11 elcapitan-3
+#  sierra-1:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-1
+#      host: mac-os-sierra-build-1.lsst.codes
+#      proxy: lsst-dm-mac-2.lsst.org
+#      label: osx osx-10.12 sierra-1
+#  sierra-2:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-2
+#      host: mac-os-sierra-build-2.lsst.codes
+#      proxy: lsst-dm-mac-2.lsst.org
+#      label: osx osx-10.12 sierra-2
+#  sierra-3:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-3
+#      host: mac-os-sierra-build-3.lsst.codes
+#      proxy: lsst-dm-mac.lsst.org
+#      label: osx osx-10.12 sierra-3
 jenkinsx::user:
   jhoblitt:
     api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
