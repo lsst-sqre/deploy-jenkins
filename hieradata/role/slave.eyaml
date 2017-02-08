@@ -13,3 +13,5 @@ rvm::rvm_gems:
     name: 'bundler'
     ruby_version: 'ruby-2.2'
     ensure: '1.13.6'
+docker::version: '1.12.3'
+docker::storage_driver: devicemapper
