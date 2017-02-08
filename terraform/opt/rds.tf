@@ -66,6 +66,53 @@ resource "aws_route53_record" "jenkins-demo-qadb" {
   records = ["${aws_db_instance.jenkins-demo.address}"]
 }
 
+resource "aws_iam_user" "qadb-backup" {
+  name = "${var.demo_name}-qadb-backup"
+}
+
+resource "aws_iam_access_key" "qadb-backup" {
+  user = "${aws_iam_user.qadb-backup.name}"
+}
+
+# base bucket name on qadb FQDN to prevent dumps from test instances
+# accdientially getting mixed in with the production backups.
+resource "aws_s3_bucket" "qadb-backup" {
+  region = "${var.aws_default_region}"
+  bucket = "${var.demo_name}-qadb.${var.domain_name}-backups"
+  force_destroy = false
+}
+
+resource "aws_iam_user_policy" "qadb-backup" {
+  name = "${aws_iam_user.qadb-backup.name}-policy"
+  user = "${aws_iam_user.qadb-backup.name}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "1",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "${aws_s3_bucket.qadb-backup.arn}/*"
+    },
+    {
+      "Sid": "2",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListObjects",
+        "s3:ListBucket"
+      ],
+      "Resource": "${aws_s3_bucket.qadb-backup.arn}"
+    }
+  ]
+}
+EOF
+}
+
 output "RDS_FQDN" {
   value = "${aws_route53_record.jenkins-demo-qadb.fqdn}"
 }
@@ -73,4 +120,23 @@ output "RDS_FQDN" {
 output "RDS_PASSWORD" {
   sensitive = true
   value     = "${var.rds_password}"
+
+}
+
+output "RDS_BACKUP_AWS_USER" {
+  value = "${aws_iam_user.qadb-backup.name}"
+}
+
+output "RDS_BACKUP_S3_BUCKET" {
+  value = "${aws_s3_bucket.qadb-backup.id}"
+}
+
+output "RDS_BACKUP_AWS_ACCESS_KEY_ID" {
+  sensitive = true
+  value     = "${aws_iam_access_key.qadb-backup.id}"
+}
+
+output "RDS_BACKUP_AWS_SECRET_ACCESS_KEY" {
+  sensitive = true
+  value     = "${aws_iam_access_key.qadb-backup.secret}"
 }
