@@ -302,7 +302,9 @@ Initialize django database
 ---
 
     vagrant ssh squash
+
     cd /opt/apps/qa-dashboard
+    . /opt/rh/rh-python35/enable
     . venv/bin/activate
     cd squash
 
@@ -325,6 +327,28 @@ Initialize django database
 
     # the password can be changed after the fact via
     python manage.py changepassword $QA_USER
+
+Testing DB migration on a copy of the production qadb
+---
+
+In order to validate DB migration, a recent copy of the production `qadb`
+should be used.  These steps should be run _prior_ to [Initialize django
+database](#initialize-django-database).
+
+    vagrant plugin install vagrant-scp
+
+    (
+        cd ./terraform;
+        ./bin/terraform show | egrep 'RDS_(FQDN|PASSWORD)' | sed 's|\s+*||g'
+    )
+    # copy output into cut'n'paste buffer
+
+    aws s3 cp s3://jenkins-prod-qadb.lsst.codes-backups/qadb/latest.sql.gz .
+    vagrant scp latest.sql.gz squash:.
+    vagrant ssh squash
+    gzip -d latest.sql.gz
+    # paste output from tf show
+    mysql -h "$RDS_FQDN" -u admin -p"$RDS_PASSWORD" qadb < latest.sql
 
 Applying changes to a running instance
 ---
