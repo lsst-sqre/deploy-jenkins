@@ -452,4 +452,4 @@ jenkinsx::user:
     public_keys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
 #jenkins_demo::profile::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
-#jenkins_demo::profile::master::seed_ref: '*/master
+#jenkins_demo::profile::master::seed_ref: '*/master'
