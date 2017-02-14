@@ -201,34 +201,58 @@ the draw) for downloading required packages. If this happens on the initial
 deployment, it is recommended to destroy and recreate the instance.
 
 
-Initialize django database
+Initialize the QA database
 ---
+Note: this step must be executed if you want a fresh database and load some test data into it. Skip to the next section if you want to restore a copy of the latest production QA database.
 
     vagrant ssh squash
+
     cd /opt/apps/qa-dashboard
     . /opt/rh/rh-python35/enable
     . venv/bin/activate
     cd squash
 
+    export DJANGO_SETTINGS_MODULE="squash.settings.production"
+    python manage.py migrate
+    
     export QA_USER="nobody"
     export QA_USER_EMAIL=${USER}@example.com
-    export DJANGO_SETTINGS_MODULE="squash.settings.production"
-
-    # XXX this is an ugly hack
-    # sudo -E -u squash python manage.py makemigrations
-    # running makemigrations under sudo fails:
-    # ImportError: No module named django.core.management
-    # despite VIRTUAL_ENV being preserved
-
-    # there does not appear to an option to change the migration file path
-    sudo chmod 777 /opt/apps/qa-dashboard/squash/dashboard/migrations/
-    python manage.py makemigrations
-    python manage.py migrate
     python manage.py createsuperuser --username $QA_USER --email $QA_USER_EMAIL --noinput
-    python manage.py loaddata initial_data
 
     # the password can be changed after the fact via
     python manage.py changepassword $QA_USER
+
+    python manage.py loaddata test_data
+
+Restore a copy of the latest production QA database
+---
+
+This step can be used to validate a database migration included in a recent version of SQuaSH prior the production update. Use the following to restore a copy of the latest production database and apply the migrations (if any). 
+
+    vagrant plugin install vagrant-scp
+
+    (
+        cd ./terraform;
+        ./bin/terraform show | egrep 'RDS_(FQDN|PASSWORD)' | sed 's|\s+*||g'
+    )
+    # copy output into cut'n'paste buffer
+
+    aws s3 cp s3://jenkins-prod-qadb.lsst.codes-backups/qadb/latest.sql.gz .
+    vagrant scp latest.sql.gz squash:.
+
+    vagrant ssh squash
+    gzip -d latest.sql.gz
+    # paste output from tf show
+    mysql -h "$RDS_FQDN" -u admin -p"$RDS_PASSWORD" qadb < latest.sql
+
+    cd /opt/apps/qa-dashboard
+    . /opt/rh/rh-python35/enable
+    . venv/bin/activate
+    cd squash
+
+    export DJANGO_SETTINGS_MODULE="squash.settings.production"
+    python manage.py migrate
+
 
 Applying changes to a running squash VM instance
 ---
