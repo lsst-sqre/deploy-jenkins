@@ -30,7 +30,7 @@ mod 'saz/sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 mod 'rtyler/jenkins',
   :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '48e825698e3fcefa634f1edd5e689148faa87d8d'
+  :ref => '6b0499bd048dbce48f3e644ca8e89ca602bd74ce'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
@@ -57,4 +57,8 @@ mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
 mod 'garethr/docker', '~> 5.3.0'
 mod 'maestrodev/rvm', '~> 1.13.1'
 mod 'puppet/archive', '~> 0.5'
-mod 'yguenane/mariadbrepo', '~> 0.2.1'
+# pending merger or resolution of:
+# https://github.com/Mylezeem/puppet-mariadbrepo/pull/7
+mod 'yguenane/mariadbrepo',
+  :git => 'https://github.com/jhoblitt/puppet-mariadbrepo',
+  :ref => '53e72e3c45c9b728b0402c2b934b721c6e4d077c'

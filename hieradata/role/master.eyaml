@@ -275,7 +275,7 @@ jenkinsx:
 # key pair due to the greater potential of the private key leaking from the
 # system jenkins role account.
 jenkinsx::osx:
-  ssh_private_key: |
+  ssh_private_key: &jenkinsx_osx_ssh_private_key |
     ENC[PKCS7,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]
   # the public key value is not used from hiera, it is here only as
   # documentation.
@@ -389,6 +389,13 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: 'qadb backup -> s3 bucket name'
     secret: "%{::rds_backup_s3_bucket}"
+  sqre-osx:
+    domain: null
+    scope: GLOBAL
+    impl: BasicSSHUserPrivateKey
+    description: 'SQRE OSX build slaves'
+    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKaExR5RgzruNdPpNG4+DtWcgbKmO1zA1zc7M33xbQgvakZL9YqQOxjAb9iZdWV+LuKw/CeRwdO9v4V0+2kITKRQCBOJCFnU42QHSi2NoUEfR76tgyJaVhAaS+cu9M8mLnvrTfZoYugN8CMlRdkMBSft7FF0xf4TwaBJsGtd/AJQf+6Sba0rzpuuPLfCVNaL3J9TPqU3/7gFSLl+Vu+ZwK3pMWKJ6eb0KKqBJgn2gCn+67ibfH6+ArefI3rxGM2V0LLrrnSXwEgnV3LIAvGMuRaYkmHzJGjiZGK2TVLbHxW7x6ya+CRTJAsHW0HwdfQxistFGfE9E0ZbzMV9SDGYnATA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBRfp4h9RY7Is2LfLZE3oZ+gBC4/4zjYbEskEVcGqbnc+bs]
+    private_key: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsPvEN95AvT27HnagQF8KkbeLLDIIbWTFNoOAqgS8LZUl4ZEoqHf2pVFzh/Vu9js3LmdRfV8zwvhfzMw1QEr82ES06xJFG5ucQ/rVS0hMYFby5eADmICDy5XHqZp+fJOmTbYZ9FWrbkvzLPFxsXfsIPOx4T2WwuTye0batgbdrq4b2wXqEJ04sm72BQAzzj8sc8sqdbwHGU2SFWO7o4aMLfjRoF60Q0c2/Gz0fNtUxYYj5R4+cbbr7ZDFEZpngC8bSDXGJbbHVIiSriigdoyZBJTnxYm+g5a8Cwo6pRgv02w3rqFJpHEffQ9Al7OMNO1Lt0/MgsUqxapaxDaAjzGuujBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCv21mpppVcbzP7wz/fCfVdgCB0w8SDbhYDVXLG0QAC2BwmjiGV8n7MDI5ITSYHTxmC6g==]
 jenkins::plugins::slack:
     teamdomain: lsstc
     token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAQr9uHBefJOss1hg+vLSWh4BE8lo8ugwb+4D4udFbSO2SJrMogHIYDJtjw9Tg/h5d69yJbi56vOaBKU9Cn2hFIpD0hSJL2SbcA0Vfrvu1rgsMTHco4rLzwNaatCT0TBKTd47tcU/2DfhNZPg2FduC9AqPZ+j57GtKbbkz/d+KZadBhHh9/DvjKOLimjLhOBTP0ymL6Qiw4ZsY7LqMVAzbYvPJx4colYEUfpptYWSA817z0x7/UE+14YZoitWGoAsVRRY/fVaTEQAWK7TxVy6OBip75OaLWGdeiW/X0sGbDsoD4BtroJXjItdLROUIVyzxOCLr5yjNrmt2pdaS/UNKWjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD5q4AoqHoZzqwCUfUkrZzJgCBIgeXqF/Vcq44vKHvyEineTWiHZRxO9ctUc/vFmPQ2tg==]
@@ -397,28 +404,52 @@ jenkins::plugins::slack:
 #jenkinsx::nodes:
 #  lsst-dev:
 #    template: "%{module_name}/nodes/lsst-dev/config.xml.epp"
-#  osx-1:
+#  elcapitan-1:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-1
-#      host: 140.252.32.190
-#      label: squares-mac-3 osx osx-10.11
-#  osx-2:
+#      name: elcapitan-1
+#      host: mac-os-x-el-capitan-build-1.lsst.codes
+#      label: osx osx-10.11 elcapitan-1
+#  elcapitan-2:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-2
-#      host: 140.252.32.192
-#      label: squares-mac-5 osx osx-10.11
-#  osx-3:
+#      name: elcapitan-2
+#      host: mac-os-x-el-capitan-build-2.lsst.codes
+#      label: osx osx-10.11 elcapitan-2
+#  elcapitan-3:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: osx-3
-#      host: 140.252.32.193
-#      label: squares-mac-6 osx osx-10.11
+#      name: elcapitan-3
+#      host: mac-os-x-el-capitan-build-3.lsst.codes
+#      label: osx osx-10.11 elcapitan-3
+#  elcapitan-4:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: elcapitan-4
+#      host: mac-os-x-el-capitan-build-4.lsst.codes
+#      label: osx osx-10.11 elcapitan-3
+#  sierra-1:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-1
+#      host: mac-os-sierra-build-1.lsst.codes
+#      label: osx osx-10.12 sierra-1
+#  sierra-2:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-2
+#      host: mac-os-sierra-build-2.lsst.codes
+#      label: osx osx-10.12 sierra-2
+#  sierra-3:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-3
+#      host: mac-os-sierra-build-3.lsst.codes
+#      label: osx osx-10.12 sierra-3
 jenkinsx::user:
   jhoblitt:
     api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
     public_keys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
 #jenkins_demo::profile::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
-#jenkins_demo::profile::master::seed_ref: '*/master
+#jenkins_demo::profile::master::seed_ref: '*/master'

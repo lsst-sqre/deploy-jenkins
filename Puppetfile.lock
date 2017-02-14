@@ -34,8 +34,8 @@ FORGE
     puppet-archive (0.5.1)
       puppetlabs-pe_gem (>= 0.0.1)
       puppetlabs-stdlib (>= 2.2.1)
-    puppetlabs-apt (1.8.0)
-      puppetlabs-stdlib (>= 2.2.1)
+    puppetlabs-apt (2.3.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.5.0)
     puppetlabs-firewall (1.5.0)
     puppetlabs-gcc (0.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.0.0)
@@ -58,14 +58,11 @@ FORGE
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
       stahnma-epel (< 2.0.0, >= 1.2.2)
     thias-tuned (1.0.3)
-    yguenane-mariadbrepo (0.2.1)
-      puppetlabs-apt (< 2.0.0, >= 1.7.0)
-      puppetlabs-stdlib (< 5.0.0, >= 3.2.1)
 
 GIT
   remote: https://github.com/jenkinsci/puppet-jenkins.git
-  ref: 48e825698e3fcefa634f1edd5e689148faa87d8d
-  sha: 48e825698e3fcefa634f1edd5e689148faa87d8d
+  ref: 6b0499bd048dbce48f3e644ca8e89ca602bd74ce
+  sha: 6b0499bd048dbce48f3e644ca8e89ca602bd74ce
   specs:
     rtyler-jenkins (1.7.0)
       camptocamp-systemd (< 1.0.0, >= 0.3.0)
@@ -101,6 +98,15 @@ GIT
   specs:
     aco-yum_autoupdate (0.6.1)
       puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
+
+GIT
+  remote: https://github.com/jhoblitt/puppet-mariadbrepo
+  ref: 53e72e3c45c9b728b0402c2b934b721c6e4d077c
+  sha: 53e72e3c45c9b728b0402c2b934b721c6e4d077c
+  specs:
+    yguenane-mariadbrepo (0.2.1)
+      puppetlabs-apt (< 3.0.0, >= 1.7.0)
+      puppetlabs-stdlib (< 5.0.0, >= 3.2.1)
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-lsststack.git
@@ -163,5 +169,5 @@ DEPENDENCIES
   stahnma-epel (>= 0)
   stankevich-python (~> 1.12)
   thias-tuned (~> 1.0.2)
-  yguenane-mariadbrepo (~> 0.2.1)
+  yguenane-mariadbrepo (>= 0)
 

@@ -87,24 +87,6 @@ class jenkins_demo::profile::master(
     create_resources('jenkins_demo::profile::jenkins::node', $nodes)
   }
 
-  $osx = hiera('jenkinsx::osx', undef)
-  if $osx {
-    file { '/var/lib/jenkins/.ssh':
-      ensure => directory,
-      owner  => 'jenkins',
-      group  => 'jenkins',
-      mode   => '0700',
-    }
-
-    file { '/var/lib/jenkins/.ssh/id_rsa':
-      ensure  => file,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      mode    => '0600',
-      content => $osx['ssh_private_key'],
-    }
-  }
-
   # XXX this is [also] a dirty hack
   $jenkins_url = hiera('jenkins_fqdn', $::jenkins_fqdn)
   file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
