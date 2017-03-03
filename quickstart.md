@@ -76,6 +76,8 @@ for convenience.
 Install `eyaml` key ring
 ---
 
+NOTE: first download the lsst-sqre Dropbox folder to your home directory.
+
     mkdir .lsst-certs
     cd .lsst-certs
     git init
@@ -109,6 +111,14 @@ Create AWS VPC resources
     # create AWS VPC env
     ./bin/terraform apply
     cd ..
+
+NOTE 1: For OSX the first `make` command may not work, then remove the -nc
+ command line argument from the `wget` command in the `Makefile`.
+
+NOTE 2: The state of your infrastructure is saved locally.
+**This state is required to modify and destroy your
+infrastructure, so keep it safe**. To inspect the complete state
+use the `terraform show` command.
 
 
 Configure github oauth2
@@ -298,8 +308,12 @@ the draw) for downloading required packages. If this happens on the initial
 deployment, it is recommended to destroy and recreate the instance.
 
 
-Initialize django database
+Initialize the QA database
 ---
+
+NOTE: use these instructions only if you want to initialize a fresh database and use it
+in a test instance. Skip to the next section if you want to restore a copy of the latest
+production database.
 
     vagrant ssh squash
 
@@ -307,33 +321,26 @@ Initialize django database
     . /opt/rh/rh-python35/enable
     . venv/bin/activate
     cd squash
+    
+    export DJANGO_SETTINGS_MODULE="squash.settings.production"
+    python manage.py migrate
 
     export QA_USER="nobody"
     export QA_USER_EMAIL=${USER}@example.com
-    export DJANGO_SETTINGS_MODULE="squash.settings.production"
-
-    # XXX this is an ugly hack
-    # sudo -E -u squash python manage.py makemigrations
-    # running makemigrations under sudo fails:
-    # ImportError: No module named django.core.management
-    # despite VIRTUAL_ENV being preserved
-
-    # there does not appear to an option to change the migration file path
-    sudo chmod 777 /opt/apps/qa-dashboard/squash/dashboard/migrations/
-    python manage.py makemigrations
-    python manage.py migrate
     python manage.py createsuperuser --username $QA_USER --email $QA_USER_EMAIL --noinput
-    python manage.py loaddata initial_data
 
     # the password can be changed after the fact via
     python manage.py changepassword $QA_USER
 
-Testing DB migration on a copy of the production qadb
+    python manage.py loaddata test_dat
+
+
+Restore a copy of the latest production QA database
 ---
 
-In order to validate DB migration, a recent copy of the production `qadb`
-should be used.  These steps should be run _prior_ to [Initialize django
-database](#initialize-django-database).
+NOTE: This step can also be used to validate database migrations *prior* the production update. 
+Use the following commands to restore a copy of the latest production database and apply 
+migrations (if any).
 
     vagrant plugin install vagrant-scp
 
@@ -345,10 +352,19 @@ database](#initialize-django-database).
 
     aws s3 cp s3://jenkins-prod-qadb.lsst.codes-backups/qadb/latest.sql.gz .
     vagrant scp latest.sql.gz squash:.
+
     vagrant ssh squash
     gzip -d latest.sql.gz
     # paste output from tf show
     mysql -h "$RDS_FQDN" -u admin -p"$RDS_PASSWORD" qadb < latest.sql
+
+    cd /opt/apps/qa-dashboard
+    . /opt/rh/rh-python35/enable
+    . venv/bin/activate
+    cd squash
+
+    export DJANGO_SETTINGS_MODULE="squash.settings.production"
+    python manage.py migrate
 
 Applying changes to a running instance
 ---
@@ -409,6 +425,14 @@ from the dev branch. Eg.
 
     git rm validate_drp.groovy jenkins_ebs_snapshot.groovy weekly_release.groovy run_rebuild.groovy stack_wrappers.groovy sqre_github_snapshot.groovy
     git commit -m "(TESTING) remove timer triggered jobs"
+
+
+Debug
+---
+
+Use the following command to inspect the logs in your instance:
+
+    sudo journalctl -xe -f
 
 Cleanup
 ---
