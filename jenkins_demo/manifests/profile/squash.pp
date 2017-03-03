@@ -32,6 +32,15 @@ class jenkins_demo::profile::squash(
   #=> 'unix:/home/vagrant/qa-dashboard/squash/squash.sock',
   $base                = '/opt/apps/qa-dashboard'
 
+  $proxy_set_header = [
+    'Host              $host',
+    'X-Real-IP         $remote_addr',
+    'X-Forwarded-For   $proxy_add_x_forwarded_for',
+    'Upgrade           $http_upgrade',
+    'Connection        "upgrade"',
+    'X-Forwarded-Proto $scheme',
+  ]
+
   unless $ssl_cert and $ssl_key {
     fail('tls cert and private key are required')
   }
@@ -195,6 +204,7 @@ class jenkins_demo::profile::squash(
     proxy                 => 'http://qa-dashboard-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
+    proxy_set_header      => $proxy_set_header,
     add_header            => $add_header,
     raw_prepend           => $squash_raw_prepend,
   }
@@ -218,6 +228,7 @@ class jenkins_demo::profile::squash(
     proxy                 => 'http://qa-dashboard-oauth',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
+    proxy_set_header      => $proxy_set_header,
     # see comment above $raw_prepend declaration
     raw_prepend           => $squash_raw_prepend,
   }
@@ -255,15 +266,6 @@ class jenkins_demo::profile::squash(
     www_root    => "${base}/squash",
     index_files => [], # disable
   }
-
-  $proxy_set_header = [
-    'Host              $host',
-    'X-Real-IP         $remote_addr',
-    'X-Forwarded-For   $proxy_add_x_forwarded_for',
-    'Upgrade           $http_upgrade',
-    'Connection        "upgrade"',
-    'X-Forwarded-Proto $scheme',
-  ]
 
   nginx::resource::vhost { 'bokeh-https':
     ensure                => present,
