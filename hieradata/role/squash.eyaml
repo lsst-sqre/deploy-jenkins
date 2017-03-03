@@ -2,7 +2,7 @@
 classes:
   - jenkins_demo::role::squash
 #jenkins_demo::profile::squash::repo: https://github.com/lsst-sqre/qa-dashboard.git
-jenkins_demo::profile::squash::ref: 0a4e9bccc8f0317f7352e4bc5ebbd3f5fe1b0a9c
+jenkins_demo::profile::squash::ref: 480c7a1084097354dc15c0190870beb2b2065b1c
 #jenkins_demo::profile::squash::squash_fqdn: squash
 #jenkins_demo::profile::squash::bokeh_fqdn: bokeh
 #jenkins_demo::profile::squash::bokeh_instances: 1
