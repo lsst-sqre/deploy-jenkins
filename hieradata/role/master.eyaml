@@ -334,7 +334,7 @@ jenkinsx::credentials:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: 'URL of Squash API endpoint'
-    secret: https://%{::squash_fqdn}/dashboard/api
+    secret: https://%{::squash_fqdn}/dashboard/api/
   squash-api-user:
     domain: null
     scope: GLOBAL

@@ -18,5 +18,7 @@ http-socket = :9090
 #chmod-socket = 666
 vacuum = true
 
+env = SQUASH_API_URL="https://<%= $squash_fqdn %>/dashboard/api/"
+
 # this *will break* uwsgi-2.0.12-2.el7.x86_64
 #env = DJANGO_SETTINGS_MODULE="squash.settings.production"

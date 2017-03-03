@@ -9,7 +9,7 @@ from .defaults import *
 
 DEBUG = False
 
-BOKEH_URL = 'https://<%= $bokeh_fqdn %>'
+BOKEH_URL = 'https://<%= $bokeh_fqdn %>/'
 
 DATABASES = {
     'default': {
