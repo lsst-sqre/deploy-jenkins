@@ -240,6 +240,7 @@ class jenkins_demo::profile::squash(
     proxy                 => 'http://qa-dashboard',
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
+    proxy_set_header      => $proxy_set_header,
   }
 
   nginx::resource::location { '/static':
