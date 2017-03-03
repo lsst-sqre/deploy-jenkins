@@ -9,8 +9,8 @@ User=uwsgi
 Group=uwsgi
 Environment="VIRTUAL_ENV=/opt/apps/qa-dashboard/venv"
 Environment="PATH=/opt/apps/qa-dashboard/venv/bin:$PATH"
-Environment="SQUASH_API_URL=https://<%= $squash_fqdn %>/dashboard/api"
-Environment="SQUASH_BASE_URL=https://<%= $squash_fqdn %>"
+Environment="SQUASH_API_URL=https://<%= $squash_fqdn %>/dashboard/api/"
+Environment="SQUASH_BASE_URL=https://<%= $squash_fqdn %>/"
 WorkingDirectory=/opt/apps/qa-dashboard/squash
 ExecStart=/usr/bin/scl enable rh-python35 -- /opt/apps/qa-dashboard/venv/bin/bokeh serve --log-level=info --port=%i --host=<%= $bokeh_fqdn %> --allow-websocket-origin=<%= $squash_fqdn %> --use-xheaders dashboard/viz/regression dashboard/viz/AMx dashboard/viz/PAx
 Restart=always
