@@ -241,6 +241,9 @@ class jenkins_demo::profile::squash(
     proxy_redirect        => 'default',
     proxy_connect_timeout => '30',
     proxy_set_header      => $proxy_set_header,
+    location_cfg_prepend  => {
+      client_max_body_size =>  '1024m',
+    },
   }
 
   nginx::resource::location { '/static':
