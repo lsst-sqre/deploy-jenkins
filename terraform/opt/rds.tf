@@ -2,6 +2,7 @@ resource "aws_db_instance" "jenkins-demo" {
   allocated_storage = 100
   storage_type      = "gp2"
   engine            = "mariadb"
+
   #  aws rds describe-db-engine-versions --engine mariadb
   engine_version    = "10.1.19"
   instance_class    = "db.m4.large"
@@ -14,7 +15,7 @@ resource "aws_db_instance" "jenkins-demo" {
   allow_major_version_upgrade = true
   auto_minor_version_upgrade  = false
 
-  #parameter_group_name     = "default.mysql5.6"
+  parameter_group_name      = "${aws_db_parameter_group.jenkins-demo.id}"
   final_snapshot_identifier = "${var.demo_name}-final"
   skip_final_snapshot       = false
   copy_tags_to_snapshot     = true
@@ -24,6 +25,24 @@ resource "aws_db_instance" "jenkins-demo" {
   multi_az                  = false
   backup_window             = "07:00-07:55"
   maintenance_window        = "Tue:08:00-Tue:11:00"
+}
+
+resource "aws_db_parameter_group" "jenkins-demo" {
+  name   = "${var.demo_name}-qadb"
+  family = "mariadb10.1"
+
+  # apply changes immediately by invoking a reboot
+
+  parameter {
+    name = "max_allowed_packet"
+
+    # 1GiB is the largest possible value
+    value        = "1073741824"
+    apply_method = "immediate"
+  }
+  tags {
+    Name = "${var.demo_name}"
+  }
 }
 
 resource "aws_subnet" "jenkins-demo-db1" {
@@ -77,8 +96,8 @@ resource "aws_iam_access_key" "qadb-backup" {
 # base bucket name on qadb FQDN to prevent dumps from test instances
 # accdientially getting mixed in with the production backups.
 resource "aws_s3_bucket" "qadb-backup" {
-  region = "${var.aws_default_region}"
-  bucket = "${var.demo_name}-qadb.${var.domain_name}-backups"
+  region        = "${var.aws_default_region}"
+  bucket        = "${var.demo_name}-qadb.${var.domain_name}-backups"
   force_destroy = false
 }
 
@@ -120,7 +139,6 @@ output "RDS_FQDN" {
 output "RDS_PASSWORD" {
   sensitive = true
   value     = "${var.rds_password}"
-
 }
 
 output "RDS_BACKUP_AWS_USER" {
