@@ -40,6 +40,16 @@ resource "aws_db_parameter_group" "jenkins-demo" {
     value        = "1073741824"
     apply_method = "immediate"
   }
+  parameter {
+    name = "innodb_log_file_size"
+
+    # transactions must be < 10% of the log size
+    # value is 256MiB * 10
+    value = "2684354560"
+
+    # this param can not be applied immediately
+    apply_method = "pending-reboot"
+  }
   tags {
     Name = "${var.demo_name}"
   }
