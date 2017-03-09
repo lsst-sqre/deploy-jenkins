@@ -15,6 +15,7 @@ WorkingDirectory=/opt/apps/qa-dashboard/squash
 ExecStart=/usr/bin/scl enable rh-python35 -- /opt/apps/qa-dashboard/venv/bin/bokeh serve --log-level=info --port=%i --host=<%= $bokeh_fqdn %> --allow-websocket-origin=<%= $squash_fqdn %> --use-xheaders dashboard/viz/regression dashboard/viz/AMx dashboard/viz/PAx
 Restart=always
 StandardError=syslog
+WatchdogSec=300
 
 [Install]
 WantedBy=multi-user.target
