@@ -415,6 +415,19 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: name of EUPS s3 bucket
     secret: eups.lsst.codes
+  aws-doxygen-push:
+    domain:
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: push doxygen builds -> s3
+    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAb5opsio3vgnHNFR5/yQgLAXcPFevY1N56Vo/zhSCbdZ2N7p/LAoGYVwewyaQWt0poV0z7y8hsnYJhx/u2fUHovW5xaPtEKDIcgUAKirBeW0qiMqgNIKdzqSBplMmTdajMQOPt8tZ/sV9iFyRBJjOWeXDYiSwd9Z14bKNNySh2hb63a1JTTh14tS5QAwkh1cu28ShyWzrVAuIeKlrXpr+Z359oNOjnJcxZ00tmaA0h5Afo0mFdKncdUNE2mKe/eBmiP33wsUwlnhKQ8AmDAJYlgOOFETONCbeMrqam6KvYRiQw3w6WZWpfxmc2Yo//ATbLCgPEt13LaJdGoyryiANVTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDw4l0a+hrvZ+/u3R0+9TvogCBjHN27PUHSeSaACwSF3To89g4JfUOupMIVUk3j1EcqGA==]
+    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAIoE2/xwIwvBuatEsvUVXKd/SBxVlK081sdahHuHdWdpsVCX+lNGJ/yPnCrsrP2EmltIxgt2dKSGV5BwfWtMNwqrJOrIELgtIeOV5wEAtIyUbPsRjD/91k344u6Qaw1lpp+I28Z/fgXVLj3AaBlr1BYwK05uDLAEeUBrBR+BH9WqAesf1dzq8ijk9FhAp4mE6EAhBR3NDxI0DTgM4WhEJwg5Qmr6a8z/sao+10CNeJ4P23I3iZes61MwA9YVfaxfebv1rAbLqmmDy8buTShLe/flTd0Cc5k/9VFO4971FSW/vbX9Ah/xtFJWfV39XHaEzCmpCBYqS7h1c2OmDGh4oADBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBANzSrMwYxP2bXn10lxeI/gDAIpP5l1jXgWEsRNhxRR2VyMAZQyfdhbofzMqYRFca2yDcfbCT/Ik28hbCQ3uqYjB8=]
+  doxygen-push-bucket:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: name of doxygen s3 bucket
+    secret: doxygen.lsst.codes
 jenkins::plugins::slack:
     teamdomain: lsstc
     token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAQr9uHBefJOss1hg+vLSWh4BE8lo8ugwb+4D4udFbSO2SJrMogHIYDJtjw9Tg/h5d69yJbi56vOaBKU9Cn2hFIpD0hSJL2SbcA0Vfrvu1rgsMTHco4rLzwNaatCT0TBKTd47tcU/2DfhNZPg2FduC9AqPZ+j57GtKbbkz/d+KZadBhHh9/DvjKOLimjLhOBTP0ymL6Qiw4ZsY7LqMVAzbYvPJx4colYEUfpptYWSA817z0x7/UE+14YZoitWGoAsVRRY/fVaTEQAWK7TxVy6OBip75OaLWGdeiW/X0sGbDsoD4BtroJXjItdLROUIVyzxOCLr5yjNrmt2pdaS/UNKWjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD5q4AoqHoZzqwCUfUkrZzJgCBIgeXqF/Vcq44vKHvyEineTWiHZRxO9ctUc/vFmPQ2tg==]
