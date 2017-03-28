@@ -23,6 +23,9 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['localhost', '<%= $squash_fqdn %>']
 
+# https://docs.djangoproject.com/en/1.8/ref/settings/#session-cookie-domain
+SESSION_COOKIE_DOMAIN = ".<%= $::domain_name %>"
+
 DJANGO_LOG_LEVEL=DEBUG
 
 # This is 'required' to get logging to work under uwsgi. See:
