@@ -27,13 +27,14 @@ class jenkins_demo::profile::slave {
     $docker = undef
   }
 
-  $platform = downcase("${::operatingsystem}-${::operatingsystemmajrelease}")
+  $os = downcase($::operatingsystem)
+  $platform = downcase("${os}-${::operatingsystemmajrelease}")
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     slave_groups => $docker,
     executors    => 1,
-    labels       => "${::hostname} ${platform} ${docker}",
+    labels       => "${::hostname} $os ${platform} ${docker}",
     # don't start slave before lsstsw build env is ready
     require      => [
       Class['lsststack'],
