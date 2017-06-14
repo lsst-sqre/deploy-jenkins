@@ -155,8 +155,6 @@ jenkins::plugin_hash:
     version: '1.12'
   # credentials
   # /kubernetes deps
-  dynamic-axis:
-    version: '1.0.3'
   multiple-scms:
     version: '0.6'
   extended-choice-parameter:
