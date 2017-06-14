@@ -69,12 +69,16 @@ class jenkins_demo::profile::master(
     virtualenv => 'present',
   }
 
-  jenkins_job { 'seeds':
-    config => template("${module_name}/jobs/seeds/config.xml"),
+  jenkins_job { 'sqre':
+    config => template("${module_name}/jobs/sqre/config.xml"),
   }
 
-  jenkins_job { 'seeds/dm-jobs':
-    config => epp("${module_name}/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
+  jenkins_job { 'sqre/seeds':
+    config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
+  }
+
+  jenkins_job { 'sqre/seeds/dm-jobs':
+    config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
       seed_url => $seed_url,
       seed_ref => $seed_ref,
     }),
