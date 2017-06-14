@@ -27,7 +27,7 @@ jenkins::plugin_hash:
   junit:
     version: '1.18'
   matrix-project:
-    version: '1.7.1'
+    version: '1.10'
   # matrix-project deps
   script-security:
     version: '1.24'
