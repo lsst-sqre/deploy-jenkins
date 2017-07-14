@@ -119,7 +119,7 @@ class jenkins_demo::profile::master(
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
       manage_config   => true,
-      version         => '2.0.1',
+      version         => '2.2',
       config_filename => $slack_xml,
       config_content  => template("${module_name}/plugins/${slack_xml}"),
     }
@@ -128,7 +128,7 @@ class jenkins_demo::profile::master(
   $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
   jenkins::plugin { 'ansicolor':
     manage_config   => true,
-    version         => '0.4.2',
+    version         => '0.5.2',
     config_filename => $ansicolor_xml,
     config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
   }
@@ -136,7 +136,7 @@ class jenkins_demo::profile::master(
   $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
   jenkins::plugin { 'collapsing-console-sections':
     manage_config   => true,
-    version         => '1.5.0',
+    version         => '1.6.0',
     config_filename => $collapsing_xml,
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
@@ -144,7 +144,7 @@ class jenkins_demo::profile::master(
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.25.0',
+    version         => '1.28.0',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
