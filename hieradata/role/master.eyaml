@@ -467,44 +467,44 @@ jenkins::plugins::slack:
 #  elcapitan-1:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: elcapitan-1
-#      host: mac-os-x-el-capitan-build-1.lsst.codes
-#      label: osx osx-10.11 elcapitan-1
+#      name: elcap-1
+#      host: jenkins-elcap-1.lsst.cloud
+#      label: osx osx-10.11 elcap-1
 #  elcapitan-2:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: elcapitan-2
-#      host: mac-os-x-el-capitan-build-2.lsst.codes
-#      label: osx osx-10.11 elcapitan-2
+#      name: elcap-2
+#      host: jenkins-elcap-2.lsst.cloud
+#      label: osx osx-10.11 elcap-2
 #  elcapitan-3:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: elcapitan-3
-#      host: mac-os-x-el-capitan-build-3.lsst.codes
-#      label: osx osx-10.11 elcapitan-3
+#      name: elcap-3
+#      host: jenkins-elcap-3.lsst.cloud
+#      label: osx osx-10.11 elcap-3
 #  elcapitan-4:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
-#      name: elcapitan-4
-#      host: mac-os-x-el-capitan-build-4.lsst.codes
-#      label: osx osx-10.11 elcapitan-3
+#      name: elcap-4
+#      host: jenkins-elcap-4.lsst.cloud
+#      label: osx osx-10.11 elcap-3
 #  sierra-1:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
 #      name: sierra-1
-#      host: mac-os-sierra-build-1.lsst.codes
+#      host: jenkins-sierra-1.lsst.cloud
 #      label: osx osx-10.12 sierra-1
 #  sierra-2:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
 #      name: sierra-2
-#      host: mac-os-sierra-build-2.lsst.codes
+#      host: jenkins-sierra-2.lsst.cloud
 #      label: osx osx-10.12 sierra-2
 #  sierra-3:
 #    template: "%{module_name}/nodes/osx/config.xml.epp"
 #    params:
 #      name: sierra-3
-#      host: mac-os-sierra-build-3.lsst.codes
+#      host: jenkins-sierra-3.lsst.cloud
 #      label: osx osx-10.12 sierra-3
 jenkinsx::user:
   jhoblitt:
