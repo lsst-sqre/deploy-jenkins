@@ -231,6 +231,7 @@ class jenkins_demo::profile::master(
       seluser  => 'system_u',
       replace  => false,
       backup   => false,
+      notify   => Class['::nginx'],
     }
 
     # note that nginx needs the signed cert and the CA chain in the same file
@@ -242,7 +243,7 @@ class jenkins_demo::profile::master(
       seltype  => 'httpd_config_t',
       seluser  => 'system_u',
       backup   => false,
-      before   => Class['::nginx'],
+      notify   => Class['::nginx'],
     }
     concat::fragment { 'public - signed cert':
       target  => $ssl_cert_path,
@@ -265,7 +266,7 @@ class jenkins_demo::profile::master(
       content   => $ssl_key,
       backup    => false,
       show_diff => false,
-      before    => Class['::nginx'],
+      notify    => Class['::nginx'],
     }
 
     concat { $ssl_root_chain_path:
@@ -276,7 +277,7 @@ class jenkins_demo::profile::master(
       seltype  => 'httpd_config_t',
       seluser  => 'system_u',
       backup   => false,
-      before   => Class['::nginx'],
+      notify   => Class['::nginx'],
     }
     concat::fragment { 'root-chain - chain cert':
       target  => $ssl_root_chain_path,
