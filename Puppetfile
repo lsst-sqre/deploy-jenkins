@@ -53,10 +53,10 @@ mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
 # 0.3.0 adds systemd fact
 mod 'camptocamp/systemd', '~> 0.3'
-mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
+mod 'jhoblitt/oauth2_proxy', '~> 1.3.0'
 mod 'garethr/docker', '~> 5.3.0'
 mod 'maestrodev/rvm', '~> 1.13.1'
-mod 'puppet/archive', '~> 0.5'
+mod 'puppet/archive', '~> 1.3.0'
 # pending merger or resolution of:
 # https://github.com/Mylezeem/puppet-mariadbrepo/pull/7
 mod 'yguenane/mariadbrepo',
