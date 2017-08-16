@@ -214,6 +214,7 @@ Vagrant.configure('2') do |config|
   if Vagrant.has_plugin?('vagrant-librarian-puppet')
     config.librarian_puppet.placeholder_filename = ".gitkeep"
     config.librarian_puppet.puppetfile_dir = "environments/jenkins/modules"
+    config.librarian_puppet.destructive = false
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")
