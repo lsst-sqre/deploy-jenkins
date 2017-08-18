@@ -22,6 +22,15 @@ class jenkins_demo::profile::master(
 
   jenkins_num_executors{ '0': ensure => present }
   jenkins_slaveagent_port{ '55555': ensure => present }
+  jenkins_exec{ 'job-dsl security':
+    script => @(END)
+      import jenkins.model.*
+
+      def j = Jenkins.getInstance()
+      def jobDsl = j.getDescriptor("javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration")
+      jobDsl.setUseScriptSecurity(false)
+    END
+  }
 
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = hiera('jenkinsx', undef)
