@@ -29,8 +29,8 @@ mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '6b0499bd048dbce48f3e644ca8e89ca602bd74ce'
+  :git => 'https://github.com/lsst-sqre/puppet-jenkins.git',
+  :ref => '98daeb9b341159d4798665fe80709b569e2dfce9'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
