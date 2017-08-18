@@ -45,6 +45,8 @@ class jenkins_demo::profile::master(
 
   class { 'jenkins::cli::config':
     ssh_private_key => $admin_key_path,
+    cli_remoting_free   => false,
+    cli_legacy_remoting => true,
   }
 
   $user_hash = hiera('jenkinsx::user', undef)
