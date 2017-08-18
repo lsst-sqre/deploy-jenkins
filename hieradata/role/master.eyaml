@@ -479,11 +479,11 @@ jenkinsx::credentials:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: slack lsstc org API token
-    secret: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEARyrE/5pxqbV+TK0XX6oBvYodfyCuwirQIebNHmnDWhc8IVitx79/Zxu9q+d9p3eM8f8IpF3jyyCYIKlRHbZDpEIj/BF6Cre8glDaM/6A5C8epargHOlGx8VD+BhkFP6dZgi6ebbHw61sEQZeW0TN0kiEaSHkuaOhUoBnQ9XeQKYGfMSw1/vhuDq/5hlQGdcCQ89NExGwCT71PQ3hOS9ETYPQbEWWuHev2TBXoM1mn2EO5XBV8FT1m4p5kBnTcSUYuenLJrROnoaXIuHc6E/EWWAc5DdxmHe3mEfow2t+2xoEx3yFM758XmrKwYDPXwk83jX8Bx6yRdHLMXIK0Vmm3DBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAiVQ4esXRZwKVCXCjmLkeWgCBfih21HXXKKpG7bmQ+/BZJIm7095PvgFswgOImle+wGw==]
+    secret: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlGoAn4QniTB6qjRlyWC0V6CksgfBPgpJ8u20huT0MjMpzrRjDzuihZQl/9yVENZQtDBzrhz/poYH03iAhTXqtQG6KWP5qU3J0ki7sibpTFlbQpYmkYogaRtKZvPtdSSuFi3R7F02GE2Q2hJXA8KJdxUl0+FsaCcQvvaYUzveruylwy8gKBg74hsdyo/S2y34Q3GdznG7cR4NmV4T7HEflNgLuASTD3nscFEtNy947mlvWp2BLXmD0/8SVyGbTQOAQVZLZf+rR+F6DFOKr+m4BIEM5U7DD9HAS5KS9yRz+m5IZDI+T61Mx7T/MOVaopt48dSWcl+U+xysvNBtGTbfJDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCM4Is3WDn0v8x4CZDuVG+ggCAdOymyJy3scVtwddXLGfCQN9BmnB46orARP8LDC+ZgQA==]
 jenkins::plugins::slack:
     teamdomain: lsstc
     tokencredentialid: slack-lsstc-token
-    room: '#dm-slack-test'
+    room: '#dm-jenkins-test'
 #jenkinsx::nodes:
 #  lsst-dev:
 #    template: "%{module_name}/nodes/lsst-dev/config.xml.epp"
