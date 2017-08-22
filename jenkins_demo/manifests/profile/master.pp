@@ -22,6 +22,15 @@ class jenkins_demo::profile::master(
 
   jenkins_num_executors{ '0': ensure => present }
   jenkins_slaveagent_port{ '55555': ensure => present }
+  jenkins_exec{ 'job-dsl security':
+    script => @(END)
+      import jenkins.model.*
+
+      def j = Jenkins.getInstance()
+      def jobDsl = j.getDescriptor("javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration")
+      jobDsl.setUseScriptSecurity(false)
+    END
+  }
 
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = hiera('jenkinsx', undef)
@@ -36,6 +45,8 @@ class jenkins_demo::profile::master(
 
   class { 'jenkins::cli::config':
     ssh_private_key => $admin_key_path,
+    cli_remoting_free   => false,
+    cli_legacy_remoting => true,
   }
 
   $user_hash = hiera('jenkinsx::user', undef)
@@ -119,7 +130,7 @@ class jenkins_demo::profile::master(
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
       manage_config   => true,
-      version         => '2.0.1',
+      version         => '2.2',
       config_filename => $slack_xml,
       config_content  => template("${module_name}/plugins/${slack_xml}"),
     }
@@ -128,7 +139,7 @@ class jenkins_demo::profile::master(
   $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
   jenkins::plugin { 'ansicolor':
     manage_config   => true,
-    version         => '0.4.2',
+    version         => '0.5.2',
     config_filename => $ansicolor_xml,
     config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
   }
@@ -136,7 +147,7 @@ class jenkins_demo::profile::master(
   $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
   jenkins::plugin { 'collapsing-console-sections':
     manage_config   => true,
-    version         => '1.5.0',
+    version         => '1.6.0',
     config_filename => $collapsing_xml,
     config_content  => template("${module_name}/plugins/${collapsing_xml}"),
   }
@@ -144,7 +155,7 @@ class jenkins_demo::profile::master(
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.25.0',
+    version         => '1.28.0',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
@@ -231,6 +242,7 @@ class jenkins_demo::profile::master(
       seluser  => 'system_u',
       replace  => false,
       backup   => false,
+      notify   => Class['::nginx'],
     }
 
     # note that nginx needs the signed cert and the CA chain in the same file
@@ -242,7 +254,7 @@ class jenkins_demo::profile::master(
       seltype  => 'httpd_config_t',
       seluser  => 'system_u',
       backup   => false,
-      before   => Class['::nginx'],
+      notify   => Class['::nginx'],
     }
     concat::fragment { 'public - signed cert':
       target  => $ssl_cert_path,
@@ -265,7 +277,7 @@ class jenkins_demo::profile::master(
       content   => $ssl_key,
       backup    => false,
       show_diff => false,
-      before    => Class['::nginx'],
+      notify    => Class['::nginx'],
     }
 
     concat { $ssl_root_chain_path:
@@ -276,7 +288,7 @@ class jenkins_demo::profile::master(
       seltype  => 'httpd_config_t',
       seluser  => 'system_u',
       backup   => false,
-      before   => Class['::nginx'],
+      notify   => Class['::nginx'],
     }
     concat::fragment { 'root-chain - chain cert':
       target  => $ssl_root_chain_path,

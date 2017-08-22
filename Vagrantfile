@@ -166,7 +166,7 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '4.8.1'
+  config.puppet_install.puppet_version = '4.10.6'
 
   config.vm.provision "puppet", type: :puppet do |puppet|
     puppet.hiera_config_path = "hiera.yaml"
@@ -214,6 +214,7 @@ Vagrant.configure('2') do |config|
   if Vagrant.has_plugin?('vagrant-librarian-puppet')
     config.librarian_puppet.placeholder_filename = ".gitkeep"
     config.librarian_puppet.puppetfile_dir = "environments/jenkins/modules"
+    config.librarian_puppet.destructive = false
   end
 
   if Vagrant.has_plugin?("vagrant-cachier")

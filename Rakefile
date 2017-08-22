@@ -24,7 +24,7 @@ end
 
 desc 'run librarian-puppet'
 task :librarian do
-  sh "librarian-puppet install"
+  sh "librarian-puppet install --destructive"
 end
 
 task :default => [

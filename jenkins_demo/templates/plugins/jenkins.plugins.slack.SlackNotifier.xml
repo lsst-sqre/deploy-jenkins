@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jenkins.plugins.slack.SlackNotifier_-DescriptorImpl plugin="slack@2.0.1">
+<jenkins.plugins.slack.SlackNotifier_-DescriptorImpl plugin="slack@2.2">
+  <baseUrl></baseUrl>
   <teamDomain><%= @slack['teamdomain'] %></teamDomain>
-  <token><%= @slack['token'] %></token>
+  <token></token>
+  <tokenCredentialId><%= @slack['tokencredentialid'] %></tokenCredentialId>
+  <botUser>false</botUser>
   <room><%= @slack['room'] %></room>
-  <buildServerUrl><%= @slack['buildserverurl'] %></buildServerUrl>
 </jenkins.plugins.slack.SlackNotifier_-DescriptorImpl>

@@ -29,8 +29,8 @@ mod 'saz/sudo',
   :git => 'https://github.com/pbyrne413/puppet-sudo',
   :ref => '30feebf655c4966b96ae328c40c1a2dc144c2e66'
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => '6b0499bd048dbce48f3e644ca8e89ca602bd74ce'
+  :git => 'https://github.com/lsst-sqre/puppet-jenkins.git',
+  :ref => '98daeb9b341159d4798665fe80709b569e2dfce9'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
   :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
@@ -53,10 +53,10 @@ mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
 # 0.3.0 adds systemd fact
 mod 'camptocamp/systemd', '~> 0.3'
-mod 'jhoblitt/oauth2_proxy', '~> 1.2.0'
+mod 'jhoblitt/oauth2_proxy', '~> 1.3.0'
 mod 'garethr/docker', '~> 5.3.0'
 mod 'maestrodev/rvm', '~> 1.13.1'
-mod 'puppet/archive', '~> 0.5'
+mod 'puppet/archive', '~> 1.3.0'
 # pending merger or resolution of:
 # https://github.com/Mylezeem/puppet-mariadbrepo/pull/7
 mod 'yguenane/mariadbrepo',
