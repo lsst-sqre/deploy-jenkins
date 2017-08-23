@@ -244,12 +244,6 @@ jenkins::plugin_hash:
   # /pipeline/workflow deps
   copyartifact:
     version: '1.38.1'
-  uno-choice: # aka, Active Choices
-    version: '1.4'
-  # Active Choices deps
-  scriptler:
-    version: '2.9'
-  # /Active Choices deps
   saferestart:
     version: '0.3'
   # slack is declared in master.pp
