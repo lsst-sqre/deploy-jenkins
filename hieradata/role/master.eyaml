@@ -208,7 +208,7 @@ jenkins::plugin_hash:
   branch-api:
     version: '2.0.11'
   workflow-durable-task-step:
-    version: '2.13'
+    version: '2.14'
   pipeline-input-step:
     version: '2.8'
   pipeline-stage-step:
@@ -277,7 +277,7 @@ jenkins::plugin_hash:
   github-branch-source:
     version: '2.2.3'
   blueocean:
-    version: &bov '1.1.7'
+    version: &bov '1.2.0'
   # blueocean deps
   blueocean-autofavorite:
     version: '1.0.0'
@@ -304,7 +304,7 @@ jenkins::plugin_hash:
   blueocean-pipeline-api-impl:
     version: *bov
   blueocean-pipeline-editor:
-    version: '0.2.0'
+    version: *bov
   blueocean-pipeline-scm-api:
     version: *bov
   blueocean-rest:
