@@ -313,6 +313,8 @@ jenkins::plugin_hash:
     version: *bov
   blueocean-web:
     version: *bov
+  blueocean-bitbucket-pipeline:
+    version: *bov
   favorite:
     version: '2.3.0'
   pubsub-light:
@@ -321,6 +323,14 @@ jenkins::plugin_hash:
     version: '1.15'
   variant:
     version: '1.1'
+  jira:
+    version: '2.4.2'
+  htmlpublisher:
+    version: '1.14'
+  cloudbees-bitbucket-branch-source:
+    version: '2.2.3'
+  mercurial:
+    version: '2.1'
   # /blueocean deps
   pipeline-utility-steps:
     version: '1.4.0'
