@@ -165,6 +165,25 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  config.vm.define 'snowflake-1' do |define|
+    hostname = gen_hostname('snowflake-1')
+    define.vm.hostname = hostname
+
+    define.vm.provider :aws do |provider, override|
+      ci_hostname(hostname, provider, 'snowflake')
+
+      provider.ami = centos7_ami
+      provider.tags = { 'Name' => hostname }
+      provider.block_device_mapping = [{
+        'DeviceName'              => '/dev/sda1',
+        'Ebs.VolumeSize'          => 500,
+        'Ebs.VolumeType'          => 'gp2',
+        'Ebs.DeleteOnTermination' => 'true',
+      }]
+      provider.instance_type = 'm4.xlarge'
+    end
+  end
+
   # setup the remote repo needed to install a current version of puppet
   config.puppet_install.puppet_version = '4.10.6'
 
