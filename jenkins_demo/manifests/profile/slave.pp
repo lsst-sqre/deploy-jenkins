@@ -1,4 +1,7 @@
-class jenkins_demo::profile::slave {
+class jenkins_demo::profile::slave(
+  Enum['normal', 'exclusive'] $slave_mode          = 'normal',
+  Optional[Variant[Array[String], String]] $labels = undef,
+) {
   include ::lsststack
 
   if $::operatingsystemmajrelease == '7' {
@@ -27,14 +30,21 @@ class jenkins_demo::profile::slave {
     $docker = undef
   }
 
+  if ($labels =~ Array) {
+    $extra_labels = join($labels, " ")
+  } else {
+    $extra_labels = $labels
+  }
+
   $os = downcase($::operatingsystem)
   $platform = downcase("${os}-${::operatingsystemmajrelease}")
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     slave_groups => $docker,
+    slave_mode   => $slave_mode,
     executors    => 1,
-    labels       => "${::hostname} $os ${platform} ${docker}",
+    labels       => "${::hostname} $os ${platform} ${docker} ${extra_labels}",
     # don't start slave before lsstsw build env is ready
     require      => [
       Class['lsststack'],
