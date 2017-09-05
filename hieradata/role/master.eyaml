@@ -532,9 +532,9 @@ jenkinsx::credentials:
     description: slack lsstc org API token
     secret: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlGoAn4QniTB6qjRlyWC0V6CksgfBPgpJ8u20huT0MjMpzrRjDzuihZQl/9yVENZQtDBzrhz/poYH03iAhTXqtQG6KWP5qU3J0ki7sibpTFlbQpYmkYogaRtKZvPtdSSuFi3R7F02GE2Q2hJXA8KJdxUl0+FsaCcQvvaYUzveruylwy8gKBg74hsdyo/S2y34Q3GdznG7cR4NmV4T7HEflNgLuASTD3nscFEtNy947mlvWp2BLXmD0/8SVyGbTQOAQVZLZf+rR+F6DFOKr+m4BIEM5U7DD9HAS5KS9yRz+m5IZDI+T61Mx7T/MOVaopt48dSWcl+U+xysvNBtGTbfJDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCM4Is3WDn0v8x4CZDuVG+ggCAdOymyJy3scVtwddXLGfCQN9BmnB46orARP8LDC+ZgQA==]
 jenkins::plugins::slack:
-    teamdomain: lsstc
-    tokencredentialid: slack-lsstc-token
-    room: '#dm-jenkins-test'
+  teamdomain: lsstc
+  tokencredentialid: slack-lsstc-token
+  room: '#dm-jenkins-test'
 #jenkinsx::nodes:
 #  lsst-dev:
 #    template: "%{module_name}/nodes/lsst-dev/config.xml.epp"

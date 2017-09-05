@@ -23,11 +23,12 @@ class jenkins_demo::profile::squash(
   $ssl_key_path        = "${private_dir}/private.key"
   $ssl_dhparam_path    = "${private_dir}/dhparam.pem"
   $ssl_root_chain_path = "${private_dir}/root_chain.pem"
-  $ssl_cert            = hiera('ssl_cert', undef)
-  $ssl_chain_cert      = hiera('ssl_chain_cert', undef)
-  $ssl_root_cert       = hiera('ssl_root_cert', undef)
-  $ssl_key             = hiera('ssl_key', undef)
-  $add_header          = hiera('add_header', undef)
+  $ssl_cert            = lookup('ssl_cert', String, 'first', undef)
+  $ssl_chain_cert      = lookup('ssl_chain_cert', String, 'first', undef)
+  $ssl_root_cert       = lookup('ssl_root_cert', String, 'first', undef)
+  $ssl_key             = lookup('ssl_key', String, 'first', undef)
+  $add_header          = lookup('add_header',
+                               Hash[String, String], 'first', undef)
   #$uwsgi_sock          = 'unix:/run/uwsgi/squash.sock'
   #=> 'unix:/home/vagrant/qa-dashboard/squash/squash.sock',
   $base                = '/opt/apps/qa-dashboard'

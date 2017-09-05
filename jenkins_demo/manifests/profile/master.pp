@@ -33,7 +33,7 @@ class jenkins_demo::profile::master(
   }
 
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
-  $j = hiera('jenkinsx', undef)
+  $j = lookup('jenkinsx', Hash[String, String])
 
   file { $admin_key_path:
     ensure  => file,
@@ -49,16 +49,28 @@ class jenkins_demo::profile::master(
     cli_legacy_remoting => true,
   }
 
-  $user_hash = hiera('jenkinsx::user', undef)
+  $user_hash = lookup('jenkinsx::user',
+                      Hash[String,
+                        Hash[String,
+                          Variant[String, Array[String]]]])
   create_resources('jenkins_user', $user_hash)
 
-  $strategy = hiera('jenkinsx::authorization_strategy', undef)
+  $strategy = lookup('jenkinsx::authorization_strategy',
+                     Hash[String,
+                       Hash[String,
+                         Array[Variant[String, Boolean]]]])
   create_resources('jenkins_authorization_strategy', $strategy)
 
-  $realm = hiera('jenkinsx::security_realm', undef)
+  $realm = lookup('jenkinsx::security_realm',
+                  Hash[String,
+                    Hash[String,
+                      Array[String]]])
   create_resources('jenkins_security_realm', $realm)
 
-  $creds = hiera('jenkinsx::credentials', undef)
+  $creds = lookup('jenkinsx::credentials',
+                  Hash[String,
+                    Hash[String,
+                      Variant[String, Undef]]])
   create_resources('jenkins_credentials', $creds)
 
   # run a jnlp slave to execute jobs that need to be bound to the
@@ -97,13 +109,13 @@ class jenkins_demo::profile::master(
 
   # puppet-jenkins does not presently support the management of nodes
   # XXX this is a dirty hack
-  $nodes = hiera('jenkinsx::nodes', false)
+  $nodes = lookup('jenkinsx::nodes', Hash[String, Hash], 'first', undef)
   if $nodes {
     create_resources('jenkins_demo::profile::jenkins::node', $nodes)
   }
 
   # XXX this is [also] a dirty hack
-  $jenkins_url = hiera('jenkins_fqdn', $::jenkins_fqdn)
+  $jenkins_url = lookup('jenkins_fqdn', String, 'first', $::jenkins_fqdn)
   file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
       ensure  => file,
       owner   => 'jenkins',
@@ -124,8 +136,8 @@ class jenkins_demo::profile::master(
     ensure => absent,
   }
 
-  $slack = hiera('jenkins::plugins::slack', undef)
-
+  $slack = lookup('jenkins::plugins::slack',
+                  Hash[String, String], 'first', undef)
   if $slack {
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
@@ -170,12 +182,14 @@ class jenkins_demo::profile::master(
   $ssl_key_path        = "${private_dir}/private.key"
   $ssl_dhparam_path    = "${private_dir}/dhparam.pem"
   $ssl_root_chain_path = "${private_dir}/root_chain.pem"
-  $ssl_cert            = hiera('ssl_cert', undef)
-  $ssl_chain_cert      = hiera('ssl_chain_cert', undef)
-  $ssl_root_cert       = hiera('ssl_root_cert', undef)
-  $ssl_key             = hiera('ssl_key', undef)
-  $add_header          = hiera('add_header', undef)
-  $jenkins_fqdn        = hiera('jenkins_fqdn', $::jenkins_fqdn)
+  $ssl_cert            = lookup('ssl_cert', String, 'first', undef)
+  $ssl_chain_cert      = lookup('ssl_chain_cert', String, 'first', undef)
+  $ssl_root_cert       = lookup('ssl_root_cert', String, 'first', undef)
+  $ssl_key             = lookup('ssl_key', String, 'first', undef)
+  $add_header          = lookup('add_header',
+                                Hash[String, String], 'first', undef)
+  $jenkins_fqdn        = lookup('jenkins_fqdn',
+                                String, 'first', $::jenkins_fqdn)
 
   $proxy_set_header = [
     'Host            $host',
