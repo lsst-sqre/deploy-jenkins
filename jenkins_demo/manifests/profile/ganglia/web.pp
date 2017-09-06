@@ -7,7 +7,8 @@ class jenkins_demo::profile::ganglia::web {
   # priority of 500 works with a non-ssl vhost but ends up the before the
   # server {} block of an ssl host.  Inversly, a priority of 800-899 ends up
   # after the server {} block of a non-ssl host.
-  if hiera('ssl_cert', undef) and hiera('ssl_key', undef) {
+  if lookup('ssl_cert', { default_value => undef})
+      and lookup('ssl_key', { default_value => undef}) {
     $priority = 850
   } else {
     $priority = 550

@@ -1,5 +1,5 @@
 class jenkins_demo::profile::ganglia::gmond {
-  $jenkins_fqdn = hiera('jenkins_fqdn', $::jenkins_fqdn)
+  $jenkins_fqdn = lookup('jenkins_fqdn', String, 'first', $::jenkins_fqdn)
 
   $udp_recv_channel = [
     {port  => 8649, bind => 'localhost'},
