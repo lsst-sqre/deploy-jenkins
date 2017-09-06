@@ -1,6 +1,7 @@
 class jenkins_demo::profile::slave(
   Enum['normal', 'exclusive'] $slave_mode          = 'normal',
   Optional[Variant[Array[String], String]] $labels = undef,
+  Boolean                      $use_default_labels = true,
 ) {
   include ::lsststack
 
@@ -30,21 +31,27 @@ class jenkins_demo::profile::slave(
     $docker = undef
   }
 
-  if ($labels =~ Array) {
-    $extra_labels = join($labels, " ")
+  $default_labels = [
+    $::hostname,
+    downcase($::os['name']),
+    downcase("${::os['name']}-${::os['release']['major']}"),
+    $docker,
+  ]
+
+  if ($use_default_labels) {
+    $real_labels = concat($default_labels, $labels)
   } else {
-    $extra_labels = $labels
+    $real_labels = $labels
   }
 
-  $os = downcase($::operatingsystem)
-  $platform = downcase("${os}-${::operatingsystemmajrelease}")
+  notice($real_labels)
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     slave_groups => $docker,
     slave_mode   => $slave_mode,
     executors    => 1,
-    labels       => "${::hostname} $os ${platform} ${docker} ${extra_labels}",
+    labels       => join(delete_undef_values($real_labels), " "),
     # don't start slave before lsstsw build env is ready
     require      => [
       Class['lsststack'],
