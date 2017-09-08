@@ -33,7 +33,7 @@ mod 'rtyler/jenkins',
   :ref => '98daeb9b341159d4798665fe80709b569e2dfce9'
 mod 'lsst/lsststack',
   :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
-  :ref => '848eadfe15b6ab24604c39694940bb1addc5a712'
+  :ref => 'f8ce1d8b435f53eb9f4a591f4572378988fb0d13'
 
 mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'mayflower/php', '~> 3.2'
