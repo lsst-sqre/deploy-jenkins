@@ -229,6 +229,9 @@ class jenkins_demo::profile::master(
     "if ( \$host != \'${jenkins_fqdn}\' ) {",
     "  return 301 https://${jenkins_fqdn}\$request_uri;",
     '}',
+    "if ( \$http_referer ~ ^(?!https://${jenkins_fqdn}) ) {",
+    "  rewrite ^/$ https://${jenkins_fqdn}/blue/organizations/jenkins last;",
+    '}',
   ]
 
   if $enable_ssl {
