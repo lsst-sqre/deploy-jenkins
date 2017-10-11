@@ -432,6 +432,19 @@ jenkinsx::credentials:
     description: 'user/pass for Squash test API endpoint'
     username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAe2shzxYOUGtIf0QTqzAwycoa0Zftvy13l7yhKq50SoGDJUwxLCsI6130DA1HHmILP5+v8Zo28s5BD2w64dfipWkx1dZBzK5ZPZcAQKo9FMEBQ3Rt/fccWWCUYtWydKrLoi3m09c1OtpvIAKv0t6SJbr3YxU1/ogWwCT/Ev0bsPr1VpuutRyCNqChDV9ZP0Omdoud84DlVlnH2aP1BHf+2bXoYwfOu1uVltXQv6SWYP0DPITlzvNSGTprJI+EayG6qFo7kMbcQ8OPCYgQJTjaI1qtmVS35/lDEF/HOARQ5gJAsKs22rNVCNsmCJ2WjgISYuHh4vuVbBvksXwo9sbgfjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdb8VpnXs6LotWEM0W+eZ/gBDqJgwpaKXeHgYSvBHqHs60]
     password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEASFocFvd4/Dw85/gC5uqMMC5MGhoA/sQTbaUC1L7Pl8ZcM/kaArMDaimERGh1MF+VMdwg4lTG+nm3Lo1o+LWqDrEJOqFomknjKpLQfgvwaHO9BAtnPVB/pZD8y33T5pw7AB++9cUrdKkv63KFOn5xcQJx7EJT/4oLfnJiWqcIJDU5aU7yi6zu/U5+CmR9YXyIEqtL/4hvVwUt9YOicubB+JACu51Eq3Ex4bHWQEvhQ9EwPpQTi0pXvYH154N0ZP3z/p4e94rSGiCkDCzY//PCnXrVW3ZGLYbNncdulR6TR+mzwpp6zkRQP+fcGyVqSOXcDSVgjbM8VPP0/ZilGcZ4xzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC6JS2wvNRp5eLZouVYrk9ygBAl18xNxc0k1DP1yNz9TdgB]
+  squash-new-api-url:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'URL for the new Squash API endpoint'
+    secret: https://squash-api.lsst.codes
+  squash-new-api-user:
+    domain: null
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: 'user/pass for the new  Squash API endpoint'
+    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAe2shzxYOUGtIf0QTqzAwycoa0Zftvy13l7yhKq50SoGDJUwxLCsI6130DA1HHmILP5+v8Zo28s5BD2w64dfipWkx1dZBzK5ZPZcAQKo9FMEBQ3Rt/fccWWCUYtWydKrLoi3m09c1OtpvIAKv0t6SJbr3YxU1/ogWwCT/Ev0bsPr1VpuutRyCNqChDV9ZP0Omdoud84DlVlnH2aP1BHf+2bXoYwfOu1uVltXQv6SWYP0DPITlzvNSGTprJI+EayG6qFo7kMbcQ8OPCYgQJTjaI1qtmVS35/lDEF/HOARQ5gJAsKs22rNVCNsmCJ2WjgISYuHh4vuVbBvksXwo9sbgfjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdb8VpnXs6LotWEM0W+eZ/gBDqJgwpaKXeHgYSvBHqHs60]
+    password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEASFocFvd4/Dw85/gC5uqMMC5MGhoA/sQTbaUC1L7Pl8ZcM/kaArMDaimERGh1MF+VMdwg4lTG+nm3Lo1o+LWqDrEJOqFomknjKpLQfgvwaHO9BAtnPVB/pZD8y33T5pw7AB++9cUrdKkv63KFOn5xcQJx7EJT/4oLfnJiWqcIJDU5aU7yi6zu/U5+CmR9YXyIEqtL/4hvVwUt9YOicubB+JACu51Eq3Ex4bHWQEvhQ9EwPpQTi0pXvYH154N0ZP3z/p4e94rSGiCkDCzY//PCnXrVW3ZGLYbNncdulR6TR+mzwpp6zkRQP+fcGyVqSOXcDSVgjbM8VPP0/ZilGcZ4xzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC6JS2wvNRp5eLZouVYrk9ygBAl18xNxc0k1DP1yNz9TdgB]
   jenkins-aws:
     domain: null
     scope: GLOBAL
