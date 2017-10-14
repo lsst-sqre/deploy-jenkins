@@ -87,10 +87,6 @@ resource "aws_eip" "jenkins-demo-master" {
   vpc = true
 }
 
-resource "aws_eip" "jenkins-demo-squash" {
-  vpc = true
-}
-
 resource "aws_security_group" "jenkins-demo-ssh" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
   name        = "${var.demo_name}-ssh"
@@ -100,7 +96,7 @@ resource "aws_security_group" "jenkins-demo-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["140.252.0.0/16"]
+    cidr_blocks = ["140.252.0.0/16", "67.212.196.0/24"]
   }
 
   tags {

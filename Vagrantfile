@@ -66,10 +66,6 @@ def centos7_ami
   ENV['CENTOS7_AMI'] || 'ami-c91321f9'
 end
 
-def squash_ami
-  ENV['SQUASH_AMI'] || 'ami-a613e4c6'
-end
-
 Vagrant.configure('2') do |config|
   config.vm.define 'master', primary: true do |define|
     hostname = gen_hostname('master')
@@ -86,32 +82,6 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_SSH,
         SECURITY_GROUP_ID_HTTP,
         SECURITY_GROUP_ID_SLAVEPORT,
-      ]
-      provider.instance_type = 'c4.large'
-      provider.tags = { 'Name' => hostname }
-      provider.block_device_mapping = [{
-        'DeviceName'              => '/dev/sda1',
-        # 200GiB is over kill but this is the size of the el7.1 ami in use
-        'Ebs.VolumeSize'          => 200,
-        'Ebs.VolumeType'          => 'gp2',
-        'Ebs.DeleteOnTermination' => 'true',
-      }]
-    end
-  end
-
-  config.vm.define 'squash', primary: true do |define|
-    hostname = gen_hostname('squash')
-    define.vm.hostname = hostname
-
-    define.vm.provider :aws do |provider, override|
-      ci_hostname(hostname, provider, 'squash')
-
-      provider.ami = squash_ami
-      provider.elastic_ip = SQUASH_IP
-      provider.security_groups = [
-        SECURITY_GROUP_ID_INTERNAL,
-        SECURITY_GROUP_ID_SSH,
-        SECURITY_GROUP_ID_HTTP,
       ]
       provider.instance_type = 'c4.large'
       provider.tags = { 'Name' => hostname }

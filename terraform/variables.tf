@@ -24,7 +24,3 @@ variable "domain_name" {
   description = "DNS domain name to use when creating route53 records."
   default     = "lsst.codes"
 }
-
-variable "rds_password" {
-  description = "Admin password for RDS qadb instance"
-}

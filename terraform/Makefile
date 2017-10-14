@@ -23,7 +23,6 @@ endef
 
 $(eval $(call ENV_TEMPLATE,dev))
 $(eval $(call ENV_TEMPLATE,prod))
-$(eval $(call OPT_TEMPLATE,rds))
 
 tf := $(wildcard *.tf)
 
