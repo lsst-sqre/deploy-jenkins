@@ -32,7 +32,6 @@ Configuration
     export CENTOS7_AMI=ami-1bf4d571
 
     export MASTER_AMI=ami-fb135491
-    export SQUASH_AMI=ami-fb135491
 
     export VAGRANT_DEFAULT_PROVIDER='aws'
     export VAGRANT_NO_PARALLEL='yes'
@@ -58,7 +57,6 @@ for convenience.
     export CENTOS7_AMI=$CENTOS7_AMI
 
     export MASTER_AMI=$MASTER_AMI
-    export SQUASH_AMI=$SQUASH_AMI
 
     export VAGRANT_DEFAULT_PROVIDER='aws'
     export VAGRANT_NO_PARALLEL='yes'
@@ -102,10 +100,6 @@ Create AWS VPC resources
     cd terraform
     # install terraform locally
     make
-    # enable aws rds instance for squash data
-    make rds
-    # only if this is a NON-PRODUCTION instance
-    make dev
     # sanity check
     ./bin/terraform plan
     # create AWS VPC env
@@ -127,13 +121,11 @@ Configure github oauth2
     (
         cd ./terraform;
         ./bin/terraform show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
-        ./bin/terraform show | grep SQUASH_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/oauth2\/callback/'
     )
 
 Example output.:
 
     https://jhoblitt-jenkins-ci.lsst.codes/securityRealm/finishLogin
-    https://jhoblitt-jenkins-squash.lsst.codes/oauth2/callback
 
 ### Register a new application(s)
 
@@ -162,26 +154,6 @@ bundle exec rake edit[hieradata/role/master.eyaml]
           - DEC(5)::PKCS7[XXXXXXXXXXXXXXXXXXXX]!
           - DEC(7)::PKCS7[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX]!
           - read:org
-
-#### squash
-
-    bundle exec rake edit[hieradata/role/squash.eyaml]
-
-Insert the `Client ID` and `Client Secret` strings into the `oauth_config`
-hash.
-
-    jenkins_demo::profile::squash::oauth_config:
-      client_id: XXXXXXXXXXXXXXXXXXXX
-      client_secret: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-Values in the `oauth_config` hash are used by both `oauth2_proxy` instances.
-
-### github oauth2 documentation
-
-Useful documentation for understanding github's oauth2 support:
-
-* https://developer.github.com/v3/oauth/
-* https://developer.github.com/guides/basics-of-authentication/
 
 
 Fork `jenkins-dm-jobs`
@@ -253,31 +225,6 @@ Example:
     +</project>
 
 
-Change qa-dashboard repo and ref
----
-
-The source git repo and ref the qa-dashboard sources are fetched from can be
-overridden via hiera.
-
-Example of switch to a development fork/branch:
-
-    $ git diff
-    diff --git a/hieradata/role/squash.yaml b/hieradata/role/squash.yaml
-    index e657f9b..390fc77 100644
-    --- a/hieradata/role/squash.yaml
-    +++ b/hieradata/role/squash.yaml
-    @@ -1,8 +1,8 @@
-     ---
-     classes:
-       - jenkins_demo::role::squash
-    -#jenkins_demo::profile::squash::repo: https://github.com/lsst-sqre/qa-dashboard.git
-    -#jenkins_demo::profile::squash::ref: master
-    +jenkins_demo::profile::squash::repo: https://github.com/jhoblitt/qa-dashboard.git
-    +jenkins_demo::profile::squash::ref: tickets/DM-5844
-     #jenkins_demo::profile::squash::squash_fqdn: squash
-     #jenkins_demo::profile::squash::bokeh_fqdn: bokeh
-     #jenkins_demo::profile::squash::bokeh_instances: 1
-
 Decrypt eyaml values and install puppet modules
 ---
 
@@ -297,82 +244,13 @@ Start jenkins master + slave VM instance(s)
     vagrant up el7-1
 
 
-Start squash VM instance
----
-
-    . creds.sh
-    vagrant up squash
-
-Occasionally (rarely), there are issues with the yum mirror selected (luck of
-the draw) for downloading required packages. If this happens on the initial
-deployment, it is recommended to destroy and recreate the instance.
-
-
-Initialize the QA database
----
-
-NOTE: use these instructions only if you want to initialize a fresh database and use it
-in a test instance. Skip to the next section if you want to restore a copy of the latest
-production database.
-
-    vagrant ssh squash
-
-    cd /opt/apps/qa-dashboard
-    . /opt/rh/rh-python35/enable
-    . venv/bin/activate
-    cd squash
-    
-    export DJANGO_SETTINGS_MODULE="squash.settings.production"
-    python manage.py migrate
-
-    export QA_USER="nobody"
-    export QA_USER_EMAIL=${USER}@example.com
-    python manage.py createsuperuser --username $QA_USER --email $QA_USER_EMAIL --noinput
-
-    # the password can be changed after the fact via
-    python manage.py changepassword $QA_USER
-
-    python manage.py loaddata test_dat
-
-
-Restore a copy of the latest production QA database
----
-
-NOTE: This step can also be used to validate database migrations *prior* the production update. 
-Use the following commands to restore a copy of the latest production database and apply 
-migrations (if any).
-
-    vagrant plugin install vagrant-scp
-
-    (
-        cd ./terraform;
-        ./bin/terraform show | egrep 'RDS_(FQDN|PASSWORD)' | sed 's|\s+*||g'
-    )
-    # copy output into cut'n'paste buffer
-
-    aws s3 cp s3://jenkins-prod-qadb.lsst.codes-backups/qadb/latest.sql.gz .
-    vagrant scp latest.sql.gz squash:.
-
-    vagrant ssh squash
-    gzip -d latest.sql.gz
-    # paste output from tf show
-    mysql -h "$RDS_FQDN" -u admin -p"$RDS_PASSWORD" qadb < latest.sql
-
-    cd /opt/apps/qa-dashboard
-    . /opt/rh/rh-python35/enable
-    . venv/bin/activate
-    cd squash
-
-    export DJANGO_SETTINGS_MODULE="squash.settings.production"
-    python manage.py migrate
-
 Applying changes to a running instance
 ---
 
     . creds.sh
     bundle exec librarian-puppet update
-    vagrant rsync squash
-    vagrant provision squash
+    vagrant rsync master
+    vagrant provision master
 
 
 Jenkins job development workflow
