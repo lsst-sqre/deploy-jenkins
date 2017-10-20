@@ -13,24 +13,24 @@ jenkins::purge_plugins: true
 # hand -- ugh
 jenkins::plugin_hash:
   credentials:
-    version: '2.1.14'
+    version: '2.1.16'
   support-core:
     version: '2.41'
   # support-core deps
   metrics:
     version: '3.1.2.10'
   jackson2-api:
-    version: '2.7.3'
+    version: '2.8.7.0'
   bouncycastle-api:
     version: '2.16.2'
   # /support-core deps
   junit:
     version: '1.21'
   matrix-project:
-    version: '1.11'
+    version: '1.12'
   # matrix-project deps
   script-security:
-    version: '1.33'
+    version: '1.34'
   # junit
   # /matrix-project deps
   validating-string-parameter:
@@ -46,16 +46,16 @@ jenkins::plugin_hash:
   # github is declared in master.pp
   # github deps
   token-macro:
-    version: '2.1'
+    version: '2.3'
   # credentials
   # plain-credentials
   git:
-    version: '3.5.1'
+    version: '3.6.0'
   github-api:
-    version: '1.86'
+    version: '1.89'
   # github -> git deps
   scm-api:
-    version: '2.2.0'
+    version: '2.2.3'
   git-client:
     version: '2.5.0'
   # /github -> git deps
@@ -69,7 +69,7 @@ jenkins::plugin_hash:
     version: '1.20'
   # /github-oauth deps
   display-url-api:
-    version: '2.0'
+    version: '2.1.0'
   credentials-binding:
     version: '1.13'
   # credentials-binding deps
@@ -79,35 +79,40 @@ jenkins::plugin_hash:
   # nodelabelparameter deps
   # token-macro:
   jquery:
-    version: '1.11.2-0'
+    version: '1.12.4-0'
   # /nodelabelparameter deps
   postbuildscript:
     version: '0.17'
   # postbuildscript deps
   # mailer
   maven-plugin:
-    version: '2.17'
+    version: '3.0'
   # maven-plugin deps
   # javadoc
   # mailer
   # junit
+  apache-httpcomponents-client-4-api:
+    version: '4.5.3-2.0'
+  jsch:
+    version: '0.1.54.1'
+  # /maven-plugin deps
   javadoc:
     version: '1.4'
   # /postbuildscript deps
   greenballs:
     version: '1.15'
   rebuild:
-    version: '1.25'
+    version: '1.27'
   build-user-vars-plugin:
     version: '1.5'
   # build-user-vars-plugin deps
   # mailer
   # /build-user-vars-plugin deps
   envinject:
-    version: '2.1.3'
+    version: '2.1.5'
   # envinject deps
   envinject-api:
-    version: '1.2'
+    version: '1.3'
   # /envinject deps
   purge-build-queue-plugin:
     version: '1.0'
@@ -117,7 +122,7 @@ jenkins::plugin_hash:
   # credentials
   # /ssh-credentials deps
   ssh-slaves:
-    version: '1.20'
+    version: '1.22'
   # ssh-slaves deps
   # ssh-credentials
   # credentials
@@ -139,7 +144,7 @@ jenkins::plugin_hash:
   # build-flow-plugin
   # /ghprb deps
   parameterized-trigger:
-    version: '2.35.1'
+    version: '2.35.2'
   conditional-buildstep:
     version: '1.3.6'
   run-condition:
@@ -156,7 +161,7 @@ jenkins::plugin_hash:
   #  version: '0.7'
   # kubernetes deps
   durable-task:
-    version: '1.14'
+    version: '1.15'
   # credentials
   # /kubernetes deps
   dynamic-axis:
@@ -164,9 +169,9 @@ jenkins::plugin_hash:
   multiple-scms:
     version: '0.6'
   cloudbees-folder:
-    version: '6.1.2'
+    version: '6.2.1'
   job-dsl:
-    version: '1.64'
+    version: '1.66'
   structs:
     version: '1.10'
   # /job-dsl deps
@@ -176,25 +181,25 @@ jenkins::plugin_hash:
   windows-slaves:
     version: '1.3.1'
   matrix-auth:
-    version: '1.7'
+    version: '2.1'
   ### pipeline/workflow deps
   workflow-aggregator:
     version: '2.5'
   jquery-detached:
     version: '1.2.1'
   workflow-api:
-    version: '2.20'
+    version: '2.22'
   workflow-support:
-    version: '2.14'
+    version: '2.16'
   workflow-step-api:
-    version: '2.12'
+    version: '2.13'
   # workflow-job 2.14.1 *is not * compabtile with core 2.60.x
   workflow-job:
     version: '2.12.2'
   pipeline-stage-view:
-    version: '2.8'
+    version: '2.9'
   pipeline-rest-api:
-    version: '2.8'
+    version: '2.9'
   handlebars:
     version: '1.1.1'
   momentjs:
@@ -206,9 +211,9 @@ jenkins::plugin_hash:
   git-server:
     version: '1.7'
   branch-api:
-    version: '2.0.11'
+    version: '2.0.14'
   workflow-durable-task-step:
-    version: '2.14'
+    version: '2.17'
   pipeline-input-step:
     version: '2.8'
   pipeline-stage-step:
@@ -216,9 +221,9 @@ jenkins::plugin_hash:
   workflow-basic-steps:
     version: '2.6'
   workflow-cps:
-    version: '2.39'
+    version: '2.41'
   workflow-cps-global-lib:
-    version: '2.8'
+    version: '2.9'
   workflow-multibranch:
     version: '2.16'
   pipeline-milestone-step:
@@ -226,15 +231,15 @@ jenkins::plugin_hash:
   pipeline-graph-analysis:
     version: '1.5'
   pipeline-model-api:
-    version: '1.1.9'
+    version: '1.2.2'
   pipeline-model-declarative-agent:
     version: '1.1.1'
   pipeline-model-definition:
-    version: '1.1.9'
+    version: '1.2.2'
   pipeline-model-extensions:
-    version: '1.1.9'
+    version: '1.2.2'
   pipeline-stage-tags-metadata:
-    version: '1.1.9'
+    version: '1.2.2'
   # /pipeline/workflow deps
   copyartifact:
     version: '1.38.1'
@@ -246,10 +251,10 @@ jenkins::plugin_hash:
   # junit
   # /slack deps
   docker-workflow:
-    version: '1.12'
+    version: '1.13'
   # docker-workflow deps
   docker-commons:
-    version: '1.8'
+    version: '1.9'
   #script-security
   #workflow-cps
   #workflow-step-api
@@ -266,7 +271,7 @@ jenkins::plugin_hash:
     version: '2.2.0'
   # dockerhub-notification deps
   async-http-client:
-    version: '1.7.24.1'
+    version: '1.9.40.0'
   #docker-commons
   # /dockerhub-notification deps
   ssh-agent:
@@ -275,9 +280,9 @@ jenkins::plugin_hash:
     version: '2.0'
   # what is github-branch-source a dep of?
   github-branch-source:
-    version: '2.2.3'
+    version: '2.2.4'
   blueocean:
-    version: &bov '1.2.0'
+    version: &bov '1.3.0'
   # blueocean deps
   blueocean-autofavorite:
     version: '1.0.0'
@@ -288,7 +293,7 @@ jenkins::plugin_hash:
   blueocean-dashboard:
     version: *bov
   blueocean-display-url:
-    version: '2.1.0'
+    version: '2.1.1'
   blueocean-events:
     version: *bov
   blueocean-github-pipeline:
@@ -315,8 +320,10 @@ jenkins::plugin_hash:
     version: *bov
   blueocean-bitbucket-pipeline:
     version: *bov
+  blueocean-jira:
+    version: *bov
   favorite:
-    version: '2.3.0'
+    version: '2.3.1'
   pubsub-light:
     version: '1.12'
   sse-gateway:
@@ -328,12 +335,12 @@ jenkins::plugin_hash:
   htmlpublisher:
     version: '1.14'
   cloudbees-bitbucket-branch-source:
-    version: '2.2.3'
+    version: '2.2.4'
   mercurial:
-    version: '2.1'
+    version: '2.2'
   # /blueocean deps
   pipeline-utility-steps:
-    version: '1.4.0'
+    version: '1.5.1'
   # pipeline-utility-steps deps
   # workflow-cps
   # workflow-step-api
