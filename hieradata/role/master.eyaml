@@ -369,7 +369,7 @@ jenkinsx:versiondb:
 jenkinsx::authorization_strategy:
   org.jenkinsci.plugins.GithubAuthorizationStrategy:
       arguments:
-        - 'jhoblitt, frossie, jonathansick, jmatt, afausti, athornton'
+        - 'jhoblitt, frossie, jonathansick, jmatt, afausti, athornton, SimonKrughoff'
         - false
         - false
         - false
