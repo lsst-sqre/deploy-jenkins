@@ -59,3 +59,5 @@ mod 'puppet/archive', '~> 1.3.0'
 mod 'yguenane/mariadbrepo',
   :git => 'https://github.com/jhoblitt/puppet-mariadbrepo',
   :ref => '53e72e3c45c9b728b0402c2b934b721c6e4d077c'
+
+mod 'puppetlabs/reboot', '~> 1.2.1'
