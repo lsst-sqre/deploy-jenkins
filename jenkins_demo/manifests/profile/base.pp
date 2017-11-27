@@ -40,9 +40,5 @@ class jenkins_demo::profile::base {
     enable => false,
   }
 
-  # only needed for debugging
-  class { '::ruby::dev':
-    bundler_ensure => 'latest',
-  }
   ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }

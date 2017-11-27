@@ -46,9 +46,6 @@ mod 'stankevich/python', '~> 1.12'
 
 mod 'lsst/jenkins_demo', :path => './jenkins_demo'
 
-# install ruby-devel & bundler for debugging inside VMs
-mod 'puppetlabs/ruby', '~> 0.5.0'
-
 mod 'puppetlabs/vcsrepo'
 mod 'puppetlabs/gcc'
 # 0.3.0 adds systemd fact
