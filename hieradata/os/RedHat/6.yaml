@@ -1,0 +1,2 @@
+---
+jenkins_demo::profile::kernel::version: '2.6.32-696.16.1.el6.x86_64'
