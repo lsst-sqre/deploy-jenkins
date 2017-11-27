@@ -3,20 +3,5 @@ classes:
   - jenkins_demo::role::slave
   - rvm
 lsststack::install_convenience: true
-rvm::version: '1.29.3'
-rvm::system_rubies:
-  'ruby-2.2':
-    ensure: absent
-  'ruby-2.4.2':
-    default_use: true
-    build_opts:
-      - '--disable-binary'
-rvm::system_users:
-  - jenkins-slave
-rvm::rvm_gems:
-  'bundler':
-    name: 'bundler'
-    ruby_version: 'ruby-2.4.2'
-    ensure: '1.13.6'
 docker::version: '1.12.3'
 docker::storage_driver: devicemapper
