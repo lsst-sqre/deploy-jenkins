@@ -3,6 +3,7 @@ class jenkins_demo::profile::base {
   include ::sysstat
   include ::irqbalance
   include ::ntp
+  include ::rvm
 
   host { 'jenkins-master':
     ensure => 'present',
@@ -40,9 +41,5 @@ class jenkins_demo::profile::base {
     enable => false,
   }
 
-  # only needed for debugging
-  class { '::ruby::dev':
-    bundler_ensure => 'latest',
-  }
   ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }
