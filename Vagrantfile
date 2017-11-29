@@ -46,8 +46,12 @@ write_files:
   EOS
 end
 
-def n_slaves
-  (1..3)
+def el6_nodes
+  (1..2)
+end
+
+def el7_nodes
+  (1..6)
 end
 
 def ssh_private_key_path
@@ -95,7 +99,7 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  n_slaves.each do |slave_id|
+  el6_nodes.each do |slave_id|
     config.vm.define "el6-#{slave_id}" do |define|
       hostname = gen_hostname("el6-#{slave_id}")
       define.vm.hostname = hostname
@@ -115,7 +119,7 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  n_slaves.each do |slave_id|
+  el7_nodes.each do |slave_id|
     config.vm.define "el7-#{slave_id}" do |define|
       hostname = gen_hostname("el7-#{slave_id}")
       define.vm.hostname = hostname
