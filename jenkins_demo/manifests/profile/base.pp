@@ -28,7 +28,7 @@ class jenkins_demo::profile::base {
     #   * el6.x will update everything
     #   * the jenkins package is only present on the master
     class { '::yum_autoupdate':
-      exclude      => ['kernel*', 'jenkins', 'java*'],
+      exclude      => ['kernel*', 'jenkins', 'java*', 'nginx'],
       notify_email => false,
       action       => 'apply',
       update_cmd   => 'security',
