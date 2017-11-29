@@ -156,14 +156,6 @@ class jenkins_demo::profile::master(
     config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
   }
 
-  $collapsing_xml = 'org.jvnet.hudson.plugins.collapsingconsolesections.CollapsingSectionNote.xml'
-  jenkins::plugin { 'collapsing-console-sections':
-    manage_config   => true,
-    version         => '1.6.0',
-    config_filename => $collapsing_xml,
-    config_content  => template("${module_name}/plugins/${collapsing_xml}"),
-  }
-
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
