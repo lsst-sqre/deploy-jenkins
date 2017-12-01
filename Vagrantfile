@@ -47,7 +47,7 @@ write_files:
 end
 
 def el6_nodes
-  (1..2)
+  nil
 end
 
 def el7_nodes
@@ -99,42 +99,46 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  el6_nodes.each do |slave_id|
-    config.vm.define "el6-#{slave_id}" do |define|
-      hostname = gen_hostname("el6-#{slave_id}")
-      define.vm.hostname = hostname
+  unless (el6_nodes.nil?)
+    el6_nodes.each do |slave_id|
+      config.vm.define "el6-#{slave_id}" do |define|
+        hostname = gen_hostname("el6-#{slave_id}")
+        define.vm.hostname = hostname
 
-      define.vm.provider :aws do |provider, override|
-        ci_hostname(hostname, provider, 'slave')
+        define.vm.provider :aws do |provider, override|
+          ci_hostname(hostname, provider, 'slave')
 
-        provider.ami = centos6_ami
-        provider.tags = { 'Name' => hostname }
-        provider.block_device_mapping = [{
-          'DeviceName'              => '/dev/sda1',
-          'Ebs.VolumeSize'          => 500,
-          'Ebs.VolumeType'          => 'gp2',
-          'Ebs.DeleteOnTermination' => 'true',
-        }]
+          provider.ami = centos6_ami
+          provider.tags = { 'Name' => hostname }
+          provider.block_device_mapping = [{
+            'DeviceName'              => '/dev/sda1',
+            'Ebs.VolumeSize'          => 500,
+            'Ebs.VolumeType'          => 'gp2',
+            'Ebs.DeleteOnTermination' => 'true',
+          }]
+        end
       end
     end
   end
 
-  el7_nodes.each do |slave_id|
-    config.vm.define "el7-#{slave_id}" do |define|
-      hostname = gen_hostname("el7-#{slave_id}")
-      define.vm.hostname = hostname
+  unless (el7_nodes.nil?)
+    el7_nodes.each do |slave_id|
+      config.vm.define "el7-#{slave_id}" do |define|
+        hostname = gen_hostname("el7-#{slave_id}")
+        define.vm.hostname = hostname
 
-      define.vm.provider :aws do |provider, override|
-        ci_hostname(hostname, provider, 'slave')
+        define.vm.provider :aws do |provider, override|
+          ci_hostname(hostname, provider, 'slave')
 
-        provider.ami = centos7_ami
-        provider.tags = { 'Name' => hostname }
-        provider.block_device_mapping = [{
-          'DeviceName'              => '/dev/sda1',
-          'Ebs.VolumeSize'          => 1500,
-          'Ebs.VolumeType'          => 'gp2',
-          'Ebs.DeleteOnTermination' => 'true',
-        }]
+          provider.ami = centos7_ami
+          provider.tags = { 'Name' => hostname }
+          provider.block_device_mapping = [{
+            'DeviceName'              => '/dev/sda1',
+            'Ebs.VolumeSize'          => 1500,
+            'Ebs.VolumeType'          => 'gp2',
+            'Ebs.DeleteOnTermination' => 'true',
+          }]
+        end
       end
     end
   end
