@@ -142,7 +142,7 @@ class jenkins_demo::profile::master(
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
       manage_config   => true,
-      version         => '2.2',
+      version         => '2.3',
       config_filename => $slack_xml,
       config_content  => template("${module_name}/plugins/${slack_xml}"),
     }
@@ -159,7 +159,7 @@ class jenkins_demo::profile::master(
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.28.0',
+    version         => '1.28.1',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
