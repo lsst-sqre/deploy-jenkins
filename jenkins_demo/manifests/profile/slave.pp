@@ -3,8 +3,6 @@ class jenkins_demo::profile::slave(
   Optional[Variant[Array[String], String]] $labels = undef,
   Boolean                      $use_default_labels = true,
 ) {
-  include ::lsststack
-
   if $::operatingsystemmajrelease == '7' {
     include ::docker
 
@@ -54,7 +52,6 @@ class jenkins_demo::profile::slave(
     labels       => join(delete_undef_values($real_labels), " "),
     # don't start slave before lsstsw build env is ready
     require      => [
-      Class['lsststack'],
       Host['jenkins-master'],
     ],
   }
