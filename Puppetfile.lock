@@ -107,16 +107,6 @@ GIT
       puppetlabs-transition (< 1.0.0, >= 0.1.0)
 
 GIT
-  remote: https://github.com/lsst-sqre/puppet-lsststack.git
-  ref: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
-  sha: f8ce1d8b435f53eb9f4a591f4572378988fb0d13
-  specs:
-    lsst-lsststack (0.1.0)
-      maestrodev-wget (< 1.8.0, >= 1.7.3)
-      puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
-      puppetlabs-vcsrepo (< 1.3.0, >= 1.2.0)
-
-GIT
   remote: https://github.com/pbyrne413/puppet-sudo
   ref: 30feebf655c4966b96ae328c40c1a2dc144c2e66
   sha: 30feebf655c4966b96ae328c40c1a2dc144c2e66
@@ -149,7 +139,6 @@ DEPENDENCIES
   jhoblitt-sysstat (>= 0)
   juniorsysadmin-irqbalance (~> 1.0.4)
   lsst-jenkins_demo (>= 0)
-  lsst-lsststack (>= 0)
   maestrodev-rvm (~> 1.13.1)
   maestrodev-wget (~> 1.7.0)
   mayflower-php (~> 3.2)

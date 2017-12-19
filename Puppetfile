@@ -31,9 +31,6 @@ mod 'saz/sudo',
 mod 'rtyler/jenkins',
   :git => 'https://github.com/lsst-sqre/puppet-jenkins.git',
   :ref => '98daeb9b341159d4798665fe80709b569e2dfce9'
-mod 'lsst/lsststack',
-  :git => 'https://github.com/lsst-sqre/puppet-lsststack.git',
-  :ref => 'f8ce1d8b435f53eb9f4a591f4572378988fb0d13'
 
 mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'mayflower/php', '~> 3.2'
