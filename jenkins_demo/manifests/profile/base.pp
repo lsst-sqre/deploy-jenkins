@@ -40,6 +40,4 @@ class jenkins_demo::profile::base {
     ensure => 'stopped',
     enable => false,
   }
-
-  ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }
