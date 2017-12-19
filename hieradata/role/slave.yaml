@@ -1,6 +1,5 @@
 ---
 classes:
   - jenkins_demo::role::slave
-lsststack::install_convenience: true
 docker::version: '1.12.3'
 docker::storage_driver: devicemapper

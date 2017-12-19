@@ -7,6 +7,5 @@ jenkins_demo::profile::slave::use_default_labels: false
 jenkins_demo::profile::slave::labels:
   - "%{::hostname}"
   - snowflake
-lsststack::install_convenience: true
 docker::version: '1.12.3'
 docker::storage_driver: devicemapper
