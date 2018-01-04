@@ -48,7 +48,7 @@ mod 'puppetlabs/gcc'
 # 0.3.0 adds systemd fact
 mod 'camptocamp/systemd', '~> 0.3'
 mod 'jhoblitt/oauth2_proxy', '~> 1.3.0'
-mod 'garethr/docker', '~> 5.3.0'
+mod 'puppetlabs/docker', '~> 1.0.2'
 mod 'maestrodev/rvm', '~> 1.13.1'
 mod 'puppet/archive', '~> 1.3.0'
 # pending merger or resolution of:

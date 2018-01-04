@@ -1,5 +1,10 @@
 ---
 packages:
   - 'cmake-2.8.12.2-2.el7.x86_64'
-jenkins_demo::profile::kernel::version: '3.10.0-693.11.1.el7.x86_64'
+  - 'screen'
+  - 'tmux'
+  - 'tree'
+  - 'vim'
+  - 'java-1.8.0-openjdk-devel-1.8.0.151-1.b12.el7_4.x86_64'
+jenkins_demo::profile::kernel::version: '3.10.0-693.11.6.el7.x86_64'
 java::package: 'java-1.8.0-openjdk-devel-1.8.0.151-1.b12.el7_4.x86_64'

@@ -25,6 +25,7 @@ class jenkins_demo::profile::slave(
       minute  => '0',
       hour    => '4',
     }
+    Class[::docker] -> Class[::jenkins::slave]
   } else {
     $docker = undef
   }
