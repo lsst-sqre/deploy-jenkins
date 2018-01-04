@@ -46,10 +46,6 @@ write_files:
   EOS
 end
 
-def el6_nodes
-  nil
-end
-
 def el7_nodes
   (1..6)
 end
@@ -59,11 +55,7 @@ def ssh_private_key_path
 end
 
 def master_ami
-  ENV['MASTER_AMI'] || 'ami-65112355'
-end
-
-def centos6_ami
-  ENV['CENTOS6_AMI'] || 'ami-bd10228d'
+  ENV['MASTER_AMI'] || 'ami-02e98f78'
 end
 
 def centos7_ami
@@ -96,28 +88,6 @@ Vagrant.configure('2') do |config|
         'Ebs.VolumeType'          => 'gp2',
         'Ebs.DeleteOnTermination' => 'true',
       }]
-    end
-  end
-
-  unless (el6_nodes.nil?)
-    el6_nodes.each do |slave_id|
-      config.vm.define "el6-#{slave_id}" do |define|
-        hostname = gen_hostname("el6-#{slave_id}")
-        define.vm.hostname = hostname
-
-        define.vm.provider :aws do |provider, override|
-          ci_hostname(hostname, provider, 'slave')
-
-          provider.ami = centos6_ami
-          provider.tags = { 'Name' => hostname }
-          provider.block_device_mapping = [{
-            'DeviceName'              => '/dev/sda1',
-            'Ebs.VolumeSize'          => 500,
-            'Ebs.VolumeType'          => 'gp2',
-            'Ebs.DeleteOnTermination' => 'true',
-          }]
-        end
-      end
     end
   end
 
