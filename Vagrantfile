@@ -55,11 +55,12 @@ def ssh_private_key_path
 end
 
 def master_ami
+  # centos 1708_11 (12/05/2017)
   ENV['MASTER_AMI'] || 'ami-02e98f78'
 end
 
 def centos7_ami
-  ENV['CENTOS7_AMI'] || 'ami-c91321f9'
+  ENV['CENTOS7_AMI'] || master_ami
 end
 
 Vagrant.configure('2') do |config|
@@ -161,6 +162,7 @@ Vagrant.configure('2') do |config|
     override.vm.synced_folder '.', '/vagrant', :disabled => true
     override.vm.synced_folder 'hieradata/', '/tmp/vagrant-puppet/hieradata'
     override.ssh.private_key_path = ssh_private_key_path
+    override.ssh.username = 'centos'
     provider.keypair_name = DEMO_NAME
     provider.access_key_id = ENV['AWS_ACCESS_KEY_ID']
     provider.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
