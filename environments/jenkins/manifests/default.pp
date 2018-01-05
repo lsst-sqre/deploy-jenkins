@@ -10,3 +10,5 @@ if ($packages) {
     ensure => present,
   }
 }
+
+create_resources(file, lookup('files', {merge => 'hash'}))
