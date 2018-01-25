@@ -6,8 +6,7 @@ jenkins::lts: true
 jenkins::master::version: '3.6'
 jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
-    value: '-Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'
-
+    value: '-Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=_'
 jenkins::default_plugins: []
 jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by
