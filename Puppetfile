@@ -4,6 +4,7 @@ mod 'puppetlabs/stdlib'
 mod 'camptocamp/augeas'
 mod 'stahnma/epel'
 mod 'jhoblitt/sysstat'
+mod 'herculesteam/augeasproviders_grub'
 
 mod 'maestrodev/wget', '~> 1.7.0'
 mod 'puppetlabs/firewall', '~> 1.5.0'
