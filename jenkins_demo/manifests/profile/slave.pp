@@ -6,6 +6,15 @@ class jenkins_demo::profile::slave(
   if $::operatingsystemmajrelease == '7' {
     include ::docker
 
+    kernel_parameter { 'nopti':
+      ensure => present,
+    } ~>
+    reboot { 'pti':
+      apply   => finished,
+      message => 'disabling kernel pti',
+      when    => refreshed,
+    }
+
     $docker = 'docker'
     $dockergc = '/usr/local/bin/docker-gc'
 

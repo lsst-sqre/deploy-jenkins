@@ -10,7 +10,7 @@ packages:
   - 'scl-utils'
   - 'rh-git29'
   - 'git'
-jenkins_demo::profile::kernel::version: '3.10.0-693.11.6.el7.x86_64'
+jenkins_demo::profile::kernel::version: '3.10.0-693.17.1.el7.x86_64'
 java::package: 'java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64'
 files:
   '/etc/profile.d/rh-git29.sh':
