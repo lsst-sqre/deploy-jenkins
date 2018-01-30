@@ -148,14 +148,6 @@ class jenkins_demo::profile::master(
     }
   }
 
-  $ansicolor_xml = 'hudson.plugins.ansicolor.AnsiColorBuildWrapper.xml'
-  jenkins::plugin { 'ansicolor':
-    manage_config   => true,
-    version         => '0.5.2',
-    config_filename => $ansicolor_xml,
-    config_content  => template("${module_name}/plugins/${ansicolor_xml}"),
-  }
-
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
