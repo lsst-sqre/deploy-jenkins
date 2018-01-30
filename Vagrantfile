@@ -80,7 +80,7 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_HTTP,
         SECURITY_GROUP_ID_SLAVEPORT,
       ]
-      provider.instance_type = 'c4.large'
+      provider.instance_type = 'c4.xlarge'
       provider.tags = { 'Name' => hostname }
       provider.block_device_mapping = [{
         'DeviceName'              => '/dev/sda1',
