@@ -47,7 +47,7 @@ write_files:
 end
 
 def el7_nodes
-  (1..6)
+  (1..8)
 end
 
 def ssh_private_key_path
