@@ -1,7 +1,7 @@
 ---
 classes:
   - jenkins_demo::role::master
-jenkins::version: '2.89.1-1.1'
+jenkins::version: '2.89.3-1.1'
 jenkins::lts: true
 jenkins::master::version: '3.6'
 jenkins::config_hash:
