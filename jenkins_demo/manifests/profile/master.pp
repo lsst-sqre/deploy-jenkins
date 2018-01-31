@@ -4,21 +4,10 @@ class jenkins_demo::profile::master(
 ) {
   include ::wget # needed by jenkins
   include ::nginx
+  include ::jenkins
+  include ::jenkins::master # <- I am a swarm master
 
   Class['::wget'] -> Class['::jenkins']
-  # lint:ignore:arrow_alignment
-  class { 'jenkins':
-    configure_firewall => false,
-    cli                => true,
-    #executors          => 0,
-    config_hash        => {
-      'JENKINS_LISTEN_ADDRESS' => { 'value' => '' },
-      'JENKINS_HTTPS_PORT'     => { 'value' => '' },
-      'JENKINS_AJP_PORT'       => { 'value' => '-1' },
-    },
-  }
-  # lint:endignore
-  include ::jenkins::master # <- I am a swarm master
 
   jenkins_num_executors{ '0': ensure => present }
   jenkins_slaveagent_port{ '55555': ensure => present }
