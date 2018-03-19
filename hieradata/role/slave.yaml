@@ -1,5 +1,3 @@
 ---
 classes:
   - jenkins_demo::role::slave
-docker::version: '17.09.1.ce'
-docker::storage_driver: devicemapper
