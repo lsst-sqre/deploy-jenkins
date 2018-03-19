@@ -1,4 +1,4 @@
-class jenkins_demo::profile::master(
+class jenkins_demo::profile::jenkins::master(
   $seed_url = 'https://github.com/lsst-sqre/jenkins-dm-jobs',
   $seed_ref = '*/master',
 ) {
