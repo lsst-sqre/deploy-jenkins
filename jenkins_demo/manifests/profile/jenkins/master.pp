@@ -62,25 +62,6 @@ class jenkins_demo::profile::jenkins::master(
                       Variant[String, Undef]]])
   create_resources('jenkins_credentials', $creds)
 
-  # run a jnlp slave to execute jobs that need to be bound to the
-  # jenkins-master node (E.g., backups).  This provides some priviledge
-  # separation between the master process and the builds as they will be
-  # executed under the jenkins-slave user.  jenkins user.
-  class { 'jenkins::slave':
-    masterurl  => 'http://jenkins-master:8080',
-    slave_name => $::hostname,
-    labels     => $::hostname,
-    executors  => 8,
-    slave_mode => 'exclusive',
-  }
-
-  class { 'python' :
-    version    => 'system',
-    pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-  }
-
   jenkins_job { 'sqre':
     config => template("${module_name}/jobs/sqre/config.xml"),
   }
