@@ -133,3 +133,5 @@ rvm::rvm_gems:
     ensure: '1.13.6'
 docker::version: '17.09.1.ce'
 docker::storage_driver: devicemapper
+timezone::timezone: 'US/Pacific'
+tuned::profile: 'virtual-host'
