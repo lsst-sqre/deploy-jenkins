@@ -1,4 +1,4 @@
-class jenkins_demo::profile::devtoolset_3 {
+class jenkins_demo::profile::scl::devtoolset_3 {
 
   ensure_packages(['centos-release-scl'])
 
