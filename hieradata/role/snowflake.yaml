@@ -1,9 +1,9 @@
 ---
 classes:
-  - jenkins_demo::role::slave
-jenkins_demo::profile::slave::slave_mode: exclusive
+  - jenkins_demo::role::agent
+jenkins_demo::profile::agent::slave_mode: exclusive
 # prevent jobs tied to "docker" or "centos-7" from running on this node
-jenkins_demo::profile::slave::use_default_labels: false
-jenkins_demo::profile::slave::labels:
+jenkins_demo::profile::agent::use_default_labels: false
+jenkins_demo::profile::agent::labels:
   - "%{::hostname}"
   - snowflake

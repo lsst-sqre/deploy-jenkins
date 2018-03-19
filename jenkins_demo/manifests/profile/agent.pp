@@ -1,4 +1,4 @@
-class jenkins_demo::profile::slave(
+class jenkins_demo::profile::agent(
   Enum['normal', 'exclusive'] $slave_mode          = 'normal',
   Optional[Variant[Array[String], String]] $labels = undef,
   Boolean                      $use_default_labels = true,

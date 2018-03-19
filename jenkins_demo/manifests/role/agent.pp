@@ -1,7 +1,7 @@
-class jenkins_demo::role::slave {
+class jenkins_demo::role::agent {
   include ::jenkins_demo::profile::base
   include ::jenkins_demo::profile::ganglia::gmond
-  include ::jenkins_demo::profile::slave
+  include ::jenkins_demo::profile::agent
   class { 'selinux': mode => 'disabled' }
   include ::jenkins_demo::profile::kernel
 }
