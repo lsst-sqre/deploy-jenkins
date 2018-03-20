@@ -2,22 +2,14 @@ class jenkins_demo::profile::ganglia::web {
   include ::php
   include ::nginx
 
-  # XXX this is to work around jfryman/nginx adding 300 to the priority of the
-  # concat fragments used to construct the ssl vhost template.  The default
-  # priority of 500 works with a non-ssl vhost but ends up the before the
-  # server {} block of an ssl host.  Inversly, a priority of 800-899 ends up
-  # after the server {} block of a non-ssl host.
-  if lookup('ssl_cert', { default_value => undef})
-      and lookup('ssl_key', { default_value => undef}) {
-    $priority = 850
-  } else {
-    $priority = 550
-  }
+  # location resources should be after standard ssl server declarations
+  $priority = 599
 
   nginx::resource::location { '/ganglia':
     ensure              => present,
     priority            => $priority,
-    vhost               => 'jenkins',
+    server              => 'jenkins-https',
+    ssl_only            => true,
     location_custom_cfg => {
       alias      => '/usr/share/ganglia',
       rewrite    => '^(/ganglia)(/.*?\.php)(/.*)?$ /...$document_root/...$1/...$2/...$3 last',
@@ -34,7 +26,8 @@ class jenkins_demo::profile::ganglia::web {
   nginx::resource::location { '/...':
     ensure              => present,
     priority            => $priority,
-    vhost               => 'jenkins',
+    server              => 'jenkins-https',
+    ssl_only            => true,
     internal            => true,
     autoindex           => 'off',
     location_custom_cfg => {
@@ -71,5 +64,4 @@ class jenkins_demo::profile::ganglia::web {
   }
 
   class { '::ganglia::web': }
-
 }
