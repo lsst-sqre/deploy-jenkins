@@ -1,14 +1,12 @@
 FORGE
   remote: https://forgeapi.puppetlabs.com
   specs:
+    aco-yum_autoupdate (0.6.4)
+      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
     camptocamp-augeas (1.6.0)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
-    camptocamp-systemd (0.4.0)
-    darin-zypprepo (1.0.2)
-    example42-puppi (2.2.3)
-      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
-    example42-yum (2.1.28)
-      example42-puppi (>= 2.0.0)
+    camptocamp-systemd (1.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
     golja-gnupg (1.2.3)
     herculesteam-augeasproviders_core (2.1.4)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
@@ -26,105 +24,69 @@ FORGE
       golja-gnupg (>= 1.2.0)
       puppetlabs-stdlib (>= 4.2.0)
     maestrodev-wget (1.7.3)
-    mayflower-php (3.4.2)
-      darin-zypprepo (~> 1.0)
-      example42-yum (~> 2.0)
-      puppetlabs-apt (< 3.0.0, >= 1.0.0)
-      puppetlabs-inifile (~> 1.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
     puppet-archive (1.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.6.0)
-    puppetlabs-apt (2.4.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.13.0)
-    puppetlabs-docker (1.0.2)
-      puppetlabs-apt (>= 2.1.0)
-      puppetlabs-stdlib (>= 4.1.0)
-      stahnma-epel (>= 0.0.6)
-    puppetlabs-firewall (1.5.0)
+    puppet-nginx (0.11.0)
+      puppetlabs-concat (< 5.0.0, >= 3.0.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
+    puppet-php (5.3.0)
+      puppet-archive (< 3.0.0, >= 1.0.0)
+      puppet-zypprepo (< 3.0.0, >= 2.0.0)
+      puppetlabs-apt (< 5.0.0, >= 4.4.0)
+      puppetlabs-inifile (< 3.0.0, >= 1.4.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.16.0)
+    puppet-selinux (1.5.2)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
+    puppet-zypprepo (2.2.0)
+    puppetlabs-apt (4.5.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.16.0)
+    puppetlabs-concat (4.2.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
+    puppetlabs-docker (1.1.0)
+      puppetlabs-apt (>= 4.4.1)
+      puppetlabs-stdlib (>= 4.24.0)
+      puppetlabs-translate (< 1.1.0, >= 0.0.1)
+    puppetlabs-firewall (1.12.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.0.0)
     puppetlabs-gcc (0.3.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.0.0)
-    puppetlabs-inifile (1.6.0)
-    puppetlabs-java (1.6.0)
-      puppetlabs-stdlib (< 5.0.0, >= 2.4.0)
-    puppetlabs-ntp (3.3.0)
-      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
+    puppetlabs-inifile (2.2.0)
+    puppetlabs-java (2.4.0)
+      puppet-archive (< 3.0.0, >= 1.1.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
+    puppetlabs-ntp (7.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
     puppetlabs-reboot (1.2.1)
-    puppetlabs-stdlib (4.18.0)
+    puppetlabs-stdlib (4.25.0)
     puppetlabs-transition (0.1.1)
-    puppetlabs-vcsrepo (1.2.0)
-    saz-timezone (3.3.0)
-      puppetlabs-stdlib (>= 2.3.0)
-    stahnma-epel (1.2.2)
+    puppetlabs-translate (1.0.0)
+    puppetlabs-vcsrepo (2.3.0)
+    saz-sudo (5.0.0)
+      puppetlabs-stdlib (< 5.0.0, >= 2.6.0)
+    saz-timezone (4.1.1)
+      puppetlabs-stdlib (< 5.0.0, >= 2.6.0)
+      stm-debconf (< 3.0.0, >= 2.0.0)
+    stahnma-epel (1.3.0)
       puppetlabs-stdlib (>= 3.0.0)
     stankevich-python (1.18.2)
       puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
       stahnma-epel (< 2.0.0, >= 1.2.2)
+    stm-debconf (2.1.0)
     thias-tuned (1.0.3)
 
 GIT
-  remote: https://github.com/jfryman/puppet-nginx.git
-  ref: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
-  sha: 56e1c591bf5bfd06c34782c66953b3bc4b10fafa
-  specs:
-    jfryman-nginx (0.3.0)
-      puppetlabs-apt (< 3.0.0, >= 1.8.0)
-      puppetlabs-concat (< 3.0.0, >= 1.1.1)
-      puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
-
-GIT
-  remote: https://github.com/jfryman/puppet-selinux.git
-  ref: 940eb46fa020bec5d028518c548a89892c543977
-  sha: 940eb46fa020bec5d028518c548a89892c543977
-  specs:
-    jfryman-selinux (0.3.1)
-      puppetlabs-stdlib (>= 0)
-
-GIT
-  remote: https://github.com/jhoblitt/aco-yum_autoupdate.git
-  ref: bugfix/operatingsystemmajrelease-is-a-string
-  sha: bed2c07e369e0a1cfd10a6d1dc91a827c62dc43d
-  specs:
-    aco-yum_autoupdate (0.6.1)
-      puppetlabs-stdlib (< 5.0.0, >= 1.0.0)
-
-GIT
-  remote: https://github.com/jhoblitt/puppet-mariadbrepo
-  ref: 53e72e3c45c9b728b0402c2b934b721c6e4d077c
-  sha: 53e72e3c45c9b728b0402c2b934b721c6e4d077c
-  specs:
-    yguenane-mariadbrepo (0.2.1)
-      puppetlabs-apt (< 3.0.0, >= 1.7.0)
-      puppetlabs-stdlib (< 5.0.0, >= 3.2.1)
-
-GIT
   remote: https://github.com/lsst-sqre/puppet-jenkins.git
-  ref: 98daeb9b341159d4798665fe80709b569e2dfce9
-  sha: 98daeb9b341159d4798665fe80709b569e2dfce9
+  ref: a066d948f37d9ac839ed94401dd9d3b0c5259ad3
+  sha: a066d948f37d9ac839ed94401dd9d3b0c5259ad3
   specs:
     rtyler-jenkins (1.7.0)
-      camptocamp-systemd (< 1.0.0, >= 0.3.0)
-      darin-zypprepo (< 2.0.0, >= 1.0.1)
-      puppet-archive (< 2.0.0, >= 1.3.0)
-      puppetlabs-apt (< 3.0.0, >= 2.1.0)
-      puppetlabs-java (< 2.0.0, >= 1.0.1)
+      camptocamp-systemd (< 2.0.0, >= 0.3.0)
+      puppet-archive (< 3.0.0, >= 1.3.0)
+      puppet-zypprepo (< 3.0.0, >= 2.0.0)
+      puppetlabs-apt (< 5.0.0, >= 2.1.0)
+      puppetlabs-java (< 3.0.0, >= 1.0.1)
       puppetlabs-stdlib (< 5.0.0, >= 4.18.0)
       puppetlabs-transition (< 1.0.0, >= 0.1.0)
-
-GIT
-  remote: https://github.com/pbyrne413/puppet-sudo
-  ref: 30feebf655c4966b96ae328c40c1a2dc144c2e66
-  sha: 30feebf655c4966b96ae328c40c1a2dc144c2e66
-  specs:
-    saz-sudo (3.0.10)
-      puppetlabs-stdlib (< 5.0.0, >= 2.3.0)
-
-GIT
-  remote: https://github.com/puppetlabs/puppetlabs-concat.git
-  ref: fd4f1e2d46a86f1659da420f4ce042882d38e021
-  sha: fd4f1e2d46a86f1659da420f4ce042882d38e021
-  specs:
-    puppetlabs-concat (1.2.4)
-      puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
 
 PATH
   remote: ./jenkins_demo
@@ -132,12 +94,10 @@ PATH
     lsst-jenkins_demo (0.0.1)
 
 DEPENDENCIES
-  aco-yum_autoupdate (>= 0)
+  aco-yum_autoupdate (~> 0.6.4)
   camptocamp-augeas (>= 0)
-  camptocamp-systemd (~> 0.3)
+  camptocamp-systemd (>= 0)
   herculesteam-augeasproviders_grub (>= 0)
-  jfryman-nginx (>= 0)
-  jfryman-selinux (>= 0)
   jhoblitt-ganglia (~> 2.0)
   jhoblitt-oauth2_proxy (~> 1.3.0)
   jhoblitt-sysstat (>= 0)
@@ -145,21 +105,22 @@ DEPENDENCIES
   lsst-jenkins_demo (>= 0)
   maestrodev-rvm (~> 1.13.1)
   maestrodev-wget (~> 1.7.0)
-  mayflower-php (~> 3.2)
-  puppet-archive (~> 1.3.0)
+  puppet-archive (> 1)
+  puppet-nginx (~> 0.11.0)
+  puppet-php (~> 5.3.0)
+  puppet-selinux (~> 1.5.2)
   puppetlabs-concat (>= 0)
-  puppetlabs-docker (~> 1.0.2)
-  puppetlabs-firewall (~> 1.5.0)
+  puppetlabs-docker (~> 1.1.0)
+  puppetlabs-firewall (~> 1.12.0)
   puppetlabs-gcc (>= 0)
-  puppetlabs-ntp (~> 3.3.0)
+  puppetlabs-ntp (~> 7.1.1)
   puppetlabs-reboot (~> 1.2.1)
   puppetlabs-stdlib (>= 0)
   puppetlabs-vcsrepo (>= 0)
   rtyler-jenkins (>= 0)
-  saz-sudo (>= 0)
-  saz-timezone (~> 3.3.0)
+  saz-sudo (~> 5.0.0)
+  saz-timezone (~> 4.1.1)
   stahnma-epel (>= 0)
-  stankevich-python (~> 1.12)
+  stankevich-python (~> 1.18.2)
   thias-tuned (~> 1.0.2)
-  yguenane-mariadbrepo (>= 0)
 

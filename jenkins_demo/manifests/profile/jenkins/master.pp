@@ -1,4 +1,4 @@
-class jenkins_demo::profile::master(
+class jenkins_demo::profile::jenkins::master(
   $seed_url = 'https://github.com/lsst-sqre/jenkins-dm-jobs',
   $seed_ref = '*/master',
 ) {
@@ -61,25 +61,6 @@ class jenkins_demo::profile::master(
                     Hash[String,
                       Variant[String, Undef]]])
   create_resources('jenkins_credentials', $creds)
-
-  # run a jnlp slave to execute jobs that need to be bound to the
-  # jenkins-master node (E.g., backups).  This provides some priviledge
-  # separation between the master process and the builds as they will be
-  # executed under the jenkins-slave user.  jenkins user.
-  class { 'jenkins::slave':
-    masterurl  => 'http://jenkins-master:8080',
-    slave_name => $::hostname,
-    labels     => $::hostname,
-    executors  => 8,
-    slave_mode => 'exclusive',
-  }
-
-  class { 'python' :
-    version    => 'system',
-    pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-  }
 
   jenkins_job { 'sqre':
     config => template("${module_name}/jobs/sqre/config.xml"),
@@ -171,8 +152,8 @@ class jenkins_demo::profile::master(
     'X-Forwarded-Proto https',
   ]
 
-  if $ssl_cert and $ssl_key {
-    $enable_ssl = true
+  if ! $ssl_cert and $ssl_key {
+    fail('missing tls configuration')
   }
 
   if $::selinux {
@@ -207,143 +188,119 @@ class jenkins_demo::profile::master(
     '}',
   ]
 
-  if $enable_ssl {
-    file { $private_dir:
-      ensure   => directory,
-      mode     => '0750',
-      selrange => 's0',
-      selrole  => 'object_r',
-      seltype  => 'httpd_config_t',
-      seluser  => 'system_u',
-    }
-
-    exec { 'openssl dhparam -out dhparam.pem 2048':
-      path    => ['/usr/bin'],
-      cwd     => $private_dir,
-      umask   => '0433',
-      creates => $ssl_dhparam_path,
-    } ->
-    file { $ssl_dhparam_path:
-      ensure   => file,
-      mode     => '0400',
-      selrange => 's0',
-      selrole  => 'object_r',
-      seltype  => 'httpd_config_t',
-      seluser  => 'system_u',
-      replace  => false,
-      backup   => false,
-      notify   => Class['::nginx'],
-    }
-
-    # note that nginx needs the signed cert and the CA chain in the same file
-    concat { $ssl_cert_path:
-      ensure   => present,
-      mode     => '0444',
-      selrange => 's0',
-      selrole  => 'object_r',
-      seltype  => 'httpd_config_t',
-      seluser  => 'system_u',
-      backup   => false,
-      notify   => Class['::nginx'],
-    }
-    concat::fragment { 'public - signed cert':
-      target  => $ssl_cert_path,
-      order   => 1,
-      content => $ssl_cert,
-    }
-    concat::fragment { 'public - chain cert':
-      target  => $ssl_cert_path,
-      order   => 2,
-      content => $ssl_chain_cert,
-    }
-
-    file { $ssl_key_path:
-      ensure    => file,
-      mode      => '0400',
-      selrange  => 's0',
-      selrole   => 'object_r',
-      seltype   => 'httpd_config_t',
-      seluser   => 'system_u',
-      content   => $ssl_key,
-      backup    => false,
-      show_diff => false,
-      notify    => Class['::nginx'],
-    }
-
-    concat { $ssl_root_chain_path:
-      ensure   => present,
-      mode     => '0444',
-      selrange => 's0',
-      selrole  => 'object_r',
-      seltype  => 'httpd_config_t',
-      seluser  => 'system_u',
-      backup   => false,
-      notify   => Class['::nginx'],
-    }
-    concat::fragment { 'root-chain - chain cert':
-      target  => $ssl_root_chain_path,
-      order   => 1,
-      content => $ssl_chain_cert,
-    }
-    concat::fragment { 'root-chain - root cert':
-      target  => $ssl_root_chain_path,
-      order   => 2,
-      content => $ssl_root_cert,
-    }
-
-    nginx::resource::vhost { 'jenkins':
-      ensure                => present,
-      listen_port           => 443,
-      ssl                   => true,
-      rewrite_to_https      => false,
-      access_log            => $access_log,
-      error_log             => $error_log,
-      ssl_key               => $ssl_key_path,
-      ssl_cert              => $ssl_cert_path,
-      ssl_dhparam           => $ssl_dhparam_path,
-      ssl_session_timeout   => '1d',
-      ssl_cache             => 'shared:SSL:50m',
-      ssl_stapling          => true,
-      ssl_stapling_verify   => true,
-      ssl_trusted_cert      => $ssl_root_chain_path,
-      resolver              => [ '8.8.8.8', '4.4.4.4'],
-      proxy                 => 'http://jenkins',
-      proxy_redirect        => 'default',
-      proxy_connect_timeout => '150',
-      proxy_set_header      => $proxy_set_header,
-      add_header            => $add_header,
-      raw_prepend           => $raw_prepend,
-    }
+  file { $private_dir:
+    ensure   => directory,
+    mode     => '0750',
+    selrange => 's0',
+    selrole  => 'object_r',
+    seltype  => 'httpd_config_t',
+    seluser  => 'system_u',
   }
 
-  # If ssl is enabled, the ssl vhost takes the resource name 'jenkins' so that
-  # any nginx::resource::location resources in other profiles (E.g.
-  # jenkins_demo::profile::ganglia::web) will inject into the primary vhost.
-  $vhost = $enable_ssl ? {
-    true    => 'jenkins-www',
-    default => 'jenkins',
+  exec { 'openssl dhparam -out dhparam.pem 2048':
+    path    => ['/usr/bin'],
+    cwd     => $private_dir,
+    umask   => '0433',
+    creates => $ssl_dhparam_path,
+  } ->
+  file { $ssl_dhparam_path:
+    ensure   => file,
+    mode     => '0400',
+    selrange => 's0',
+    selrole  => 'object_r',
+    seltype  => 'httpd_config_t',
+    seluser  => 'system_u',
+    replace  => false,
+    backup   => false,
+    notify   => Class['::nginx'],
   }
 
-  # lint:ignore:selector_inside_resource
-  nginx::resource::vhost { $vhost:
+  # note that nginx needs the signed cert and the CA chain in the same file
+  concat { $ssl_cert_path:
+    ensure   => present,
+    mode     => '0444',
+    selrange => 's0',
+    selrole  => 'object_r',
+    seltype  => 'httpd_config_t',
+    seluser  => 'system_u',
+    backup   => false,
+    notify   => Class['::nginx'],
+  }
+  concat::fragment { 'public - signed cert':
+    target  => $ssl_cert_path,
+    order   => 1,
+    content => $ssl_cert,
+  }
+  concat::fragment { 'public - chain cert':
+    target  => $ssl_cert_path,
+    order   => 2,
+    content => $ssl_chain_cert,
+  }
+
+  file { $ssl_key_path:
+    ensure    => file,
+    mode      => '0400',
+    selrange  => 's0',
+    selrole   => 'object_r',
+    seltype   => 'httpd_config_t',
+    seluser   => 'system_u',
+    content   => $ssl_key,
+    backup    => false,
+    show_diff => false,
+    notify    => Class['::nginx'],
+  }
+
+  concat { $ssl_root_chain_path:
+    ensure   => present,
+    mode     => '0444',
+    selrange => 's0',
+    selrole  => 'object_r',
+    seltype  => 'httpd_config_t',
+    seluser  => 'system_u',
+    backup   => false,
+    notify   => Class['::nginx'],
+  }
+  concat::fragment { 'root-chain - chain cert':
+    target  => $ssl_root_chain_path,
+    order   => 1,
+    content => $ssl_chain_cert,
+  }
+  concat::fragment { 'root-chain - root cert':
+    target  => $ssl_root_chain_path,
+    order   => 2,
+    content => $ssl_root_cert,
+  }
+
+  nginx::resource::server { 'jenkins-https':
+    ensure                => present,
+    listen_port           => 443,
+    ssl                   => true,
+    access_log            => $access_log,
+    error_log             => $error_log,
+    ssl_key               => $ssl_key_path,
+    ssl_cert              => $ssl_cert_path,
+    ssl_dhparam           => $ssl_dhparam_path,
+    ssl_session_timeout   => '1d',
+    ssl_cache             => 'shared:SSL:50m',
+    ssl_stapling          => true,
+    ssl_stapling_verify   => true,
+    ssl_trusted_cert      => $ssl_root_chain_path,
+    resolver              => ['8.8.8.8', '4.4.4.4'],
+    proxy                 => 'http://jenkins',
+    proxy_redirect        => 'default',
+    proxy_connect_timeout => '150',
+    proxy_set_header      => $proxy_set_header,
+    add_header            => $add_header,
+    raw_prepend           => $raw_prepend,
+  }
+
+  # redirect http -> https
+  nginx::resource::server { 'jenkins-http':
     ensure                => present,
     listen_port           => 80,
     ssl                   => false,
     access_log            => $access_log,
     error_log             => $error_log,
-    proxy                 => 'http://jenkins',
-    proxy_redirect        => 'default',
-    proxy_connect_timeout => '150',
-    proxy_set_header      => $proxy_set_header,
-    rewrite_to_https      => $enable_ssl ? {
-      true    => true,
-      default => false,
-    },
-    # see comment above $raw_prepend declaration
-    raw_prepend           => $enable_ssl ? {
-      true    => $raw_prepend,
-      default => undef,
-    },
+    raw_prepend           => $raw_prepend,
   }
-  # lint:endignore
 }

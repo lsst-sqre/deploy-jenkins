@@ -1,19 +1,11 @@
-class jenkins_demo::profile::slave(
+class jenkins_demo::profile::jenkins::agent(
   Enum['normal', 'exclusive'] $slave_mode          = 'normal',
   Optional[Variant[Array[String], String]] $labels = undef,
   Boolean                      $use_default_labels = true,
+  Integer                               $executors = 1,
 ) {
   if $::operatingsystemmajrelease == '7' {
     include ::docker
-
-    kernel_parameter { 'nopti':
-      ensure => present,
-    } ~>
-    reboot { 'pti':
-      apply   => finished,
-      message => 'disabling kernel pti',
-      when    => refreshed,
-    }
 
     $docker = 'docker'
     $dockergc = '/usr/local/bin/docker-gc'
@@ -58,7 +50,7 @@ class jenkins_demo::profile::slave(
     slave_name   => $::hostname,
     slave_groups => $docker,
     slave_mode   => $slave_mode,
-    executors    => 1,
+    executors    => $executors,
     labels       => join(delete_undef_values($real_labels), " "),
     # don't start slave before lsstsw build env is ready
     require      => [

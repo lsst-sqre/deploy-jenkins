@@ -20,3 +20,5 @@ files:
     owner: 'root'
     group: 'root'
     mode: '0555'
+docker::overlay2_override_kernel_check: true
+docker::storage_driver: overlay2

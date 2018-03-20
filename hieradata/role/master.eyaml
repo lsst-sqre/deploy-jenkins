@@ -629,5 +629,11 @@ jenkinsx::user:
     api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
     public_keys:
       - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
-#jenkins_demo::profile::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
-#jenkins_demo::profile::master::seed_ref: '*/master'
+jenkins_demo::profile::jenkins::agent::slave_mode: exclusive
+# prevent jobs tied to "docker" or "centos-7" from running on this node
+jenkins_demo::profile::jenkins::agent::use_default_labels: false
+jenkins_demo::profile::jenkins::agent::labels:
+  - "%{::hostname}"
+jenkins_demo::profile::jenkins::agent::executors: 8
+#jenkins_demo::profile::jenkins::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
+#jenkins_demo::profile::jenkins::master::seed_ref: '*/master'
