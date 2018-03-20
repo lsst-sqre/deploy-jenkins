@@ -99,7 +99,7 @@ Vagrant.configure('2') do |config|
         define.vm.hostname = hostname
 
         define.vm.provider :aws do |provider, override|
-          ci_hostname(hostname, provider, 'slave')
+          ci_hostname(hostname, provider, 'agent')
 
           provider.ami = centos7_ami
           provider.tags = { 'Name' => hostname }
