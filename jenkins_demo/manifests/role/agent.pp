@@ -5,4 +5,5 @@ class jenkins_demo::role::agent {
   class { 'selinux': mode => 'disabled' }
   include ::jenkins_demo::profile::kernel
   include ::jenkins_demo::profile::kernel::nopti
+  include ::jenkins_demo::profile::kernel::pquota
 }

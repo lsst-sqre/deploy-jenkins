@@ -10,4 +10,5 @@ class jenkins_demo::role::master {
   include ::jenkins_demo::profile::jenkins::agent
   class { 'selinux': mode => 'enforcing' }
   include ::jenkins_demo::profile::kernel
+  include ::jenkins_demo::profile::kernel::pquota
 }
