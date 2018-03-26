@@ -1,5 +1,5 @@
 class jenkins_demo::profile::jenkins::master(
-  $seed_url = 'https://github.com/lsst-sqre/jenkins-dm-jobs',
+  $seed_url = undef,
   $seed_ref = '*/master',
 ) {
   include ::wget # needed by jenkins
@@ -39,47 +39,70 @@ class jenkins_demo::profile::jenkins::master(
   }
 
   $user_hash = lookup('jenkinsx::user',
-                      Hash[String,
-                        Hash[String,
-                          Variant[String, Array[String]]]])
-  create_resources('jenkins_user', $user_hash)
+    Variant[
+      Hash[String, Hash[String, Variant[String, Array[String]]]],
+      Undef
+    ]
+  )
+  if $user_hash {
+    create_resources('jenkins_user', $user_hash)
+  }
 
   $strategy = lookup('jenkinsx::authorization_strategy',
-                     Hash[String,
-                       Hash[String,
-                         Array[Variant[String, Boolean]]]])
-  create_resources('jenkins_authorization_strategy', $strategy)
+    Variant[
+      Hash[String, Hash[String, Array[Variant[String, Boolean]]]],
+      Undef
+    ]
+  )
+  if $strategy {
+    create_resources('jenkins_authorization_strategy', $strategy)
+  }
 
   $realm = lookup('jenkinsx::security_realm',
-                  Hash[String,
-                    Hash[String,
-                      Array[String]]])
-  create_resources('jenkins_security_realm', $realm)
+    Variant[
+      Hash[String, Hash[String, Array[String]]],
+      Undef
+    ]
+  )
+  if $realm {
+    create_resources('jenkins_security_realm', $realm)
+  }
 
   $creds = lookup('jenkinsx::credentials',
-                  Hash[String,
-                    Hash[String,
-                      Variant[String, Undef]]])
-  create_resources('jenkins_credentials', $creds)
-
-  jenkins_job { 'sqre':
-    config => template("${module_name}/jobs/sqre/config.xml"),
+    Variant[
+      Hash[String, Hash[String, Variant[String, Undef]]],
+      Undef
+    ]
+  )
+  if $creds {
+    create_resources('jenkins_credentials', $creds)
   }
 
-  jenkins_job { 'sqre/seeds':
-    config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
-  }
+  if $seed_url {
+    jenkins_job { 'sqre':
+      config => template("${module_name}/jobs/sqre/config.xml"),
+    }
 
-  jenkins_job { 'sqre/seeds/dm-jobs':
-    config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
-      seed_url => $seed_url,
-      seed_ref => $seed_ref,
-    }),
+    jenkins_job { 'sqre/seeds':
+      config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
+    }
+
+    jenkins_job { 'sqre/seeds/dm-jobs':
+      config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
+        seed_url => $seed_url,
+        seed_ref => $seed_ref,
+      }),
+    }
   }
 
   # puppet-jenkins does not presently support the management of nodes
   # XXX this is a dirty hack
-  $nodes = lookup('jenkinsx::nodes', Hash[String, Hash], 'first', undef)
+  $nodes = lookup(
+    'jenkinsx::nodes',
+    Variant[Hash[String, String], Undef],
+    'first',
+    undef
+  )
   if $nodes {
     create_resources('jenkins_demo::profile::jenkins::node', $nodes)
   }
@@ -106,8 +129,12 @@ class jenkins_demo::profile::jenkins::master(
     ensure => absent,
   }
 
-  $slack = lookup('jenkins::plugins::slack',
-                  Hash[String, String], 'first', undef)
+  $slack = lookup(
+    'jenkins::plugins::slack',
+    Variant[Hash[String, String], Undef],
+    'first',
+    undef
+  )
   if $slack {
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
@@ -175,11 +202,14 @@ class jenkins_demo::profile::jenkins::master(
     ],
   }
 
-  # If SSL is enabled and we are catching an DNS cname, we need to redirect to
-  # the canonical https URL in one step.  If we do a http -> https redirect, as
-  # is enabled by puppet-nginx's rewrite_to_https param, the the U-A will catch
-  # a certificate error before getting to the redirect to the canonical name.
-  $raw_prepend = [
+  # We need to redirect to the canonical https URL in one step.  If we do a
+  # http -> https redirect, as is enabled by puppet-nginx's rewrite_to_https
+  # param, the the U-A will catch a certificate error before getting to the
+  # redirect to the canonical name.
+  $http_raw_prepend = [
+    "return 301 https://${jenkins_fqdn}\$request_uri;",
+  ]
+  $https_raw_prepend = [
     "if ( \$host != \'${jenkins_fqdn}\' ) {",
     "  return 301 https://${jenkins_fqdn}\$request_uri;",
     '}',
@@ -291,16 +321,17 @@ class jenkins_demo::profile::jenkins::master(
     proxy_connect_timeout => '150',
     proxy_set_header      => $proxy_set_header,
     add_header            => $add_header,
-    raw_prepend           => $raw_prepend,
+    raw_prepend           => $https_raw_prepend,
   }
 
   # redirect http -> https
   nginx::resource::server { 'jenkins-http':
-    ensure                => present,
-    listen_port           => 80,
-    ssl                   => false,
-    access_log            => $access_log,
-    error_log             => $error_log,
-    raw_prepend           => $raw_prepend,
+    ensure               => present,
+    listen_port          => 80,
+    ssl                  => false,
+    access_log           => $access_log,
+    error_log            => $error_log,
+    raw_prepend          => $http_raw_prepend,
+    use_default_location => false,
   }
 }
