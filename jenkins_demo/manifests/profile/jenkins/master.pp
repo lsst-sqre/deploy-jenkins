@@ -39,28 +39,44 @@ class jenkins_demo::profile::jenkins::master(
   }
 
   $user_hash = lookup('jenkinsx::user',
-                      Hash[String,
-                        Hash[String,
-                          Variant[String, Array[String]]]])
-  create_resources('jenkins_user', $user_hash)
+    Variant[
+      Hash[String, Hash[String, Variant[String, Array[String]]]],
+      Undef
+    ]
+  )
+  if $user_hash {
+    create_resources('jenkins_user', $user_hash)
+  }
 
   $strategy = lookup('jenkinsx::authorization_strategy',
-                     Hash[String,
-                       Hash[String,
-                         Array[Variant[String, Boolean]]]])
-  create_resources('jenkins_authorization_strategy', $strategy)
+    Variant[
+      Hash[String, Hash[String, Array[Variant[String, Boolean]]]],
+      Undef
+    ]
+  )
+  if $strategy {
+    create_resources('jenkins_authorization_strategy', $strategy)
+  }
 
   $realm = lookup('jenkinsx::security_realm',
-                  Hash[String,
-                    Hash[String,
-                      Array[String]]])
-  create_resources('jenkins_security_realm', $realm)
+    Variant[
+      Hash[String, Hash[String, Array[String]]],
+      Undef
+    ]
+  )
+  if $realm {
+    create_resources('jenkins_security_realm', $realm)
+  }
 
   $creds = lookup('jenkinsx::credentials',
-                  Hash[String,
-                    Hash[String,
-                      Variant[String, Undef]]])
-  create_resources('jenkins_credentials', $creds)
+    Variant[
+      Hash[String, Hash[String, Variant[String, Undef]]],
+      Undef
+    ]
+  )
+  if $creds {
+    create_resources('jenkins_credentials', $creds)
+  }
 
   jenkins_job { 'sqre':
     config => template("${module_name}/jobs/sqre/config.xml"),
@@ -79,7 +95,12 @@ class jenkins_demo::profile::jenkins::master(
 
   # puppet-jenkins does not presently support the management of nodes
   # XXX this is a dirty hack
-  $nodes = lookup('jenkinsx::nodes', Hash[String, Hash], 'first', undef)
+  $nodes = lookup(
+    'jenkinsx::nodes',
+    Variant[Hash[String, String], Undef],
+    'first',
+    undef
+  )
   if $nodes {
     create_resources('jenkins_demo::profile::jenkins::node', $nodes)
   }
@@ -106,8 +127,12 @@ class jenkins_demo::profile::jenkins::master(
     ensure => absent,
   }
 
-  $slack = lookup('jenkins::plugins::slack',
-                  Hash[String, String], 'first', undef)
+  $slack = lookup(
+    'jenkins::plugins::slack',
+    Variant[Hash[String, String], Undef],
+    'first',
+    undef
+  )
   if $slack {
     $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
     jenkins::plugin { 'slack':
