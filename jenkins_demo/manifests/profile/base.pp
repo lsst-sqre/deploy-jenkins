@@ -3,16 +3,17 @@ class jenkins_demo::profile::base {
   include ::sysstat
   include ::irqbalance
   include ::ntp
+  include ::rvm
+  include ::timezone
+  include ::tuned
 
   host { 'jenkins-master':
     ensure => 'present',
     ip     => '192.168.123.10',
   }
 
-  class { 'timezone': timezone  => 'US/Pacific' }
-  class { 'tuned': profile      => 'virtual-host' }
-  class { 'firewall': ensure    => 'stopped' }
-  resources { 'firewall': purge => true }
+  #class { 'firewall': ensure    => 'stopped' }
+  #resources { 'firewall': purge => true }
 
   if $::osfamily == 'RedHat' {
     if $::operatingsystem != 'Fedora' {
@@ -27,7 +28,7 @@ class jenkins_demo::profile::base {
     #   * el6.x will update everything
     #   * the jenkins package is only present on the master
     class { '::yum_autoupdate':
-      exclude      => ['kernel*', 'jenkins'],
+      exclude      => ['kernel*', 'jenkins', 'java*', 'nginx'],
       notify_email => false,
       action       => 'apply',
       update_cmd   => 'security',
@@ -39,10 +40,4 @@ class jenkins_demo::profile::base {
     ensure => 'stopped',
     enable => false,
   }
-
-  # only needed for debugging
-  class { '::ruby::dev':
-    bundler_ensure => 'latest',
-  }
-  ensure_packages(['git', 'tree', 'vim-enhanced', 'ack'])
 }

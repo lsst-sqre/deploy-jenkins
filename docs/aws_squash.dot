@@ -1,0 +1,83 @@
+digraph top {
+//  dpi=100
+  ranksep=1.25
+  rankdir=TB
+  overlap=false
+  clusterrank=local
+  newrank=true
+
+  {
+    node [shape=ellipse fontsize=24 style=filled fillcolor=white]
+    ua [label="user-agent"]
+    eip [label="elastic IP"]
+    squash_vhost [label="vhost (squash)"]
+    bokeh_vhost [label="vhost (bokeh)"]
+    bokeh [label="bokeh"]
+    rds [label="RDS (qadb)"]
+    django [label="django (qa-dashboard)"]
+    squash_oauth [label="oauth2_proxy (squash)"]
+    bokeh_oauth [label="oauth2_proxy (bokeh)"]
+    github [label="github API"]
+  }
+
+  color=lightgrey
+  fontsize=18
+  style=bold
+
+  ua
+  eip
+
+  subgraph cluster_0 {
+    label="VPC"
+
+    subgraph cluster_1 {
+      label="EC2 instance (squash)"
+
+      subgraph cluster_2 {
+        label="nginx"
+
+        squash_vhost
+        bokeh_vhost
+      }
+
+      subgraph cluster_3 {
+        label="uwsgi"
+
+        django
+      }
+
+      squash_oauth
+      bokeh_oauth
+      bokeh
+    }
+
+    rds
+
+  }
+  { rank=same; rds django bokeh }
+  { rank=same; squash_oauth bokeh_oauth github }
+  { rank=same; squash_vhost bokeh_vhost }
+
+  // https
+  edge [color=red]
+  ua -> eip
+  eip -> squash_vhost
+  eip -> bokeh_vhost
+  django -> bokeh_vhost
+  squash_oauth -> github
+  bokeh_oauth -> github
+
+  // http
+  edge [color=orange]
+  bokeh_vhost -> bokeh [fontsize=18 label="(django oauth bypass)"]
+  bokeh_vhost -> bokeh_oauth
+  bokeh_oauth -> bokeh
+  squash_vhost -> django [fontsize=18 label="/api (oauth bypass)"]
+  squash_vhost -> squash_oauth [fontsize=18 label="/"]
+  squash_oauth -> django
+
+  // mysql
+  edge [color=blue]
+  //django -> rds [constraint=false]
+  django -> rds
+}

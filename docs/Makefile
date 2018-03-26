@@ -1,6 +1,6 @@
 TEMPFILE := $(shell mktemp -u)
 
-all: aws_vpc.png
+all: aws_vpc.png aws_squash.png
 
 %.png : %.dot
 	unflatten $< -l2 -o ${TEMPFILE}
