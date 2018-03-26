@@ -1,5 +1,5 @@
 class jenkins_demo::profile::jenkins::master(
-  $seed_url = 'https://github.com/lsst-sqre/jenkins-dm-jobs',
+  $seed_url = undef,
   $seed_ref = '*/master',
 ) {
   include ::wget # needed by jenkins
@@ -78,19 +78,21 @@ class jenkins_demo::profile::jenkins::master(
     create_resources('jenkins_credentials', $creds)
   }
 
-  jenkins_job { 'sqre':
-    config => template("${module_name}/jobs/sqre/config.xml"),
-  }
+  if $seed_url {
+    jenkins_job { 'sqre':
+      config => template("${module_name}/jobs/sqre/config.xml"),
+    }
 
-  jenkins_job { 'sqre/seeds':
-    config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
-  }
+    jenkins_job { 'sqre/seeds':
+      config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
+    }
 
-  jenkins_job { 'sqre/seeds/dm-jobs':
-    config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
-      seed_url => $seed_url,
-      seed_ref => $seed_ref,
-    }),
+    jenkins_job { 'sqre/seeds/dm-jobs':
+      config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
+        seed_url => $seed_url,
+        seed_ref => $seed_ref,
+      }),
+    }
   }
 
   # puppet-jenkins does not presently support the management of nodes
