@@ -202,11 +202,14 @@ class jenkins_demo::profile::jenkins::master(
     ],
   }
 
-  # If SSL is enabled and we are catching an DNS cname, we need to redirect to
-  # the canonical https URL in one step.  If we do a http -> https redirect, as
-  # is enabled by puppet-nginx's rewrite_to_https param, the the U-A will catch
-  # a certificate error before getting to the redirect to the canonical name.
-  $raw_prepend = [
+  # We need to redirect to the canonical https URL in one step.  If we do a
+  # http -> https redirect, as is enabled by puppet-nginx's rewrite_to_https
+  # param, the the U-A will catch a certificate error before getting to the
+  # redirect to the canonical name.
+  $http_raw_prepend = [
+    "return 301 https://${jenkins_fqdn}\$request_uri;",
+  ]
+  $https_raw_prepend = [
     "if ( \$host != \'${jenkins_fqdn}\' ) {",
     "  return 301 https://${jenkins_fqdn}\$request_uri;",
     '}',
@@ -318,16 +321,17 @@ class jenkins_demo::profile::jenkins::master(
     proxy_connect_timeout => '150',
     proxy_set_header      => $proxy_set_header,
     add_header            => $add_header,
-    raw_prepend           => $raw_prepend,
+    raw_prepend           => $https_raw_prepend,
   }
 
   # redirect http -> https
   nginx::resource::server { 'jenkins-http':
-    ensure                => present,
-    listen_port           => 80,
-    ssl                   => false,
-    access_log            => $access_log,
-    error_log             => $error_log,
-    raw_prepend           => $raw_prepend,
+    ensure               => present,
+    listen_port          => 80,
+    ssl                  => false,
+    access_log           => $access_log,
+    error_log            => $error_log,
+    raw_prepend          => $http_raw_prepend,
+    use_default_location => false,
   }
 }
