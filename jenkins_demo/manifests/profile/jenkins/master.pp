@@ -99,7 +99,7 @@ class jenkins_demo::profile::jenkins::master(
   # XXX this is a dirty hack
   $nodes = lookup(
     'jenkinsx::nodes',
-    Variant[Hash[String, String], Undef],
+    Variant[Data, Undef],
     'first',
     undef
   )
