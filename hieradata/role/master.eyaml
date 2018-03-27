@@ -583,6 +583,12 @@ jenkinsx::credentials:
     description: ltd-keeper
     username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAjnkwUi0Wh8HdsjlBMD3tXY8QavPBJOzqEvkWrxM57khq7xywQ1doOFuAxDaeEOCfE1d6RiapeiVGqt4cPJpxip5GhbgasNOV3+p0jewgk0VsrhoHwIsNfFMs/OcvfyacUXHeqfrmoqoNLWePBg18aaQo5rkMUdDYn4jfwM40rpa4/8WduC+PfzNSxnmi/aH/PxMVM2EhtG572kwgyc9If3wWSiPBsyYIhAOOcqeVU/IxPdILli3gULzA73y41l31TabFc5TnDb4VXeCzFTEby4sKBwUq0+VoiU7gbMpyjkrg3HMs+qb0H5xPdEGbjMPQkBadl235koVVLdtFS04nYTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCS0IwQIgT/+sbY806cpsG5gBDCvA1hKVTA9v+fmRxSYofN]
     password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAMD81qO/3CEujJAsGCZCQpc0bJ0p+0EFffJyFcuZ8VhNDFPco6phX75TF6gHZZbhj67a79L/T0Zpne4zQGduCoKg+FCe3XY7ynmqhywxv9RoSD5z18j5QSjQQqHaXpil4ysr8PVyAq2GKvcnBvkjjq9qwXLtP1V7B73ZTHnHTmLwU5dCM/mD+wpxenqjhyskV/cccZcPetIix2hqMNUwlOjvFIOnAo8gyL4aLe3moNLn6kkrBcAynP5IY4Kcv13jO1di3E65OWCfshQzGpbx21bOnvnO9xw2sEIR11u2iUHc2MEFb87OgblqVhEDKaOPHjEsxoSrP5eCVeRzs+warQjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwQkUgGOUnXHpH+lfxn1qhgCBaTUAuocoFkatZENfCpdKG+hvzFeruCgWkLEOaLG6ZiA==]
+  jenkins-env:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Name of Jenkins deployment
+    secret: "%{::demo_name}"
 jenkins::plugins::slack:
   teamdomain: lsstc
   tokencredentialid: slack-lsstc-token
