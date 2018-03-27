@@ -464,6 +464,13 @@ jenkinsx::credentials:
     description: 'jenkins AWS credentials'
     username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHVcQE+nrjvZ1VnwPEJUrMliG2j765lP2+UKxuZL6f+e8YTkELZs0qIIL7vuPL8Pb8dxivovMghTFED3JeYlemPuS9N8PqhvR2vepdI+ByQz3oKvbgVgx+QOyhB0W6gWAFzJ61PvaYi4NqpEtNfxM3EP3qw0Lf/SRxoE2hMplR+wxq0f87L46SYSYWvb9lVglJVeF7JINHVckduzWx4kTuIfOUDsef09gQsGQMPMVDgGoXIdNHmcBVlwU3qGzuXq7BB2UH5VhTgdoEfggVRTg9PthZzcWw5pwvB+lXmNj0xjWE988pqFVEQd2kg/YEB3NHmQaBBLfQfDGZ5cbTkoq0zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCBBCKvnE13z0juKgDStsyIgCDbxtgctupfrVX9e9fABPwW6L/40+rQBUMbvKuVWNARGQ==]
     password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlxnJ/ZXSzNLx1Ol3/3Wk0AlEapyFX6xVm5/cftzHa6E6Q4hCwGd20fkYt8eY4556Xc8S1uzczmcqG+UEYruzlFFFnzEuM9T2poA/WkMJUr35rr1RB3q0v5K4DPLt8sOYpMShUw13EEjuBO8tAhQPMgu5Bv7CbOZEp78g7LHG4oM0VuDkEMU8Arz+ITQaA16uAc3cfpLg38B7HaDt3D9UHsuYV1dzW5xvMFaKPkLNGregPXzEvrz1VvuJncg8hKvL7mkYnZh3d3Vk7gVPcJgZ7xtK2t1CRp5TZ0xNagZENpEojPvMutAJmfe7RNQ2JAu2p574mPcLQXYf0Rrkn60m0DBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB/sHtvho1V1aapODpd5akEgDCrc4TCJz0tbT7k8xYiGGg06msMdTi8f2aa3Dro6eD6SbXUZedfu9MysMyG1F1RqOs=]
+  aws-jenkins-master-snapshot:
+    domain: null
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: 'jenkins master snapshot AWS credentials'
+    username: "%{::snapshot_aws_access_key_id}"
+    password: "%{::snapshot_aws_secret_access_key}"
   dockerhub-sqreadmin:
     domain: null
     scope: GLOBAL
