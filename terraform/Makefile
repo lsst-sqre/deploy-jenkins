@@ -1,6 +1,6 @@
 UNAME := $(shell uname -s | tr A-Z a-z)
 BIN_DIR=./bin
-TF_VERSION=0.8.2
+TF_VERSION=0.11.4
 ZIP_FILE=terraform_$(TF_VERSION)_$(UNAME)_amd64.zip
 
 $(BIN_DIR):
