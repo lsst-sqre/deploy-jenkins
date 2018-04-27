@@ -511,6 +511,13 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: name of EUPS backup s3 bucket
     secret: eups.lsst.codes-backups
+  aws-eups-tag-admin:
+    domain:
+    scope: GLOBAL
+    impl: UsernamePasswordCredentialsImpl
+    description: manage eups distrib tags in s3 bucket
+    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeoPs67UWJZgOgnP2OPLPCBoaWL9cIX4GFucNzZb9yZeKXXUIyJkQ1TadNLs03sLt7eNjtj1n/Axv9OVOR7LuDAcMtED2jAP0Uin3DGBlA8cSeft+47MwQ1Bk+fjO4DPdd0atIZWUqjX1ikofOJfGz6tKA4GmQch7v21Ytrxg+foI20wBP17AO8Tj3CoI7elN4L7RuKlFt10ygY3gPcc0+K67cYXhiGK3tKLmmQJKKSVnHRL5pZtQDh1hjk7H0+vo6tSOBypSCC0bbsovjv9iGF1orW03BlWm3Rl83ee00V4WUg/R48rbyd07vloN9X9CvmyxDxDmF3MoxLNdIz7U7TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB6lnwHjWIppEz2197A2TVngCBkgNNcjBsC7yi2STU3/172dFWvb1gW98WDynDCWqGVHg==]
+    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgFV0rFnuCRTr0Ahaca5sutSTVoRluTCy++MhpFVm3oomTwRZY3Q1GYxuknTEw3qS8TqaZjOc6oehgHg1oOGVm4S1YAHVjOi2rO6i0VmFWNSnq1qU1PgM68BC+GOm2tpeaFm50O92IXUWJ2Gf/WHsSinYpJ7b++kDJsnpo6Qp+g7fYhErvIDWYcsQ5vwpoNZoC1KoskhOEP4Ulwp1cKwz+XPb2sfdB2SoiVggAR70CeRXnD3KpDVlF3k2QswidUD/TNQ9RQT3+/4qLR6wvbm23GaoWORSTUSUAdFd1etuDgbUVN5Znxu26uONAePrEGAlakbMVwD2CV3LxNv85NAwLzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCSLao9Hpbjtg2A8K0nVY4UgDAgOibkMBnKDwCuYBKLD7kt37njbO1rwM3d0UPuLyHT+iphOvX3ych1Mm9HL2QinQ0=]
   aws-doxygen-push:
     domain:
     scope: GLOBAL
