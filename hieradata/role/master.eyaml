@@ -3,7 +3,7 @@ classes:
   - jenkins_demo::role::master
 jenkins::version: '2.89.4-1.1'
 jenkins::lts: true
-jenkins::master::version: '3.11'
+jenkins::master::version: '3.12'
 jenkins::config_firewall: false
 jenkins::cli: true
 jenkins::config_hash:
@@ -39,13 +39,8 @@ jenkins::plugin_hash:
   # /support-core deps
   junit:
     version: '1.24'
-  matrix-project:
-    version: '1.12'
-  # matrix-project deps
   script-security:
-    version: '1.42'
-  # junit
-  # /matrix-project deps
+    version: '1.44'
   #validating-string-parameter:
   #  version: '2.3'
   plain-credentials:
@@ -59,7 +54,7 @@ jenkins::plugin_hash:
   # github is declared in master.pp
   # github deps
   token-macro:
-    version: '2.3'
+    version: '2.5'
   # credentials
   # plain-credentials
   git:
@@ -68,7 +63,7 @@ jenkins::plugin_hash:
     version: '1.90'
   # github -> git deps
   scm-api:
-    version: '2.2.6'
+    version: '2.2.7'
   git-client:
     version: '2.7.1'
   # /github -> git deps
@@ -79,7 +74,7 @@ jenkins::plugin_hash:
   # github-api:
   # git
   mailer:
-    version: '1.20'
+    version: '1.21'
   # /github-oauth deps
   display-url-api:
     version: '2.2.0'
@@ -95,18 +90,18 @@ jenkins::plugin_hash:
     version: '1.12.4-0'
   # /nodelabelparameter deps
   postbuildscript:
-    version: '2.5.1'
+    version: '2.7.0'
     #version: '0.17'
   # postbuildscript deps
   # mailer
   maven-plugin:
-    version: '3.1'
+    version: '3.1.2'
   # maven-plugin deps
   # javadoc
   # mailer
   # junit
   apache-httpcomponents-client-4-api:
-    version: '4.5.3-2.1'
+    version: '4.5.5-2.0'
   jsch:
     version: '0.1.54.2'
   # /maven-plugin deps
@@ -116,7 +111,7 @@ jenkins::plugin_hash:
   greenballs:
     version: '1.15'
   rebuild:
-    version: '1.27'
+    version: '1.28'
   build-user-vars-plugin:
     version: '1.5'
   # build-user-vars-plugin deps
@@ -148,19 +143,18 @@ jenkins::plugin_hash:
   # workflow-step-api
   # ssh-credentials
   # credentials
-  # /ghprb -> ssh-agent deps
-  # credentials
-  # github-api
-  # matrix-project
-  # git
-  # plain-credentials
-  # token-macro
-  # build-flow-plugin
-  # /ghprb deps
   parameterized-trigger:
     version: '2.35.2'
   conditional-buildstep:
     version: '1.3.6'
+  # conditional-buildstep deps
+  matrix-project:
+    version: '1.13'
+  # matrix-project deps
+  # script-security
+  # junit
+  # /matrix-project deps
+  # /conditional-buildstep deps
   run-condition:
     version: '1.0'
   # /parameterized-trigger deps
@@ -185,7 +179,7 @@ jenkins::plugin_hash:
   cloudbees-folder:
     version: '6.4'
   job-dsl:
-    version: '1.68'
+    version: '1.69'
   structs:
     version: '1.14'
   # /job-dsl deps
@@ -202,18 +196,18 @@ jenkins::plugin_hash:
   jquery-detached:
     version: '1.2.1'
   workflow-api:
-    version: '2.26'
+    version: '2.27'
   workflow-support:
     version: '2.18'
   workflow-step-api:
     version: '2.14'
   # workflow-job 2.14.1 *is not * compabtile with core 2.60.x
   workflow-job:
-    version: '2.17'
+    version: '2.20'
   pipeline-stage-view:
-    version: '2.9'
+    version: '2.10'
   pipeline-rest-api:
-    version: '2.9'
+    version: '2.10'
   handlebars:
     version: '1.1.1'
   momentjs:
@@ -225,7 +219,7 @@ jenkins::plugin_hash:
   git-server:
     version: '1.7'
   branch-api:
-    version: '2.0.18'
+    version: '2.0.20'
   workflow-durable-task-step:
     version: '2.19'
   pipeline-input-step:
@@ -233,13 +227,13 @@ jenkins::plugin_hash:
   pipeline-stage-step:
     version: '2.3'
   workflow-basic-steps:
-    version: '2.6'
+    version: '2.7'
   workflow-cps:
-    version: '2.45'
+    version: '2.49'
   workflow-cps-global-lib:
     version: '2.9'
   workflow-multibranch:
-    version: '2.17'
+    version: '2.18'
   pipeline-milestone-step:
     version: '1.3.1'
   pipeline-graph-analysis:
@@ -247,7 +241,7 @@ jenkins::plugin_hash:
   pipeline-model-declarative-agent:
     version: '1.1.1'
   pipeline-model-api:
-    version: &pipev '1.2.7'
+    version: &pipev '1.2.9'
   pipeline-model-definition:
     version: *pipev
   pipeline-model-extensions:
@@ -256,7 +250,7 @@ jenkins::plugin_hash:
     version: *pipev
   # /pipeline/workflow deps
   copyartifact:
-    version: '1.39'
+    version: '1.39.1'
   saferestart:
     version: '0.3'
   # slack is declared in master.pp
@@ -294,9 +288,9 @@ jenkins::plugin_hash:
     version: '2.0'
   # what is github-branch-source a dep of?
   github-branch-source:
-    version: '2.3.3'
+    version: '2.3.4'
   blueocean:
-    version: &bov '1.5.0-beta-2'
+    version: &bov '1.5.0'
   # blueocean deps
   # >= 1.4.0
   blueocean-core-js:
@@ -353,9 +347,9 @@ jenkins::plugin_hash:
   jira:
     version: '2.5.1'
   htmlpublisher:
-    version: '1.14'
+    version: '1.16'
   cloudbees-bitbucket-branch-source:
-    version: '2.2.10'
+    version: '2.2.11'
   # cloudbees-bitbucket-branch-source deps
   handy-uri-templates-2-api:
     version: '2.1.6-1.0'
@@ -364,7 +358,7 @@ jenkins::plugin_hash:
     version: '2.3'
   # /blueocean deps
   pipeline-utility-steps:
-    version: '2.0.1'
+    version: '2.0.2'
   # pipeline-utility-steps deps
   # workflow-cps
   # workflow-step-api
