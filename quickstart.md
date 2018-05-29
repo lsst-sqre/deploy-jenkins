@@ -238,6 +238,7 @@ NOTE: make sure you are running this on a clean repository otherwise the
 
 
 Start jenkins master + slave VM instance(s)
+---
 
     . creds.sh
     vagrant up master
