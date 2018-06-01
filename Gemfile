@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'rake'
 gem 'hiera-eyaml'
-gem 'puppet', '~> 4.10.6'
 gem 'librarian-puppet'
+gem 'puppet', '~> 4.10.6'
 gem 'puppet-lint', '~> 2.3.5'
+gem 'rake'
 gem 'rubocop', '~> 0.53.0'

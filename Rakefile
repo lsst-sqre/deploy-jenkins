@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rake/clean'
 
 EYAML_FILES = FileList['hieradata/**/*.eyaml']
@@ -14,7 +16,7 @@ rule '.yaml' => '.eyaml' do |t|
 end
 
 desc 'decrypt all eyaml files (*.eyaml -> *.yaml'
-task :decrypt => EYAML_FILES.ext('.yaml')
+task decrypt: EYAML_FILES.ext('.yaml')
 
 desc 'edit .eyaml file (requires keys)'
 task :edit, [:file] do |t, args|
@@ -24,16 +26,16 @@ end
 
 desc 'run librarian-puppet'
 task :librarian do
-  sh "librarian-puppet install --destructive"
+  sh 'librarian-puppet install --destructive'
 end
 
 desc 'run puppet-lint'
 task :puppet_lint do
-  cmd =<<~EOS
-  puppet-lint --fail-on-warnings \
-    jenkins_demo \
-    environments/jenkins/manifests
-  EOS
+  cmd = <<~PL
+    puppet-lint --fail-on-warnings \
+      jenkins_demo \
+      environments/jenkins/manifests
+  PL
   sh cmd do |ok, res|
     unless ok
       # exit without verbose rake error message
@@ -42,7 +44,7 @@ task :puppet_lint do
   end
 end
 
-task :default => [
-  :decrypt,
-  :librarian,
+task default: %i[
+  decrypt
+  librarian
 ]

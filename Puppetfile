@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 forge 'https://forgeapi.puppetlabs.com'
 
 mod 'puppetlabs/stdlib'
@@ -30,7 +32,7 @@ mod 'puppet/archive', '> 1'
 mod 'puppetlabs/reboot', '~> 1.2.1'
 
 mod 'rtyler/jenkins',
-  :git => 'https://github.com/lsst-sqre/puppet-jenkins.git',
-  :ref => 'a066d948f37d9ac839ed94401dd9d3b0c5259ad3'
+    git: 'https://github.com/lsst-sqre/puppet-jenkins.git',
+    ref: 'a066d948f37d9ac839ed94401dd9d3b0c5259ad3'
 
-mod 'lsst/jenkins_demo', :path => './jenkins_demo'
+mod 'lsst/jenkins_demo', path: './jenkins_demo'
