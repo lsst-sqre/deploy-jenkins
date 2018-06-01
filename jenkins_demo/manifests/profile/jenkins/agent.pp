@@ -15,9 +15,9 @@ class jenkins_demo::profile::jenkins::agent(
       path    => $dockergc,
       cleanup => false,
       extract => false,
-    } ->
+    }
     # this isn't nessicary with puppet/archive 1.x
-    file { $dockergc:
+    -> file { $dockergc:
       mode => '0555',
     }
 
@@ -51,7 +51,7 @@ class jenkins_demo::profile::jenkins::agent(
     slave_groups => $docker,
     slave_mode   => $slave_mode,
     executors    => $executors,
-    labels       => join(delete_undef_values($real_labels), " "),
+    labels       => join(delete_undef_values($real_labels), ' '),
     # don't start slave before lsstsw build env is ready
     require      => [
       Host['jenkins-master'],

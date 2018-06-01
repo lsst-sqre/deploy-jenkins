@@ -33,7 +33,7 @@ class jenkins_demo::profile::jenkins::master(
   }
 
   class { 'jenkins::cli::config':
-    ssh_private_key => $admin_key_path,
+    ssh_private_key     => $admin_key_path,
     cli_remoting_free   => false,
     cli_legacy_remoting => true,
   }
@@ -232,8 +232,8 @@ class jenkins_demo::profile::jenkins::master(
     cwd     => $private_dir,
     umask   => '0433',
     creates => $ssl_dhparam_path,
-  } ->
-  file { $ssl_dhparam_path:
+  }
+  -> file { $ssl_dhparam_path:
     ensure   => file,
     mode     => '0400',
     selrange => 's0',
