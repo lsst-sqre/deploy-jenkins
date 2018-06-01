@@ -17,7 +17,7 @@ PuppetLint::RakeTask.new :lint do |config|
 end
 
 task default: %i[
-  validate
   lint
-  spec
+  syntax
+  validate
 ]
