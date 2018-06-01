@@ -27,6 +27,21 @@ task :librarian do
   sh "librarian-puppet install --destructive"
 end
 
+desc 'run puppet-lint'
+task :puppet_lint do
+  cmd =<<~EOS
+  puppet-lint --fail-on-warnings \
+    jenkins_demo \
+    environments/jenkins/manifests
+  EOS
+  sh cmd do |ok, res|
+    unless ok
+      # exit without verbose rake error message
+      exit res.exitstatus
+    end
+  end
+end
+
 task :default => [
   :decrypt,
   :librarian,
