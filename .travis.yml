@@ -7,28 +7,39 @@ matrix:
       services:
         - docker
       script: ./tests/mdl.sh
+
     - env: TEST=puppet-lint
       language: ruby
       rvm: '2.5'
       script: bundle exec rake puppet_lint
+
     - env: TEST=librarian-puppet
       language: ruby
       rvm: '2.5'
       script: bundle exec rake librarian
+
     - env: TEST=shellcheck
       language: c
       services:
         - docker
       script: ./tests/shellcheck.sh
+
     - env: TEST=make
       language: c
       script: ./tests/make.sh
+
     - env: TEST=terraform
       language: c
       script: |
        set -e
        cd tf
        make test
+
+    - env: TEST=yamllint
+      language: c
+      services:
+        - docker
+      script: ./tests/yamllint.sh
 branches:
   only:
   - master
