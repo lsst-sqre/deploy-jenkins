@@ -20,6 +20,9 @@ matrix:
       services:
         - docker
       script: ./tests/shellcheck.sh
+    - env: TEST=make
+      language: c
+      script: ./tests/make.sh
 branches:
   only:
   - master
