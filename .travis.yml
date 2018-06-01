@@ -7,6 +7,10 @@ matrix:
       services:
         - docker
       script: ./tests/mdl.sh
+    - env: TEST=puppet-lint
+      language: ruby
+      rvm: '2.5'
+      script: bundle exec rake puppet_lint
 branches:
   only:
   - master
