@@ -5,7 +5,7 @@ Synopsis
 ---
 
 This is a demonstration of deploying a complete
-[`jenkins`](https://jenkins-ci.org/) master + build slaves environment to
+[`jenkins`](https://jenkins-ci.org/) master + build agent environment to
 [AWS](https://aws.amazon.com/) EC2 which is pre-configured to build the LSST
 Stack.  The principle goal is to demonstrate a possible migration path away
 from LSST DM's existing CI infrastructure.  The key feature improvements over
@@ -22,13 +22,13 @@ High level architecture
 
 ![AWS VPC diagram](./docs/aws_vpc.png)
 
-The instances running the jenkins master and slave processes are deployed into
+The instances running the jenkins master and agent processes are deployed into
 an AWS "Virtual Private Cloud" or [VPC](https://aws.amazon.com/vpc/).  Using a
 non-default VPC (historically, AWS had separate classic and VPC environments;
 all newly created AWS accounts have a default VPC in each region that more or
 less emulates the "classic" behavior) allows for direct control over the
 RFC1918 private address space.  A benefit of this is that the master instance
-can have a fixed IP address which the slaves can locate by convention instead
+can have a fixed IP address which the agents can locate by convention instead
 of requiring either the address to be injected or use of a service discovery
 mechanism.
 
@@ -98,7 +98,7 @@ which are then made available to end users via a web interface.
 #### `ganglia`
 
 The [`ganglia`](http://ganglia.info/) monitoring system is used to collect
-general host metrics from the build slaves and are accessible from the web
+general host metrics from the build agents and are accessible from the web
 interface as `https://<jenkins-master>/ganglia/`.
 
 A possible improvement would be to create `gmetric` values from jenkins when
@@ -358,7 +358,7 @@ parallel.
 
 #### create pre-provisoined base images
 
-Start up the build slaves first so there isn't state created by the master
+Start up the build agents first so there isn't state created by the master
 attempting to create jobs.
 
     vagrant up el6-1 el7-1

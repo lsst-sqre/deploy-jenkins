@@ -230,7 +230,7 @@ directory.
 NOTE: make sure you are running this on a clean repository otherwise the
 'bundle exec rake' will not update the corresponding yaml files.
 
-Start jenkins master + slave VM instance(s)
+Start jenkins master + agent VM instance(s)
 ---
 
     . creds.sh

@@ -78,7 +78,7 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_INTERNAL,
         SECURITY_GROUP_ID_SSH,
         SECURITY_GROUP_ID_HTTP,
-        SECURITY_GROUP_ID_SLAVEPORT,
+        SECURITY_GROUP_ID_AGENTPORT,
       ]
       provider.instance_type = 'c4.xlarge'
       provider.tags = { 'Name' => hostname }
@@ -93,9 +93,9 @@ Vagrant.configure('2') do |config|
   end
 
   unless (el7_nodes.nil?)
-    el7_nodes.each do |slave_id|
-      config.vm.define "el7-#{slave_id}" do |define|
-        hostname = gen_hostname("el7-#{slave_id}")
+    el7_nodes.each do |agent_id|
+      config.vm.define "el7-#{agent_id}" do |define|
+        hostname = gen_hostname("el7-#{agent_id}")
         define.vm.hostname = hostname
 
         define.vm.provider :aws do |provider, override|
