@@ -11,7 +11,7 @@ if not plugins_to_install.empty?
 end
 
 ABS_PATH = File.expand_path(File.dirname(__FILE__))
-TF_STATE= "#{ABS_PATH}/terraform/terraform.tfstate"
+TF_STATE = "#{ABS_PATH}/tf/terraform.tfstate"
 
 fail "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
 outputs = JSON.parse(File.read(TF_STATE))["modules"].first["outputs"]

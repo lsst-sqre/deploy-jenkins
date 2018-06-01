@@ -92,13 +92,13 @@ Create AWS VPC resources
 ---
 
     . creds.sh
-    cd terraform
+    cd tf
     # install terraform locally
     make
     # sanity check
-    ./bin/terraform plan
+    ./bin/tf plan
     # create AWS VPC env
-    ./bin/terraform apply
+    ./bin/tf apply
     cd ..
 
 NOTE 1: For OSX the first `make` command may not work, then remove the -nc
@@ -113,8 +113,8 @@ Configure github oauth2
 ---
 
     (
-        cd ./terraform;
-        ./bin/terraform show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
+        cd ./tf;
+        ./bin/tf show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
     )
 
 Example output.:
@@ -313,7 +313,7 @@ Cleanup
     . creds.sh
     # VM must be destroyed before some AWS resources may be deallocated
     vagrant destroy -f
-    cd terraform
-    ./bin/terraform destroy --force
+    cd tf
+    ./bin/tf destroy --force
     cd ..
     rm -rf .lsst-certs

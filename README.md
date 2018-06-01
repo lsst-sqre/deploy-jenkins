@@ -56,8 +56,7 @@ the VPC.  Note that terraform has the capability to spawn EC2 instances and
 could completely replace vagrant at the expense of loosing a convenient
 development/debugging mechanism.
 
-The terraform configuration files are under the ['terraform'](./terraform)
-directory.
+The terraform configuration files are under the ['tf'](./tf) directory.
 
 ### `vagrant`
 
@@ -331,9 +330,9 @@ The ssh key pair is required for both terraform and vagrant.
     export TF_VAR_domain_name=lsst.codes
 
     # sanity check
-    ./bin/terraform plan
+    ./bin/tf plan
 
-    ./bin/terraform apply
+    ./bin/tf apply
     cd ..
 
 ### Create AWS EC2 instances with vagrant
