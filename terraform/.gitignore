@@ -2,3 +2,4 @@ bin
 *tfstate*
 override.tf
 .terraform
+downloads/

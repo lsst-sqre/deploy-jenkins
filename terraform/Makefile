@@ -1,33 +1,69 @@
 UNAME := $(shell uname -s | tr A-Z a-z)
-BIN_DIR=./bin
-TF_VERSION=0.11.4
-ZIP_FILE=terraform_$(TF_VERSION)_$(UNAME)_amd64.zip
+BIN_DIR = bin
+DL_DIR = downloads
+ARCH = amd64
+TF_PLUG_DIR := .terraform/plugins/$(UNAME)_$(ARCH)
 
-$(BIN_DIR):
-	mkdir $@
-	cd $@; wget -nc https://releases.hashicorp.com/terraform/$(TF_VERSION)/$(ZIP_FILE)
-	cd $@; unzip $(ZIP_FILE)
+TF_VER = 0.11.4
+TF_ZIP_FILE := terraform_$(TF_VER)_$(UNAME)_$(ARCH).zip
+TF_ZIP_DL := $(DL_DIR)/$(TF_ZIP_FILE)
+TF_BIN := $(BIN_DIR)/terraform
 
-define ENV_TEMPLATE
-$(1): env/$(1).tf
-	-cp $$< override.tf
-endef
+# these default values must be in sync with the definitions variables.tf
+TF_VAR_service_name ?= ci
+TF_VAR_domain_name ?= lsst.codes
+AWS_DEFAULT_REGION ?= us-east-1
+FQDN := $(subst prod-,,$(TF_VAR_env_name)-$(TF_VAR_service_name).$(TF_VAR_domain_name))
+TF_S3_BCKT := $(FQDN)-tf
 
-define OPT_TEMPLATE
-$(1): opt/$(1).tf
-	-cp $$< $(1).tf
+.PHONY: all test
+all: tf-install
+test: tf-test
 
-no$(1):
-	-rm $(1).tf
-endef
+# $< may not be defined because of |
+$(TF_BIN): | $(TF_ZIP_DL)
+	unzip -d $(BIN_DIR) $(TF_ZIP_DL)
 
-$(eval $(call ENV_TEMPLATE,dev))
-$(eval $(call ENV_TEMPLATE,prod))
+$(TF_ZIP_DL): | $(DL_DIR)
+	wget -nc https://releases.hashicorp.com/terraform/$(TF_VER)/$(TF_ZIP_FILE) -O $@
 
-tf := $(wildcard *.tf)
+$(BIN_DIR) $(DL_DIR) $(TF_PLUG_DIR):
+	mkdir -p $@
 
-fmt:
-	$(foreach src, $(tf), $(BIN_DIR)/terraform fmt $(src);)
+.PHONY: tf-install
+tf-install: $(TF_BIN)
 
+.PHONY: tf-s3-mb
+tf-s3-mb:
+	aws s3 mb s3://$(TF_S3_BCKT) --region $(AWS_DEFAULT_REGION)
+
+.PHONY: tf-init-s3
+tf-init-s3: tf-install tf-s3-mb
+	$(TF_BIN) init \
+		-backend=true \
+		-backend-config="region=$(AWS_DEFAULT_REGION)" \
+		-backend-config="bucket=$(TF_S3_BCKT)" \
+		-backend-config="key=terraform.tfstate" \
+		-input=false \
+		-get=true \
+		-reconfigure \
+		-force-copy
+
+.PHONY: tf-init
+tf-init: tf-install
+	$(TF_BIN) init -backend=false
+
+.PHONY: tf-test
+tf-test: tf-init tf-fmt tf-validate
+
+.PHONY: tf-fmt
+tf-fmt:
+	$(TF_BIN) fmt --check=true --diff=true
+
+.PHONY: tf-validate
+tf-validate:
+	$(TF_BIN) validate --check-variables=false
+
+.PHONY: clean
 clean:
-	-rm -rf bin override.tf
+	-rm -rf $(BIN_DIR)
