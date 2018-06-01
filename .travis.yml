@@ -11,6 +11,10 @@ matrix:
       language: ruby
       rvm: '2.5'
       script: bundle exec rake puppet_lint
+    - env: TEST=librarian-puppet
+      language: ruby
+      rvm: '2.5'
+      script: bundle exec rake librarian
 branches:
   only:
   - master
