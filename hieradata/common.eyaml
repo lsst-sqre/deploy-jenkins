@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 nginx::package_ensure: '1.10.1-1.el7.ngx'
 nginx::confd_purge: true
 nginx::server_purge: true
@@ -13,7 +14,6 @@ add_header:
   # 180d is required to get an A+ rating from ssllabs.com
   Strict-Transport-Security: "'max-age=15552000'"
   # openssl x509 -in lsst.codes.pem -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
-#  Public-Key-Pins: "'pin-sha256=\"KhocpKDPJ5WatTg6A4CLwPGcxhf+fUGee4FfIk7Nc68=\"; max-age=2592000'"
 # alphassl signed *.lsst.codes
 ssl_cert: |
   -----BEGIN CERTIFICATE-----
