@@ -23,6 +23,12 @@ matrix:
     - env: TEST=make
       language: c
       script: ./tests/make.sh
+    - env: TEST=terraform
+      language: c
+      script: |
+       set -e
+       cd tf
+       make test
 branches:
   only:
   - master
