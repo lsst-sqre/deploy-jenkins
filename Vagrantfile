@@ -14,21 +14,18 @@ unless plugins_to_install.empty?
   exec "vagrant #{ARGV.join(' ')}"
 end
 
-TF_STATE = "#{__dir__}/tf/terraform.tfstate"
+TF_DIR = "#{__dir__}/tf"
+tf_data = {}
+Dir.chdir(TF_DIR) do
+  output = JSON.parse(`./bin/terraform output -json`)
+  output.each do |k, v|
+    # install tf output values as constants
+    value = v['value']
+    Object.const_set(k.upcase, value)
 
-raise "missing terraform state file: #{TF_STATE}" unless File.exist? TF_STATE
-outputs = JSON.parse(File.read(TF_STATE))['modules'].first['outputs']
-outputs = case outputs.first[1]
-          when Array
-            # tf ~ 0.6
-            outputs.map { |k, v| [k.downcase, v] }.to_h
-          when Hash
-            # tf >= 0.8 ?
-            outputs.map { |k, v| [k.downcase, v['value']] }.to_h
-          end
-
-outputs.each do |k, v|
-  Object.const_set(k.upcase, v)
+    # create a sanitized hash
+    tf_data[k] = value
+  end
 end
 
 def gen_hostname(boxname)
@@ -144,7 +141,7 @@ Vagrant.configure('2') do |config|
     puppet.manifests_path    = 'environments/jenkins/manifests'
     puppet.manifest_file     = 'default.pp'
     # puppet does not allow uppercase variables
-    puppet.facter            = outputs
+    puppet.facter            = tf_data
 
     puppet.options = [
       '--verbose',
