@@ -1,0 +1,58 @@
+sudo: false
+language: c
+matrix:
+  include:
+    - env: TEST=markdownlint
+      language: c
+      services:
+        - docker
+      script: ./tests/mdl.sh
+
+    # check manifests only
+    - env: TEST=puppet-lint
+      language: ruby
+      rvm: '2.5'
+      script: bundle exec rake puppet_lint
+
+    - env: TEST=librarian-puppet
+      language: ruby
+      rvm: '2.5'
+      script: bundle exec rake librarian
+
+    - env: TEST="jenknis_demo (puppet module)"
+      language: ruby
+      rvm: '2.5'
+      # WHY IS TRAVIS SETTING BUNDLE_GEMFILE? ARGH!
+      before_install: unset BUNDLE_GEMFILE && cd jenkins_demo
+      install: bundle install --jobs=3 --retry=3 --frozen
+      script: bundle exec rake
+
+    - env: TEST=shellcheck
+      language: c
+      services:
+        - docker
+      script: ./tests/shellcheck.sh
+
+    - env: TEST=make
+      language: c
+      script: ./tests/make.sh
+
+    - env: TEST=terraform
+      language: c
+      script: |
+       set -e
+       cd tf
+       make test
+
+    - env: TEST=yamllint
+      language: c
+      services:
+        - docker
+      script: ./tests/yamllint.sh
+branches:
+  only:
+  - master
+# also matched against tag pushes
+  - /^\d+\.\d+\.\d+$/
+notifications:
+  email: false

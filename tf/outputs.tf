@@ -18,8 +18,8 @@ output "SECURITY_GROUP_ID_HTTP" {
   value = "${aws_security_group.jenkins-demo-http.id}"
 }
 
-output "SECURITY_GROUP_ID_SLAVEPORT" {
-  value = "${aws_security_group.jenkins-demo-slaveport.id}"
+output "SECURITY_GROUP_ID_AGENTPORT" {
+  value = "${aws_security_group.jenkins-demo-agentport.id}"
 }
 
 output "SECURITY_GROUP_ID_INTERNAL" {
@@ -30,8 +30,8 @@ output "AWS_DEFAULT_REGION" {
   value = "${var.aws_default_region}"
 }
 
-output "DEMO_NAME" {
-  value = "${var.demo_name}"
+output "ENV_NAME" {
+  value = "${var.env_name}"
 }
 
 output "DOMAIN_NAME" {

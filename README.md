@@ -5,7 +5,7 @@ Synopsis
 ---
 
 This is a demonstration of deploying a complete
-[`jenkins`](https://jenkins-ci.org/) master + build slaves environment to
+[`jenkins`](https://jenkins-ci.org/) master + build agent environment to
 [AWS](https://aws.amazon.com/) EC2 which is pre-configured to build the LSST
 Stack.  The principle goal is to demonstrate a possible migration path away
 from LSST DM's existing CI infrastructure.  The key feature improvements over
@@ -22,13 +22,13 @@ High level architecture
 
 ![AWS VPC diagram](./docs/aws_vpc.png)
 
-The instances running the jenkins master and slave processes are deployed into
+The instances running the jenkins master and agent processes are deployed into
 an AWS "Virtual Private Cloud" or [VPC](https://aws.amazon.com/vpc/).  Using a
 non-default VPC (historically, AWS had separate classic and VPC environments;
 all newly created AWS accounts have a default VPC in each region that more or
 less emulates the "classic" behavior) allows for direct control over the
 RFC1918 private address space.  A benefit of this is that the master instance
-can have a fixed IP address which the slaves can locate by convention instead
+can have a fixed IP address which the agents can locate by convention instead
 of requiring either the address to be injected or use of a service discovery
 mechanism.
 
@@ -56,8 +56,7 @@ the VPC.  Note that terraform has the capability to spawn EC2 instances and
 could completely replace vagrant at the expense of loosing a convenient
 development/debugging mechanism.
 
-The terraform configuration files are under the ['terraform'](./terraform)
-directory.
+The terraform configuration files are under the ['tf'](./tf) directory.
 
 ### `vagrant`
 
@@ -72,9 +71,9 @@ Vagrant is configured via the ['Vagrantfile'](./Vagrantfile).
 There are a number of low-level configurations needed in a cloud environment.
 Including:
 
-  * ssh key injection / sudo management
-  * dynamic resizing of the instance's block storage
-  * hostname/host file management
+* ssh key injection / sudo management
+* dynamic resizing of the instance's block storage
+* hostname/host file management
 
 [`cloud-init`](https://cloudinit.readthedocs.org/en/latest/) is relied upon to
 provide those functions in demo.
@@ -86,8 +85,8 @@ done by a composition of [`puppet`](https://puppetlabs.com/) modules.   This is
 implemented via a bundled "site" module that implements the [Roles and
 Profiles](http://www.craigdunn.org/2012/05/239/) pattern.
 
-  * The puppet modules in use are listed in the [Puppetfile](./Puppetfile).
-  * The site module is under the [`jenkins_demo`](./jenkins_demo) directory.
+* The puppet modules in use are listed in the [Puppetfile](./Puppetfile).
+* The site module is under the [`jenkins_demo`](./jenkins_demo) directory.
 
 ### metric collection
 
@@ -98,8 +97,8 @@ which are then made available to end users via a web interface.
 #### `ganglia`
 
 The [`ganglia`](http://ganglia.info/) monitoring system is used to collect
-general host metrics from the build slaves and are accessible from the web
-interface as https://<jenkins-master>/ganglia/.
+general host metrics from the build agents and are accessible from the web
+interface as `https://<jenkins-master>/ganglia/`.
 
 A possible improvement would be to create `gmetric` values from jenkins when
 certain events occur, such as the start and finish of jobs.
@@ -145,7 +144,6 @@ There are a number of plugins that are not configured via this demo as it would
 require exposing secrets. This includes github oauth integration and email
 notifications.
 
-
 Prerequisites
 -------------
 
@@ -156,7 +154,6 @@ Only needed to use `hiera-eyaml` to decrypt/edit `common.eyaml`
 
 * ruby 1.9.3+
 * bundler
-
 
 Vagrant plugins
 ---------------
@@ -217,7 +214,7 @@ US West (N. California)    | ami-f77fbeb3
 
     ./bin/packer build --only amazon-ebs -var 'source_ami=ami-c2a818aa' centos-6.7-x86_64.json
 
-```
+```bash
 Build 'amazon-ebs' finished.
 
 ==> Builds finished. The artifacts of successful builds are:
@@ -231,7 +228,7 @@ us-east-1: ami-974d85fc
 
     ./bin/packer build --only amazon-ebs -var 'source_ami=ami-96a818fe' centos-7.1-x86_64.json
 
-```
+```bash
 Build 'amazon-ebs' finished.
 
 ==> Builds finished. The artifacts of successful builds are:
@@ -297,7 +294,7 @@ this repository.*
 
 ##### `eyaml` setup
 
-A [Gemfile] is provided to install `hiera-eyaml`.  A working ruby + bundler
+A `Gemfile` is provided to install `hiera-eyaml`.  A working ruby + bundler
 install is assumed.
 
     bundle install
@@ -328,14 +325,14 @@ The ssh key pair is required for both terraform and vagrant.
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
-    export TF_VAR_demo_name=${USER}-demo
+    export TF_VAR_env_name=${USER}-demo
     export TF_VAR_aws_zone_id=Z3TH0HRSNU67AM
     export TF_VAR_domain_name=lsst.codes
 
     # sanity check
-    ./bin/terraform plan
+    ./bin/tf plan
 
-    ./bin/terraform apply
+    ./bin/tf apply
     cd ..
 
 ### Create AWS EC2 instances with vagrant
@@ -351,16 +348,16 @@ The ssh key pair is required for both terraform and vagrant.
 
 #### Disable parallel actions
 
-One of the vagrant plugins currently in use [sadly] is not compatible with
-vagrant parallel providers.  That means vagrant is unable to create EC2
-instances in parallel.
+One of the vagrant plugins currently in use is not compatible with vagrant
+parallel providers.  That means vagrant is unable to create EC2 instances in
+parallel.
 
     export VAGRANT_DEFAULT_PROVIDER='aws'
     export VAGRANT_NO_PARALLEL='yes'
 
 #### create pre-provisoined base images
 
-Start up the build slaves first so there isn't state created by the master
+Start up the build agents first so there isn't state created by the master
 attempting to create jobs.
 
     vagrant up el6-1 el7-1
@@ -388,7 +385,7 @@ attempting to create jobs.
     # sanity check
     vagrant check
 
-```
+```bash
 $ vagrant package el6-1
 ==> el6-1: Burning instance i-bc806b6f into an ami
 ==> el6-1: Waiting for the AMI 'ami-ff18e494' to burn...
@@ -417,12 +414,6 @@ $     vagrant destroy -f master
 ==> master: Running cleanup tasks for 'puppet' provisioner...
 ```
 
-#### Declare new AMI IDs
-
-    export CENTOS6_AMI=ami-ff18e494
-    export CENTOS7_AMI=ami-0515e96e
-    export MASTER_AMI=ami-d312eeb8
-
 ### Save env vars
 
 The shell snippet below will store all of the important environment variables
@@ -444,7 +435,7 @@ before performing vagrant/terraform operations in a clean shell.
     export TF_VAR_aws_access_key=$TF_VAR_aws_access_key
     export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
     export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
-    export TF_VAR_demo_name=$TF_VAR_demo_name
+    export TF_VAR_env_name=$TF_VAR_env_name
     export TF_VAR_aws_zone_id=$TF_VAR_aws_zone_id
     export TF_VAR_domain_name=$TF_VAR_domain_name
     END
@@ -455,7 +446,8 @@ before performing vagrant/terraform operations in a clean shell.
     vagrant up
 
 See Also
-===
+---
+
 * [`jenkins`](https://jenkins-ci.org/)
 * [AWS](https://aws.amazon.com/)
 * [VPC](https://aws.amazon.com/vpc/)

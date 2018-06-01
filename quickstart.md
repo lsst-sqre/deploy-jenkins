@@ -10,7 +10,6 @@ Prerequisites
 * ruby `bundler` gem
 * ruby `hub` gem
 
-
 Clone Source
 ---
 
@@ -19,7 +18,6 @@ Clone Source
     bundle install
     hub fork
     git branch -b tickets/<DM-XXXX>-<topic>
-
 
 Configuration
 ---
@@ -39,7 +37,7 @@ Configuration
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
-    export TF_VAR_demo_name=${USER}-jenkins
+    export TF_VAR_env_name=${USER}-jenkins
     export TF_VAR_aws_zone_id=Z3TH0HRSNU67AM
     export TF_VAR_domain_name=lsst.codes
     # must be at least 8 chars
@@ -64,12 +62,11 @@ for convenience.
     export TF_VAR_aws_access_key=$TF_VAR_aws_access_key
     export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
     export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
-    export TF_VAR_demo_name=$TF_VAR_demo_name
+    export TF_VAR_env_name=$TF_VAR_env_name
     export TF_VAR_aws_zone_id=$TF_VAR_aws_zone_id
     export TF_VAR_domain_name=$TF_VAR_domain_name
     export TF_VAR_rds_password=$TF_VAR_rds_password
     END
-
 
 Install `eyaml` key ring
 ---
@@ -86,24 +83,22 @@ NOTE: first download the lsst-sqre Dropbox folder to your home directory.
     cd ..
     ln -s .lsst-certs/eyaml-keys keys
 
-
 Generate ssh key pair
 ---
 
     (cd jenkins_demo/templates; make)
 
-
 Create AWS VPC resources
 ---
 
     . creds.sh
-    cd terraform
+    cd tf
     # install terraform locally
     make
     # sanity check
-    ./bin/terraform plan
+    ./bin/tf plan
     # create AWS VPC env
-    ./bin/terraform apply
+    ./bin/tf apply
     cd ..
 
 NOTE 1: For OSX the first `make` command may not work, then remove the -nc
@@ -114,13 +109,12 @@ NOTE 2: The state of your infrastructure is saved locally.
 infrastructure, so keep it safe**. To inspect the complete state
 use the `terraform show` command.
 
-
 Configure github oauth2
 ---
 
     (
-        cd ./terraform;
-        ./bin/terraform show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
+        cd ./tf;
+        ./bin/tf show | grep JENKINS_FQDN | sed -e 's/.*\=\s\(.*\)/https:\/\/\1\/securityRealm\/finishLogin/'
     )
 
 Example output.:
@@ -131,7 +125,7 @@ Example output.:
 
 A "personal" application may be registered via:
 
-https://github.com/settings/applications/new
+<https://github.com/settings/applications/new>
 
 **Note that a production application should be attached to a github org.**
 
@@ -142,9 +136,10 @@ significant. The callback URL must __exactly__ match the constructed URL.
 
 #### jenkins
 
-Insert the `Client ID` and `Client Secret` strings under the `jenkinsx::security_realm` key as the 3rd and 4th "arguments".
+Insert the `Client ID` and `Client Secret` strings under the
+`jenkinsx::security_realm` key as the 3rd and 4th "arguments".
 
-bundle exec rake edit[hieradata/role/master.eyaml]
+    bundle exec rake edit[hieradata/role/master.eyaml]
 
     jenkinsx::security_realm:
       org.jenkinsci.plugins.GithubSecurityRealm:
@@ -154,7 +149,6 @@ bundle exec rake edit[hieradata/role/master.eyaml]
           - DEC(5)::PKCS7[XXXXXXXXXXXXXXXXXXXX]!
           - DEC(7)::PKCS7[XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX]!
           - read:org
-
 
 Fork `jenkins-dm-jobs`
 ---
@@ -174,7 +168,8 @@ return to the `sandbox-jenkins-demo` clone
     cd
     cd sandbox-jenkins-demo-<topic>
 
-Edit the jenkins "seed" job that pulls from `jenkins-dm-jobs` to point at the development fork/branch.
+Edit the jenkins "seed" job that pulls from `jenkins-dm-jobs` to point at the
+development fork/branch.
 
     vi jenkins_demo/templates/jobs/seeds/jobs/dm-jobs/config.xml
 
@@ -224,7 +219,6 @@ Example:
     \ No newline at end of file
     +</project>
 
-
 Decrypt eyaml values and install puppet modules
 ---
 
@@ -236,14 +230,12 @@ directory.
 NOTE: make sure you are running this on a clean repository otherwise the
 'bundle exec rake' will not update the corresponding yaml files.
 
-
-Start jenkins master + slave VM instance(s)
+Start jenkins master + agent VM instance(s)
 ---
 
     . creds.sh
     vagrant up master
     vagrant up el7-1
-
 
 Applying changes to a running instance
 ---
@@ -252,7 +244,6 @@ Applying changes to a running instance
     bundle exec librarian-puppet update
     vagrant rsync master
     vagrant provision master
-
 
 Jenkins job development workflow
 ---
@@ -265,13 +256,15 @@ the developers fork.  This procedure should be documented at some point...
 
 * Trigger a build of the `seed` job. Eg.
 
-https://ci.lsst.codes/job/seeds/job/dm-jobs/build?delay=0sec
+<https://ci.lsst.codes/job/seeds/job/dm-jobs/build?delay=0sec>
 
 * iterate as necessary
 
 * prepare a clean "PR" branch
 
-Job development will often require dev/test commits that should not be merged to master.  So as not to "break" the dev branch, it is recommended that a separate "sanitized" branch be used for PRs back to master.
+Job development will often require dev/test commits that should not be merged
+to master.  So as not to "break" the dev branch, it is recommended that a
+separate "sanitized" branch be used for PRs back to master.
 
 Eg.
 
@@ -280,16 +273,18 @@ Eg.
     git push $USER tickets/<DM-XXXX>-<topic>
     hub pull-request
 
-
-#### building dev branches
+### building dev branches
 
 Often the source repo(s)/branch(es) in a job under development will need to be
 pointed at a forks in order to decouple the production environment from
 dev/test instances. A common example of this is when changes to
 `lsst-sqre/buildbot-scripts` are required.  Such changes obviously should not
-be merged into the production branch.  The recommend procedure to to prefix the commit message of dev/test only changesets with `(TESTING)`.  This is to make it obvious which commits should not be included in a PR back to the master branch.
+be merged into the production branch.  The recommend procedure to to prefix the
+commit message of dev/test only changesets with `(TESTING)`.  This is to make
+it obvious which commits should not be included in a PR back to the master
+branch.
 
-#### timer triggered jobs
+### timer triggered jobs
 
 XXX There are a number of jobs present in `jenkins-dm-jobs` which are
 periodically triggered by timers. This includes periodic builds of the DM
@@ -305,7 +300,6 @@ from the dev branch. Eg.
     git rm validate_drp.groovy jenkins_ebs_snapshot.groovy weekly_release.groovy run_rebuild.groovy stack_wrappers.groovy sqre_github_snapshot.groovy
     git commit -m "(TESTING) remove timer triggered jobs"
 
-
 Debug
 ---
 
@@ -319,7 +313,7 @@ Cleanup
     . creds.sh
     # VM must be destroyed before some AWS resources may be deallocated
     vagrant destroy -f
-    cd terraform
-    ./bin/terraform destroy --force
+    cd tf
+    ./bin/tf destroy --force
     cd ..
     rm -rf .lsst-certs
