@@ -8,6 +8,7 @@ matrix:
         - docker
       script: ./tests/mdl.sh
 
+    # check manifests only
     - env: TEST=puppet-lint
       language: ruby
       rvm: '2.5'
@@ -17,6 +18,14 @@ matrix:
       language: ruby
       rvm: '2.5'
       script: bundle exec rake librarian
+
+    - env: TEST="jenknis_demo (puppet module)"
+      language: ruby
+      rvm: '2.5'
+      # WHY IS TRAVIS SETTING BUNDLE_GEMFILE? ARGH!
+      before_install: unset BUNDLE_GEMFILE && cd jenkins_demo
+      install: bundle install --jobs=3 --retry=3 --frozen
+      script: bundle exec rake
 
     - env: TEST=shellcheck
       language: c
