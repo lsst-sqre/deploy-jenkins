@@ -1,0 +1,16 @@
+sudo: false
+language: c
+matrix:
+  include:
+    - env: TEST=markdownlint
+      language: c
+      services:
+        - docker
+      script: ./tests/mdl.sh
+branches:
+  only:
+  - master
+# also matched against tag pushes
+  - /^\d+\.\d+\.\d+$/
+notifications:
+  email: false
