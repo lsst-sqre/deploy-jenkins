@@ -33,7 +33,6 @@ desc 'run puppet-lint'
 task :puppet_lint do
   cmd = <<~PL
     puppet-lint --fail-on-warnings \
-      jenkins_demo \
       environments/jenkins/manifests
   PL
   sh cmd do |ok, res|
