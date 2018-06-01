@@ -5,7 +5,7 @@ data "aws_caller_identity" "current" {}
 
 module "snapshot_user" {
   source = "github.com/lsst-sqre/tf_aws_iam_user"
-  name = "${var.demo_name}-snap-master-funk"
+  name   = "${var.env_name}-snap-master-funk"
 
   policy = <<POLICY
 {
@@ -39,7 +39,7 @@ module "snapshot_user" {
       "Condition": {
         "StringEquals": {
           "ec2:CreateAction" : "CreateSnapshot",
-          "aws:RequestTag/jenkins_env": "${var.demo_name}"
+          "aws:RequestTag/jenkins_env": "${var.env_name}"
         },
         "ForAllValues:StringEquals": {
           "aws:TagKeys": [
@@ -61,7 +61,7 @@ module "snapshot_user" {
       "Resource": [ "arn:aws:ec2:${var.aws_default_region}::snapshot/*" ],
       "Condition": {
         "StringEquals": {
-          "ec2:ResourceTag/jenkins_env": "${var.demo_name}"
+          "ec2:ResourceTag/jenkins_env": "${var.env_name}"
         }
       }
     }

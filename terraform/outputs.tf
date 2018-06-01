@@ -30,8 +30,8 @@ output "AWS_DEFAULT_REGION" {
   value = "${var.aws_default_region}"
 }
 
-output "DEMO_NAME" {
-  value = "${var.demo_name}"
+output "ENV_NAME" {
+  value = "${var.env_name}"
 }
 
 output "DOMAIN_NAME" {

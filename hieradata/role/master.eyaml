@@ -582,7 +582,7 @@ jenkinsx::credentials:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: Name of Jenkins deployment
-    secret: "%{::demo_name}"
+    secret: "%{::env_name}"
 jenkins::plugins::slack:
   teamdomain: lsstc
   tokencredentialid: slack-lsstc-token

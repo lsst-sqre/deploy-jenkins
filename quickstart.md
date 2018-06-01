@@ -37,7 +37,7 @@ Configuration
     export TF_VAR_aws_access_key=$AWS_ACCESS_KEY_ID
     export TF_VAR_aws_secret_key=$AWS_SECRET_ACCESS_KEY
     export TF_VAR_aws_default_region=$AWS_DEFAULT_REGION
-    export TF_VAR_demo_name=${USER}-jenkins
+    export TF_VAR_env_name=${USER}-jenkins
     export TF_VAR_aws_zone_id=Z3TH0HRSNU67AM
     export TF_VAR_domain_name=lsst.codes
     # must be at least 8 chars
@@ -62,7 +62,7 @@ for convenience.
     export TF_VAR_aws_access_key=$TF_VAR_aws_access_key
     export TF_VAR_aws_secret_key=$TF_VAR_aws_secret_key
     export TF_VAR_aws_default_region=$TF_VAR_aws_default_region
-    export TF_VAR_demo_name=$TF_VAR_demo_name
+    export TF_VAR_env_name=$TF_VAR_env_name
     export TF_VAR_aws_zone_id=$TF_VAR_aws_zone_id
     export TF_VAR_domain_name=$TF_VAR_domain_name
     export TF_VAR_rds_password=$TF_VAR_rds_password

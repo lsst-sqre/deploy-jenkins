@@ -163,7 +163,7 @@ Vagrant.configure('2') do |config|
     override.vm.synced_folder 'hieradata/', '/tmp/vagrant-puppet/hieradata'
     override.ssh.private_key_path = ssh_private_key_path
     override.ssh.username = 'centos'
-    provider.keypair_name = DEMO_NAME
+    provider.keypair_name = ENV_NAME
     provider.access_key_id = ENV['AWS_ACCESS_KEY_ID']
     provider.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
     provider.region = AWS_DEFAULT_REGION
