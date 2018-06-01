@@ -15,6 +15,11 @@ matrix:
       language: ruby
       rvm: '2.5'
       script: bundle exec rake librarian
+    - env: TEST=shellcheck
+      language: c
+      services:
+        - docker
+      script: ./tests/shellcheck.sh
 branches:
   only:
   - master
