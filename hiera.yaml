@@ -10,5 +10,6 @@ hierarchy:
     paths:
       - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
       - "os/%{facts.os.family}.yaml"
+      - "deploy/%{::env_name}.yaml"
       - "role/%{::role}.yaml"
       - "common.yaml"
