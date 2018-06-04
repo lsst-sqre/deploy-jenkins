@@ -31,8 +31,8 @@ mod 'maestrodev/rvm', '~> 1.13.1'
 mod 'puppet/archive', '> 1'
 mod 'puppetlabs/reboot', '~> 1.2.1'
 
-mod 'rtyler/jenkins',
+mod 'voxpupuli/jenkins',
     git: 'https://github.com/lsst-sqre/puppet-jenkins.git',
-    ref: 'a066d948f37d9ac839ed94401dd9d3b0c5259ad3'
+    ref: 'f3be19bf5ec5bb92419be68273d248f3b0d2d456'
 
 mod 'lsst/jenkins_demo', path: './jenkins_demo'
