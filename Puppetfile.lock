@@ -79,7 +79,7 @@ GIT
   ref: f3be19bf5ec5bb92419be68273d248f3b0d2d456
   sha: f3be19bf5ec5bb92419be68273d248f3b0d2d456
   specs:
-    rtyler-jenkins (1.7.0)
+    voxpupuli-jenkins (1.7.0)
       camptocamp-systemd (< 2.0.0, >= 0.3.0)
       puppet-archive (< 3.0.0, >= 1.3.0)
       puppet-zypprepo (< 3.0.0, >= 2.0.0)
@@ -117,10 +117,10 @@ DEPENDENCIES
   puppetlabs-reboot (~> 1.2.1)
   puppetlabs-stdlib (>= 0)
   puppetlabs-vcsrepo (>= 0)
-  rtyler-jenkins (>= 0)
   saz-sudo (~> 5.0.0)
   saz-timezone (~> 4.1.1)
   stahnma-epel (>= 0)
   stankevich-python (~> 1.18.2)
   thias-tuned (~> 1.0.2)
+  voxpupuli-jenkins (>= 0)
 
