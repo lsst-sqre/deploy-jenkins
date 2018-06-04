@@ -1,6 +1,8 @@
 Jenkins LSST Stack Demo
 =======================
 
+[![Build Status](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo.png)](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo)
+
 Synopsis
 ---
 
