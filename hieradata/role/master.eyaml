@@ -403,14 +403,6 @@ jenkinsx::authorization_strategy:
       - false
       - false
       - true
-jenkinsx::security_realm:
-  org.jenkinsci.plugins.GithubSecurityRealm:
-    arguments:
-      - https://github.com
-      - https://api.github.com
-      - ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAAUZSHbsj/R0CEqpuPhjee6Rn7tIp1VivUM4cZeJDv+jQCb9hHZYghLNpZW/v3Oe2n+3Ks4e5XhkgEI8imTJe+CJV0bf7V/ZTGv5KimEGNmF4P63vPBPLm7Pzyay02nQ+/L3ueGqCrodnVL6/GB0cLjav7F92lPMrSSvngdjejKheB9V43yOIoe7gYK00s3vw0DbzW+OuvK9L20ULkuFg3nrSrQGDFD7HqGnJ1cMmlhPAozi5kiG2qOz9+hZKJhFX1uc3Kmy7tNoVvVDJw9qtPlVxcDsWMz0j2+rUD+RXqIAGwWOovLLSoyI+a5cD3hr9ZfP27jxnjerRsRLJeJsTvDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCKfRX2jNOAMGYRouIz+eZTgCCnXMSb8/F4cmTqiO2J0aDnWrzcqphvRkrg5U6fQcBNxQ==]
-      - ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVgKdWH0fpvu6TtTHzm0SnZC400D+6DE5cL6icxjLkI9wINQp/TGfOd2e5JFyw8xdI1eBW9U8eqimBd45dFIvl9Gn422KFyapEs3Q4xtsccqLlYK/713I/q2WqRXy3o7V6PMd7nLEGjim4UrJO2XNuSYjnTSMkLLUEXg1SUDljIR7JW6j2L4nlDhxgRCBEbVJ0q7nAIEMzOwNvnJdoglVtMeBF5RMXoKP4/P9Sk9ZQB1iSNXwmbMNJ4Fj8Jzswy70VRsa3eYtO9/Gt++vbrLwNmX6siFwSMIVE0+r49zVcRZ6Tf2AQjmSlIkw2JNYNG/U3jhMWurUk1Sh01ZqgwKLvDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAimo7Oo99Vs51BjJALRxBegDDiiNgy+i1lB0o5ZZjDAISBh8Fy7m4V/dUb+RU2vgUNIzz+qJqCyH9jJqWoZky6EbM=]
-      - read:org
 jenkinsx::credentials:
   jenkins-admin-ssh-private-key:
     domain: null
@@ -544,18 +536,6 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: slack lsstc org API token
     secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFHMWLGOKiY+Y2wtmS99s9DmCPpNnj79goSP0YoXQ1apVWKawmlZKewrWxbiMjqZYMg1tHlR/gfRwmbjmdzMZiIeW8zgKTk8K5LuLucwh3dXAd6WIZ+C4De1K90bv6e1qKf/QfU1vPlCzSY8q8y7cOWIoOrNDihdlDJE+oCD3oRQYY/WzDHaFfSR9P0EgO2FaYGcLkGeOX8zeBYSeOIRy6r0+78xCj/DxQPtaBFD9hLUm7uNV7G9hznyqweCHvFrOnsgcFiT7XM/PhK/CNTyzhjTUfrt+qD3xGhrMk7KKJST2DXeN4fitmYxfzmvn3f0kGVRaZWX34e9Sxf6HTe2eejB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJxlDNDn1WlqYcaBSOOxLVgFB9EcJGoVUB0qXaCu29FUvd6R8JIwerf2+FraR3eF9RyauKFILrLpbQo+wtXLQzDepE7oiTUf3NW9EMU0giXObhDNzuLy2anSc5443IhB7iew==]
-  slack-default-channel:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: Default slack channel
-    secret: &slack_default_channel 'dm-jenkins-test'
-  slack-channel-prefix:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: Prefix for generated slack channels
-    secret: 'dmjt'
   ghslacker:
     domain:
     scope: GLOBAL
@@ -583,10 +563,6 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: Name of Jenkins deployment
     secret: "%{::env_name}"
-jenkins::plugins::slack:
-  teamdomain: lsstc
-  tokencredentialid: slack-lsstc-token
-  room: *slack_default_channel
 # jenkinsx::nodes:
 #   lsst-dev:
 #     template: "%{module_name}/nodes/lsst-dev/config.xml.epp"
