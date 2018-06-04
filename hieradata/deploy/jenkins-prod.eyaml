@@ -1,0 +1,62 @@
+---
+lookup_options:
+  jenkinsx::credentials:
+    merge: hash
+jenkinsx::security_realm:
+  org.jenkinsci.plugins.GithubSecurityRealm:
+    arguments:
+      - https://github.com
+      - https://api.github.com
+      - ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAmSmm86EUO/ooe3os237c5ZqGjJdPNtuEW+Jq6B2g3jctAqFMPi9vJmDAhSS7sX5a+qLUZ/SYhlCO6SPd+Zr6T3I8+LV1zImBO1QVCx/IoABVXAuUCLSApNp/qZ4n+Be2YUA6bVIa/I1n+AbHNr9Ww4L0Gy+Vggb6vSphWFNTxHtKrbK5k42rH0OwDnocYvyc7dYRPKqYydiYuMItZkJGQhJ9/EtJVgeSo9d39a4nW0QWTnp6xyOW0rNzoDu/K3geSkzWPQhUYnQ8dGBO4Wf8UcxkAM+/BNIr5YWN6mq895VXVVgqfzp6sQp2mxf2Of2ZeAXk4VYvdq4rIR1j+EgcwDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC1WYZsJCP+TJEawTlADg5cgCAt4vPLRlBSku0ZZdL/WjQlTdk/Ze+SLgxPHg4gxw+ssg==]
+      - ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbCaInXwq7M2s3B1bE6YVdib5xWss1ttLEqjatxJKMeR2v4/tNIUcQkgylCvoNHlLsa7h/QzjAFtfxwf4+XERtmcENwNA5A8fQDqB9WhHvqIaViLxXxLLbcklTaAqEm4V4ih2OikFDMNpq0tNTXIf77lewIIpQtKWSu0oMrUXYM4G5r7hTRLbhDRDat9+tEJIvt4w7TMy4BsZPTXZlm5QImfnb7S3CtZc4J/PJAM/NOwHpiSLIiWyKh774OvZHJ/8f83egkXvZEb1mfFhZGciBScYS0PzyM71tgSYf7XDhMAOmZFYFArmcwMEYfPLkKMG1NHI8f+mpkkP37WAXofw5DBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBgCyLgD1iF8t7twm6g2EG3gDASrW3rRssF2sTPQS8kMNfP9rgecse0BBOahMNosoUboJ41ClmdLYcTT9ucz/YlqkE=]
+      - read:org
+jenkinsx::credentials:
+  slack-default-channel:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Default slack channel
+    secret: &slack_default_channel 'dm-jenkins'
+  slack-channel-prefix:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Prefix for generated slack channels
+    secret: 'dmj'
+jenkinsx::nodes:
+  elcapitan-1:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: elcap-1
+      host: jenkins-elcap-1.lsst.cloud
+      label: osx osx-10.11 elcap-1
+  elcapitan-2:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: elcap-2
+      host: jenkins-elcap-2.lsst.cloud
+      label: osx osx-10.11 elcap-2
+  elcapitan-3:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: elcap-3
+      host: jenkins-elcap-3.lsst.cloud
+      label: osx osx-10.11 elcap-3
+  sierra-1:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: sierra-1
+      host: jenkins-sierra-1.lsst.cloud
+      label: osx osx-10.12 sierra-1
+#  sierra-2:
+#    template: "%{module_name}/nodes/osx/config.xml.epp"
+#    params:
+#      name: sierra-2
+#      host: jenkins-sierra-2.lsst.cloud
+#      label: osx osx-10.12 sierra-2
+  sierra-3:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: sierra-3
+      host: jenkins-sierra-3.lsst.cloud
+      label: osx osx-10.12 sierra-3
