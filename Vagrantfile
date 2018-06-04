@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 required_plugins = %w[
-  vagrant-librarian-puppet
   vagrant-puppet-install
   vagrant-aws
 ]
@@ -55,8 +54,8 @@ def ssh_private_key_path
 end
 
 def master_ami
-  # centos 1801_11 (2018-01-14)
-  ENV['MASTER_AMI'] || 'ami-4bf3d731'
+  # us-east-1 centos 1804_2 (2018-05-16)
+  ENV['MASTER_AMI'] || 'ami-d5bf2caa'
 end
 
 def centos7_ami

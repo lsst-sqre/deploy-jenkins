@@ -1,17 +1,16 @@
 ---
 packages:
-  - 'cmake-2.8.12.2-2.el7.x86_64'
+  - 'ack'
+  - 'centos-release-scl'
+  - 'git'
+  - 'rh-git29'
+  - 'scl-utils'
   - 'screen'
   - 'tmux'
   - 'tree'
   - 'vim'
-  - 'java-1.8.0-openjdk-devel-1.8.0.151-1.b12.el7_4.x86_64'
-  - 'centos-release-scl'
-  - 'scl-utils'
-  - 'rh-git29'
-  - 'git'
-jenkins_demo::profile::kernel::version: '3.10.0-693.17.1.el7.x86_64'
-java::package: 'java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64'
+jenkins_demo::profile::kernel::version: '3.10.0-862.3.2.el7.x86_64'
+java::package: 'java-1.8.0-openjdk-devel-1.8.0.171-8.b10.el7_5'
 files:
   '/etc/profile.d/rh-git29.sh':
     content: |
