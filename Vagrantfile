@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 required_plugins = %w[
-  vagrant-librarian-puppet
   vagrant-puppet-install
   vagrant-aws
 ]
