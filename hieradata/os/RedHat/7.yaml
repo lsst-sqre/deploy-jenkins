@@ -1,15 +1,15 @@
 ---
 packages:
+  - 'centos-release-scl'
   - 'cmake-2.8.12.2-2.el7.x86_64'
+  - 'git'
+  - 'java-1.8.0-openjdk-devel-1.8.0.151-1.b12.el7_4.x86_64'
+  - 'rh-git29'
+  - 'scl-utils'
   - 'screen'
   - 'tmux'
   - 'tree'
   - 'vim'
-  - 'java-1.8.0-openjdk-devel-1.8.0.151-1.b12.el7_4.x86_64'
-  - 'centos-release-scl'
-  - 'scl-utils'
-  - 'rh-git29'
-  - 'git'
 jenkins_demo::profile::kernel::version: '3.10.0-693.17.1.el7.x86_64'
 java::package: 'java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64'
 files:
