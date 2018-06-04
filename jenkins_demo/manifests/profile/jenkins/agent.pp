@@ -44,7 +44,6 @@ class jenkins_demo::profile::jenkins::agent(
     $real_labels = $labels
   }
 
-  notice($real_labels)
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
