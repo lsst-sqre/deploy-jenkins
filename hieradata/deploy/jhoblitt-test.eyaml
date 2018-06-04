@@ -1,0 +1,36 @@
+---
+lookup_options:
+  jenkinsx::credentials:
+    merge: hash
+jenkinsx::security_realm:
+  org.jenkinsci.plugins.GithubSecurityRealm:
+    arguments:
+      - https://github.com
+      - https://api.github.com
+      - ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEArg4it1o8kYQpP9189wHTVBFCPquSLMOELgCtNXnWk6vW1B6wufPRN1LSOj7s80hx5cD9yhDY+v5OGhdwzN2L/JJkxtDNf4ED67kH6+VFuGsbgs1jkvE9xcLeyArmGQQnj8HaxMk7vv9Li4DciEAL+T625TQ7YARuBWGpedgd+mYFrU6DGpVDXXZzM5BM76rkx7jujtmqA8hV3cnlicvenPAQeEjhNpBFY6MJn/MCy0LRCp+96r4fffyse5OkXnUal/wARwt/cRVx5miJy71t64wIQratU7SB10iGGtOiMk+qPDRShNfOAYjf9xzp+PX3mpoVvrlg2M7jAjWmbiln6TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAlajFxHqarqryhq9qYfsOZgCAkdCbij3zZFUhWEkgYayrL3KcxqTXi9/9cf9YHZ/kryQ==]
+      - ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsd2lOh6poAx1m/1BB/vHdQBFg7toi1TBSF7WKbDqDRhAwichuo5s0vgyF0PFlZA11oZlthkJhqMPR9r1rgP5s7av9fseer1D4BsfF9GAYEg3MiUUKYzdSgJndIKPXWSGtpvetw4H49w0qZsISa8tL3lGVwm62rMksEE+43ItLuzrgjXSOws8frIBzaUuFSi5++V05OvLVvK+cONx0zVAa4eyYBUgmczySQluJ0xnkCLa7YOryl6t65lfm9AqPmWLRNY7GGGxkuc2rNa/7WHDAxHE19qwUb+qu6UIW6X+ikloWgfAaJCKrw7YJmEz2669pqNvEopiFi0yDBf4p+SVyDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBInEY/cqPB0kSQvuRPYlbKgDBmCqwJN7r3MXIgh7qZ9R29jHe10cvl9mvw0xxYC48B7V29TbMNG4ir9lvEWdGLkiE=]
+      - read:org
+jenkinsx::credentials:
+  slack-default-channel:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Default slack channel
+    secret: &slack_default_channel 'dm-jenkins-test'
+  slack-channel-prefix:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Prefix for generated slack channels
+    secret: 'dmjt'
+jenkins::plugins::slack:
+  teamdomain: lsstc
+  tokencredentialid: slack-lsstc-token
+  room: *slack_default_channel
+jenkinsx::nodes:
+  elcapitan-4:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: elcap-4
+      host: jenkins-elcap-4.lsst.cloud
+      label: osx osx-10.11 elcap-3

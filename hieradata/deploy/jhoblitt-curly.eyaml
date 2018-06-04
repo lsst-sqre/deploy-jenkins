@@ -1,0 +1,29 @@
+---
+lookup_options:
+  jenkinsx::credentials:
+    merge: hash
+jenkinsx::security_realm:
+  org.jenkinsci.plugins.GithubSecurityRealm:
+    arguments:
+      - https://github.com
+      - https://api.github.com
+      - ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAcMy5R6pTF7RyfpOtZXnH2k+9h+JqWevn+mNmj9BHNoq+6Hn7OemHPojwjxWOQtvleQRZXaY4U8B8ij6SjlT6zx2hhxCm+1z43lwxVgsZHbrAXkzxqb7MHqheEr2+H48WylE0Tr+weL62tJ2Z06ZnrDhjxUeQc5esK4Ixcc+DIXjSj7NAd5VXTW5FMXPSivte0KPFX8JMDbVDfvacPwhjVRf3LOruXL3FUEOEwD90ApiczZQpgOHltugqeseaajzGLgKrS/g6P/PLEfo2pgOCJFprRIsuXxW987CohN3yY+mR70epqcHRS2oyxd8OgikcC4jmmvFLLhbYCSA0FEyuXTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBlnEGO+LF5BpxyGBfpHQOmgCB/dS8YmpjL5UQcqaKJ8UjVwQIpR7y8cOykjWr3mmYGrQ==]
+      - ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgLrTJMWmAdQXG5ztxSxMngqWuY/RCe5KZicY7a1RJRDWGLCYuuDfizKc5shETGOj1K5Lp9YxFWd9ubc6IaH5RITPnqpNiJ8umJ4ylsEleHbrBOZj1/Qr6zqZMPmY2ir7G1JcvBGKDm4GaXbT2+eAhM3nc84PWQECwxKxV0GVPkUbHqJAo9tJkjxri3MAaRIeaAXKFDmLZvvBOJ1kr/FfpY9MdHPI4KxDqhDTSpBwUj5vigFY6Bv3+zySoIKEF1ZwPPW7ZTZwj24e2NczBmFIwzWdreQuRSgfbV8wApers2WpH6nvzVb4dksYkUPafhTIYU6xBVeS/y9L/yFm2YHsCTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD1282zZQol2DfdLu9HmUopgDC4EZlUf9CB54H/WllvIXN68DgyPNVnKnwdnZaQxLNkeiAN5spAzIzEJKoCv3sGWgU=]
+      - read:org
+jenkinsx::credentials:
+  slack-default-channel:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Default slack channel
+    secret: &slack_default_channel 'dmj-jhoblitt-curly'
+  slack-channel-prefix:
+    domain:
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: Prefix for generated slack channels
+    secret: 'dmjjc'
+jenkins::plugins::slack:
+  teamdomain: lsstc
+  tokencredentialid: slack-lsstc-token
+  room: *slack_default_channel
