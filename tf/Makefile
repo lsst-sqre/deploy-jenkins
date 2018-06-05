@@ -45,13 +45,17 @@ tf-init-s3: tf-install tf-s3-mb
 		-backend-config="bucket=$(TF_S3_BCKT)" \
 		-backend-config="key=terraform.tfstate" \
 		-input=false \
+		-upgrade=true \
 		-get=true \
 		-reconfigure \
 		-force-copy
 
 .PHONY: tf-init
 tf-init: tf-install
-	$(TF_BIN) init -backend=false
+	$(TF_BIN) init \
+		-backend=false \
+		-upgrade=true \
+		-get=true
 
 .PHONY: tf-test
 tf-test: tf-init tf-fmt tf-validate
