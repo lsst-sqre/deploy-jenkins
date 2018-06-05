@@ -404,6 +404,7 @@ jenkinsx::authorization_strategy:
       - false
       - true
 jenkinsx::credentials:
+  # lsstsw@lsst-dev01
   jenkins-admin-ssh-private-key:
     domain: null
     scope: SYSTEM
@@ -471,52 +472,64 @@ jenkinsx::credentials:
     description: 'SQRE OSX build agents'
     username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKaExR5RgzruNdPpNG4+DtWcgbKmO1zA1zc7M33xbQgvakZL9YqQOxjAb9iZdWV+LuKw/CeRwdO9v4V0+2kITKRQCBOJCFnU42QHSi2NoUEfR76tgyJaVhAaS+cu9M8mLnvrTfZoYugN8CMlRdkMBSft7FF0xf4TwaBJsGtd/AJQf+6Sba0rzpuuPLfCVNaL3J9TPqU3/7gFSLl+Vu+ZwK3pMWKJ6eb0KKqBJgn2gCn+67ibfH6+ArefI3rxGM2V0LLrrnSXwEgnV3LIAvGMuRaYkmHzJGjiZGK2TVLbHxW7x6ya+CRTJAsHW0HwdfQxistFGfE9E0ZbzMV9SDGYnATA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBRfp4h9RY7Is2LfLZE3oZ+gBC4/4zjYbEskEVcGqbnc+bs]
     private_key: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsPvEN95AvT27HnagQF8KkbeLLDIIbWTFNoOAqgS8LZUl4ZEoqHf2pVFzh/Vu9js3LmdRfV8zwvhfzMw1QEr82ES06xJFG5ucQ/rVS0hMYFby5eADmICDy5XHqZp+fJOmTbYZ9FWrbkvzLPFxsXfsIPOx4T2WwuTye0batgbdrq4b2wXqEJ04sm72BQAzzj8sc8sqdbwHGU2SFWO7o4aMLfjRoF60Q0c2/Gz0fNtUxYYj5R4+cbbr7ZDFEZpngC8bSDXGJbbHVIiSriigdoyZBJTnxYm+g5a8Cwo6pRgv02w3rqFJpHEffQ9Al7OMNO1Lt0/MgsUqxapaxDaAjzGuujBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCv21mpppVcbzP7wz/fCfVdgCB0w8SDbhYDVXLG0QAC2BwmjiGV8n7MDI5ITSYHTxmC6g==]
+  doxygen-url:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'URL of doxygen site'
+    secret: "%{::doxygen_fqdn}"
+  eups-url:
+    domain: null
+    scope: GLOBAL
+    impl: StringCredentialsImpl
+    description: 'URL of eups site'
+    secret: "%{::eups_fqdn}"
   aws-eups-push:
     domain:
     scope: GLOBAL
     impl: UsernamePasswordCredentialsImpl
     description: push EUPS packages -> s3
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAITNeM6W2u5hmtjbEWvPJXwe+eMEH7rq3xr0gOJ8EvfNWSuocFDUORoz//teN3VKoar4xObhClgPgDYiudwR4vzFR9yxcI9n2byTWzN2uZfOiVaz1xRU9wJNnaNbHvZR5ioVubLi6gxfFIAYJT7HIS6LLTAhxYzY+fNHBEC89RCKWXamFwXBSpe6msQTymkKnvFjjs87GqF2SIUL/5ENUCWuKkQXvwiprNHlzhkn6shBBalAXTIkkjP8qgDxJbxT+2WhHusMRg+WAsCvjXCvkt45eNU6SgiMDQPzaZQd0ryOsY0X+qANZI9QX/ny9OkjBFnLby1q8OGpbKJLHL1ywUjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDejtoxCjpzyMPO5PFbuNO9gCDWvSTX5nt7TNl5PNBpAoOJSsxDjZXZf0kINskIUeBxnw==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAF1PhAgvb2UiNMAOwgAPNLVONibVAjBFl4UwoZsoQ0ABvG4iSHAsqu0cPssKW/EJS4bfw1uEJsVFItZcE7CYbBRGwwy51noUwtOfNLGd/UxeMNnJuy119yVHQiC5rzcb44pA1J/9T1kJtZEFH4KE/QPe+OHZVvMxc/TleWeEYGOq7sdIcrRO5+7HWxfNCSavmKBMXabwY12Yh0H/lRfWLbgaL+qCgtC0hoZcwDf8BVcTdTObNUMExfRntjKTvN7sTLy+PoLnbssFwBg3hPTm1GXVHA9khE1vxWb77pu5yQtptvntTRZPYx7N2IlLcFm0Z1Nz2fUAhS7YCTKJGUXAAPjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDIBVFCbAUz3lIs0YPdBLKngDC5ChDe46E8f0CfTPFaM/NUnfQWQqR0v1RqN2hldrpBGNde3qpCJ9EqaFGLOf1LmQ0=]
+    username: "%{::eups_push_aws_access_key_id}"
+    password: "%{::eups_push_aws_secret_access_key}"
   eups-push-bucket:
     domain:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: name of EUPS s3 bucket
-    secret: eups.lsst.codes
+    secret: "%{::eups_s3_bucket}"
   aws-eups-backup:
     domain:
     scope: GLOBAL
     impl: UsernamePasswordCredentialsImpl
     description: backup EUPS s3 bucket -> s3 bucket
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkq7+YKpzZcbKXkji9LnPZmsO6hiVI+JI9jAzQeG/HHKFcWfzOX8Go97LTJLl/W1r7/s7N1GG/soe2AXWpfs2QwwsHHClXh3e7aecsgMV1lCNGw67Nem7crLpygO/hBd6/mc4XWgCWsDXZyzGbX3P08ky2zpT7I0v/Isfw9Th50OLqBIV8CoMudP0m0mUEotNC6R75GYMtlfL6Xf83HI9hAWNWvL3vhdIlqAi4U5NoE60eITICaDyMxfz+S8Ci/K1jCWa+I5vqT5w8TgLYqtoxAyWsbzHy0Maerk/7M73H9EFxhla/2UJHWWRB7pEWvWfbQa1yldwL21zen9G/9QlyDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBsAQzQkvRqtNiUYZkeVKehgCCX/ZKH7p9lJOI/MhoAnu0YIUj6xJ57a84su+/OoakGQQ==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEARDL3yoE60g7AYjplyO0fviCZLhJ5WtgiWBE1P7ScQOp0BYr/wVtPoQdZzQZlfZnWKRg/Lq3+2DZKCeeodJd0VRJSFriG50leVTeydiq0nk/mz5GK7/bXcNT43l1rArtE92fefyXT1fIwlHJEGs+Qob5ld1kElocg3Axkcj0m2ckEd+PIvcn6gyps4X3EZhGOgGy7SkNR/OOnc0aOQA6H8cKP5ESNDgkinIa2tzd6aDkWi1TFTM45d5LiXfjyP5018+defgFMRXZzLZXhxi6NHl2ILRVsEkAnW6VRz1Zlxu50Dx/DfleOhEkAZ2rk2xsGyAKApNv+JCcF2tc1AbgEGDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA0G82x670dEYDUWdtLvYh1gDBPdRheDR/18jrc6oPz6M67J9UmH6Xes6kON3OD1vU5XpyVL8GwKSSAh+IqzsooW7o=]
+    username: "%{::eups_backup_aws_access_key_id}"
+    password: "%{::eups_backup_aws_secret_access_key}"
   eups-backup-bucket:
     domain:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: name of EUPS backup s3 bucket
-    secret: eups.lsst.codes-backups
+    secret: "%{::eups_backup_s3_bucket}"
   aws-eups-tag-admin:
     domain:
     scope: GLOBAL
     impl: UsernamePasswordCredentialsImpl
     description: manage eups distrib tags in s3 bucket
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeoPs67UWJZgOgnP2OPLPCBoaWL9cIX4GFucNzZb9yZeKXXUIyJkQ1TadNLs03sLt7eNjtj1n/Axv9OVOR7LuDAcMtED2jAP0Uin3DGBlA8cSeft+47MwQ1Bk+fjO4DPdd0atIZWUqjX1ikofOJfGz6tKA4GmQch7v21Ytrxg+foI20wBP17AO8Tj3CoI7elN4L7RuKlFt10ygY3gPcc0+K67cYXhiGK3tKLmmQJKKSVnHRL5pZtQDh1hjk7H0+vo6tSOBypSCC0bbsovjv9iGF1orW03BlWm3Rl83ee00V4WUg/R48rbyd07vloN9X9CvmyxDxDmF3MoxLNdIz7U7TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB6lnwHjWIppEz2197A2TVngCBkgNNcjBsC7yi2STU3/172dFWvb1gW98WDynDCWqGVHg==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgFV0rFnuCRTr0Ahaca5sutSTVoRluTCy++MhpFVm3oomTwRZY3Q1GYxuknTEw3qS8TqaZjOc6oehgHg1oOGVm4S1YAHVjOi2rO6i0VmFWNSnq1qU1PgM68BC+GOm2tpeaFm50O92IXUWJ2Gf/WHsSinYpJ7b++kDJsnpo6Qp+g7fYhErvIDWYcsQ5vwpoNZoC1KoskhOEP4Ulwp1cKwz+XPb2sfdB2SoiVggAR70CeRXnD3KpDVlF3k2QswidUD/TNQ9RQT3+/4qLR6wvbm23GaoWORSTUSUAdFd1etuDgbUVN5Znxu26uONAePrEGAlakbMVwD2CV3LxNv85NAwLzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCSLao9Hpbjtg2A8K0nVY4UgDAgOibkMBnKDwCuYBKLD7kt37njbO1rwM3d0UPuLyHT+iphOvX3ych1Mm9HL2QinQ0=]
+    username: "%{::eups_tag_admin_aws_access_key_id}"
+    password: "%{::eups_tag_admin_aws_secret_access_key}"
   aws-doxygen-push:
     domain:
     scope: GLOBAL
     impl: UsernamePasswordCredentialsImpl
     description: push doxygen builds -> s3
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApOS4p+sbDol+lxu7c3l7sG3iijq0z962mQ3i95uD/NfDKXKXoZvv9UEdVC4pStcirzL3NRcPtcg7a5TeVc2Pc5TE9faiZLWRvADby+/tJ5mIbDYNWarVrDm/1fR/BsDr+R2/x4g1cvwd6qJxefPkvjdfziDSlOTveJ1dYHlWGUeIh33UhWCEsx6Gk3D2PCvDiB03bK/ys4W9ZHk20TRA9z9hqKNNKEjeBwcPXT96Le4RiA0Rnza5gMLxHq2Ai+EG5yYFYlbL4yFa4kqGnmaKuoGqFSruwWkz8FVB6B5etSQRHDM8C4P3tzUwYAvcSSSMzhn3N2QWMxXHoOFZClwYeTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDj1RPj/auq0yQq4+PYDK7LgCAfp+o20OipFcFXcQ7Dkha4pyLj9SUhgTFhYHHGKKzw2Q==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEASp59shiqfx7tRTRn9whQ0LB7BVvMq7jYfMhQDwbW/Ry+GpGPtyfBeGfqahRasdikLUEosORQ+lmToYiaTyWh/YXJn/r+hFwMEDJqfdP0Rcg7S/3otD+AMZoAITXSPLyjRa9VMjYQNhmVxyiLGJqnhPrcSg0QoEM8COKmftGpUIcxrFayop58AF5xKtrA0BE7GOLP0iNv5tTJKlqUSiz8wt13rABIfiEiaOKGmWIIj+uVBPvvjdaoBUquz4UoyalDRWipshKiGPVMOOKOCl9giGjqrhaoX+flmqTm3VOPLuvD8f8RKTIKOP38btpcQI7I+7TLi8TZTBWwOiTpNJUcpjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCxaO/MxVusiRyGdeW5OE2igDC5YzHSHnO1VL5Sm7x7/001QB8Olq213l5tgGfzTi+si44ydO4qHmAvrWyv0+nk0PY=]
+    username: "%{::doxygen_push_aws_access_key_id}"
+    password: "%{::doxygen_push_aws_secret_access_key}"
   doxygen-push-bucket:
     domain:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: name of doxygen s3 bucket
-    secret: doxygen.lsst.codes
+    secret: "%{::doxygen_s3_bucket}"
   aws-cmirror-push:
     domain:
     scope: GLOBAL

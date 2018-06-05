@@ -35,3 +35,7 @@ variable "domain_name" {
 data "template_file" "fqdn" {
   template = "${replace("${var.env_name}-${var.service_name}.${var.domain_name}", "prod-", "")}"
 }
+
+data "template_file" "publish_release_bucket" {
+  template = "${var.env_name}-publish-release-tf"
+}
