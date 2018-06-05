@@ -8,6 +8,10 @@ provider "aws" {
   secret_key = "${var.aws_secret_key}"
 }
 
+provider "template" {
+  version = "~> 1.0"
+}
+
 resource "aws_key_pair" "jenkins-demo" {
   key_name   = "${var.env_name}"
   public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
