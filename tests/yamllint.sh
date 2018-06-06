@@ -29,6 +29,6 @@ for c in "${CHECK[@]}"; do
 done
 echo
 
-docker run -ti -v "$(pwd):/workdir"  giantswarm/yamllint "${CHECK[@]}"
+docker run -ti -v "$(pwd):/workdir" lsstsqre/yamllint:1.11.1 "${CHECK[@]}"
 
 # vim: tabstop=2 shiftwidth=2 expandtab
