@@ -3,7 +3,7 @@
 set -e
 shopt -s globstar nullglob
 
-CHECK=( **/*.yaml **/*.eyaml )
+CHECK=( **/*.yaml **/*.yml **/*.eyaml .travis.yml )
 EYAML=( **/*.eyaml )
 IGNORE=( environments/** )
 
