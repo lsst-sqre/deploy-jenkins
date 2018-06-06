@@ -13,10 +13,11 @@ variable "aws_default_region" {
 
 variable "aws_zone_id" {
   description = "route53 Hosted Zone ID to manage DNS records in."
+  default     = "Z3TH0HRSNU67AM"
 }
 
 variable "env_name" {
-  description = "AWS tag name to use on resources."
+  description = "Name of deployment environment."
   default     = "jenkins-demo"
 }
 
@@ -33,4 +34,8 @@ variable "domain_name" {
 # remove "<env>-" prefix for production
 data "template_file" "fqdn" {
   template = "${replace("${var.env_name}-${var.service_name}.${var.domain_name}", "prod-", "")}"
+}
+
+data "template_file" "publish_release_bucket" {
+  template = "${var.env_name}-publish-release-tf"
 }

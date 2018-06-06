@@ -1,3 +1,4 @@
+---
 sudo: false
 language: c
 matrix:
@@ -51,8 +52,8 @@ matrix:
       script: ./tests/yamllint.sh
 branches:
   only:
-  - master
-# also matched against tag pushes
-  - /^\d+\.\d+\.\d+$/
+    - master
+    # also matched against tag pushes
+    - /^\d+\.\d+\.\d+$/
 notifications:
   email: false
