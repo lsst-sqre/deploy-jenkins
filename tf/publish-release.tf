@@ -12,6 +12,10 @@ output "DOXYGEN_FQDN" {
   value = "${data.terraform_remote_state.pr.DOXYGEN_FQDN}"
 }
 
+output "DOXYGEN_URL" {
+  value = "http://${data.terraform_remote_state.pr.DOXYGEN_FQDN}"
+}
+
 output "DOXYGEN_S3_BUCKET" {
   value = "${data.terraform_remote_state.pr.DOXYGEN_S3_BUCKET}"
 }
@@ -32,6 +36,10 @@ output "DOXYGEN_PUSH_AWS_SECRET_ACCESS_KEY" {
 
 output "EUPS_FQDN" {
   value = "${data.terraform_remote_state.pr.EUPS_FQDN}"
+}
+
+output "EUPS_URL" {
+  value = "https://${data.terraform_remote_state.pr.EUPS_FQDN}"
 }
 
 output "EUPS_S3_BUCKET" {

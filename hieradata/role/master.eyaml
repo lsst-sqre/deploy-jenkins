@@ -477,13 +477,13 @@ jenkinsx::credentials:
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: 'URL of doxygen site'
-    secret: "%{::doxygen_fqdn}"
+    secret: "%{::doxygen_url}"
   eups-url:
     domain: null
     scope: GLOBAL
     impl: StringCredentialsImpl
     description: 'URL of eups site'
-    secret: "%{::eups_fqdn}"
+    secret: "%{::eups_url}"
   aws-eups-push:
     domain:
     scope: GLOBAL
