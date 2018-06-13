@@ -136,10 +136,10 @@ resource "aws_security_group" "jenkins-demo-http" {
   }
 }
 
-resource "aws_security_group" "jenkins-demo-agentport" {
+resource "aws_security_group" "jenkins-demo-slaveport" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
-  name        = "${var.env_name}-agentport"
-  description = "allow external access to jenkins agent port"
+  name        = "${var.env_name}-slaveport"
+  description = "allow external access to jenkins slave agent port"
 
   ingress {
     from_port   = 55555
@@ -149,7 +149,7 @@ resource "aws_security_group" "jenkins-demo-agentport" {
   }
 
   tags {
-    Name = "${var.env_name}-agentport"
+    Name = "${var.env_name}-slaveport"
   }
 }
 
