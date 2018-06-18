@@ -77,7 +77,7 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_INTERNAL,
         SECURITY_GROUP_ID_SSH,
         SECURITY_GROUP_ID_HTTP,
-        SECURITY_GROUP_ID_AGENTPORT,
+        SECURITY_GROUP_ID_SLAVEPORT,
       ]
       provider.instance_type = 'c4.xlarge'
       provider.tags = { 'Name' => hostname }

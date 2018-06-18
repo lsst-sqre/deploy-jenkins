@@ -16,9 +16,9 @@ variable "aws_zone_id" {
   default     = "Z3TH0HRSNU67AM"
 }
 
+# note that the production name is `jenkins-prod` for backwards compatiblity
 variable "env_name" {
   description = "Name of deployment environment."
-  default     = "jenkins-demo"
 }
 
 variable "service_name" {
@@ -33,7 +33,7 @@ variable "domain_name" {
 
 # remove "<env>-" prefix for production
 data "template_file" "fqdn" {
-  template = "${replace("${var.env_name}-${var.service_name}.${var.domain_name}", "prod-", "")}"
+  template = "${replace("${var.env_name}-${var.service_name}.${var.domain_name}", "jenkins-prod-", "")}"
 }
 
 data "template_file" "publish_release_bucket" {
