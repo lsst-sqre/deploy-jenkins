@@ -38,4 +38,5 @@ data "template_file" "fqdn" {
 
 data "template_file" "publish_release_bucket" {
   template = "${var.env_name}-publish-release-tf"
+  template = "${replace("${var.env_name}-publish-release-tf", "jenkins-prod-", "")}"
 }
