@@ -7,11 +7,6 @@ class jenkins_demo::profile::base {
   include ::timezone
   include ::tuned
 
-  host { 'jenkins-master':
-    ensure => 'present',
-    ip     => '192.168.123.10',
-  }
-
   #class { 'firewall': ensure    => 'stopped' }
   #resources { 'firewall': purge => true }
 

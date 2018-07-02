@@ -51,10 +51,6 @@ class jenkins_demo::profile::jenkins::agent(
     slave_mode   => $slave_mode,
     executors    => $executors,
     labels       => join(delete_undef_values($real_labels), ' '),
-    # don't start agent before lsstsw build env is ready
-    require      => [
-      Host['jenkins-master'],
-    ],
   }
 
   # This is nessicary to ensure that the rvm group is created before the
