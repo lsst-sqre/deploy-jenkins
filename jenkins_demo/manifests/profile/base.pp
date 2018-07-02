@@ -3,7 +3,6 @@ class jenkins_demo::profile::base {
   include ::sysstat
   include ::irqbalance
   include ::ntp
-  include ::rvm
   include ::timezone
   include ::tuned
 

@@ -53,11 +53,6 @@ class jenkins_demo::profile::jenkins::agent(
     labels       => join(delete_undef_values($real_labels), ' '),
   }
 
-  # This is nessicary to ensure that the rvm group is created before the
-  # jenkins-slave service is started while avoiding a dependency loop with the
-  # jenkins-slave user resource.
-  Rvm::System_user['jenkins-slave'] -> Service['jenkins-slave']
-
   # provides killall on el6 & el7
   ensure_packages(['psmisc'])
   ensure_packages(['lsof'])
