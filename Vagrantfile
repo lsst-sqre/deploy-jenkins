@@ -80,7 +80,10 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_SLAVEPORT,
       ]
       provider.instance_type = 'c4.xlarge'
-      provider.tags = { 'Name' => hostname }
+      provider.tags = {
+        'Name'     => hostname,
+        'env_name' => ENV_NAME,
+      }
       provider.block_device_mapping = [{
         'DeviceName'              => '/dev/sda1',
         # 200GiB is over kill but this is the size of the el7.1 ami in use
@@ -100,7 +103,10 @@ Vagrant.configure('2') do |config|
         ci_hostname(hostname, provider, 'agent')
 
         provider.ami = centos7_ami
-        provider.tags = { 'Name' => hostname }
+        provider.tags = {
+          'Name'     => hostname,
+          'env_name' => ENV_NAME,
+        }
         provider.block_device_mapping = [{
           'DeviceName'              => '/dev/sda1',
           'Ebs.VolumeSize'          => 1500,
@@ -119,7 +125,10 @@ Vagrant.configure('2') do |config|
       ci_hostname(hostname, provider, 'snowflake')
 
       provider.ami = centos7_ami
-      provider.tags = { 'Name' => hostname }
+      provider.tags = {
+        'Name'     => hostname,
+        'env_name' => ENV_NAME,
+      }
       provider.block_device_mapping = [{
         'DeviceName'              => '/dev/sda1',
         'Ebs.VolumeSize'          => 500,
