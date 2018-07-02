@@ -13,7 +13,7 @@ TF_BIN := $(BIN_DIR)/terraform
 TF_VAR_service_name ?= ci
 TF_VAR_domain_name ?= lsst.codes
 AWS_DEFAULT_REGION ?= us-east-1
-FQDN := $(subst prod-,,$(TF_VAR_env_name)-$(TF_VAR_service_name).$(TF_VAR_domain_name))
+FQDN := $(subst jenkins-prod-,,$(TF_VAR_env_name)-$(TF_VAR_service_name).$(TF_VAR_domain_name))
 TF_S3_BCKT := $(FQDN)-tf
 
 .PHONY: all test
