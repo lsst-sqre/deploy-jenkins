@@ -64,9 +64,6 @@ FORGE
       stm-debconf (< 3.0.0, >= 2.0.0)
     stahnma-epel (1.3.0)
       puppetlabs-stdlib (>= 3.0.0)
-    stankevich-python (1.18.2)
-      puppetlabs-stdlib (< 6.0.0, >= 4.6.0)
-      stahnma-epel (< 2.0.0, >= 1.2.2)
     stm-debconf (2.2.0)
     thias-tuned (1.0.3)
 
@@ -115,7 +112,6 @@ DEPENDENCIES
   saz-sudo (~> 5.0.0)
   saz-timezone (~> 4.1.1)
   stahnma-epel (>= 0)
-  stankevich-python (~> 1.18.2)
   thias-tuned (~> 1.0.2)
   voxpupuli-jenkins (>= 0)
 

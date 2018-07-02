@@ -58,12 +58,4 @@ class jenkins_demo::profile::jenkins::agent(
   ensure_packages(['lsof'])
   # unzip is needed my packer-newintsall
   ensure_packages(['unzip'])
-
-  # virtualenv is needed by validate_drp
-  class { 'python':
-    version    => 'system',
-    pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-  }
 }
