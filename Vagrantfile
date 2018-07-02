@@ -35,7 +35,7 @@ def ci_hostname(hostname, provider, role = nil)
   provider.user_data = <<~CC
     #cloud-config
     hostname: #{hostname}
-    fqdn: #{hostname}
+    fqdn: #{hostname}.#{JENKINS_INTERNAL_DOMAIN}
     manage_etc_hosts: true
     write_files:
       - path: /etc/facter/facts.d/role.txt
@@ -71,7 +71,7 @@ Vagrant.configure('2') do |config|
       ci_hostname(hostname, provider, 'master')
 
       provider.ami = master_ami
-      provider.private_ip_address = '192.168.123.10'
+      provider.private_ip_address = JENKINS_MASTER_INTERNAL_IP
       provider.elastic_ip = JENKINS_IP
       provider.security_groups = [
         SECURITY_GROUP_ID_INTERNAL,
@@ -80,7 +80,10 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_SLAVEPORT,
       ]
       provider.instance_type = 'c4.xlarge'
-      provider.tags = { 'Name' => hostname }
+      provider.tags = {
+        'Name'     => hostname,
+        'env_name' => ENV_NAME,
+      }
       provider.block_device_mapping = [{
         'DeviceName'              => '/dev/sda1',
         # 200GiB is over kill but this is the size of the el7.1 ami in use
@@ -100,7 +103,10 @@ Vagrant.configure('2') do |config|
         ci_hostname(hostname, provider, 'agent')
 
         provider.ami = centos7_ami
-        provider.tags = { 'Name' => hostname }
+        provider.tags = {
+          'Name'     => hostname,
+          'env_name' => ENV_NAME,
+        }
         provider.block_device_mapping = [{
           'DeviceName'              => '/dev/sda1',
           'Ebs.VolumeSize'          => 1500,
@@ -119,7 +125,10 @@ Vagrant.configure('2') do |config|
       ci_hostname(hostname, provider, 'snowflake')
 
       provider.ami = centos7_ami
-      provider.tags = { 'Name' => hostname }
+      provider.tags = {
+        'Name'     => hostname,
+        'env_name' => ENV_NAME,
+      }
       provider.block_device_mapping = [{
         'DeviceName'              => '/dev/sda1',
         'Ebs.VolumeSize'          => 500,
