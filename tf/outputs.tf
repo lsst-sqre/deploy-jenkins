@@ -6,6 +6,14 @@ output "JENKINS_FQDN" {
   value = "${aws_route53_record.jenkins-demo-master.fqdn}"
 }
 
+output "JENKINS_MASTER_INTERNAL_IP" {
+  value = "${local.jenkins_master_internal_ip}"
+}
+
+output "JENKINS_INTERNAL_DOMAIN" {
+  value = "${local.jenkins_internal_domain}"
+}
+
 output "SUBNET_ID" {
   value = "${aws_subnet.jenkins-demo.id}"
 }

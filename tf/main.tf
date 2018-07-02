@@ -12,6 +12,13 @@ provider "template" {
   version = "~> 1.0"
 }
 
+locals {
+  jenkins_master_internal_ip = "192.168.123.10"
+
+  # reserved domain options: https://tools.ietf.org/html/rfc6761
+  jenkins_internal_domain = "${var.env_name}.test"
+}
+
 resource "aws_key_pair" "jenkins-demo" {
   key_name   = "${var.env_name}"
   public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
@@ -33,6 +40,40 @@ resource "aws_internet_gateway" "jenkins-demo" {
   tags {
     Name = "${var.env_name}"
   }
+}
+
+resource "aws_vpc_dhcp_options" "jenkins" {
+  domain_name         = "${local.jenkins_internal_domain}"
+  domain_name_servers = ["AmazonProvidedDNS"]
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
+resource "aws_vpc_dhcp_options_association" "jenkins" {
+  vpc_id          = "${aws_vpc.jenkins-demo.id}"
+  dhcp_options_id = "${aws_vpc_dhcp_options.jenkins.id}"
+}
+
+resource "aws_route53_zone" "jenkins-internal" {
+  name   = "${local.jenkins_internal_domain}"
+  vpc_id = "${aws_vpc.jenkins-demo.id}"
+
+  # COMMENT
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
+resource "aws_route53_record" "jenkins-master-internal" {
+  zone_id = "${aws_route53_zone.jenkins-internal.zone_id}"
+  name    = "jenkins-master"
+  type    = "A"
+  ttl     = "30"
+
+  records = ["${local.jenkins_master_internal_ip}"]
 }
 
 resource "aws_subnet" "jenkins-demo" {
