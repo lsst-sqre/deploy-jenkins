@@ -47,6 +47,7 @@ class jenkins_demo::profile::jenkins::agent(
   class { 'jenkins::slave':
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
+    slave_home   => '/j',
     slave_groups => $docker,
     slave_mode   => $slave_mode,
     executors    => $executors,
