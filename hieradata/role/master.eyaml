@@ -2,7 +2,7 @@
 # yamllint disable rule:line-length
 classes:
   - jenkins_demo::role::master
-jenkins::version: '2.89.4-1.1'
+jenkins::version: '2.121.3-1.1'
 jenkins::lts: true
 jenkins::master::version: '3.12'
 jenkins::config_firewall: false
