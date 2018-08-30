@@ -21,6 +21,16 @@ class jenkins_demo::profile::jenkins::master(
     END
   }
 
+  # https://wiki.jenkins.io/display/JENKINS/Slave+To+Master+Access+Control
+  jenkins_exec{ 'slave to master access control':
+    script => @(END)
+      import jenkins.security.s2m.AdminWhitelistRule
+      import jenkins.model.Jenkins
+      Jenkins.instance.getInjector().getInstance(AdminWhitelistRule.class)
+        .setMasterKillSwitch(false)
+    END
+  }
+
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = lookup('jenkinsx', Hash[String, String])
 
