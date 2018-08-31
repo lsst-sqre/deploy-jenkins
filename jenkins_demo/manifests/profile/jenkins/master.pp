@@ -18,6 +18,7 @@ class jenkins_demo::profile::jenkins::master(
       def j = Jenkins.getInstance()
       def jobDsl = j.getDescriptor("javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration")
       jobDsl.setUseScriptSecurity(false)
+      j.save()
     END
   }
 
@@ -28,6 +29,19 @@ class jenkins_demo::profile::jenkins::master(
       import jenkins.model.Jenkins
       Jenkins.instance.getInjector().getInstance(AdminWhitelistRule.class)
         .setMasterKillSwitch(false)
+      Jenkins.instance.save()
+    END
+  }
+
+  # https://wiki.jenkins.io/display/JENKINS/CSRF+Protection
+  jenkins_exec{ 'enble csrf crumb':
+    script => @(END)
+      import hudson.security.csrf.DefaultCrumbIssuer
+      import jenkins.model.Jenkins
+
+      def instance = Jenkins.instance
+      instance.setCrumbIssuer(new DefaultCrumbIssuer(true))
+      instance.save()
     END
   }
 
