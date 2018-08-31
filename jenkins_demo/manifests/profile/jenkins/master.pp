@@ -158,7 +158,7 @@ class jenkins_demo::profile::jenkins::master(
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.29.0',
+    version         => '1.29.2',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
