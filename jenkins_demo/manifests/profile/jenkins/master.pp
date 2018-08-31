@@ -9,6 +9,21 @@ class jenkins_demo::profile::jenkins::master(
 
   Class['::wget'] -> Class['::jenkins']
 
+  $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
+
+  archive { 'alpn-boot-8.1.12.v20180117.jar':
+    source  => 'https://repo.maven.apache.org/maven2/org/mortbay/jetty/alpn/alpn-boot/8.1.12.v20180117/alpn-boot-8.1.12.v20180117.jar',
+    path    => $alpn,
+    cleanup => false,
+    extract => false,
+    notify  => Class['jenkins::service'],
+  }
+  -> file { $alpn:
+    owner => 'root',
+    group => 'root',
+    mode  => '0444',
+  }
+
   jenkins_num_executors{ '0': ensure => present }
   jenkins_slaveagent_port{ '55555': ensure => present }
   jenkins_exec{ 'job-dsl security':
