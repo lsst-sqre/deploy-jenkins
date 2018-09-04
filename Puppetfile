@@ -8,8 +8,6 @@ mod 'stahnma/epel'
 mod 'jhoblitt/sysstat'
 mod 'herculesteam/augeasproviders_grub'
 mod 'puppetlabs/concat'
-mod 'puppetlabs/vcsrepo'
-mod 'puppetlabs/gcc'
 mod 'camptocamp/systemd'
 
 mod 'maestrodev/wget', '~> 1.7.0'
