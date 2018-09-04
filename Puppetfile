@@ -23,7 +23,7 @@ mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'puppet/php', '~> 6.0.0'
 mod 'jhoblitt/oauth2_proxy', '~> 1.4.1'
 mod 'puppetlabs/docker', '~> 2.0.0'
-mod 'puppet/archive', '> 1'
+mod 'puppet/archive', '> 2'
 mod 'puppetlabs/reboot', '~> 2.0.0'
 
 mod 'voxpupuli/jenkins',
