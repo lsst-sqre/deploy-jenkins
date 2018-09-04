@@ -22,7 +22,7 @@ mod 'aco/yum_autoupdate', '~> 0.6.4'
 mod 'jhoblitt/ganglia', '~> 2.0'
 mod 'puppet/php', '~> 5.3.0'
 mod 'jhoblitt/oauth2_proxy', '~> 1.3.0'
-mod 'puppetlabs/docker', '~> 1.1.0'
+mod 'puppetlabs/docker', '~> 2.0.0'
 mod 'puppet/archive', '> 1'
 mod 'puppetlabs/reboot', '~> 2.0.0'
 
