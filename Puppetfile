@@ -10,7 +10,7 @@ mod 'herculesteam/augeasproviders_grub'
 mod 'puppetlabs/concat'
 mod 'camptocamp/systemd'
 
-mod 'maestrodev/wget', '~> 1.7.0'
+mod 'puppet/wget', '~> 2.0.0'
 mod 'puppetlabs/firewall', '~> 1.12.0'
 mod 'puppet/nginx', '~> 0.11.0'
 mod 'puppet/selinux', '~> 1.5.2'
