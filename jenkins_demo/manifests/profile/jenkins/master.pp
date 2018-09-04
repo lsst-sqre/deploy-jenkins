@@ -73,6 +73,22 @@ class jenkins_demo::profile::jenkins::master(
     END
   }
 
+  # ensure that CLI2 protocol is enabled
+  # inspired by https://github.com/thbkrkr/jks/blob/master/init.groovy.d/10-configure-jnlp-agent-protocols.groovy
+  jenkins_exec{ 'select enabled agent protocols':
+    script => @(END)
+      import jenkins.model.Jenkins
+
+      Jenkins j = Jenkins.instance
+      Set<String> agentProtocolsList = ['CLI2-connect', 'JNLP4-connect', 'Ping']
+      if (!j.getAgentProtocols().equals(agentProtocolsList)) {
+        j.setAgentProtocols(agentProtocolsList)
+        println "Agent Protocols have changed.  Setting: ${agentProtocolsList}"
+        j.save()
+      }
+    END
+  }
+
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = lookup('jenkinsx', Hash[String, String])
 
