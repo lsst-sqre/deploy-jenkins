@@ -28,6 +28,6 @@ mod 'puppetlabs/reboot', '~> 2.0.0'
 
 mod 'voxpupuli/jenkins',
     git: 'https://github.com/lsst-sqre/puppet-jenkins.git',
-    ref: 'f3be19bf5ec5bb92419be68273d248f3b0d2d456'
+    ref: 'fe541d6f82b90f60ac474bfde0903c0351be021b'
 
 mod 'lsst/jenkins_demo', path: './jenkins_demo'
