@@ -60,6 +60,19 @@ class jenkins_demo::profile::jenkins::master(
     END
   }
 
+  # job-dsl security seems to have changed to default to `on`
+  # https://github.com/thbkrkr/jks/blob/master/init.groovy.d/8-disable-scripts-security-for-job-dsl-scripts.groovy
+  jenkins_exec{ 'disable job-dsl script security':
+    script => @(END)
+      import javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration
+      import jenkins.model.GlobalConfiguration
+
+      println "--> disabling scripts security for job dsl scripts"
+
+      GlobalConfiguration.all().get(GlobalJobDslSecurityConfiguration.class).useScriptSecurity=false
+    END
+  }
+
   $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
   $j = lookup('jenkinsx', Hash[String, String])
 
