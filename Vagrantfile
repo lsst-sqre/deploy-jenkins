@@ -54,8 +54,8 @@ def ssh_private_key_path
 end
 
 def master_ami
-  # us-east-1 centos 1804_2 (2018-05-16)
-  ENV['MASTER_AMI'] || 'ami-d5bf2caa'
+  # us-east-1 centos 1805_01 (2018-06-12)
+  ENV['MASTER_AMI'] || 'ami-9887c6e7'
 end
 
 def centos7_ami

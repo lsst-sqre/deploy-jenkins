@@ -9,6 +9,21 @@ class jenkins_demo::profile::jenkins::master(
 
   Class['::wget'] -> Class['::jenkins']
 
+  $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
+
+  archive { 'alpn-boot-8.1.12.v20180117.jar':
+    source  => 'https://repo.maven.apache.org/maven2/org/mortbay/jetty/alpn/alpn-boot/8.1.12.v20180117/alpn-boot-8.1.12.v20180117.jar',
+    path    => $alpn,
+    cleanup => false,
+    extract => false,
+    notify  => Class['jenkins::service'],
+  }
+  -> file { $alpn:
+    owner => 'root',
+    group => 'root',
+    mode  => '0444',
+  }
+
   jenkins_num_executors{ '0': ensure => present }
   jenkins_slaveagent_port{ '55555': ensure => present }
   jenkins_exec{ 'job-dsl security':
@@ -18,6 +33,59 @@ class jenkins_demo::profile::jenkins::master(
       def j = Jenkins.getInstance()
       def jobDsl = j.getDescriptor("javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration")
       jobDsl.setUseScriptSecurity(false)
+      j.save()
+    END
+  }
+
+  # https://wiki.jenkins.io/display/JENKINS/Slave+To+Master+Access+Control
+  jenkins_exec{ 'slave to master access control':
+    script => @(END)
+      import jenkins.security.s2m.AdminWhitelistRule
+      import jenkins.model.Jenkins
+      Jenkins.instance.getInjector().getInstance(AdminWhitelistRule.class)
+        .setMasterKillSwitch(false)
+      Jenkins.instance.save()
+    END
+  }
+
+  # https://wiki.jenkins.io/display/JENKINS/CSRF+Protection
+  jenkins_exec{ 'enble csrf crumb':
+    script => @(END)
+      import hudson.security.csrf.DefaultCrumbIssuer
+      import jenkins.model.Jenkins
+
+      def instance = Jenkins.instance
+      instance.setCrumbIssuer(new DefaultCrumbIssuer(true))
+      instance.save()
+    END
+  }
+
+  # job-dsl security seems to have changed to default to `on`
+  # https://github.com/thbkrkr/jks/blob/master/init.groovy.d/8-disable-scripts-security-for-job-dsl-scripts.groovy
+  jenkins_exec{ 'disable job-dsl script security':
+    script => @(END)
+      import javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration
+      import jenkins.model.GlobalConfiguration
+
+      println "--> disabling scripts security for job dsl scripts"
+
+      GlobalConfiguration.all().get(GlobalJobDslSecurityConfiguration.class).useScriptSecurity=false
+    END
+  }
+
+  # ensure that CLI2 protocol is enabled
+  # inspired by https://github.com/thbkrkr/jks/blob/master/init.groovy.d/10-configure-jnlp-agent-protocols.groovy
+  jenkins_exec{ 'select enabled agent protocols':
+    script => @(END)
+      import jenkins.model.Jenkins
+
+      Jenkins j = Jenkins.instance
+      Set<String> agentProtocolsList = ['CLI2-connect', 'JNLP4-connect', 'Ping']
+      if (!j.getAgentProtocols().equals(agentProtocolsList)) {
+        j.setAgentProtocols(agentProtocolsList)
+        println "Agent Protocols have changed.  Setting: ${agentProtocolsList}"
+        j.save()
+      }
     END
   }
 
@@ -148,7 +216,7 @@ class jenkins_demo::profile::jenkins::master(
   $github_xml = 'github-plugin-configuration.xml'
   jenkins::plugin { 'github':
     manage_config   => true,
-    version         => '1.29.0',
+    version         => '1.29.2',
     config_filename => $github_xml,
     config_content  => template("${module_name}/plugins/${github_xml}"),
   }
