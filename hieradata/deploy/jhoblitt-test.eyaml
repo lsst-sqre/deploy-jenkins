@@ -28,9 +28,3 @@ jenkins::plugins::slack:
   tokencredentialid: slack-lsstc-token
   room: *slack_default_channel
 jenkinsx::nodes:
-  elcapitan-4:
-    template: "%{module_name}/nodes/osx/config.xml.epp"
-    params:
-      name: elcap-4
-      host: jenkins-elcap-4.lsst.cloud
-      label: osx osx-10.11 elcap-3

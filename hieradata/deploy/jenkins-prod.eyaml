@@ -39,24 +39,6 @@ jenkinsx::credentials:
     username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACUUbDcS1uF4k9l//LatSpxdc8wslUeuuXlD1d/5r13BX7wyySik3cSy1btI3fYVT5Aty1r5F8PCVHJN0ZSRZJuBq0HiGSxxDodyRP4Haq0hjFZ3eOY+dXAW9gqGjPXYcwaDSm7oHOBmCm/g4GNVflxiTXz9qlVPMD1zPdPI8yBTlheMv/IKS3Eu19rmRIg4vqP3GQz01UGfzqdPvfM306XCs8d7qK9w1Xt8bxREamlfNsfYmtmLkx0S1ozw6wEJireKuXIPYGzmbqdizADRqG5ll41td8EtMJLSu6nvj48O7SxDdQxHzOCtjsrRnTIP1Qiq7ucPtdL5/vMMldzZdhzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDqZUU5vLwAyEaxvWYYKZvXgBBTFmfYlOEet4x2AptSQsd0]
     private_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAABMeyxhR417ky2Dq0SJ+uYzcmyaElduqyHwr0DP2ziZuZdILQZRtf1AYV17X1x0mmyGnHhtXW/2UfxX4750YQwK95/KRQDC8nNNPI31A+WGPzdp8/3EzvC/JPcJEG2Kqy6eu5fh8g8Dbnb8/LTL7Y3KeDZD1ju6jGQkX6kmSuUg4DjxOAxCsnXzAFZQrV4EX89WOMeCU7M45MdXyFhzRtQYUgzCsbjmrtFiKvTAOZ1s7LyVWSlaOt4zHCNIj2ZHFMkd925EgOKLpZTathhD01HpV/c7EMnOb141eoyeV19Ono7E7+3lRF5xTCgzE3wlbx9hDW5/nMtS5dzlUmlk5CTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDBi08Lb0g36FOpVAkDiRZCgDAwpWZAhavZkyvmz9VEuWBAAxBXnArvit9X1dp2iE7LxL81rdgOl89X4XMeULe4Axc=]
 jenkinsx::nodes:
-  elcapitan-1:
-    template: "%{module_name}/nodes/osx/config.xml.epp"
-    params:
-      name: elcap-1
-      host: jenkins-elcap-1.lsst.cloud
-      label: osx osx-10.11 elcap-1
-  elcapitan-2:
-    template: "%{module_name}/nodes/osx/config.xml.epp"
-    params:
-      name: elcap-2
-      host: jenkins-elcap-2.lsst.cloud
-      label: osx osx-10.11 elcap-2
-  elcapitan-3:
-    template: "%{module_name}/nodes/osx/config.xml.epp"
-    params:
-      name: elcap-3
-      host: jenkins-elcap-3.lsst.cloud
-      label: osx osx-10.11 elcap-3
   sierra-1:
     template: "%{module_name}/nodes/osx/config.xml.epp"
     params:
