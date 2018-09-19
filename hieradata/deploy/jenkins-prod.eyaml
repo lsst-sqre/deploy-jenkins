@@ -45,16 +45,21 @@ jenkinsx::nodes:
       name: sierra-1
       host: jenkins-sierra-1.lsst.cloud
       label: osx osx-10.12 sierra-1
-   # yamllint disable rule:comments-indentation
-   # sierra-2:
-   #   template: "%{module_name}/nodes/osx/config.xml.epp"
-   #   params:
-   #     name: sierra-2
-   #     host: jenkins-sierra-2.lsst.cloud
-   #     label: osx osx-10.12 sierra-2
+  sierra-2:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: sierra-2
+      host: jenkins-sierra-2.lsst.cloud
+      label: osx osx-10.12 sierra-2
   sierra-3:
     template: "%{module_name}/nodes/osx/config.xml.epp"
     params:
       name: sierra-3
       host: jenkins-sierra-3.lsst.cloud
       label: osx osx-10.12 sierra-3
+  sierra-4:
+    template: "%{module_name}/nodes/osx/config.xml.epp"
+    params:
+      name: sierra-4
+      host: jenkins-sierra-4.lsst.cloud
+      label: osx osx-10.12 sierra-4
