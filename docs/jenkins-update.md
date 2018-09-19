@@ -300,7 +300,9 @@ To github.com:jhoblitt/jenkins-dm-jobs.git
  * [new branch]      tickets/DM-15598-jenkins-update-test -> tickets/DM-15598-jenkins-update-test
 ```
 
-See https://github.com/lsst-sqre/sandbox-jenkins-demo/blob/master/quickstart.md#jenkins-job-development-workflow for instructions on updating the fork/branch used for the "seed job".
+See
+https://github.com/lsst-sqre/sandbox-jenkins-demo/blob/master/quickstart.md#jenkins-job-development-workflow
+for instructions on updating the fork/branch used for the "seed job".
 
 * run the `dm-jobs` seed job and check the console for deprecation messages
 
