@@ -562,51 +562,6 @@ jenkinsx::credentials:
     impl: StringCredentialsImpl
     description: Name of Jenkins deployment
     secret: "%{::env_name}"
-# jenkinsx::nodes:
-#   lsst-dev:
-#     template: "%{module_name}/nodes/lsst-dev/config.xml.epp"
-#   elcapitan-1:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: elcap-1
-#       host: jenkins-elcap-1.lsst.cloud
-#       label: osx osx-10.11 elcap-1
-#   elcapitan-2:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: elcap-2
-#       host: jenkins-elcap-2.lsst.cloud
-#       label: osx osx-10.11 elcap-2
-#   elcapitan-3:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: elcap-3
-#       host: jenkins-elcap-3.lsst.cloud
-#       label: osx osx-10.11 elcap-3
-#   elcapitan-4:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: elcap-4
-#       host: jenkins-elcap-4.lsst.cloud
-#       label: osx osx-10.11 elcap-3
-#   sierra-1:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: sierra-1
-#       host: jenkins-sierra-1.lsst.cloud
-#       label: osx osx-10.12 sierra-1
-#   sierra-2:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: sierra-2
-#       host: jenkins-sierra-2.lsst.cloud
-#       label: osx osx-10.12 sierra-2
-#   sierra-3:
-#     template: "%{module_name}/nodes/osx/config.xml.epp"
-#     params:
-#       name: sierra-3
-#       host: jenkins-sierra-3.lsst.cloud
-#       label: osx osx-10.12 sierra-3
 jenkinsx::user:
   jhoblitt:
     api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
