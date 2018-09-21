@@ -406,6 +406,7 @@ class jenkins_demo::profile::jenkins::master(
     proxy_set_header      => $proxy_set_header,
     add_header            => $add_header,
     raw_prepend           => $https_raw_prepend,
+    notify                => Class['jenkins::service'],
   }
 
   # redirect http -> https
