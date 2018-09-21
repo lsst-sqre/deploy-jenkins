@@ -23,6 +23,10 @@ jenkins::purge_plugins: true
 jenkins::plugin_hash:
   credentials:
     version: '2.1.18'
+  configuration-as-code:
+    version: '1.0'
+  configuration-as-code-support:
+    version: '1.0'
   command-launcher:
     version: '1.2'
   # command-launcher deps
