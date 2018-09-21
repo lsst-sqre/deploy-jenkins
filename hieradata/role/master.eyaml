@@ -16,6 +16,8 @@ jenkins::config_hash:
     value: ''
   JENKINS_AJP_PORT:
     value: '-1'
+  CASC_JENKINS_CONFIG:
+    value: '/etc/jenkins/casc'
 jenkins::default_plugins: []
 jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by

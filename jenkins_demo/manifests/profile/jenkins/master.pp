@@ -9,6 +9,22 @@ class jenkins_demo::profile::jenkins::master(
 
   Class['::wget'] -> Class['::jenkins']
 
+  file { ['/etc/jenkins', '/etc/jenkins/casc']:
+    ensure => directory,
+    owner  => 'jenkins',
+    group  => 'jenkins',
+    mode   => '0750',
+  }
+
+  file { '/etc/jenkins/casc/01_config.yaml':
+    ensure  => file,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0640',
+    notify  => Class['jenkins::service'],
+    content => template("${module_name}/casc/01_config.yaml"),
+  }
+
   $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
 
   archive { 'alpn-boot-8.1.12.v20180117.jar':
