@@ -208,11 +208,6 @@ class jenkins_demo::profile::jenkins::master(
 "),
   }
 
-  # cleanup jenkins plugin configuration
-  file { '/var/lib/jenkins/jenkins.plugins.hipchat.HipChatNotifier.xml':
-    ensure => absent,
-  }
-
   $slack = lookup(
     'jenkins::plugins::slack',
     Variant[Hash[String, String], Undef],
