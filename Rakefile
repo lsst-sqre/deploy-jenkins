@@ -20,7 +20,7 @@ task decrypt: EYAML_FILES.ext('.yaml')
 
 desc 'edit .eyaml file (requires keys)'
 task :edit, [:file] do |t, args|
-  sh "eyaml #{t} #{args[:file]}"
+  sh "eyaml #{t} --no-preamble #{args[:file]}"
   Rake::Task[:decrypt].invoke
 end
 
