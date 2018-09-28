@@ -9,22 +9,7 @@ class jenkins_demo::profile::jenkins::master(
 
   Class['::wget'] -> Class['::jenkins']
 
-  file { ['/etc/jenkins', '/etc/jenkins/casc']:
-    ensure => directory,
-    owner  => 'jenkins',
-    group  => 'jenkins',
-    mode   => '0750',
-  }
-
-  file { '/etc/jenkins/casc/01_config.yaml':
-    ensure  => file,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0640',
-    notify  => Class['jenkins::service'],
-    content => template("${module_name}/casc/01_config.yaml"),
-  }
-
+  # only required (?) under jdk8
   $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
 
   archive { 'alpn-boot-8.1.12.v20180117.jar':
@@ -40,201 +25,62 @@ class jenkins_demo::profile::jenkins::master(
     mode  => '0444',
   }
 
-  jenkins_num_executors{ '0': ensure => present }
-  jenkins_slaveagent_port{ '55555': ensure => present }
-  jenkins_exec{ 'job-dsl security':
-    script => @(END)
-      import jenkins.model.*
-
-      def j = Jenkins.getInstance()
-      def jobDsl = j.getDescriptor("javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration")
-      jobDsl.setUseScriptSecurity(false)
-      j.save()
-    END
-  }
-
-  # https://wiki.jenkins.io/display/JENKINS/Slave+To+Master+Access+Control
-  jenkins_exec{ 'slave to master access control':
-    script => @(END)
-      import jenkins.security.s2m.AdminWhitelistRule
-      import jenkins.model.Jenkins
-      Jenkins.instance.getInjector().getInstance(AdminWhitelistRule.class)
-        .setMasterKillSwitch(false)
-      Jenkins.instance.save()
-    END
-  }
-
-  # https://wiki.jenkins.io/display/JENKINS/CSRF+Protection
-  jenkins_exec{ 'enble csrf crumb':
-    script => @(END)
-      import hudson.security.csrf.DefaultCrumbIssuer
-      import jenkins.model.Jenkins
-
-      def instance = Jenkins.instance
-      instance.setCrumbIssuer(new DefaultCrumbIssuer(true))
-      instance.save()
-    END
-  }
-
-  # job-dsl security seems to have changed to default to `on`
-  # https://github.com/thbkrkr/jks/blob/master/init.groovy.d/8-disable-scripts-security-for-job-dsl-scripts.groovy
-  jenkins_exec{ 'disable job-dsl script security':
-    script => @(END)
-      import javaposse.jobdsl.plugin.GlobalJobDslSecurityConfiguration
-      import jenkins.model.GlobalConfiguration
-
-      println "--> disabling scripts security for job dsl scripts"
-
-      GlobalConfiguration.all().get(GlobalJobDslSecurityConfiguration.class).useScriptSecurity=false
-    END
-  }
-
-  # ensure that CLI2 protocol is enabled
-  # inspired by https://github.com/thbkrkr/jks/blob/master/init.groovy.d/10-configure-jnlp-agent-protocols.groovy
-  jenkins_exec{ 'select enabled agent protocols':
-    script => @(END)
-      import jenkins.model.Jenkins
-
-      Jenkins j = Jenkins.instance
-      Set<String> agentProtocolsList = ['CLI2-connect', 'JNLP4-connect', 'Ping']
-      if (!j.getAgentProtocols().equals(agentProtocolsList)) {
-        j.setAgentProtocols(agentProtocolsList)
-        println "Agent Protocols have changed.  Setting: ${agentProtocolsList}"
-        j.save()
+  # deep merge w/ merge_hash_arrays is incapable of properly merging multiple
+  # `- credentails` array of hash elements under:
+  #
+  # credentials:
+  #   system:
+  #     domainCredentials:
+  #       [- credentials:]
+  #
+  # as it converts `basicSSHUserPrivateKey` array elements to encapsulated in a
+  # hash IF they are not in the base hash but lower down in the hierachy. Yes,
+  # this seems crazy, having nested hashes does not appear to be the triggering
+  # condition nor not having a similar value to shadow from lower in the
+  # hierachy.
+  $casc = lookup({
+    name       => 'jenkinsx::casc',
+    value_type => Hash[String, Any],
+  })
+  if $casc {
+    $dom_creds = $casc['credentials']['system']['domainCredentials']
+    $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
+      $result + $value['credentials']
+    }
+    $real_casc = $casc + {
+      credentials => {
+        system => {
+          domainCredentials => [ credentials => $merged_creds ],
+        },
       }
-    END
-  }
+    }
+    # debug -- WILL PRINT SECRETS
+    # notice('merged config:')
+    # notice(inline_template("<%- require 'json'-%><%= JSON.pretty_generate(@real_casc) %>"))
 
-  $admin_key_path  = '/usr/lib/jenkins/admin_private_key'
-  $j = lookup('jenkinsx', Hash[String, String])
-
-  file { $admin_key_path:
-    ensure  => file,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0664',
-    content => $j['ssh_private_key'],
-  }
-
-  class { 'jenkins::cli::config':
-    ssh_private_key     => $admin_key_path,
-    cli_remoting_free   => false,
-    cli_legacy_remoting => true,
-  }
-
-  $user_hash = lookup('jenkinsx::user',
-    Variant[
-      Hash[String, Hash[String, Variant[String, Array[String]]]],
-      Undef
-    ]
-  )
-  if $user_hash {
-    create_resources('jenkins_user', $user_hash)
-  }
-
-  $strategy = lookup('jenkinsx::authorization_strategy',
-    Variant[
-      Hash[String, Hash[String, Array[Variant[String, Boolean]]]],
-      Undef
-    ]
-  )
-  if $strategy {
-    create_resources('jenkins_authorization_strategy', $strategy)
-  }
-
-  $realm = lookup('jenkinsx::security_realm',
-    Variant[
-      Hash[String, Hash[String, Array[String]]],
-      Undef
-    ]
-  )
-  if $realm {
-    create_resources('jenkins_security_realm', $realm)
-  }
-
-  $creds = lookup('jenkinsx::credentials',
-    Variant[
-      Hash[String, Hash[String, Variant[String, Undef]]],
-      Undef
-    ]
-  )
-  if $creds {
-    create_resources('jenkins_credentials', $creds)
-  }
-
-  if $seed_url {
-    jenkins_job { 'sqre':
-      config => template("${module_name}/jobs/sqre/config.xml"),
+    file { ['/etc/jenkins', '/etc/jenkins/casc']:
+      ensure => directory,
+      owner  => 'jenkins',
+      group  => 'jenkins',
+      mode   => '0750',
     }
 
-    jenkins_job { 'sqre/seeds':
-      config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
+    file { '/etc/jenkins/casc/01_config.yaml':
+      ensure    => file,
+      owner     => 'jenkins',
+      group     => 'jenkins',
+      mode      => '0640',
+      notify    => Class['jenkins::service'],
+      content   => to_yaml($real_casc),
+      # likely to contain secrets
+      #show_diff => false,
+      backup    => false,
     }
-
-    jenkins_job { 'sqre/seeds/dm-jobs':
-      config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
-        seed_url => $seed_url,
-        seed_ref => $seed_ref,
-      }),
-    }
-  }
-
-  # puppet-jenkins does not presently support the management of nodes
-  # XXX this is a dirty hack
-  $nodes = lookup(
-    'jenkinsx::nodes',
-    Variant[Data, Undef],
-    'first',
-    undef
-  )
-  if $nodes {
-    create_resources('jenkins_demo::profile::jenkins::node', $nodes)
-  }
-
-  # XXX this is [also] a dirty hack
-  $jenkins_url = lookup('jenkins_fqdn', String, 'first', $::jenkins_fqdn)
-  file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
-      ensure  => file,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      mode    => '0644',
-      notify  => Class['jenkins::service'],
-      content => inline_template(
-"<?xml version='1.0' encoding='UTF-8'?>
-<jenkins.model.JenkinsLocationConfiguration>
-  <adminAddress>address not configured yet &lt;nobody@nowhere&gt;</adminAddress>
-  <jenkinsUrl>https://<%= @jenkins_url %>/</jenkinsUrl>
-</jenkins.model.JenkinsLocationConfiguration>
-"),
-  }
-
-  $slack = lookup(
-    'jenkins::plugins::slack',
-    Variant[Hash[String, String], Undef],
-    'first',
-    undef
-  )
-  if $slack {
-    $slack_xml = 'jenkins.plugins.slack.SlackNotifier.xml'
-    jenkins::plugin { 'slack':
-      manage_config   => true,
-      version         => '2.3',
-      config_filename => $slack_xml,
-      config_content  => template("${module_name}/plugins/${slack_xml}"),
-    }
-  }
-
-  $github_xml = 'github-plugin-configuration.xml'
-  jenkins::plugin { 'github':
-    manage_config   => true,
-    version         => '1.29.2',
-    config_filename => $github_xml,
-    config_content  => template("${module_name}/plugins/${github_xml}"),
   }
 
   #
   # https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy
-
+  #
   $access_log          = '/var/log/nginx/jenkins.access.log'
   $error_log           = '/var/log/nginx/jenkins.error.log'
   $private_dir         = '/var/private'

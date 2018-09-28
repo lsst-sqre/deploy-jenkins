@@ -160,6 +160,9 @@ Vagrant.configure('2') do |config|
     ]
   end
 
+  # cleanup hiera data
+  config.vm.provision 'shell', inline: 'rm -rf /tmp/vagrant-puppet/hieradata'
+
   config.vm.provider :aws do |provider, override|
     override.vm.box = 'aws'
     override.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
