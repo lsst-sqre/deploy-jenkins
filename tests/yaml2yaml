@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+# Parse a yaml file and then [re]dump the de-serialization as yaml. This may be
+# useful for checking formatting and/or processing of anchor/aliases.
+
+require 'yaml'
+
+foo = YAML.load_file(ARGV[0])
+puts YAML.dump(foo)
