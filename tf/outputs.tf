@@ -6,6 +6,14 @@ output "JENKINS_FQDN" {
   value = "${aws_route53_record.jenkins-demo-master.fqdn}"
 }
 
+output "JENKINS_MASTER_INTERNAL_IP" {
+  value = "${local.jenkins_master_internal_ip}"
+}
+
+output "JENKINS_INTERNAL_DOMAIN" {
+  value = "${local.jenkins_internal_domain}"
+}
+
 output "SUBNET_ID" {
   value = "${aws_subnet.jenkins-demo.id}"
 }
@@ -30,8 +38,8 @@ output "AWS_DEFAULT_REGION" {
   value = "${var.aws_default_region}"
 }
 
-output "DEMO_NAME" {
-  value = "${var.demo_name}"
+output "ENV_NAME" {
+  value = "${var.env_name}"
 }
 
 output "DOMAIN_NAME" {

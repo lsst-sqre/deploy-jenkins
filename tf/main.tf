@@ -1,21 +1,37 @@
+terraform {
+  backend "s3" {}
+}
+
 provider "aws" {
   region     = "${var.aws_default_region}"
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"
 }
 
+provider "template" {
+  version = "~> 1.0"
+}
+
+locals {
+  jenkins_master_internal_ip = "192.168.123.10"
+
+  # reserved domain options: https://tools.ietf.org/html/rfc6761
+  jenkins_internal_domain = "${var.env_name}.test"
+}
+
 resource "aws_key_pair" "jenkins-demo" {
-  key_name   = "${var.demo_name}"
+  key_name   = "${var.env_name}"
   public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
 }
 
 resource "aws_vpc" "jenkins-demo" {
+  #cidr_block           = "192.168.0.0/16"
   cidr_block           = "192.168.123.0/24"
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags {
-    Name = "${var.demo_name}"
+    Name = "${var.env_name}"
   }
 }
 
@@ -23,8 +39,42 @@ resource "aws_internet_gateway" "jenkins-demo" {
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
   tags {
-    Name = "${var.demo_name}"
+    Name = "${var.env_name}"
   }
+}
+
+resource "aws_vpc_dhcp_options" "jenkins" {
+  domain_name         = "${local.jenkins_internal_domain}"
+  domain_name_servers = ["AmazonProvidedDNS"]
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
+resource "aws_vpc_dhcp_options_association" "jenkins" {
+  vpc_id          = "${aws_vpc.jenkins-demo.id}"
+  dhcp_options_id = "${aws_vpc_dhcp_options.jenkins.id}"
+}
+
+resource "aws_route53_zone" "jenkins-internal" {
+  name   = "${local.jenkins_internal_domain}"
+  vpc_id = "${aws_vpc.jenkins-demo.id}"
+
+  # COMMENT
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
+resource "aws_route53_record" "jenkins-master-internal" {
+  zone_id = "${aws_route53_zone.jenkins-internal.zone_id}"
+  name    = "jenkins-master"
+  type    = "A"
+  ttl     = "30"
+
+  records = ["${local.jenkins_master_internal_ip}"]
 }
 
 resource "aws_subnet" "jenkins-demo" {
@@ -34,7 +84,7 @@ resource "aws_subnet" "jenkins-demo" {
   map_public_ip_on_launch = true
 
   tags {
-    Name = "${var.demo_name}"
+    Name = "${var.env_name}"
   }
 }
 
@@ -47,7 +97,7 @@ resource "aws_route_table" "jenkins-demo" {
   }
 
   tags {
-    Name = "${var.demo_name}"
+    Name = "${var.env_name}"
   }
 }
 
@@ -79,7 +129,7 @@ resource "aws_network_acl" "jenkins-demo" {
   }
 
   tags {
-    Name = "${var.demo_name}"
+    Name = "${var.env_name}"
   }
 }
 
@@ -89,7 +139,7 @@ resource "aws_eip" "jenkins-demo-master" {
 
 resource "aws_security_group" "jenkins-demo-ssh" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
-  name        = "${var.demo_name}-ssh"
+  name        = "${var.env_name}-ssh"
   description = "allow external ssh"
 
   ingress {
@@ -100,13 +150,13 @@ resource "aws_security_group" "jenkins-demo-ssh" {
   }
 
   tags {
-    Name = "${var.demo_name}-ssh"
+    Name = "${var.env_name}-ssh"
   }
 }
 
 resource "aws_security_group" "jenkins-demo-http" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
-  name        = "${var.demo_name}-http"
+  name        = "${var.env_name}-http"
   description = "allow external http/https"
 
   ingress {
@@ -124,13 +174,13 @@ resource "aws_security_group" "jenkins-demo-http" {
   }
 
   tags {
-    Name = "${var.demo_name}-http"
+    Name = "${var.env_name}-http"
   }
 }
 
 resource "aws_security_group" "jenkins-demo-slaveport" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
-  name        = "${var.demo_name}-slaveport"
+  name        = "${var.env_name}-slaveport"
   description = "allow external access to jenkins slave agent port"
 
   ingress {
@@ -141,13 +191,13 @@ resource "aws_security_group" "jenkins-demo-slaveport" {
   }
 
   tags {
-    Name = "${var.demo_name}-slaveport"
+    Name = "${var.env_name}-slaveport"
   }
 }
 
 resource "aws_security_group" "jenkins-demo-internal" {
   vpc_id      = "${aws_vpc.jenkins-demo.id}"
-  name        = "${var.demo_name}-internal"
+  name        = "${var.env_name}-internal"
   description = "allow all VPC internal traffic"
 
   ingress {
@@ -166,6 +216,6 @@ resource "aws_security_group" "jenkins-demo-internal" {
   }
 
   tags {
-    Name = "${var.demo_name}-internal"
+    Name = "${var.env_name}-internal"
   }
 }
