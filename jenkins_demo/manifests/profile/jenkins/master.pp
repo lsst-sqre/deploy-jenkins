@@ -106,62 +106,62 @@ class jenkins_demo::profile::jenkins::master(
     cli_legacy_remoting => true,
   }
 
-  $user_hash = lookup('jenkinsx::user',
-    Variant[
-      Hash[String, Hash[String, Variant[String, Array[String]]]],
-      Undef
-    ]
-  )
-  if $user_hash {
-    create_resources('jenkins_user', $user_hash)
-  }
+  #$user_hash = lookup('jenkinsx::user',
+  #  Variant[
+  #    Hash[String, Hash[String, Variant[String, Array[String]]]],
+  #    Undef
+  #  ]
+  #)
+  #if $user_hash {
+  #  create_resources('jenkins_user', $user_hash)
+  #}
 
-  $strategy = lookup('jenkinsx::authorization_strategy',
-    Variant[
-      Hash[String, Hash[String, Array[Variant[String, Boolean]]]],
-      Undef
-    ]
-  )
-  if $strategy {
-    create_resources('jenkins_authorization_strategy', $strategy)
-  }
+  #$strategy = lookup('jenkinsx::authorization_strategy',
+  #  Variant[
+  #    Hash[String, Hash[String, Array[Variant[String, Boolean]]]],
+  #    Undef
+  #  ]
+  #)
+  #if $strategy {
+  #  create_resources('jenkins_authorization_strategy', $strategy)
+  #}
 
-  $realm = lookup('jenkinsx::security_realm',
-    Variant[
-      Hash[String, Hash[String, Array[String]]],
-      Undef
-    ]
-  )
-  if $realm {
-    create_resources('jenkins_security_realm', $realm)
-  }
+  #$realm = lookup('jenkinsx::security_realm',
+  #  Variant[
+  #    Hash[String, Hash[String, Array[String]]],
+  #    Undef
+  #  ]
+  #)
+  #if $realm {
+  #  create_resources('jenkins_security_realm', $realm)
+  #}
 
-  $creds = lookup('jenkinsx::credentials',
-    Variant[
-      Hash[String, Hash[String, Variant[String, Undef]]],
-      Undef
-    ]
-  )
-  if $creds {
-    create_resources('jenkins_credentials', $creds)
-  }
+  #$creds = lookup('jenkinsx::credentials',
+  #  Variant[
+  #    Hash[String, Hash[String, Variant[String, Undef]]],
+  #    Undef
+  #  ]
+  #)
+  #if $creds {
+  #  create_resources('jenkins_credentials', $creds)
+  #}
 
-  if $seed_url {
-    jenkins_job { 'sqre':
-      config => template("${module_name}/jobs/sqre/config.xml"),
-    }
+  #if $seed_url {
+  #  jenkins_job { 'sqre':
+  #    config => template("${module_name}/jobs/sqre/config.xml"),
+  #  }
 
-    jenkins_job { 'sqre/seeds':
-      config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
-    }
+  #  jenkins_job { 'sqre/seeds':
+  #    config => template("${module_name}/jobs/sqre/jobs/seeds/config.xml"),
+  #  }
 
-    jenkins_job { 'sqre/seeds/dm-jobs':
-      config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
-        seed_url => $seed_url,
-        seed_ref => $seed_ref,
-      }),
-    }
-  }
+  #  jenkins_job { 'sqre/seeds/dm-jobs':
+  #    config => epp("${module_name}/jobs/sqre/jobs/seeds/jobs/dm-jobs/config.xml.epp", {
+  #      seed_url => $seed_url,
+  #      seed_ref => $seed_ref,
+  #    }),
+  #  }
+  #}
 
   # puppet-jenkins does not presently support the management of nodes
   # XXX this is a dirty hack
