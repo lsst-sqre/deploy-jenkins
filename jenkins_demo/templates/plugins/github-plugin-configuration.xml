@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<github-plugin-configuration plugin="github@1.28.0">
+<github-plugin-configuration plugin="github@1.29.2">
   <configs>
     <github-server-config>
       <apiUrl>https://api.github.com</apiUrl>
       <manageHooks>true</manageHooks>
-      <credentialsId>github-api-token-sqreadmin</credentialsId>
+      <credentialsId>1fc1403f-c16e-4368-aa77-b06ee9a8d1ec</credentialsId>
       <clientCacheSize>20</clientCacheSize>
     </github-server-config>
   </configs>
+  <hookUrl>https://ts-ci.lsst.codes/github-webhook/</hookUrl>
   <hookSecretConfig>
-    <credentialsId></credentialsId>
+    <credentialsId>1fc1403f-c16e-4368-aa77-b06ee9a8d1ec</credentialsId>
   </hookSecretConfig>
 </github-plugin-configuration>
