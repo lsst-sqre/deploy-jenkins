@@ -1,14 +1,15 @@
 ---
+# yamllint disable rule:line-length
 classes:
   - jenkins_demo::role::master
-jenkins::version: '2.89.4-1.1'
-jenkins::lts: true
-jenkins::master::version: '3.11'
+jenkins::version: '2.141-1.1'
+jenkins::lts: false
+jenkins::master::version: '3.14'
 jenkins::config_firewall: false
 jenkins::cli: true
 jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
-    value: '-Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=_'
+    value: '-Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=_ -Dhudson.model.Slave.workspaceRoot=ws -Djenkins.CLI.disabled=false -Xbootclasspath/p:/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
   JENKINS_LISTEN_ADDRESS:
     value: ''
   JENKINS_HTTPS_PORT:
@@ -21,33 +22,28 @@ jenkins::purge_plugins: false
 # hand -- ugh
 jenkins::plugin_hash:
   credentials:
-    version: '2.1.16'
+    version: '2.1.18'
   command-launcher:
     version: '1.2'
   # command-launcher deps
   # script-security
   # /command-launcher deps
   support-core:
-    version: '2.45.1'
+    version: '2.49'
   # support-core deps
   metrics:
-    version: '3.1.2.11'
+    version: '4.0.2.2'
   jackson2-api:
-    version: '2.8.11.1'
+    version: '2.8.11.3'
   bouncycastle-api:
-    version: '2.16.2'
+    version: '2.17'
   # /support-core deps
   junit:
     version: '1.24'
-  matrix-project:
-    version: '1.12'
-  # matrix-project deps
   script-security:
-    version: '1.42'
-  # junit
-  # /matrix-project deps
-  #validating-string-parameter:
-  #  version: '2.3'
+    version: '1.44'
+  # validating-string-parameter:
+  #   version: '2.3'
   plain-credentials:
     version: '1.4'
   # plain-credentials deps
@@ -59,18 +55,18 @@ jenkins::plugin_hash:
   # github is declared in master.pp
   # github deps
   token-macro:
-    version: '2.3'
+    version: '2.5'
   # credentials
   # plain-credentials
   git:
-    version: '3.8.0'
+    version: '3.9.1'
   github-api:
-    version: '1.90'
+    version: '1.92'
   # github -> git deps
   scm-api:
-    version: '2.2.6'
+    version: '2.2.7'
   git-client:
-    version: '2.7.1'
+    version: '2.7.3'
   # /github -> git deps
   # /github deps
   github-oauth:
@@ -79,7 +75,7 @@ jenkins::plugin_hash:
   # github-api:
   # git
   mailer:
-    version: '1.20'
+    version: '1.21'
   # /github-oauth deps
   display-url-api:
     version: '2.2.0'
@@ -95,18 +91,17 @@ jenkins::plugin_hash:
     version: '1.12.4-0'
   # /nodelabelparameter deps
   postbuildscript:
-    version: '2.5.1'
-    #version: '0.17'
+    version: '2.7.0'
   # postbuildscript deps
   # mailer
   maven-plugin:
-    version: '3.1'
+    version: '3.1.2'
   # maven-plugin deps
   # javadoc
   # mailer
   # junit
   apache-httpcomponents-client-4-api:
-    version: '4.5.3-2.1'
+    version: '4.5.5-3.0'
   jsch:
     version: '0.1.54.2'
   # /maven-plugin deps
@@ -116,14 +111,14 @@ jenkins::plugin_hash:
   greenballs:
     version: '1.15'
   rebuild:
-    version: '1.27'
+    version: '1.28'
   build-user-vars-plugin:
     version: '1.5'
   # build-user-vars-plugin deps
   # mailer
   # /build-user-vars-plugin deps
   envinject:
-    version: '2.1.5'
+    version: '2.1.6'
   # envinject deps
   envinject-api:
     version: '1.5'
@@ -131,12 +126,12 @@ jenkins::plugin_hash:
   purge-build-queue-plugin:
     version: '1.0'
   ssh-credentials:
-    version: '1.13'
+    version: '1.14'
   # ssh-credentials deps
   # credentials
   # /ssh-credentials deps
   ssh-slaves:
-    version: '1.26'
+    version: '1.28'
   # ssh-slaves deps
   # ssh-credentials
   # credentials
@@ -148,21 +143,20 @@ jenkins::plugin_hash:
   # workflow-step-api
   # ssh-credentials
   # credentials
-  # /ghprb -> ssh-agent deps
-  # credentials
-  # github-api
-  # matrix-project
-  # git
-  # plain-credentials
-  # token-macro
-  # build-flow-plugin
-  # /ghprb deps
   parameterized-trigger:
     version: '2.35.2'
   conditional-buildstep:
     version: '1.3.6'
+  # conditional-buildstep deps
+  matrix-project:
+    version: '1.13'
+  # matrix-project deps
+  # script-security
+  # junit
+  # /matrix-project deps
+  # /conditional-buildstep deps
   run-condition:
-    version: '1.0'
+    version: '1.2'
   # /parameterized-trigger deps
   # kubernetes plugin may (?) have been preventing jenkins 2.7.2 from starting
   # up with this error message in the log:
@@ -171,21 +165,21 @@ jenkins::plugin_hash:
   #   at hudson.scheduler.CronTabList.create(CronTabList.java:104)
   # ...
   # INFO: Failed to instantiate optional component org.csanchez.jenkins.plugins.kubernetes.ServiceAccountCredential$DescriptorImpl; skipping
-  #kubernetes:
-  #  version: '0.7'
+  # kubernetes:
+  #   version: '0.7'
   # kubernetes deps
   durable-task:
-    version: '1.22'
+    version: '1.25'
   # credentials
   # /kubernetes deps
-  #dynamic-axis:
-  #  version: '1.0.3'
+  # dynamic-axis:
+  #   version: '1.0.3'
   multiple-scms:
     version: '0.6'
   cloudbees-folder:
-    version: '6.4'
+    version: '6.5.1'
   job-dsl:
-    version: '1.68'
+    version: '1.70'
   structs:
     version: '1.14'
   # /job-dsl deps
@@ -195,25 +189,25 @@ jenkins::plugin_hash:
   windows-slaves:
     version: '1.3.1'
   matrix-auth:
-    version: '2.2'
+    version: '2.3'
   ### pipeline/workflow deps
   workflow-aggregator:
     version: '2.5'
   jquery-detached:
     version: '1.2.1'
   workflow-api:
-    version: '2.26'
+    version: '2.29'
   workflow-support:
-    version: '2.18'
+    version: '2.20'
   workflow-step-api:
-    version: '2.14'
+    version: '2.16'
   # workflow-job 2.14.1 *is not * compabtile with core 2.60.x
   workflow-job:
-    version: '2.17'
+    version: '2.24'
   pipeline-stage-view:
-    version: '2.9'
+    version: '2.10'
   pipeline-rest-api:
-    version: '2.9'
+    version: '2.10'
   handlebars:
     version: '1.1.1'
   momentjs:
@@ -225,29 +219,29 @@ jenkins::plugin_hash:
   git-server:
     version: '1.7'
   branch-api:
-    version: '2.0.18'
+    version: '2.0.20'
   workflow-durable-task-step:
-    version: '2.19'
+    version: '2.21'
   pipeline-input-step:
     version: '2.8'
   pipeline-stage-step:
     version: '2.3'
   workflow-basic-steps:
-    version: '2.6'
+    version: '2.10'
   workflow-cps:
-    version: '2.45'
+    version: '2.54'
   workflow-cps-global-lib:
-    version: '2.9'
+    version: '2.10'
   workflow-multibranch:
-    version: '2.17'
+    version: '2.20'
   pipeline-milestone-step:
     version: '1.3.1'
   pipeline-graph-analysis:
-    version: '1.6'
+    version: '1.7'
   pipeline-model-declarative-agent:
     version: '1.1.1'
   pipeline-model-api:
-    version: &pipev '1.2.7'
+    version: &pipev '1.3.2'
   pipeline-model-definition:
     version: *pipev
   pipeline-model-extensions:
@@ -256,7 +250,7 @@ jenkins::plugin_hash:
     version: *pipev
   # /pipeline/workflow deps
   copyartifact:
-    version: '1.39'
+    version: '1.41'
   saferestart:
     version: '0.3'
   # slack is declared in master.pp
@@ -265,38 +259,38 @@ jenkins::plugin_hash:
   # junit
   # /slack deps
   docker-workflow:
-    version: '1.15.1'
+    version: '1.17'
   # docker-workflow deps
   docker-commons:
-    version: '1.11'
-  #script-security
-  #workflow-cps
-  #workflow-step-api
-  #workflow-durable-task-step
+    version: '1.13'
+  # script-security
+  # workflow-cps
+  # workflow-step-api
+  # workflow-durable-task-step
   # /docker-workflow deps
   # docker-commons deps
   authentication-tokens:
     version: '1.3'
-  #credentials
-  #icon-shim
+  # credentials
+  # icon-shim
   # /docker-commons deps
-  #  dockerhub-notification provides dockerHubTrigger() in job-dsl
+  #   dockerhub-notification provides dockerHubTrigger() in job-dsl
   dockerhub-notification:
-    version: '2.2.1'
+    version: '2.3.0'
   # dockerhub-notification deps
   async-http-client:
     version: '1.9.40.0'
-  #docker-commons
+  # docker-commons
   # /dockerhub-notification deps
   ssh-agent:
-    version: '1.15'
+    version: '1.16'
   groovy:
     version: '2.0'
   # what is github-branch-source a dep of?
   github-branch-source:
-    version: '2.3.3'
+    version: '2.3.6'
   blueocean:
-    version: &bov '1.5.0-beta-2'
+    version: &bov '1.8.2'
   # blueocean deps
   # >= 1.4.0
   blueocean-core-js:
@@ -343,7 +337,7 @@ jenkins::plugin_hash:
   blueocean-jira:
     version: *bov
   favorite:
-    version: '2.3.1'
+    version: '2.3.2'
   pubsub-light:
     version: '1.12'
   sse-gateway:
@@ -351,20 +345,20 @@ jenkins::plugin_hash:
   variant:
     version: '1.1'
   jira:
-    version: '2.5.1'
+    version: '3.0.1'
   htmlpublisher:
-    version: '1.14'
+    version: '1.16'
   cloudbees-bitbucket-branch-source:
-    version: '2.2.10'
+    version: '2.2.12'
   # cloudbees-bitbucket-branch-source deps
   handy-uri-templates-2-api:
     version: '2.1.6-1.0'
   # /cloudbees-bitbucket-branch-source deps
   mercurial:
-    version: '2.3'
+    version: '2.4'
   # /blueocean deps
   pipeline-utility-steps:
-    version: '2.0.1'
+    version: '2.1.0'
   # pipeline-utility-steps deps
   # workflow-cps
   # workflow-step-api
@@ -375,8 +369,8 @@ jenkins::plugin_hash:
   # build-timeout deps
   # token-macro
   # /build-timeout deps
-  docker-traceability:
-    version: '1.2'
+  jdk-tool:
+    version: '1.1'
 jenkinsx:
   ssh_private_key: &jenkinsx_ssh_private_key |
     ENC[PKCS7,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]
@@ -421,3 +415,4 @@ jenkins_demo::profile::jenkins::agent::executors: 8
 #jenkins_demo::profile::jenkins::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
 #jenkins_demo::profile::jenkins::master::seed_ref: '*/master'
 jenkins_fqdn: ts-ci.lsst.codes
+docker::storage_driver:

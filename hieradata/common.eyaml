@@ -1,19 +1,18 @@
 ---
-nginx::package_ensure: '1.10.1-1.el7.ngx'
+# yamllint disable rule:line-length
+nginx::package_ensure: '1.14.0-1.el7_4.ngx'
 nginx::confd_purge: true
 nginx::server_purge: true
 nginx::http2: 'on'
-# https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.7.12&openssl=1.0.1e&hsts=yes&profile=modern
-# enabled TLSv1 to support android < 4.4
-nginx::ssl_protocols: 'TLSv1 TLSv1.1 TLSv1.2'
+# https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.14.0&openssl=1.0.2k&hsts=yes&profile=modern
+nginx::ssl_protocols: 'TLSv1.2'
 nginx::ssl_ciphers: |
-  ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK
+  ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
 nginx::gzip_proxied: 'any'
 add_header:
   # 180d is required to get an A+ rating from ssllabs.com
-  Strict-Transport-Security: "'max-age=15552000'"
+  Strict-Transport-Security: "'max-age=15768000'"
   # openssl x509 -in lsst.codes.pem -pubkey -noout | openssl rsa -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64
-#  Public-Key-Pins: "'pin-sha256=\"KhocpKDPJ5WatTg6A4CLwPGcxhf+fUGee4FfIk7Nc68=\"; max-age=2592000'"
 # alphassl signed *.lsst.codes
 ssl_cert: |
   -----BEGIN CERTIFICATE-----
@@ -104,30 +103,15 @@ ssl_root_cert: |
   -----END CERTIFICATE-----
 ssl_key: |
   ENC[PKCS7,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]
-# conf shared between the jenkins master and slave roles
-jenkins::slave::version: '3.11'
+# conf shared between the jenkins master and agent roles
+jenkins::slave::version: '3.14'
 jenkins::slave::ui_user: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqBl1AXBWm56h6ITRCo33YlYF0HGJLjdIfcIPRCatHjRqYgrWacud6jIrZ2ycm7ic9V3PH3CrpY+kMh2dv3xzOuPdleG4MxiMhb4DCCUVvC6IQEnwoXnIeGKciG2+122qJCPoTkRltBCwIMdHp5nSntoCyEoWRremnmvMq7gtngFDJELENt2VHtMLTW36SWsKXEZaZwVrRgnEjpj0vHBVrQylUVnPDQve2v2PT7IqjWXMDoJoZ1N4vyJMdaXgNMfnEx8kPfu0+R6+7Rn3t0kwDzJ6p4kLrKq8p1+YifpmreWy82jmUQfs6yLpxdBNuQKn5p/Amd6WsR4VtX+2ifwKMjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCnAHXFH4jmeL3ykeY/4ddCgBDHjQ3GOz9h9Wa+dXqmePFX]
 jenkins::slave::ui_pass: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeMPt5rEbxAAi/J3OI6y/yTENWJK13yPoFCi2UoKUsGefianAogonZvomh6lWhcWnQjEtMqawQgepsnNuTz0M4FOPK4gDTOoAgtm0Ckhy/Ud7xCggLn9rCJWBzufH/0fJ5F9OmHUcwf1PMkdU3xMUprlNCXUt1vLeaeD9rV79NdfCVJqePHYVtFQ4MiKabY8bwV3QcJjHnvqM2GMceeES5wp3ZPRKk9yrhy9bw68LnE7wELeuN2tVYqxm1cuvERsFMROmJUKulzvxc637vRxS5K+dns1icGyCwFjTrYVvr+u48lsOutxXfZ/a4yNoQ+d7rEIHeVtiBfb1I961RJcctDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAFRG1AjIs93Ji5exqxtly0gDCOuO7Rd6GKKN0IUu0FQwt6bhTNiODrbXzTpnAH9fkrqbWPZUI4DVpHfBwMQR6u698=]
-# pipeline scripts will try to restart on a slave based its name; if a slave
-# witha unique id in its name is restarted, it reattaches with a new unique
+# pipeline scripts will try to restart on a agent based its name; if an agent
+# with an unique id in its name is restarted, it reattaches with a new unique
 # name and the pipeline script hangs forever.
 jenkins::slave::disable_clients_unique_id: true
 jenkins::slave::delete_existing_clients: true
-rvm::version: '1.29.3'
-rvm::system_rubies:
-  'ruby-2.2':
-    ensure: absent
-  'ruby-2.4.2':
-    default_use: true
-    build_opts:
-      - '--disable-binary'
-rvm::system_users:
-  - jenkins-slave
-rvm::rvm_gems:
-  'bundler':
-    name: 'bundler'
-    ruby_version: 'ruby-2.4.2'
-    ensure: '1.13.6'
-docker::version: '17.12.1.ce'
+docker::version: '18.03.1.ce'
 timezone::timezone: 'US/Pacific'
 tuned::profile: 'virtual-host'
