@@ -80,7 +80,7 @@ Vagrant.configure('2') do |config|
         SECURITY_GROUP_ID_HTTP,
         SECURITY_GROUP_ID_SLAVEPORT,
       ]
-      provider.instance_type = 'c4.xlarge'
+      provider.instance_type = 'c5.xlarge'
       provider.tags = {
         'Name'     => hostname,
         'env_name' => ENV_NAME,
@@ -182,7 +182,7 @@ Vagrant.configure('2') do |config|
       SECURITY_GROUP_ID_INTERNAL,
       SECURITY_GROUP_ID_SSH,
     ]
-    provider.instance_type = 'c4.2xlarge'
+    provider.instance_type = 'c5.2xlarge'
     provider.ebs_optimized = true
     provider.monitoring = true
     provider.instance_package_timeout = 36_600

@@ -9,7 +9,8 @@ jenkins::config_firewall: false
 jenkins::cli: true
 jenkins::config_hash:
   JENKINS_JAVA_OPTIONS:
-    value: '-Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=_ -Dhudson.model.Slave.workspaceRoot=ws -Djenkins.CLI.disabled=false -Xbootclasspath/p:/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
+    # see https://jenkins.io/blog/2016/11/21/gc-tuning/
+    value: '-server -XX:+AlwaysPreTouch -Xms2G -Xmx6G -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Xloggc:/var/lib/jenkins/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -Dhudson.security.csrf.requestfield=Jenkins-crumb -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dhudson.slaves.WorkspaceList=_ -Dhudson.model.Slave.workspaceRoot=ws -Djenkins.CLI.disabled=false -Xbootclasspath/p:/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
   JENKINS_LISTEN_ADDRESS:
     value: ''
   JENKINS_HTTPS_PORT:
