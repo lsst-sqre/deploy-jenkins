@@ -72,8 +72,7 @@ class jenkins_demo::profile::jenkins::master(
       mode      => '0640',
       notify    => Class['jenkins::service'],
       content   => to_yaml($real_casc),
-      # likely to contain secrets
-      #show_diff => false,
+      show_diff => false, # likely to contain secrets
       backup    => false,
     }
   }
