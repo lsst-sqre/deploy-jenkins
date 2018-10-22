@@ -52,7 +52,7 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-2
-          label: 'osx osx-10.12 sierra-2'
+          labelString: 'osx osx-10.12 sierra-2'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
@@ -60,7 +60,7 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-3
-          label: 'osx osx-10.12 sierra-3'
+          labelString: 'osx osx-10.12 sierra-3'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
@@ -68,7 +68,7 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-4
-          label: 'osx osx-10.12 sierra-4'
+          labelString: 'osx osx-10.12 sierra-4'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
@@ -77,6 +77,22 @@ jenkinsx::casc:
     system:
       domainCredentials:
         - credentials:
+            - basicSSHUserPrivateKey:
+                id: github-jenkins-versiondb
+                scope: GLOBAL
+                description: 'github lsst/versiondb deploy key'
+                username: git
+                privateKeySource:
+                  directEntry:
+                    privateKey: *jenkinsx_versiondb_ssh_private_key
+            - basicSSHUserPrivateKey:
+                id: sqre-osx
+                scope: GLOBAL
+                description: 'SQRE OSX build agents'
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVz7D3zKBDcO+0MR5v+0iyv0shYjLLtBxtH3dFp70S3ilqhW69fG2RFMYcGbofyZzqR5LkEuh3LHAn28hiXKDtl4hTcwQzRshaNfsnZeAKPAuIK27SjVtGGk/QkbgLO9Sx2yKeJLf1wzT5HKZCLKDRqFf9QtF0mdeVP4ZuCgoS8n9YvrAF4PFxAfH8YA+ZyfOC5JkfaLhGXGeCHyVlT373ic+KJtxm0NjsADMegBAUIyqZ8HzbHCtwtvSl172wC+yW5WnXHUznd67DyR0W41xsV7L5N46/zq5xddPKBgfT3gO/S9aTdoHWAt1IoehoMjygGSevVC/ZGPsn0HdgIBz9DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrtjphvjxa4MaCdMohzvV1gBBcAb+YSLINrWOoP+v38aV5]
+                privateKeySource:
+                  directEntry:
+                    privateKey: *jenkinsx_osx_ssh_private_key
             - string:
                 id: slack-default-channel
                 scope: GLOBAL
@@ -87,10 +103,3 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: 'Prefix for generated slack channels'
                 secret: dmj
-            - basicSSHUserPrivateKey:
-                scope: GLOBAL
-                description: 'github lsst/versiondb deploy key'
-                username: git
-                privateKeySource:
-                  directEntry:
-                    privateKey: *jenkinsx_versiondb_ssh_private_key
