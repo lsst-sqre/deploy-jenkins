@@ -16,6 +16,8 @@ jenkins::config_hash:
     value: ''
   JENKINS_AJP_PORT:
     value: '-1'
+  CASC_JENKINS_CONFIG:
+    value: '/etc/jenkins/casc'
 jenkins::default_plugins: []
 jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by
@@ -23,6 +25,10 @@ jenkins::purge_plugins: true
 jenkins::plugin_hash:
   credentials:
     version: '2.1.18'
+  configuration-as-code:
+    version: '1.1'
+  configuration-as-code-support:
+    version: '1.1'
   command-launcher:
     version: '1.2'
   # command-launcher deps
@@ -52,7 +58,8 @@ jenkins::plugin_hash:
   icon-shim:
     version: '2.0.3'
   # /plain-credentials deps
-  # github is declared in master.pp
+  github:
+    version: '1.29.2'
   # github deps
   token-macro:
     version: '2.5'
@@ -253,11 +260,6 @@ jenkins::plugin_hash:
     version: '1.41'
   saferestart:
     version: '0.3'
-  # slack is declared in master.pp
-  # slack deps
-  # workflow-step-api
-  # junit
-  # /slack deps
   docker-workflow:
     version: '1.17'
   # docker-workflow deps
@@ -371,207 +373,259 @@ jenkins::plugin_hash:
   # /build-timeout deps
   jdk-tool:
     version: '1.1'
-jenkinsx:
-  ssh_private_key: &jenkinsx_ssh_private_key |
-    ENC[PKCS7,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]
-# the ssh keypair used to connect to osx agents is different from the regular
-# key pair due to the greater potential of the private key leaking from the
-# system jenkins role account.
-jenkinsx::osx:
-  ssh_private_key: &jenkinsx_osx_ssh_private_key |
-    ENC[PKCS7,MIIIbQYJKoZIhvcNAQcDoIIIXjCCCFoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFMwDXXAmdaAxBvmMTFdt49NTeMsKvtBh13XECJiWIBrVT9X5bXpb4ML4VK617C8z0qmHkcWxHg+esS8P3sf+kS0GtbLGRomZbNoSmKOlDTtMJceLfuhcpFmNjyYc0/DPqyKAInFg0P7ERehT8sv1xkBJVrsQYWyp7ri5r7jkuhlcH/Q++JshbfTbgSC+rCFgce5O6rPDJuKICYlh+R7ldunJsvAduHwlxsVLU/6EiKzx9Bu52wlivNu8aNMfFZAuhsFXl+0brDf14B1tyhgrEvKHBSXrXpZuuYKudyAgne0gV6tklUXwvKSyyhP/ZOgnteoc640XPUumePJ0ZcIWcjCCBy4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEELpew7gw7NoilzvkiwGFNwuAggcACNBy4y8R0sjQBRH/8ZEANd0i/kmhuIdSFjKFZzrxaJ3BnhuGQM/VYWK/Yqx0De0qu+uFtnMDhax/oFSbYfEiHVvA7K8dnYLFNO63hJKaTxyPwgIv8Vi4K0bjOzSF4S17ofko+iPraVKySmXhxuYJD1rr06kyNqJoXE09cfvfCGoDTG1q9nfIAPiCVipLaLfznk2SDXWo8P5qkfahV2zLdsVOX8+j/9308k76DIoGAdLLvYJrogiNbTdb9qB/K2+42rAjZp6jNZ5cMKnIURxIETBW+T6nhah0AhEGVXmo2yplzfgygeYFgb0hLS7/BGuT/CsM/ANAdM5HcQUunZVwVoC2MpyVW41En8l3UdDozEGa+cYyW6oPMNp7NUlMqWUh/iBs1nsfdiOaH3C11BNd2XKiuiuqGC1E+D2k8m26XQHCBNvHDU4fLxW5nUQjeAKGskRRab59omurIRwH8/bi2kbgISrnGORAxU4MASjWw2vwroM9Ohe21yv6T3t7MJ1t5hONFHJ6bLoiYpUjZ3iyR3+7/Qbs1w2Qcz5h7L+J3n6GkTXW80FZka/DOPlcTgJZXbVg4288QpJMrwSseaEkEISsK/Z0xp/bx+wem3F5rV9aCR4rxmX4KH+zxYBB7Yqv3aKj4hCFZo/PnofUJhbD/XDwP2zikdfbYGIYChKd1MlFLfTUtRVc87crNxureFz5f1txXFz/Xji8mvkbxqI3gjbcFScPZVxeeKc3XB0r97pZPJhdfTQVj7s/YO5vYA7MEaYLEJXchq9ar+45U+Wxk8CMkRhD8Karugrbrlz011xk80qQ0NB+aKo8X94kFuAh5A2IjjGVywVOr4jWP8PdeNxw7K7h+5GwpQJvKGaxdj8weNsGeRPHcpXN9a+XIOsfzbrvjD8VBKnCcUbIuGQEJkbjkH076GcNLL4qdICcV7zasWCfLAhda2q66BwwV/KH1RGaUe+2wlmRtmN0E3zvd0KvkO+qk+Ybj/twXPvX8EvfVPJnZeFIiYDBfGtGqTu2sBtvpg4TgR19XH56v2fq007VW9MdNdZcAT+gpoqR2dovk1myCg51fw5HxjDbdHwRuV2ov/gnJMpsuJd2lfhTsJIkQW3MaHsnBRC43KS96TFyqTGLchteqbZArM/LZodjn1vyDi3FBZzuo9Up88DlUX1wiWR6DM8OOuhInVoC3mUogtQqXw953LK7uF7X1JY9qFdJRZbg0vOM9rEBGDM/p3s7DLiNxKHhuqjHhqEsLNj8g2/rP+c3x203YJMJ0o22GJradEgfguBZRxwqKTMc65GfdK2LYVLbFnJl2Wd1x+8MAymdCG4VEum4HpQ+E3VAXNfcqBpafh2EfBsieSsEok6AEyrNkhpsmHWXCZGK1+95iCqpGb2wg4UZXUKtxl6oCe07TbL9weFE/KZhGhTeFTNIeljqmWVeMNE9lKbuW3c97gxgyAVxC04ebMwgmlUX0QcYZbRZ8N4L8LgTEorzCxvogr5D+D+PP5sRxDHgtlP/XGY74M6p0RJuFXIYDyJnWjqdODoAvskuU6y5AK14e0zem72SWDEsPc5s5hR9EdugrFiW0U1SD+Q6fDUBlRTRD/X5ylKtj5nb8VBPR0fKDGUjFjSV9ctrSEhRGFjuebYAavtb+DcqROnNzns0wnLONcKCPKzqfvzV4hfuSThzKzhrlJkWRMazrU59PVbfCAtiam/mFRK+SQmipuMHGqKqIT9qd/Av8pvph+7KzSA26z8eSi/i+zZk8Dpx23jqhYG1lmD96Iaf8Fk+EV5QB4QLcRZzOQsLgzhPJYLwZrJO3chwTujJ98BJSYFN+LYCUyOw/TCTcja+DPuVbBwLLcQvNcawQFUt0GS/VfE+3kWWhqpbjI6mjWsqD+JfXntdSoyQmT0090Q/I15oWh47FIIBwdCC5YzBImUaGOAADHOuDrn5oMzdsPj07i32tpGaEAoiLXTDZc5Eid6foloEK144YqhZ2vfyhHvd4gcyLnqv40gJ6/6yLdFsWTEdQXzJGopK3qjKB+BZiAGXGdeFfn2JiKxLfRL6Pw3XFkFvxCVbKElCyzzbGcZVvmApg20tdaGvBpEp2NJLaNmLf5JHYoT00UEQKLl79pSO0dCXjW4xkmtlo+s+yRgChz8teUnb0zMh4nnfOKFpPRrHw9/rspu75ZhyUoMOwbTIlQvUst/+w6a+T4KzVCcugdSkT83qIebILa8aN/KrV5fnQ4vIGSeBlYbGUTGYEpKNuud6LyhBSZehO4K+v1wf2JBJo+Xq5cm2Y5qzJddXHd8Jp+PpkctgIIF44G7f/tkoRuFUcpr8LjaQRlMNj2s++uWEUQcbb0CbN4gNNs8bm/UI03U4y/Mh4YhtuF9ZbGNp1rQrZ+ZRTw==]
-  # the public key value is not used from hiera, it is here only as
-  # documentation.
-  ssh_public_key: |
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfXrhjxagJrhTSDhfJebjGUswDNfj4CNxM4NtthEi84opss7jBYJhnb567R1RFK1SBSOBuquQe/GpViQhelqJ4FoHzCYCygX58wreugAToQu33Aqn0iFLQLyBNSSuZmtIm/zp1pH2ygCii922RvwZeAznwF0ZH9VvdSFT208ups4BPVd+k+shc0QpsWRc8xiGGRmIexDHLXdnBOFvDncwKyjm1Op6txJTjfweqmn3ARJkVmGprKJYxRjXBDPwtv70DFU0xecCkCV5caS3h5XV8yGIU++BsbH/EDLtSNbcoS1JN6kSYBL26AzrVy0mE6LYybJZ4hbWsh6NKsVkkt+Kn jenkins-osx
-jenkinsx::authorization_strategy:
-  org.jenkinsci.plugins.GithubAuthorizationStrategy:
-    arguments:
-      - 'jhoblitt, frossie, jonathansick, afausti, athornton, SimonKrughoff, gcomoretto'
-      - false
-      - false
-      - false
-      - 'lsst, lsst-sqre, lsst-dm'
-      - false
-      - false
-      - false
-      - true
-jenkinsx::credentials:
-  # lsstsw@lsst-dev01
-  jenkins-admin-ssh-private-key:
-    domain: null
-    scope: SYSTEM
-    impl: BasicSSHUserPrivateKey
-    description: 'jenkins admin'
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKgsgQD9ZhrCcE+GnquYztHLvrlZRIFsug0mTmm3591FxF+6q1ZTMd/w+V9E3J4qiVchusM0Qbxwli8rAx08x7naCUtB5rQX+4O2tmm7tzj3fqN3MwNvT2ukI8G75fm6f8a60eJGGxRFbpN5Gs07iQMwdjs6Aewr3y9bGhBay/EE0jcxsJOqzogFIU+Bq6myeKkOi3WDewcnRzVETch+qxw7p/yt4lmFENCmASPuognj0UWFRgXBJa7L/PUyDWlnb0PW03CydG8MUI4SvDppuTz0h2/ePTBV1CKmBelPJ3nyjAvVWnw5YOGvb0PK48Q9XvIe+d3JRWcn2UdsW7gIGuTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA8NBqNbwlXl/epMf82vAPWgBCasLqdDPmJCXumNTUW6ryO]
-    private_key: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALDS9Bz8Trg4FLZi1CItnqBJu57gilqdGjhk9KY+jpy42FzBXJeI8Y/UA3i0bDQtIjusklFAGiAvvqyJhJ7EkdL3Z1lhoL+lyRu6CK3cMLUHi8SSBkn791+raTI1tpc2bul6fLpAMFv+hhBYC87CdMOrmhypCshGZPxX/vSIjpXCgYtwaxqsuySGQHowj4vhgl8jY7HrAgHiz3iu/Xj/bh26aQy1J1rUk1NoFIwEk9s0xup1dc1c9E2eane98PXxB7LOUvs9BYBybruMgmj4r3xwGM3SNvD70tKHLztumGNjR6LvFUO9bXYeSz57qGchi4CIt+tcBEHn0B52CFJMOYTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBvZ27T8P46Ts1bnmD6nS1CgCDCvqLpPfrZGxpoGUyx1IL24m89c0qtCpgPKj5JllAXwQ==]
-  github-api-token-sqreadmin:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: 'github API personal access token (sqreadmin)'
-    secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALe8M7HQKwk9KGrC/nL9mhsWfKXSkmQmZJFW50QzXKO7zikl+bTnLB3H/1gU7p3mz5U1YuMNI+G+uVcEXK7JC2V9KMAqhbCTmkIHmUUgFpcSsROLSGUgA1qQ35HRuoi6D4URn0S0SV5apC6IASQ83RCurKNgyd6OGtCpIY/oFzr8v9kgJCQ/at9BVbcgr8SBS0EzSWC0/wFKncOrJWV+8BPIrvz/+IuiDg3N+NdqgWHLkgzFSuKPbBh4uM8PoHLuo0ENjTKFnDwuLLMJHmpKqbR7/tnfMoeNPqjjMe2ijOh9ZufiGmoo7Awh7WxxaATYHO4fdGH/cD4PKDq612/gaWDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC15LzBF0JnNHx85w8+WEazgDCmMTsQ53VMP7Q+iwQ7uNvhqPsgj/m4WCmlucAVy7JI1UWERnPFpZfi7pgsVDMK58M=]
-  github-api-token-sqrbot:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: 'github API personal access token (sqrbot)'
-    secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEARP1WffUTXmJ/8vCpjUrCEcN/YcZTuhtsmTQ+uLioYqrgDAQHsqOBFj5SqdqBSCR3KjXwgBNj8Sg4BARr1WCQiptOzNt3nlr05nNLo7e00GHVOaf4v6MFtvY7MWUZzLnsq2Hk0dGAt6ffzqY/YBpwpDnEePgn4MBnTVgge2jD4aMBm+KTb5yOEN9d8aDrLCVoWfCrzzCw9z6hiqEB1U97dFqWn/QpGDqAj4Kg9532Q2LCPOST5VbNFTaRpqnsMlTEmoK2STzBtzzUhJx6oIGKjWqmZ6skMjA2whuFCBr2o8DM88waNRzZsU0E0zsXeqTwUwD0QGQ5pQ9LWBBFrj8HxzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDvLUu2nuiHqghIhi3uFyVygDDObt2VR52MDCyOhJNjcMvPTGZQDk5uFb8Vl4kp2wddEDFLepB7q7UigNyf5Q7SXMM=]
-  squash-api-url:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: 'URL of Squash API endpoint'
-    secret: https://squash-api.lsst.codes/
-  squash-api-user:
-    domain: null
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: 'user/pass for Squash API endpoint'
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAX5P2uf77hmJYpqsGfh27BeF8M3pl6ponkUFGrmR1vMqT1pRhPFgCaWiij3EdwResb8y3R8WblaxSnX0V0tNlHoMvW4/K46SCSr+AJgeKgjXYd7HChOsLNggEUiQf270DQ86jcd5t1zFkDGQqCIBg0XZYZNB8UR9Vt8buhz3Kf9xJ6AbniSB2KkWOoyY+5il7Ql5Z/FVnImwZaN4o4uQ222P1e7S29jnhmx/HsJVhCjNJMX6itC2FX2HNcYjqCdJ+jwECqEhxJC/RLlyvVbWIwTyN0Pz27l9uFsrF7ib30Y9eRpVRSsNmX37yYKJYzP6HQIEKkgRjUlleALeKocS2bDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAsUULo7IaZvNl6oWgqEi1GgBAF42N9d0m/55TbP8Nx93ax]
-    password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAdEk5VF1Q2POPmWl8kDkYyTMD8K+rRCGkhgUsn3/9yi/SIh/teiKVtOb4xP0A+/TO2OywZWD3axwXFPf/4Ouje7+NbBI9xBTWmvCz2V5VenD0MTPdLMK9Q4VluK0zqfNnpmutDqqspV3DtEEYtG4STAZMPnRGW0gvUB7vePN6XnPQhUe6RY0gTHqXtQhG9vqfRzqhiqqQbloTmHDkjT+a8dOaNYMUoTUWlHaFIfPO0o1+j00hPOOjbgbxcJsPOtRQvlRhjqGplg5GjdEvFo74dLbdwAjMPj7fJuFRDIL8hCigw2PvE8jpwEBQ9hJZjVaKjuNLRVJbkpUAbs7Svr8WrTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBqYC8CdRMEOnzaOau1k4bFgBDmD5Mr4Q2I6274H64VJXvx]
-  aws-jenkins-master-snapshot:
-    domain: null
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: 'jenkins master snapshot AWS credentials'
-    username: "%{::snapshot_aws_access_key_id}"
-    password: "%{::snapshot_aws_secret_access_key}"
-  dockerhub-sqreadmin:
-    domain: null
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: 'dockerhub - sqreadmin'
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALhFoWUquIzogUfDoCjutKoXNErilgWielwUMa/8N3uq49DckECciV4GTyhwDYaVZlOrlRb3Csg9SQXtcZ7eJRpQ9am6e1vIBfzcfY2pS6e3X204+Df0Csm0GqqLWq5H63PE37mkfCkWw9ZImXd482rzFDb+Tg0Hwf/9GFjz4qX3DUPPLNINIEbUfOu9ohhttrVFGTmolaCF1LUXk/Wwwc1iV++L+GyXcAwBMh8XFNy/Ga+emi8AxvKHeLsA3o+RhOAescbBOPQj3z5BeVPuO0oEIpcdNMPpPBg0zo/DXKIRuK2XPS3LX/FIWIha7RDVocC58Y44/S+J5f1Nql9XnPTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDyzzdYbIH+xYZEF9Rk/TzQgBABl9H1YYIZHOLc3guGYchN]
-    password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAuRDBFW1KgsSyKLnWSs5gecCUJjfQTKGALeJ+mMy/FwJH/AUo8726T6k5XX8WOs4roc0xmBTCtbR0vX3DUVNEVV0bDsdOy6x2YGr1LyeQ2W6YNR7JReDWf+eBLAT6NNjHsWHcDNaQ+/vAmXjxtxvkh7ECCrIZ+s+a16AqHATVs7P+aARx7QMifRBchouR4igRPlJ39M8iH9shoifOuV7yOjdO2uczFp70lRsm89JZ5MuALMVOXIMgMFRsyMpTp8rDE/yRgyRZYkvCgMFZ1nEz6vYMxVIm4TJDYJRsvUOvHqkql5UD5R88Cua3FEAtMxTQ95mxyshlJaUeuJF9PLU46TA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA/dbZR4FntlWRK+12Lgg+ogBDHjZv76nE47yanY674zvfE]
-  github_backup:
-    domain: null
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: 'github_backup AWS credentials'
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABuIi5eOsxgDfgxrwSh484Avi6DEWB776B3EmcV0gcyKzQ1tzw38p8xL7y5PuK3oUjuxZk2GPgDjYqgkXlque0eEyTvd/I+bL7QZzwbJl2QwsPIF19bdtVSOp7mEgJTtMQlZ3spF29HIYf7FCR/XhPQw8IcVr1UpET8jwOJ8x/D59aD99Oxxfu4CoGsV7Nl2Hp9HIH7HsZmeNxwbbGEuXp8a6o3FGmbBaWslUvISGJq5vqvo8e89FdmJfTWGZol2awbvj1ktm4wUEQuBHD/QkVUj0SlmTEORJwOHD9FfkI3AlA5pY4frSFJtyTUiECS0f1IBUohvY+i6M+ni3ixs0fzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCSriw5l/IOSyidhFiFVHh5gCAZjvrv6ns0Vf9I0WX/dqp9KlAS6hdltTNojQ6nFRrjgQ==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVvrIc5JkAGUom7YRKKDd3s0bpsAbEJvINZ3N4qjDiLskEDl705Q+ztyiANp4hSNqFRvOVZpNAtVQL2HcNY7dDLSjOXf99eCrn0bC8sNBCzeQE2V50E5aO3SLCrnZMORav8hZz+VZ9hWQgTk4WFN1UCDtIfrpWZ3FsZ2IOrnv2XiCwFyzn1DDhQ7oGuU2CwEar46HwaExyeGuzinuKypYMoPBWyjCQp/Ki3QhL1hS1sR3oOHrZsXssUnf3mQKFAvBQrWnGClM6+kCQlX1k80EMtlolxEvMKpmW51BOd4aD6fu/XyAXZ0Hv/4O0dbXhIronb/AJ+wRo0BTrBS6KilBzTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDWHgcZnfVbNwJLO89iMsz1gDDLRNTISnzPqnmK+saiywdLJKrVhiaBrZYnFQ0GsVdXPhXKO2oImOjBdnMxg3n6jqE=]
-  sqre-osx:
-    domain: null
-    scope: GLOBAL
-    impl: BasicSSHUserPrivateKey
-    description: 'SQRE OSX build agents'
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKaExR5RgzruNdPpNG4+DtWcgbKmO1zA1zc7M33xbQgvakZL9YqQOxjAb9iZdWV+LuKw/CeRwdO9v4V0+2kITKRQCBOJCFnU42QHSi2NoUEfR76tgyJaVhAaS+cu9M8mLnvrTfZoYugN8CMlRdkMBSft7FF0xf4TwaBJsGtd/AJQf+6Sba0rzpuuPLfCVNaL3J9TPqU3/7gFSLl+Vu+ZwK3pMWKJ6eb0KKqBJgn2gCn+67ibfH6+ArefI3rxGM2V0LLrrnSXwEgnV3LIAvGMuRaYkmHzJGjiZGK2TVLbHxW7x6ya+CRTJAsHW0HwdfQxistFGfE9E0ZbzMV9SDGYnATA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBRfp4h9RY7Is2LfLZE3oZ+gBC4/4zjYbEskEVcGqbnc+bs]
-    private_key: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsPvEN95AvT27HnagQF8KkbeLLDIIbWTFNoOAqgS8LZUl4ZEoqHf2pVFzh/Vu9js3LmdRfV8zwvhfzMw1QEr82ES06xJFG5ucQ/rVS0hMYFby5eADmICDy5XHqZp+fJOmTbYZ9FWrbkvzLPFxsXfsIPOx4T2WwuTye0batgbdrq4b2wXqEJ04sm72BQAzzj8sc8sqdbwHGU2SFWO7o4aMLfjRoF60Q0c2/Gz0fNtUxYYj5R4+cbbr7ZDFEZpngC8bSDXGJbbHVIiSriigdoyZBJTnxYm+g5a8Cwo6pRgv02w3rqFJpHEffQ9Al7OMNO1Lt0/MgsUqxapaxDaAjzGuujBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCv21mpppVcbzP7wz/fCfVdgCB0w8SDbhYDVXLG0QAC2BwmjiGV8n7MDI5ITSYHTxmC6g==]
-  doxygen-url:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: 'URL of doxygen site'
-    secret: "%{::doxygen_url}"
-  eups-url:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: 'URL of eups site'
-    secret: "%{::eups_url}"
-  aws-eups-push:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: push EUPS packages -> s3
-    username: "%{::eups_push_aws_access_key_id}"
-    password: "%{::eups_push_aws_secret_access_key}"
-  eups-push-bucket:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: name of EUPS s3 bucket
-    secret: "%{::eups_s3_bucket}"
-  aws-eups-backup:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: backup EUPS s3 bucket -> s3 bucket
-    username: "%{::eups_backup_aws_access_key_id}"
-    password: "%{::eups_backup_aws_secret_access_key}"
-  eups-backup-bucket:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: name of EUPS backup s3 bucket
-    secret: "%{::eups_backup_s3_bucket}"
-  aws-eups-tag-admin:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: manage eups distrib tags in s3 bucket
-    username: "%{::eups_tag_admin_aws_access_key_id}"
-    password: "%{::eups_tag_admin_aws_secret_access_key}"
-  aws-doxygen-push:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: push doxygen builds -> s3
-    username: "%{::doxygen_push_aws_access_key_id}"
-    password: "%{::doxygen_push_aws_secret_access_key}"
-  doxygen-push-bucket:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: name of doxygen s3 bucket
-    secret: "%{::doxygen_s3_bucket}"
-  aws-cmirror-push:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: push conda packages -> s3
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXDN6drx2XGjlPyF+Y8fr8EXVA2zcH0HOLKynJ2+J9PZGV1iqxwtccS13NMbXFBDxs0dgtCi43dCS1zeRGPcS93sss3R1q5tHrWogeyNbm37PB0iKtCS30eqYwh0XPuZvRb4RuhinaJJTVYeYImu0AtlRVcdCBMDWbOZYBsn2Na95O+cm28bWP5GXgntbMf0D3/uSFBW+d9YTnh5ShldGhYW+a7Vs1eYRIpqU/ZMo39ONYxPtqitKdjkfDVA+ykwntVFLr1e55BpnRJ8XPTxBP61fMqRutU/oTW7UUIK1PqmdECc+i7VD5l0h0OadBzKK4uNjSydO+9KUx5Zs79rtkjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC4+MqBwcZDo4SKhkMYLzuHgCA8IWzwgLcfXUdY7WbvT/Diy09rcGRIFerLV4we9TwHOg==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbNrENsRkSd5xlF0dyBredW7HvfadvJyIWjxXc3A1QSVMdZKJsxMwDw2JjYDqOuFumAxMB3vwOREcubtRjoyiHAIFdzQMojlp1vIEvU9qgC2KE1ybgjeoP1IwhQD/+8IJ6N7OC3tuHzS3o0CoZxQzwj1I6pO8L9RbwzT7HKeVry+4F0aJwgkp28Wz53r6ldVfrFXWGNcWkGtCptb0dWo37sUqWR0r4yM8oXuR8j32EY+V61cOxBnA35yg1Vl8GPOA0VzVoqAbPg0X1oUZMyQ6mLOIFi1C0o8HQXi3+HEIezf4oIAyBTnfTF7DIhJiEJjiT4EWlaJcpCCsFT5oAP0lGjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA8XmrH+OlTwU26ZUT7OO5BgDClDyWHYtcQsOXmBfxHA7lv3DZDlN//OlEB18Anwa5xtHienyPqIUdLeqlB27QYU/I=]
-  cmirror-s3-bucket:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: name of conda channel bucket
-    secret: conda-mirror.lsst.codes
-  slack-lsstc-token:
-    domain:
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: slack lsstc org API token
-    secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFHMWLGOKiY+Y2wtmS99s9DmCPpNnj79goSP0YoXQ1apVWKawmlZKewrWxbiMjqZYMg1tHlR/gfRwmbjmdzMZiIeW8zgKTk8K5LuLucwh3dXAd6WIZ+C4De1K90bv6e1qKf/QfU1vPlCzSY8q8y7cOWIoOrNDihdlDJE+oCD3oRQYY/WzDHaFfSR9P0EgO2FaYGcLkGeOX8zeBYSeOIRy6r0+78xCj/DxQPtaBFD9hLUm7uNV7G9hznyqweCHvFrOnsgcFiT7XM/PhK/CNTyzhjTUfrt+qD3xGhrMk7KKJST2DXeN4fitmYxfzmvn3f0kGVRaZWX34e9Sxf6HTe2eejB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAJxlDNDn1WlqYcaBSOOxLVgFB9EcJGoVUB0qXaCu29FUvd6R8JIwerf2+FraR3eF9RyauKFILrLpbQo+wtXLQzDepE7oiTUf3NW9EMU0giXObhDNzuLy2anSc5443IhB7iew==]
-  ghslacker:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: api.lsst.codes/ghslacker
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANsvwbFtypOkpKAV0CRiWgGM0msGGzV/MFP2Teh4CvA/a9MIFtdz5DE3RBwLKzIcWJxDFvALsmfkeRTPyLGrZAmMK5PIERb2dbAjpaVMyLlE+FqXgZoPsTL6M/BkpaGQEbftzAjrYzyctlC8z99tatCalNmP4Rzvn43S7GfxdbSMkyqgoNg+Dn98tzeYxeCWtj1jXRTLQwojWRPs1zt7xVjQfdvgYhVssca5MhHtM0RFD2JDrX0IZ1Sti+MWpuSLtqY+QKF8Zaz7x28/eI3a9Lhlr5NgNlH+8ZCZQUM++1nJ2u7Bryv0RZ3ZqQFPCMylhxuy99KFnZiKLFHOQkGvjhjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBF5DbkKhwuhsaiNrVc3ggvgBAcioxdSgW7erKtmpdLFdj1]
-    password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAtXAMKVYNGB4o4gUteA438FnRGmzBYPZWaoermfI/4ysVGywtTy0gRM4A1N02QsI+wjXdLf4fJ0zABZ5Yb2xdu+IMt4OW3ShrCEsk1k2XVt2nsMZqiNYxqVydC/bgXnUPz4wVdqmUEC+DB4G4kJ6JZ+dzQODyMzF80II9tOzxE790XrPllvWJwIn3qYgxqulengS3jQXJOxM9o4eQJkvl47Jh4agUHaf3FtJ2OVATJm6v09+RRCyC3zj2ypNHdsSAQSu0kUpxdyipbu8Yi6le7uu/jHILnqMpPLHQ+KdmPvGdkQnx5AEb7Wn3K/g9o1I+Rq5rOcu3UWtpiV9RrXyEMzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD7yDJsq6dDpam1JXJCclqsgBB8EIiB0GILQabDXRb/xh1V]
-  ltd-mason-aws:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: ltd-mason
-    username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHLhV7z2mc+QLtrdcR+jDoG/Wm0sWlTzKZaCMZMnC0g32Hw+YTakqwd/4qEwUCWngz3+315rT/mgpDhd7XK8dWcTBpvTLE/lN7GORupkJW9X+cuBIp8nwlAXwRW6maMdaRORHnhmj0RiBahfIW5QS0OnPMUujo/+Y9QHF8PoZjiRQl0TZPWhJUXK88Sln2KJ/qpNd9usXcwq7RNYQBUJTyYflejajTQ/YaHe9pX3e+0A84ZWQsaaM3YhUI8pE6JUnT31uqP1Uj/2EVMJTVh8pXZZS4TElTyzLQDDD23VkGMNvYus67zpMs2eI7Ve0Bm3lZw6+zewqFRhvRM7ZWnZPCjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA18AZ6sFk9nYKPbwTGZpwMgCDoXRDQc1hPrxCExdbKOlMARlLlO5A6MCUAvLekI1r1Vg==]
-    password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc4RCTmvVXG2dDu/HpnorLbsYvsbsYn+OvZN6IhZwbhssvxBZ3fnpJwbg/nS8o5hs/rGxeztvuWJJRX96KLkXYI/+FBWUMgmv5YMz1CDzCiBPPXVMr+i1TaooiapUuvaMyVYjGb2GY0O7iEyQkGRlEVHCydaFxVHIOu8AZSys/cQ7KCYx+yHiYNdo95l1jfOpG54fgHuEfjCK/HPC19E3g67gT8GIeZL57OiMT06KgdyNLazCV0PvyaevsQemVZsyxOeqxQZ3pZqPMugT9TX+nc7vKM0zsTorGRN5oRrOBCEeMtuIpBU2zNGPoqVUA0W50dizsUcxa0pq9ybga/4vpzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDQhhPxUXmi4JLbSS/HOBf3gDC8rNVfuUxFPqXDVvl+walhrNf2LuZYpDTDt+U4uFjh3VtClkJ7c38UjGyMXCtFmFA=]
-  ltd-keeper:
-    domain:
-    scope: GLOBAL
-    impl: UsernamePasswordCredentialsImpl
-    description: ltd-keeper
-    username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAjnkwUi0Wh8HdsjlBMD3tXY8QavPBJOzqEvkWrxM57khq7xywQ1doOFuAxDaeEOCfE1d6RiapeiVGqt4cPJpxip5GhbgasNOV3+p0jewgk0VsrhoHwIsNfFMs/OcvfyacUXHeqfrmoqoNLWePBg18aaQo5rkMUdDYn4jfwM40rpa4/8WduC+PfzNSxnmi/aH/PxMVM2EhtG572kwgyc9If3wWSiPBsyYIhAOOcqeVU/IxPdILli3gULzA73y41l31TabFc5TnDb4VXeCzFTEby4sKBwUq0+VoiU7gbMpyjkrg3HMs+qb0H5xPdEGbjMPQkBadl235koVVLdtFS04nYTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCS0IwQIgT/+sbY806cpsG5gBDCvA1hKVTA9v+fmRxSYofN]
-    password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAMD81qO/3CEujJAsGCZCQpc0bJ0p+0EFffJyFcuZ8VhNDFPco6phX75TF6gHZZbhj67a79L/T0Zpne4zQGduCoKg+FCe3XY7ynmqhywxv9RoSD5z18j5QSjQQqHaXpil4ysr8PVyAq2GKvcnBvkjjq9qwXLtP1V7B73ZTHnHTmLwU5dCM/mD+wpxenqjhyskV/cccZcPetIix2hqMNUwlOjvFIOnAo8gyL4aLe3moNLn6kkrBcAynP5IY4Kcv13jO1di3E65OWCfshQzGpbx21bOnvnO9xw2sEIR11u2iUHc2MEFb87OgblqVhEDKaOPHjEsxoSrP5eCVeRzs+warQjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwQkUgGOUnXHpH+lfxn1qhgCBaTUAuocoFkatZENfCpdKG+hvzFeruCgWkLEOaLG6ZiA==]
-  jenkins-env:
-    domain: null
-    scope: GLOBAL
-    impl: StringCredentialsImpl
-    description: Name of Jenkins deployment
-    secret: "%{::env_name}"
-jenkinsx::user:
-  jhoblitt:
-    api_token_plain: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXRPZvu1hJjlAgucBZznF/lnxp8DKAkxw/uMCMpcgb5XFdiVBpFupiw06/rZsu/ilW51ysiGP+ZSdKeg8tqJvK44Ozv6x5RyKYqAOFkxWIEobjeRdmRcxHxverM0r/oBhONLQ+I05cie67VlOtb4+W4siIQnQvsPFSH68YKTiN4Y29K1zPAB5NOrdqhHQThxQbXXxAtiyGKg0DILaYJOkHAzpsjPI4iU5blcSu0wVJAkHosuWKwtYCP3oBlkZtzgbClrggy0zTzFGOrwr3Zbzs/CV/Pjg/fTMk4NbUr10wWVI4qWzMt8XfdbQUIdKAfMrAZje9I5MTJnWLvPVBGBx1TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAwhEBttQrAe10aATeXBZYQgDCAuM25dv03tLzhobpnh1KaFnsbyZgk2VmC1/wSJiEdhhAHgHeyVPUsiEGiwpA56Cw=]
-    public_keys:
-      - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkrKdTgM37g3u76QuVj35Y6rGAhGsFs7c1d48EhC8wCerU7XpkrrUWerFasKeaw+Ppi2fTpz1doM7jOn39+OB/u9pDffRG9IjjUnkgT7bCNgH0HNXKz840DC/KzLHtY6J5sPXf9Mi6DLhWSj/Frsm4QlugicjpCXIvoJWYweW71ZzfPA+ho9ILoSbEEnmeHu+j1+G4HbkHUyvWncolcqDQCBTKg5DNziJ4ei70q7bIGVOaheczk3qvh5K5Tjfp5VAKSyfWzXpIfJUejpBdIJgaB/cnQGuxpQYI0UrAdxfXx+sHo4Qivdp4HwjDIpzOHyaiEACPFPSQ+crOfy1enc/z jenkins-demo'
 jenkins_demo::profile::jenkins::agent::slave_mode: exclusive
 # prevent jobs tied to "docker" or "centos-7" from running on this node
 jenkins_demo::profile::jenkins::agent::use_default_labels: false
 jenkins_demo::profile::jenkins::agent::labels:
   - "%{::hostname}"
 jenkins_demo::profile::jenkins::agent::executors: 8
-jenkins_demo::profile::jenkins::master::seed_url: https://github.com/lsst-sqre/jenkins-dm-jobs
-# jenkins_demo::profile::jenkins::master::seed_ref: '*/master'
+# XXX RM ME
+# jenkins_demo::profile::jenkins::master::seed_url: &seed_url https://github.com/lsst-sqre/jenkins-dm-jobs
+# jenkins_demo::profile::jenkins::master::seed_ref: &seed_ref '*/master'
+jenkinsx::casc:
+  configuration-as-code:
+    version: 1
+    deprecated: warn
+    restricted: warn
+    unknown: warn
+  jenkins:
+    numExecutors: 0
+    slaveAgentPort: 55555
+    agentProtocols:
+      # - "CLI2-connect"
+      - "JNLP4-connect"
+      - "Ping"
+    # Agent → Master Access Contro
+    remotingSecurity:
+      enabled: true
+    quietPeriod: 0
+    # https://github.com/jenkinsci/configuration-as-code-plugin/issues/408
+    crumbIssuer:
+      standard:
+        excludeClientIPFromCrumb: true
+    authorizationStrategy:
+      globalMatrix:
+        grantedPermissions:
+          # sqre-user github account used to auth swarm agents and should never
+          # be a member of lsst-sqre*square team, which would provide admin
+          # access.
+          - "Agent/Connect:sqre-user"
+          - "Agent/Create:sqre-user"
+          # "hard-coded" admin accounts "just in case"
+          - "Overall/Administer:jhoblitt"
+          - "Overall/Administer:frossie"
+          # lsst-sqre org
+          ## admin teams
+          - "Overall/Administer:lsst-sqre*square"
+          - "Overall/Administer:lsst-sqre*Leeroy Wranglers"
+          ## Friends
+          - "Overall/Read:lsst-sqre*Friends"
+          - "Job/Build:lsst-sqre*Friends"
+          - "Job/Cancel:lsst-sqre*Friends"
+          - "Job/Discover:lsst-sqre*Friends"
+          - "Job/Read:lsst-sqre*Friends"
+          # lsst org
+          ## Data Management
+          - "Overall/Read:lsst*Data Management"
+          - "Job/Build:lsst*Data Management"
+          - "Job/Cancel:lsst*Data Management"
+          - "Job/Discover:lsst*Data Management"
+          - "Job/Read:lsst*Data Management"
+          ## Simulations
+          - "Overall/Read:lsst*Simulations"
+          - "Job/Build:lsst*Simulations"
+          - "Job/Cancel:lsst*Simulations"
+          - "Job/Discover:lsst*Simulations"
+          - "Job/Read:lsst*Simulations"
+          # lsst-dm org
+          ## Data Management
+          - "Overall/Read:lsst-dm*Data Management"
+          - "Job/Build:lsst-dm*Data Management"
+          - "Job/Cancel:lsst-dm*Data Management"
+          - "Job/Discover:lsst-dm*Data Management"
+          - "Job/Read:lsst-dm*Data Management"
+  unclassified:
+    location:
+      url: "https://%{::jenkins_fqdn}"
+    githubpluginconfig:
+      configs:
+        - credentialsId: "github-api-token-sqreadmin"
+  jobs:
+    - script: |
+        folder('sqre') {
+          description('SQRE mission related jobs')
+        }
+        folder('sqre/seeds') {}
+
+        job('sqre/seeds/dm-jobs') {
+          label('jenkins-master')
+          concurrentBuild(false)
+
+          scm {
+            git {
+              remote {
+                url('https://github.com/lsst-sqre/jenkins-dm-jobs')
+              }
+              branch('*/master')
+            }
+          } // scm
+
+          triggers {
+            githubPush()
+          }
+
+          steps {
+            shell('./gradlew libs')
+
+            jobDsl {
+              targets('jobs/*.groovy')
+              useScriptText(false)
+              ignoreExisting(false)
+              ignoreMissingFiles(false)
+              removedJobAction('DELETE')
+              removedViewAction('IGNORE')
+              lookupStrategy('JENKINS_ROOT')
+              additionalClasspath('lib/*.jar')
+            }
+          } // steps
+        } // job
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - string:
+                id: github-api-token-sqreadmin
+                scope: GLOBAL
+                description: 'github API personal access token (sqreadmin)'
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHIAIsEDpbfgnYb0FVHY/uf0XxxNYoPUwgK/A1uSzqmmH5haEP3OxTJqLs6JfIrdU6qE0XDhYvAeEQgh5UAyXr2Tct9NfyV4tvA8lEWmcs6Qps3/9u+SoMj/qMBu8E/STGwCi+u9OsdVgRcU3W31hjHcAw0UdZd8cOuQaeWIuT7aRVg7uEtbpJ6jWdQVcsqkA0MpxOk3blvJjYkzFAv18odgzdJt6Zyak7jWHjUkhXgdQlcSy4Zyr5ZXx3Tj5bAjWfJ8G5jkrNR2BPz7Nz9v5lGTxx00bUMIMRgMpaUtN65PBGGGy+0yd4poL3StbBsfTW4aygrQQXXrzJ3R/KWuPkDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCl3NoxGDxrtH2WAJ96ubybgDBg4J/Jx5/jYDY8jgvdeYxCkKASlqIGZnBMTeI64mmh272etWb6NQjIPKYVNX0/iPM=]
+            - string:
+                id: github-api-token-sqrbot
+                scope: GLOBAL
+                description: 'github API personal access token (sqrbot)'
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKWVba1O+EFeq4EHdiXReBWCGE2iKZWfmxvIkTXuBXfhoCTWx4jG/T025R6cEK9+xCwfgDVhqmiOoVBXhVQIglO8K9H8XolneyBDETsTFUlJXF5i3KrVsHYHitoBdozlDqOfs53PCbjLG4H3Be1IfGlXPApIDdkM+zL9QKF4WTu0hM09wkgAijxcfeiUMF56Q1C6hjyY6JD6eeiI8U8ylunNkdbKYkGJJJbSxxEqjK2YPTYs/1IXXQnzvu/98PrQSFGYBQXTgFr+D8sm+tgC+lzkAdEJ8KktPd+ikSWmCqNACV4ZL7j2iQfImy9uh7MJwNn/pHnFMBK9931wVcQLazTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcq27+sbKXb5xucOMW8NZZgDDppN9v1nEIYS78/B+hHJ9CjHQQ56lg8/pxo7JREPyy++XqbrZSrm9fja1SotInYmc=]
+            # migrate to jenkins-dm-jobs?
+            - string:
+                id: squash-api-url
+                scope: GLOBAL
+                description: 'URL of Squash API endpoint'
+                secret: https://squash-api.lsst.codes/
+            - usernamePassword:
+                id: squash-api-user
+                scope: GLOBAL
+                description: 'user/pass for Squash API endpoint'
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAAAREeHyKGvZRvPXGsx+v/wk9kjyvBd2DZGsoLTUhPqu34LMgU/bbDjg+HciVrnqZa3fYm6Z0uBVxjTSNoDkQzZyg7e3l5IkiKtQUWe2PIpgE9/lm/+w79Nxwz8uMh/WR8MQURVSPPccQn6gMNo9lgItgbEy8J/ycBcDG+uGBw+FAOlrJu8ZCy+M4dgW8CmFoGp+a7kpC8yisB39ty0XCDxMzA1qVx5WC6sbxwc1SwyewCBuQi9Xt/tzkU3OwUjBOeH1xb8538WSG/oy/m9dWkpaUoyQWWxzoqYI9MZqMm8EhuhQoUGvYKx/Fe/t01djnRE8guBWmonZzV4i/+d5JtzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDjxA5DfQvXckjHqABQDCWLgBAmq9hsqdqhRj36fymXXkzm]
+                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnLGOJgrLR2+wiV/6tZSb5cO2XxdCjAn4uWtjQwTa5RIucOfWfpL3V71lOqADgTS5T5tGwMUS/8KG+B/cdBb0oqBN6JGMixhb2Cw9XCmmw36wJrLC115/By9jTRlN8s3ytCm67ui7TbcAy/iz4qEnIQAodUSYyTMJk5cP4yXo93glmIDG54DcYtjMw+OIMveuRSXdazf2vHwp9kMJdaZ95hYwIOMI25dGkdA09V54wvbEgSgtjWmLz+w+B9RgGbtx7JIPPA94uCcT1Azt1svmY8QHIpFu1z0Feh3fualGZhoNprrK2hPz430KY2DI6S96KMiUWJO9U0Nls062+UpEIDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcRH8nJGpSLKP2bemAfzWwgBDbvj4swLVf+4CF48cAZqta]
+            - usernamePassword:
+                id: aws-jenkins-master-snapshot
+                scope: GLOBAL
+                description: 'jenkins master snapshot AWS credentials'
+                username: "%{::snapshot_aws_access_key_id}"
+                password: "%{::snapshot_aws_secret_access_key}"
+            - usernamePassword:
+                id: dockerhub-sqreadmin
+                scope: GLOBAL
+                description: 'dockerhub - sqreadmin'
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXWh6ytPl1/UKelIgx9d2spHkqQ1v3zEPvhog8jscQOjmbME3EPO873TSk5322hzE4PzNupikAmmGew5fUaiZjG3PzB3Nk63ahRzJTQstrOV6QC3MOC+lRnZx57ZsbICWZjQMeArMUg4l0buyVuLys5WyNvc+d9PggGN4jvv/h6YEGVg/LDxJ1y74KiiaF8U4yr/gO7awYaf0dzYyK8jg+U7fjKoV2tE9ftUFU6H9pLde1nih9GlW4v7FJfsH4oAzjpPygpM02v13GhCLrIcjnlALDp/nwLLywqVlgrgtE8eAHk1ztJ11sIhrcBGk9IP/ayRn/UM2Z+MsZw2NsZjIHTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAQ4ldFTpi0dea+yG1q7jt5gBAZexMltYA9eK/skviUqf/A]
+                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANYVhN4mdv6f9w2qCApBNSR19zIs0gUgyEjgb8C8NgxneEqGczJAWHOmKqSWLsyNqi4GJNazYlIegt+9+dVe79AFPXpmfYR6gNW9geXlMjZB7ULDVLukLTj5SqdI5BGZNv95p/GJ5HE8GfV4txST+m4Z7FpOaK1ZZAjCy5SAIJwXS4zojiLW+yn6CJkySLXeKGN7gfYxMaw5apVBCwDelPB8hO6giUFo0Wes1YWuFGhOL9k+QdzNWX7tSx6GMZX4bRfUrAC9fldQD77uDkP7lP9vJWi0Oklm5kAuK6YcsH8UhwMT87uC3uQx1EsJvwW0Bxz/zpIUeJLhYX+C/vhQU3DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdpwEouz69ql51vxQlNvz1gBDPfb1q+L+PdQBjx5cmrmjz]
+            - usernamePassword:
+                id: github_backup
+                scope: GLOBAL
+                description: 'github_backup AWS credentials'
+                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAjyaQa9we0Yw+geJ4D+WpHWU04MsSm0OlWd7CS8urmyCikgdL0l40hMY2gP3sUiY+nomSEnvUwPVnHfwrRMsPO2oK+kgKY87Gy1YihPWOYmlYRxL4KVUNffwhCKh15vRaF1pKbb/df8CzwmikqhpxXk8IU/7kmWK4TRD2ZhW6/2+IbBJZmZIFrAkx+YbBstoJCpRwm6cSblUk5bgYRrzWs4uRE9alGk4CWECvjRQH7ulQm8v310h/IS5bS5q136Wb7T58Ta2NY9wQfro0UkNWjr19TZqzjMYeknYmR4tM/8WB7cdzEFM3XcOq0LnwGPXeUr2UlMKuujcyXWBeJCSEojBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBvswQjgikEmrJdesM/IWr/gCDOPnLWeQXLmEkh3jobR4m84MujM+EkhfeN0Gs7cEQnqg==]
+                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATjj/Yq9xYtfmiug0PbQKOi2uJCZorYH5FUPiVt40Oj5gWDNN7Dmhsm3i4FdOAc8o7psRnXNwOyzIoGh4A0uXc2J+4zAwN9EluiOLwJNr8Tf449EigUnKMsexcmKkigzYHrlmbCEyeu7jUDs8f5td5DRwAKlJsmVQtAxh5gea18KKNnK8UBSqojF4gSset9cd2YteoltxzqHqeC4UWn/kI4FMZhcJxb6b+das5eYmqPvT9h2xTxwAJNqVWvYDWyVFJUqns8H+oy3VZqMV87VZpd5pi+201ZLFUxHieouj+6f2prQ3ewjwXgavo8t/fFhaVe8ub+e8vNLh6SRHbfTRujBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVHcqnlTT8oxiz4kfGcvc6gDDN+jAtO5KdU0IY3piqP6aPFls/luTxoeEaknGBZYgQgNGHrjG3giMWF98Q0vzjKsI=]
+            - string:
+                id: doxygen-url
+                scope: GLOBAL
+                description: 'URL of doxygen site'
+                secret: "%{::doxygen_url}"
+            - string:
+                id: eups-url
+                scope: GLOBAL
+                description: 'URL of eups site'
+                secret: "%{::eups_url}"
+            - usernamePassword:
+                id: aws-eups-push
+                scope: GLOBAL
+                description: push EUPS packages -> s3
+                username: "%{::eups_push_aws_access_key_id}"
+                password: "%{::eups_push_aws_secret_access_key}"
+            - string:
+                id: eups-push-bucket
+                scope: GLOBAL
+                description: name of EUPS s3 bucket
+                secret: "%{::eups_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-backup
+                scope: GLOBAL
+                description: backup EUPS s3 bucket -> s3 bucket
+                username: "%{::eups_backup_aws_access_key_id}"
+                password: "%{::eups_backup_aws_secret_access_key}"
+            - string:
+                id: eups-backup-bucket
+                scope: GLOBAL
+                description: name of EUPS backup s3 bucket
+                secret: "%{::eups_backup_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-tag-admin
+                scope: GLOBAL
+                description: manage eups distrib tags in s3 bucket
+                username: "%{::eups_tag_admin_aws_access_key_id}"
+                password: "%{::eups_tag_admin_aws_secret_access_key}"
+            - usernamePassword:
+                id: aws-doxygen-push
+                scope: GLOBAL
+                description: push doxygen builds -> s3
+                username: "%{::doxygen_push_aws_access_key_id}"
+                password: "%{::doxygen_push_aws_secret_access_key}"
+            - string:
+                id: doxygen-push-bucket
+                scope: GLOBAL
+                description: name of doxygen s3 bucket
+                secret: "%{::doxygen_s3_bucket}"
+            - usernamePassword:
+                id: aws-cmirror-push
+                scope: GLOBAL
+                description: push conda packages -> s3
+                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAK8xSEBhbEZy0Do08S0UQkKwV+gR0ifAJoLnF5Qi63aigCBVG+QJ+8t6MY3XY52CK8TjUsb8GR9pv7ItkA8qVwm9IzHYbe8IMHrQQpqLgs1InDr0/5acfcdzFiMiO0oC/12xkYPs1OUO27Wrn6r58qM4/DmpuHdrYjQ9UO7xTn523DpX8muOVdU9UoDtvLKZd0YXoyJYyujAn1JyCTBpqln8J6jy4i32Kzeun9ij726P3yRyIppQxZTJSg+PNIjUmeyAsiadrUR7lI4S7RjTsDshdO/AxWj0nKbIsPtqEBObSdnPbSn36+p9HxY3KYYIjgboYddkwaGyEoyqUJfMZGzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDvOnWpvpDAAlHF6Xr3otbrgCChPuNjVaxyOCT/H0fj/V2W0/lsOYDuwfVwIfMJZ4m5Ug==]
+                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALWRBIn8NEPVp2h0LP7VLdQu5JeM/WsbLJtLEyRwvUXoh4dU5lNKpCgz1/UYNbm7MgQiHIp4yyc1OmXwWRufhgp3Z3Hv9Q+scZnNjRpp6GzvtKvvPVGpENZkpCa3JxBGSvHuG01H3MG4qJOJVE8m3a1YXF3CI4OfWTpQJGFNrCRCj7qpRFgXj704sJ6XintcIJYzjhkZKMfflX80em/yynDbt/DlAAYCGmTSxnvzzydbNuCW0KyFI+yuGfk9oRjIQH2k+nXOXQnX3VeAFaIGQQc6D8/dxjAXmXBnRkpDhOsgQN/88PKEPD94z0qLSiEwqxtvX8qPq9IMT4PjFSl/ttjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCbE129Lphn1CFvYmqCOd1PgDDrHJCStlyNAZOGWAZOt0gfgjkZ1B9njOWE6MoqXbMcsXyOxVPHNdH4x3UjJYSYPEM=]
+            - string:
+                id: cmirror-s3-bucket
+                scope: GLOBAL
+                description: name of conda channel bucket
+                secret: conda-mirror.lsst.codes
+            - string:
+                id: slack-lsstc-token
+                scope: GLOBAL
+                description: slack lsstc org API token
+                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc9dPGPrXzdHICLutl4t/nU/Mzq42jgaHSRQ8mIeKBPAMmnOiIBuwEbkKS30YCU2BeA7t6MJSt4MhHiTAijWW9pTJcR1Kn8ImbwDzdzwOeupexKmqdSZIME3UZyPfKkiKg9ZfccjHb2c4UGVl8QXK/YntcmVZmkAOpUxoeq6btPsvrpq1Af8M3wVMfQakjGqCuw183SDJv01mwafLa5qgrN3D1lGea5eHxdGlvUlf6BEyU8GnzhJZnGkqvM2IQIFud4gI6OUB2JAoI4p5HwghUl6CYsMeVMZvUohuf4cLIKyM3GIrLP823npFh+cY5zzyUX8xWduPWW7+uE4VwOE0NDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBf3IFJ3kvuQKBde0nbF4GUgFCcZW7kJoPcWrc1450sXpLdNE4Ayg8DsbBh0O6P7TpyOS76RYt8yX1V+poYsGs1F+mLn3dvYxQf2IV9nrjGcHDx3s5vyVvRHsFaPNnYCQvxrw==]
+            - usernamePassword:
+                id: ghslacker
+                scope: GLOBAL
+                description: api.lsst.codes/ghslacker
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
+                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
+            - usernamePassword:
+                id: ltd-mason-aws
+                scope: GLOBAL
+                description: ltd-mason
+                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAYwp5mhnBnTDYBeYaLbNGfrHGzPRgOBihRWRYzugayLO7JWEYTXElACBOII+5c6yS7V3kpX4pwYR61zN3Ae4s6gjfB//3+hcgB05BpwRi0uymN/R3zDK61FmT+x6j+I2cuIs8TyAaZcn3XMmVnasORJUj7mzJRr5M4SH+a+y2IyfY2gkj9NXIAcTKhjEX4GzRVVh0mR4nqQEhzcR1+5eRRZm8Xpa8Y7LGLZYuVFo5ITl2TqmU73h2XjlhQuy1Xu7U3z0UtILrQNV2zydKzcwkgm9clXMBBGnENx1QUk31ajnSiaIqgNDAk6Wp1qiL5VhKhq8FJl4u4beeFWOo56VFYDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDPpo2HHDxfEsRBtrIa3LP0gCCKn8ozgADU/gZfqDdkwp8w7b1+HgJ6IYDZaEeAGoIbeg==]
+                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAr6zXvLpwGpwBYMWhjpo0wQxQ1kn3i1vKzPRH47Ng39/98eI19XiNenfM7UWlahCdLNdTNRC6i8kBCWQAO6n6+ULOUpIRxvfAgTCDU9rN8WyIxL/zMTdsVJUPXp3bNRLI8VFn8sSUVQgHiGiPPlkq7pZaniq5uxAA0tmP0/9LU1Ec+vU6EOWoKIteLuhdb7mTi3M2Ohird80FvdoFKHvjPLNUn1SSec13WLTVf4Ouuo18rWgvS4utzqC55e9zeEKRn8ecOw5z23NwA+92lVLVi3nqzjpryfzGDDjroeiXvQF0bDMSmS8DOl0shJDhA0dHJAjNE3O9RgTc5tj7BLeT6DBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAmXMeOgCNzGt8d9VeVj7D3gDBhDv+weMWSSLyMy5u4nGuXy/UwGbICn67PDzRwr2fpXc2SwxzOM+n8STIJAu5bENw=]
+            - usernamePassword:
+                id: ltd-keeper
+                scope: GLOBAL
+                description: ltd-keeper
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAmcjSI2AcqwWi6A6MYs8ikVh12Yvw7F5FPqWbkkGF9ludPX2aNaBZTqyF4j4AX5ydq98Rxo4zVjgpGTjKLFwlaamTRs11rFBVIArzuxBvuQLD2jGOg7i6Z3i/yggumGT598NfoaErv9DMK7/Abj1eAXNQlgPnl6lBFes+JzkuqUTvjQKpSVH5NzrAIn43F5Gj4Gcxzn/wVSJYkuJWWLL03MQQAoKdX3XpcloypljLWTYsmjRy5bbW97SjuZu/cPnXGahFoOiElcqptnjnbTDbH1xhRO0zSWynNWk23y77l5RnDjvITlu5w3LALdsZbY5OB8JpFmCfxDI4Etlzxw7atDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDa+trrL/0i7JHTcdexweOigBCO4sGUt/5fa6QZoiSe49uV]
+                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATV/mKYl9AVvL9FIQp/+mDTU1PJ19LwQQVU9BOEVYT+Y5h5qW/TrBicTD2RJ+pTMyhFOIP1Qu8FySuzJhT7nzQKZzDUIrIY+05eB5KgWNOtDp5qN9bUCvRSz7OrvsVFG7Omjqyfr6B2P4Xmt3npUXg+MgpXbIAmr4NcP5NHbS1sGaw+lcLHUw7ASeLUFtUQr4FKdFDN+/I661XMgO04E+WDOfAnT2fMqoQJM5kEO0T6aKqU1VlBw1cG2j0T/mrPNvXsy/mzr4gQrdSvcTlNItcyx1rMnamIAMPgBsENbqVN0dpW8nHOcBCordHgIWGDoBsNFKQAapDNYBl09Ijes3RTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDM8rOL5hrtZfhVuvmF3gyEgCAMDiCtaSFEEkKUF+koIsc5NI4hC9Y9XAcn+x9krIXoCA==]
+            - string:
+                id: jenkins-env
+                scope: GLOBAL
+                description: Name of Jenkins deployment
+                secret: "%{::env_name}"
+  security:
+    # Enable CLI over Remoting
+    remotingCLI:
+      enabled: false
+    # job-dsl security config appears broken:
+    # https://github.com/jenkinsci/configuration-as-code-plugin/issues/253
+    GlobalJobDslSecurityConfiguration:
+      useScriptSecurity: false

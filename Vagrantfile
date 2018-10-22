@@ -140,7 +140,7 @@ Vagrant.configure('2') do |config|
   end
 
   # setup the remote repo needed to install a current version of puppet
-  config.puppet_install.puppet_version = '4.10.6'
+  config.puppet_install.puppet_version = '5.5.6'
 
   config.vm.provision 'puppet', type: :puppet do |puppet|
     puppet.hiera_config_path = 'hiera.yaml'
@@ -159,6 +159,9 @@ Vagrant.configure('2') do |config|
       '--disable_warnings=deprecations',
     ]
   end
+
+  # cleanup hiera data
+  config.vm.provision 'shell', inline: 'rm -rf /tmp/vagrant-puppet/hieradata'
 
   config.vm.provider :aws do |provider, override|
     override.vm.box = 'aws'

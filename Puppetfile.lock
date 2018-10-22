@@ -67,8 +67,8 @@ FORGE
 
 GIT
   remote: https://github.com/lsst-sqre/puppet-jenkins.git
-  ref: fe541d6f82b90f60ac474bfde0903c0351be021b
-  sha: fe541d6f82b90f60ac474bfde0903c0351be021b
+  ref: 10d3a18eb318f4d772becc5664e034e13096bed5
+  sha: 10d3a18eb318f4d772becc5664e034e13096bed5
   specs:
     voxpupuli-jenkins (1.7.0)
       camptocamp-systemd (< 3.0.0, >= 0.3.0)
