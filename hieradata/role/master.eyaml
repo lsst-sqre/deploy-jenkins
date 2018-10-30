@@ -494,10 +494,10 @@ jenkinsx::casc:
       domainCredentials:
         - credentials:
             - string:
-                id: github-api-token-sqrbot
+                id: jenkins-env
                 scope: GLOBAL
-                description: 'github API personal access token (sqrbot)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKWVba1O+EFeq4EHdiXReBWCGE2iKZWfmxvIkTXuBXfhoCTWx4jG/T025R6cEK9+xCwfgDVhqmiOoVBXhVQIglO8K9H8XolneyBDETsTFUlJXF5i3KrVsHYHitoBdozlDqOfs53PCbjLG4H3Be1IfGlXPApIDdkM+zL9QKF4WTu0hM09wkgAijxcfeiUMF56Q1C6hjyY6JD6eeiI8U8ylunNkdbKYkGJJJbSxxEqjK2YPTYs/1IXXQnzvu/98PrQSFGYBQXTgFr+D8sm+tgC+lzkAdEJ8KktPd+ikSWmCqNACV4ZL7j2iQfImy9uh7MJwNn/pHnFMBK9931wVcQLazTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcq27+sbKXb5xucOMW8NZZgDDppN9v1nEIYS78/B+hHJ9CjHQQ56lg8/pxo7JREPyy++XqbrZSrm9fja1SotInYmc=]
+                description: Name of Jenkins deployment
+                secret: "%{::env_name}"
             - usernamePassword:
                 id: aws-jenkins-master-snapshot
                 scope: GLOBAL
@@ -559,6 +559,11 @@ jenkinsx::casc:
                 description: name of conda channel bucket
                 secret: conda-mirror.lsst.codes
             - string:
+                id: github-api-token-sqrbot
+                scope: GLOBAL
+                description: 'github API personal access token (sqrbot)'
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsIOS6DGR6aKWZ8Nwisba7AFa4br/MJsazu+rJXDwN/u2t2aZvV92LZR4c8ZAwLpv8GRd5NSzw0dTKvWF4W5foLYA5DIlyO2Pah91QCQQjqWUY0HOtH9Va8IFTVT0/66RRUJnD4v07l6Sdp0XcRGYAQbIpgc6GvFhkTKPdUAxwuqvk+hCsXyRlO4/WCV+23WNoahkXsruCO7aazfzS62ri6Q7fW5M/XAkt1HgeHhpze+QSDgUpxSP+ZMImXwUY0i8HxDFdAZEWdT4U0/67KyU6Z8yqTUKkGNKm1UNQ0cjr+MtQ4HusQSZIDUU6H17jP+pKi0Uo3ASsKFGEszubeJPRjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB99LG82bu/LBysOe7sK1TzgDCcS8mWzBjY9D1OPAplq+edZLgXzGY3Y7HxoJNUMCJtkc5H6kBHBC4R0foBUED1mmc=]
+            - string:
                 id: slack-lsstc-token
                 scope: GLOBAL
                 description: slack lsstc org API token
@@ -569,11 +574,6 @@ jenkinsx::casc:
                 description: api.lsst.codes/ghslacker
                 username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
                 password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
-            - string:
-                id: jenkins-env
-                scope: GLOBAL
-                description: Name of Jenkins deployment
-                secret: "%{::env_name}"
   security:
     # Enable CLI over Remoting
     remotingCLI:
