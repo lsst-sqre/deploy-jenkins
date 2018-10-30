@@ -504,12 +504,6 @@ jenkinsx::casc:
                 description: 'jenkins master snapshot AWS credentials'
                 username: "%{::snapshot_aws_access_key_id}"
                 password: "%{::snapshot_aws_secret_access_key}"
-            - usernamePassword:
-                id: dockerhub-sqreadmin
-                scope: GLOBAL
-                description: 'dockerhub - sqreadmin'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXWh6ytPl1/UKelIgx9d2spHkqQ1v3zEPvhog8jscQOjmbME3EPO873TSk5322hzE4PzNupikAmmGew5fUaiZjG3PzB3Nk63ahRzJTQstrOV6QC3MOC+lRnZx57ZsbICWZjQMeArMUg4l0buyVuLys5WyNvc+d9PggGN4jvv/h6YEGVg/LDxJ1y74KiiaF8U4yr/gO7awYaf0dzYyK8jg+U7fjKoV2tE9ftUFU6H9pLde1nih9GlW4v7FJfsH4oAzjpPygpM02v13GhCLrIcjnlALDp/nwLLywqVlgrgtE8eAHk1ztJ11sIhrcBGk9IP/ayRn/UM2Z+MsZw2NsZjIHTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAQ4ldFTpi0dea+yG1q7jt5gBAZexMltYA9eK/skviUqf/A]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANYVhN4mdv6f9w2qCApBNSR19zIs0gUgyEjgb8C8NgxneEqGczJAWHOmKqSWLsyNqi4GJNazYlIegt+9+dVe79AFPXpmfYR6gNW9geXlMjZB7ULDVLukLTj5SqdI5BGZNv95p/GJ5HE8GfV4txST+m4Z7FpOaK1ZZAjCy5SAIJwXS4zojiLW+yn6CJkySLXeKGN7gfYxMaw5apVBCwDelPB8hO6giUFo0Wes1YWuFGhOL9k+QdzNWX7tSx6GMZX4bRfUrAC9fldQD77uDkP7lP9vJWi0Oklm5kAuK6YcsH8UhwMT87uC3uQx1EsJvwW0Bxz/zpIUeJLhYX+C/vhQU3DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdpwEouz69ql51vxQlNvz1gBDPfb1q+L+PdQBjx5cmrmjz]
             - string:
                 id: doxygen-url
                 scope: GLOBAL

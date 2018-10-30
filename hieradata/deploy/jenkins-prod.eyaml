@@ -78,6 +78,16 @@ jenkinsx::casc:
       domainCredentials:
         - credentials:
             - string:
+                id: slack-default-channel
+                scope: GLOBAL
+                description: 'Default slack channel'
+                secret: dm-jenkins
+            - string:
+                id: slack-channel-prefix
+                scope: GLOBAL
+                description: 'Prefix for generated slack channels'
+                secret: dmj
+            - string:
                 id: github-api-token-sqreadmin
                 scope: GLOBAL
                 description: 'github API personal access token (sqreadmin)'
@@ -122,13 +132,9 @@ jenkinsx::casc:
                 description: 'user/pass for Squash API endpoint'
                 username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkPafs2ftvpjl1C9GJZY9bBZ3HvZx+tvmOhT5QW+AoTDguQx9LYEOUo11Q+fEBJvep4CY68Y//+4XFYCESsgpNrvql5IEnntR3a/3W8VhVKFNfMcMHZIL0RILg6VKDYemXV0VPRYztvSye5AB8h5/psrh54Z3+YxYJuZvTHikZB6JPutuOFnlTscVdK+cDLjzvAENskrCJMlRP1X7QnlQD6xY1x0zSqXiWz0kzxQFYq9f7ZojY52ciVc/NAugfwqv7zlSI8sEVKxb+D4HCoXXstAfZEnx9w5bMwujE4THol9gZTKN3AgCaHrTpaDyr66Rus7pyasIilZtajkrDJnnMzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBPvy6RQeVFWNaYGtoO4ZakgBDkgJjgPxGOBgTj9WA9TD07]
                 password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkq+VQe9gTPEO9KXnYWhPV6tDvyBV7rQCrfKS/bwAWPk48CYrYpKUqKT3a7rLCSvSwjwxdjjeOLTx7cImx3XKrehv2cNWrw8vjSYyCzfuboXJZZ/1goJZcpPegUQu7fukzWkvRHrgk8CI2S9onYrzV8tGqP5V2jaZnfjA1QD4uUsfX3kEDtjAKBMUm8QDAOPDBnm2/48Ulu5BpKpQWsFvrK9O9BaeW7pawBc4VH//cCSosQUb7tQbi1TsWFQCHr/cDL7uxmk6jbtSTAjTZUJK5ADc4zhN/5JAs8M83Wd8m9DL5i2IIdEnF+qH0Tup9yYsR4FDdjD7E06FO3Ak2rPJGzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAbypOS46tml8mvFHoAaTqJgBDwUptGXu4exdil7IxU0AYN]
-            - string:
-                id: slack-default-channel
+            - usernamePassword:
+                id: dockerhub-sqreadmin
                 scope: GLOBAL
-                description: 'Default slack channel'
-                secret: dm-jenkins
-            - string:
-                id: slack-channel-prefix
-                scope: GLOBAL
-                description: 'Prefix for generated slack channels'
-                secret: dmj
+                description: 'dockerhub - sqreadmin'
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALNRC9qrEADTh0pHAqpi+UtXGKlgMBmTG/kBWR0l/cdBVcFM74eOTdZYVgOQ0jg6Cst9yddMPZsolcxH7M3KL8Ardz0VWWxo1RkdVl4hDTMfJ3NipMYat4hvXAkKo+rWI/rLK9btDA9kUD7ZaSQMFvDcdXrA81ufpIUOYlZh3hYKzraKDnDiz7IEb1hJpRuAW/86vQr6wit+OZJSutYmpiVm9loc/0jO4O+tBVbFCnciso08Fvj9p4VuSq4S1w2c1iB6//853xQ2+YKlDrRL1MpkZNgDw6dgLv/kByhTZ30tKV8YagGNsvSuwgMYej5TU4N7/qPwkgs1Gg4hgbmAHDDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCYX2Mtv7jVkEJmq9gVjXl9gBDPMiDuGMXE7N+Q9hHZ+mV6]
+                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAtgT9c9pnJkWJsyWoTgywTknLhGBdqZPEMWbpDwTcar3w8CKUSjKVDyL0TFMJTmJQGemyFFiILU3kINPmjyCq8wfKAjL+7AudyxiUcZSO5LltkaiyQEIfYKNRcsLkDKBQJQwuUmT29gL48XNVaulMHLrubdVeqow5NaPXDh0ZjCOCoyqXQtVEDmYUaX69LQtxHPvxigfJZra+BVwige0CWuGJq0as4Y+M3rXLTatxCu55DYXB/4l5IKCkoHyriBKG+7x1Q2NYTvsZxCPIh8qkkUbNuXJFjG0vRMB2bCiV/Z30bJMQ9IrMzPozPukCDsOs6upIsgwPp6EGM3//OsHLOTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLExeWaxn219KgUpU8xYFogBD97nU2SZHb/MRykI9vspu0]
