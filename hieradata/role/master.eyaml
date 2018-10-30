@@ -494,11 +494,6 @@ jenkinsx::casc:
       domainCredentials:
         - credentials:
             - string:
-                id: github-api-token-sqreadmin
-                scope: GLOBAL
-                description: 'github API personal access token (sqreadmin)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHIAIsEDpbfgnYb0FVHY/uf0XxxNYoPUwgK/A1uSzqmmH5haEP3OxTJqLs6JfIrdU6qE0XDhYvAeEQgh5UAyXr2Tct9NfyV4tvA8lEWmcs6Qps3/9u+SoMj/qMBu8E/STGwCi+u9OsdVgRcU3W31hjHcAw0UdZd8cOuQaeWIuT7aRVg7uEtbpJ6jWdQVcsqkA0MpxOk3blvJjYkzFAv18odgzdJt6Zyak7jWHjUkhXgdQlcSy4Zyr5ZXx3Tj5bAjWfJ8G5jkrNR2BPz7Nz9v5lGTxx00bUMIMRgMpaUtN65PBGGGy+0yd4poL3StbBsfTW4aygrQQXXrzJ3R/KWuPkDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCl3NoxGDxrtH2WAJ96ubybgDBg4J/Jx5/jYDY8jgvdeYxCkKASlqIGZnBMTeI64mmh272etWb6NQjIPKYVNX0/iPM=]
-            - string:
                 id: github-api-token-sqrbot
                 scope: GLOBAL
                 description: 'github API personal access token (sqrbot)'
