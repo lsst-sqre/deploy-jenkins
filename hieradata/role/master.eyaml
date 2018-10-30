@@ -577,12 +577,6 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: name of doxygen s3 bucket
                 secret: "%{::doxygen_s3_bucket}"
-            - usernamePassword:
-                id: aws-cmirror-push
-                scope: GLOBAL
-                description: push conda packages -> s3
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAK8xSEBhbEZy0Do08S0UQkKwV+gR0ifAJoLnF5Qi63aigCBVG+QJ+8t6MY3XY52CK8TjUsb8GR9pv7ItkA8qVwm9IzHYbe8IMHrQQpqLgs1InDr0/5acfcdzFiMiO0oC/12xkYPs1OUO27Wrn6r58qM4/DmpuHdrYjQ9UO7xTn523DpX8muOVdU9UoDtvLKZd0YXoyJYyujAn1JyCTBpqln8J6jy4i32Kzeun9ij726P3yRyIppQxZTJSg+PNIjUmeyAsiadrUR7lI4S7RjTsDshdO/AxWj0nKbIsPtqEBObSdnPbSn36+p9HxY3KYYIjgboYddkwaGyEoyqUJfMZGzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDvOnWpvpDAAlHF6Xr3otbrgCChPuNjVaxyOCT/H0fj/V2W0/lsOYDuwfVwIfMJZ4m5Ug==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALWRBIn8NEPVp2h0LP7VLdQu5JeM/WsbLJtLEyRwvUXoh4dU5lNKpCgz1/UYNbm7MgQiHIp4yyc1OmXwWRufhgp3Z3Hv9Q+scZnNjRpp6GzvtKvvPVGpENZkpCa3JxBGSvHuG01H3MG4qJOJVE8m3a1YXF3CI4OfWTpQJGFNrCRCj7qpRFgXj704sJ6XintcIJYzjhkZKMfflX80em/yynDbt/DlAAYCGmTSxnvzzydbNuCW0KyFI+yuGfk9oRjIQH2k+nXOXQnX3VeAFaIGQQc6D8/dxjAXmXBnRkpDhOsgQN/88PKEPD94z0qLSiEwqxtvX8qPq9IMT4PjFSl/ttjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCbE129Lphn1CFvYmqCOd1PgDDrHJCStlyNAZOGWAZOt0gfgjkZ1B9njOWE6MoqXbMcsXyOxVPHNdH4x3UjJYSYPEM=]
             - string:
                 id: cmirror-s3-bucket
                 scope: GLOBAL
