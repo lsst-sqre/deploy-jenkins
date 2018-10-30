@@ -498,18 +498,6 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: 'github API personal access token (sqrbot)'
                 secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKWVba1O+EFeq4EHdiXReBWCGE2iKZWfmxvIkTXuBXfhoCTWx4jG/T025R6cEK9+xCwfgDVhqmiOoVBXhVQIglO8K9H8XolneyBDETsTFUlJXF5i3KrVsHYHitoBdozlDqOfs53PCbjLG4H3Be1IfGlXPApIDdkM+zL9QKF4WTu0hM09wkgAijxcfeiUMF56Q1C6hjyY6JD6eeiI8U8ylunNkdbKYkGJJJbSxxEqjK2YPTYs/1IXXQnzvu/98PrQSFGYBQXTgFr+D8sm+tgC+lzkAdEJ8KktPd+ikSWmCqNACV4ZL7j2iQfImy9uh7MJwNn/pHnFMBK9931wVcQLazTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcq27+sbKXb5xucOMW8NZZgDDppN9v1nEIYS78/B+hHJ9CjHQQ56lg8/pxo7JREPyy++XqbrZSrm9fja1SotInYmc=]
-            # migrate to jenkins-dm-jobs?
-            - string:
-                id: squash-api-url
-                scope: GLOBAL
-                description: 'URL of Squash API endpoint'
-                secret: https://squash-api.lsst.codes/
-            - usernamePassword:
-                id: squash-api-user
-                scope: GLOBAL
-                description: 'user/pass for Squash API endpoint'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAAAREeHyKGvZRvPXGsx+v/wk9kjyvBd2DZGsoLTUhPqu34LMgU/bbDjg+HciVrnqZa3fYm6Z0uBVxjTSNoDkQzZyg7e3l5IkiKtQUWe2PIpgE9/lm/+w79Nxwz8uMh/WR8MQURVSPPccQn6gMNo9lgItgbEy8J/ycBcDG+uGBw+FAOlrJu8ZCy+M4dgW8CmFoGp+a7kpC8yisB39ty0XCDxMzA1qVx5WC6sbxwc1SwyewCBuQi9Xt/tzkU3OwUjBOeH1xb8538WSG/oy/m9dWkpaUoyQWWxzoqYI9MZqMm8EhuhQoUGvYKx/Fe/t01djnRE8guBWmonZzV4i/+d5JtzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDjxA5DfQvXckjHqABQDCWLgBAmq9hsqdqhRj36fymXXkzm]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnLGOJgrLR2+wiV/6tZSb5cO2XxdCjAn4uWtjQwTa5RIucOfWfpL3V71lOqADgTS5T5tGwMUS/8KG+B/cdBb0oqBN6JGMixhb2Cw9XCmmw36wJrLC115/By9jTRlN8s3ytCm67ui7TbcAy/iz4qEnIQAodUSYyTMJk5cP4yXo93glmIDG54DcYtjMw+OIMveuRSXdazf2vHwp9kMJdaZ95hYwIOMI25dGkdA09V54wvbEgSgtjWmLz+w+B9RgGbtx7JIPPA94uCcT1Azt1svmY8QHIpFu1z0Feh3fualGZhoNprrK2hPz430KY2DI6S96KMiUWJO9U0Nls062+UpEIDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcRH8nJGpSLKP2bemAfzWwgBDbvj4swLVf+4CF48cAZqta]
             - usernamePassword:
                 id: aws-jenkins-master-snapshot
                 scope: GLOBAL
