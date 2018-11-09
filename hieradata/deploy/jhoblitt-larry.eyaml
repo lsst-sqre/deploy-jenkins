@@ -6,6 +6,11 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
+jenkinsx::versiondb:
+  ssh_private_key: &jenkinsx_versiondb_ssh_private_key |
+    ENC[PKCS7,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]
+  ssh_public_key: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtHTxwRwgH5D08t1oUB5GXhDhD8ATAQf7lJjSzsXYZkoC9Pz8sExdnYru6K646WN/osGl99thP/SBo0goZpOL2S4sEDUOb2Nr2G6Dhjo6Kf2Knv+szKp3sFwITM3jOLqVEejrfViKyzzT0T9u93gIXlH7o91rw5kw4uo/lN9yfwdqU9xPVjGSjsG5LZBVhakCio+nruOkrKqVdR2YGnZSUIkSKneHQzNfS+Ndzj6u3B7b0KBdK3uwNpy7jViWm+ytf5Vg4ccbazI1E7KfOc2IaeNe4cr5rOcJGkRLOgd1OqC+OOwcPo18CItXzvF/FVCFZ+ZWj36SZckgxeaZDI8fZ jhoblitt-larry@versiondb
 jenkinsx::casc:
   jenkins:
     securityRealm:
@@ -29,3 +34,22 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjl
+            - string:
+                id: github-api-token-sqreadmin
+                scope: GLOBAL
+                description: github API personal access token (sqreadminlarry)
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXriHuPGJgO3t+EWUmML5mgVLQuSGTheHqbQgXneVrlz8dse9zU+B+DpE5yw7JgIHEnhz2nLpCHTZKk/Q+vnAL0BQHC7gOuFB5TTkDZZ/j+RAVl3lyc3feKbst8DEAPMCo9e3JdHBFyhiGwAnvC1s/x4DfEvrjU03zd37HkcSX/Wuwt1lKOlusH5MJeagKgnV5ULJ4rFi4UtEBM6JBrCiZQ5sNH/gy3I2LQBuCHRvGIUodpBeAHIfxBjCwbkHWnJIMnbXUImrG4y/udEDRX/GhfHcIOqgszxTpdRblbsUO3NmzeJ4rwhNohADPNLVFgGFB1xk0AsajfmWUW45gFPYVjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAscNibyc6/Wj3qMICJTSwTgDBaVFooF7PjT/DusD9YEf1GlUEQblQV6Mfl5u3KtfnjEipEduGbEpbhYjIMicz7aaQ=]
+            - basicSSHUserPrivateKey:
+                id: github-jenkins-versiondb
+                scope: GLOBAL
+                description: github provingground-larry/versiondb deploy key
+                username: git
+                privateKeySource:
+                  directEntry:
+                    privateKey: *jenkinsx_versiondb_ssh_private_key
+            - usernamePassword:
+                id: dockerhub-sqreadmin
+                scope: GLOBAL
+                description: dockerhub (sqreadminlarry)
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAMqYffQjNK3yvStGT47wRn65SNO3GEIlxmIUpwnNBB57OxX9oZhr6oz2SQIkCl2/bY2X/sg8IijDrwOHGrVY25sA19pz9BpHxJaksEsr5pRDEjVASf5cRe2JQoE/m3QmDumVlE4tABNG7XpnEohwO/m9VdxbGLUjkkJaYx9Zj3UmzvGwMmArhkkrSSeCdcUcDmIvzNVmBRvZXzRZyoQQyaKIXXkjb1013EY/KbJPyBxy77P2e/Bf3zF6hh4gzvh9jWrlM1tScFjomi+OPgq65oS9kxkfmi5OF7Rde5POQalSYGvK0Bh1oU51/l6B4WPIkm/YOwdvyP2wMpU82ObI24DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB+rIP7Eqd4bxy68W1gdjv5gBB9055NhTDwWmq/NGrp8cHv]
+                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAL3hiO6Lt/XJypfR+wuWByk4DkzyGy7Y4QX/idRuAbgHprDkvd+kFvshCG1MMs8xeZM8StXSos5E265B9P7yqHqEH7OZlk7kKLz3M0tuFbIHWe/+Iug9RnVahxMi+dMzVKY/dpWI3mDLqU9Jorc8nfMTU8nz/8WSzpb/hymrxY+8gCkBwcam67hBbIs/IcF+ag95owAc1c51lwDgTUGVVIcz6feed0KvD618DhpnLjycfH8Z09MOaJMVvVz51e5CpVx0hvls11SW+PdF/ONEshEJuaIGmTwbiYe2pB8NDQtDR0pkVaW3d+Bl/9e6DqCgLpYzDHo1KTlw4/OEHqhn0aTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBXam8unCXFKSTOZUTeQM0YgCCMwJtqwLehTuN1a8HWwq8AqRqeItu9sZNCpmzfPYHbkA==]

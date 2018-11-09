@@ -494,45 +494,16 @@ jenkinsx::casc:
       domainCredentials:
         - credentials:
             - string:
-                id: github-api-token-sqreadmin
+                id: jenkins-env
                 scope: GLOBAL
-                description: 'github API personal access token (sqreadmin)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHIAIsEDpbfgnYb0FVHY/uf0XxxNYoPUwgK/A1uSzqmmH5haEP3OxTJqLs6JfIrdU6qE0XDhYvAeEQgh5UAyXr2Tct9NfyV4tvA8lEWmcs6Qps3/9u+SoMj/qMBu8E/STGwCi+u9OsdVgRcU3W31hjHcAw0UdZd8cOuQaeWIuT7aRVg7uEtbpJ6jWdQVcsqkA0MpxOk3blvJjYkzFAv18odgzdJt6Zyak7jWHjUkhXgdQlcSy4Zyr5ZXx3Tj5bAjWfJ8G5jkrNR2BPz7Nz9v5lGTxx00bUMIMRgMpaUtN65PBGGGy+0yd4poL3StbBsfTW4aygrQQXXrzJ3R/KWuPkDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCl3NoxGDxrtH2WAJ96ubybgDBg4J/Jx5/jYDY8jgvdeYxCkKASlqIGZnBMTeI64mmh272etWb6NQjIPKYVNX0/iPM=]
-            - string:
-                id: github-api-token-sqrbot
-                scope: GLOBAL
-                description: 'github API personal access token (sqrbot)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKWVba1O+EFeq4EHdiXReBWCGE2iKZWfmxvIkTXuBXfhoCTWx4jG/T025R6cEK9+xCwfgDVhqmiOoVBXhVQIglO8K9H8XolneyBDETsTFUlJXF5i3KrVsHYHitoBdozlDqOfs53PCbjLG4H3Be1IfGlXPApIDdkM+zL9QKF4WTu0hM09wkgAijxcfeiUMF56Q1C6hjyY6JD6eeiI8U8ylunNkdbKYkGJJJbSxxEqjK2YPTYs/1IXXQnzvu/98PrQSFGYBQXTgFr+D8sm+tgC+lzkAdEJ8KktPd+ikSWmCqNACV4ZL7j2iQfImy9uh7MJwNn/pHnFMBK9931wVcQLazTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcq27+sbKXb5xucOMW8NZZgDDppN9v1nEIYS78/B+hHJ9CjHQQ56lg8/pxo7JREPyy++XqbrZSrm9fja1SotInYmc=]
-            # migrate to jenkins-dm-jobs?
-            - string:
-                id: squash-api-url
-                scope: GLOBAL
-                description: 'URL of Squash API endpoint'
-                secret: https://squash-api.lsst.codes/
-            - usernamePassword:
-                id: squash-api-user
-                scope: GLOBAL
-                description: 'user/pass for Squash API endpoint'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAAAREeHyKGvZRvPXGsx+v/wk9kjyvBd2DZGsoLTUhPqu34LMgU/bbDjg+HciVrnqZa3fYm6Z0uBVxjTSNoDkQzZyg7e3l5IkiKtQUWe2PIpgE9/lm/+w79Nxwz8uMh/WR8MQURVSPPccQn6gMNo9lgItgbEy8J/ycBcDG+uGBw+FAOlrJu8ZCy+M4dgW8CmFoGp+a7kpC8yisB39ty0XCDxMzA1qVx5WC6sbxwc1SwyewCBuQi9Xt/tzkU3OwUjBOeH1xb8538WSG/oy/m9dWkpaUoyQWWxzoqYI9MZqMm8EhuhQoUGvYKx/Fe/t01djnRE8guBWmonZzV4i/+d5JtzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDjxA5DfQvXckjHqABQDCWLgBAmq9hsqdqhRj36fymXXkzm]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnLGOJgrLR2+wiV/6tZSb5cO2XxdCjAn4uWtjQwTa5RIucOfWfpL3V71lOqADgTS5T5tGwMUS/8KG+B/cdBb0oqBN6JGMixhb2Cw9XCmmw36wJrLC115/By9jTRlN8s3ytCm67ui7TbcAy/iz4qEnIQAodUSYyTMJk5cP4yXo93glmIDG54DcYtjMw+OIMveuRSXdazf2vHwp9kMJdaZ95hYwIOMI25dGkdA09V54wvbEgSgtjWmLz+w+B9RgGbtx7JIPPA94uCcT1Azt1svmY8QHIpFu1z0Feh3fualGZhoNprrK2hPz430KY2DI6S96KMiUWJO9U0Nls062+UpEIDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCcRH8nJGpSLKP2bemAfzWwgBDbvj4swLVf+4CF48cAZqta]
+                description: Name of Jenkins deployment
+                secret: "%{::env_name}"
             - usernamePassword:
                 id: aws-jenkins-master-snapshot
                 scope: GLOBAL
                 description: 'jenkins master snapshot AWS credentials'
                 username: "%{::snapshot_aws_access_key_id}"
                 password: "%{::snapshot_aws_secret_access_key}"
-            - usernamePassword:
-                id: dockerhub-sqreadmin
-                scope: GLOBAL
-                description: 'dockerhub - sqreadmin'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXWh6ytPl1/UKelIgx9d2spHkqQ1v3zEPvhog8jscQOjmbME3EPO873TSk5322hzE4PzNupikAmmGew5fUaiZjG3PzB3Nk63ahRzJTQstrOV6QC3MOC+lRnZx57ZsbICWZjQMeArMUg4l0buyVuLys5WyNvc+d9PggGN4jvv/h6YEGVg/LDxJ1y74KiiaF8U4yr/gO7awYaf0dzYyK8jg+U7fjKoV2tE9ftUFU6H9pLde1nih9GlW4v7FJfsH4oAzjpPygpM02v13GhCLrIcjnlALDp/nwLLywqVlgrgtE8eAHk1ztJ11sIhrcBGk9IP/ayRn/UM2Z+MsZw2NsZjIHTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAQ4ldFTpi0dea+yG1q7jt5gBAZexMltYA9eK/skviUqf/A]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANYVhN4mdv6f9w2qCApBNSR19zIs0gUgyEjgb8C8NgxneEqGczJAWHOmKqSWLsyNqi4GJNazYlIegt+9+dVe79AFPXpmfYR6gNW9geXlMjZB7ULDVLukLTj5SqdI5BGZNv95p/GJ5HE8GfV4txST+m4Z7FpOaK1ZZAjCy5SAIJwXS4zojiLW+yn6CJkySLXeKGN7gfYxMaw5apVBCwDelPB8hO6giUFo0Wes1YWuFGhOL9k+QdzNWX7tSx6GMZX4bRfUrAC9fldQD77uDkP7lP9vJWi0Oklm5kAuK6YcsH8UhwMT87uC3uQx1EsJvwW0Bxz/zpIUeJLhYX+C/vhQU3DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdpwEouz69ql51vxQlNvz1gBDPfb1q+L+PdQBjx5cmrmjz]
-            - usernamePassword:
-                id: github_backup
-                scope: GLOBAL
-                description: 'github_backup AWS credentials'
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAjyaQa9we0Yw+geJ4D+WpHWU04MsSm0OlWd7CS8urmyCikgdL0l40hMY2gP3sUiY+nomSEnvUwPVnHfwrRMsPO2oK+kgKY87Gy1YihPWOYmlYRxL4KVUNffwhCKh15vRaF1pKbb/df8CzwmikqhpxXk8IU/7kmWK4TRD2ZhW6/2+IbBJZmZIFrAkx+YbBstoJCpRwm6cSblUk5bgYRrzWs4uRE9alGk4CWECvjRQH7ulQm8v310h/IS5bS5q136Wb7T58Ta2NY9wQfro0UkNWjr19TZqzjMYeknYmR4tM/8WB7cdzEFM3XcOq0LnwGPXeUr2UlMKuujcyXWBeJCSEojBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBvswQjgikEmrJdesM/IWr/gCDOPnLWeQXLmEkh3jobR4m84MujM+EkhfeN0Gs7cEQnqg==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATjj/Yq9xYtfmiug0PbQKOi2uJCZorYH5FUPiVt40Oj5gWDNN7Dmhsm3i4FdOAc8o7psRnXNwOyzIoGh4A0uXc2J+4zAwN9EluiOLwJNr8Tf449EigUnKMsexcmKkigzYHrlmbCEyeu7jUDs8f5td5DRwAKlJsmVQtAxh5gea18KKNnK8UBSqojF4gSset9cd2YteoltxzqHqeC4UWn/kI4FMZhcJxb6b+das5eYmqPvT9h2xTxwAJNqVWvYDWyVFJUqns8H+oy3VZqMV87VZpd5pi+201ZLFUxHieouj+6f2prQ3ewjwXgavo8t/fFhaVe8ub+e8vNLh6SRHbfTRujBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVHcqnlTT8oxiz4kfGcvc6gDDN+jAtO5KdU0IY3piqP6aPFls/luTxoeEaknGBZYgQgNGHrjG3giMWF98Q0vzjKsI=]
             - string:
                 id: doxygen-url
                 scope: GLOBAL
@@ -582,17 +553,16 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: name of doxygen s3 bucket
                 secret: "%{::doxygen_s3_bucket}"
-            - usernamePassword:
-                id: aws-cmirror-push
-                scope: GLOBAL
-                description: push conda packages -> s3
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAK8xSEBhbEZy0Do08S0UQkKwV+gR0ifAJoLnF5Qi63aigCBVG+QJ+8t6MY3XY52CK8TjUsb8GR9pv7ItkA8qVwm9IzHYbe8IMHrQQpqLgs1InDr0/5acfcdzFiMiO0oC/12xkYPs1OUO27Wrn6r58qM4/DmpuHdrYjQ9UO7xTn523DpX8muOVdU9UoDtvLKZd0YXoyJYyujAn1JyCTBpqln8J6jy4i32Kzeun9ij726P3yRyIppQxZTJSg+PNIjUmeyAsiadrUR7lI4S7RjTsDshdO/AxWj0nKbIsPtqEBObSdnPbSn36+p9HxY3KYYIjgboYddkwaGyEoyqUJfMZGzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDvOnWpvpDAAlHF6Xr3otbrgCChPuNjVaxyOCT/H0fj/V2W0/lsOYDuwfVwIfMJZ4m5Ug==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALWRBIn8NEPVp2h0LP7VLdQu5JeM/WsbLJtLEyRwvUXoh4dU5lNKpCgz1/UYNbm7MgQiHIp4yyc1OmXwWRufhgp3Z3Hv9Q+scZnNjRpp6GzvtKvvPVGpENZkpCa3JxBGSvHuG01H3MG4qJOJVE8m3a1YXF3CI4OfWTpQJGFNrCRCj7qpRFgXj704sJ6XintcIJYzjhkZKMfflX80em/yynDbt/DlAAYCGmTSxnvzzydbNuCW0KyFI+yuGfk9oRjIQH2k+nXOXQnX3VeAFaIGQQc6D8/dxjAXmXBnRkpDhOsgQN/88PKEPD94z0qLSiEwqxtvX8qPq9IMT4PjFSl/ttjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCbE129Lphn1CFvYmqCOd1PgDDrHJCStlyNAZOGWAZOt0gfgjkZ1B9njOWE6MoqXbMcsXyOxVPHNdH4x3UjJYSYPEM=]
             - string:
                 id: cmirror-s3-bucket
                 scope: GLOBAL
                 description: name of conda channel bucket
                 secret: conda-mirror.lsst.codes
+            - string:
+                id: github-api-token-sqrbot
+                scope: GLOBAL
+                description: 'github API personal access token (sqrbot)'
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsIOS6DGR6aKWZ8Nwisba7AFa4br/MJsazu+rJXDwN/u2t2aZvV92LZR4c8ZAwLpv8GRd5NSzw0dTKvWF4W5foLYA5DIlyO2Pah91QCQQjqWUY0HOtH9Va8IFTVT0/66RRUJnD4v07l6Sdp0XcRGYAQbIpgc6GvFhkTKPdUAxwuqvk+hCsXyRlO4/WCV+23WNoahkXsruCO7aazfzS62ri6Q7fW5M/XAkt1HgeHhpze+QSDgUpxSP+ZMImXwUY0i8HxDFdAZEWdT4U0/67KyU6Z8yqTUKkGNKm1UNQ0cjr+MtQ4HusQSZIDUU6H17jP+pKi0Uo3ASsKFGEszubeJPRjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB99LG82bu/LBysOe7sK1TzgDCcS8mWzBjY9D1OPAplq+edZLgXzGY3Y7HxoJNUMCJtkc5H6kBHBC4R0foBUED1mmc=]
             - string:
                 id: slack-lsstc-token
                 scope: GLOBAL
@@ -604,23 +574,6 @@ jenkinsx::casc:
                 description: api.lsst.codes/ghslacker
                 username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
                 password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
-            - usernamePassword:
-                id: ltd-mason-aws
-                scope: GLOBAL
-                description: ltd-mason
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAYwp5mhnBnTDYBeYaLbNGfrHGzPRgOBihRWRYzugayLO7JWEYTXElACBOII+5c6yS7V3kpX4pwYR61zN3Ae4s6gjfB//3+hcgB05BpwRi0uymN/R3zDK61FmT+x6j+I2cuIs8TyAaZcn3XMmVnasORJUj7mzJRr5M4SH+a+y2IyfY2gkj9NXIAcTKhjEX4GzRVVh0mR4nqQEhzcR1+5eRRZm8Xpa8Y7LGLZYuVFo5ITl2TqmU73h2XjlhQuy1Xu7U3z0UtILrQNV2zydKzcwkgm9clXMBBGnENx1QUk31ajnSiaIqgNDAk6Wp1qiL5VhKhq8FJl4u4beeFWOo56VFYDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDPpo2HHDxfEsRBtrIa3LP0gCCKn8ozgADU/gZfqDdkwp8w7b1+HgJ6IYDZaEeAGoIbeg==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAr6zXvLpwGpwBYMWhjpo0wQxQ1kn3i1vKzPRH47Ng39/98eI19XiNenfM7UWlahCdLNdTNRC6i8kBCWQAO6n6+ULOUpIRxvfAgTCDU9rN8WyIxL/zMTdsVJUPXp3bNRLI8VFn8sSUVQgHiGiPPlkq7pZaniq5uxAA0tmP0/9LU1Ec+vU6EOWoKIteLuhdb7mTi3M2Ohird80FvdoFKHvjPLNUn1SSec13WLTVf4Ouuo18rWgvS4utzqC55e9zeEKRn8ecOw5z23NwA+92lVLVi3nqzjpryfzGDDjroeiXvQF0bDMSmS8DOl0shJDhA0dHJAjNE3O9RgTc5tj7BLeT6DBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAmXMeOgCNzGt8d9VeVj7D3gDBhDv+weMWSSLyMy5u4nGuXy/UwGbICn67PDzRwr2fpXc2SwxzOM+n8STIJAu5bENw=]
-            - usernamePassword:
-                id: ltd-keeper
-                scope: GLOBAL
-                description: ltd-keeper
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAmcjSI2AcqwWi6A6MYs8ikVh12Yvw7F5FPqWbkkGF9ludPX2aNaBZTqyF4j4AX5ydq98Rxo4zVjgpGTjKLFwlaamTRs11rFBVIArzuxBvuQLD2jGOg7i6Z3i/yggumGT598NfoaErv9DMK7/Abj1eAXNQlgPnl6lBFes+JzkuqUTvjQKpSVH5NzrAIn43F5Gj4Gcxzn/wVSJYkuJWWLL03MQQAoKdX3XpcloypljLWTYsmjRy5bbW97SjuZu/cPnXGahFoOiElcqptnjnbTDbH1xhRO0zSWynNWk23y77l5RnDjvITlu5w3LALdsZbY5OB8JpFmCfxDI4Etlzxw7atDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDa+trrL/0i7JHTcdexweOigBCO4sGUt/5fa6QZoiSe49uV]
-                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATV/mKYl9AVvL9FIQp/+mDTU1PJ19LwQQVU9BOEVYT+Y5h5qW/TrBicTD2RJ+pTMyhFOIP1Qu8FySuzJhT7nzQKZzDUIrIY+05eB5KgWNOtDp5qN9bUCvRSz7OrvsVFG7Omjqyfr6B2P4Xmt3npUXg+MgpXbIAmr4NcP5NHbS1sGaw+lcLHUw7ASeLUFtUQr4FKdFDN+/I661XMgO04E+WDOfAnT2fMqoQJM5kEO0T6aKqU1VlBw1cG2j0T/mrPNvXsy/mzr4gQrdSvcTlNItcyx1rMnamIAMPgBsENbqVN0dpW8nHOcBCordHgIWGDoBsNFKQAapDNYBl09Ijes3RTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDM8rOL5hrtZfhVuvmF3gyEgCAMDiCtaSFEEkKUF+koIsc5NI4hC9Y9XAcn+x9krIXoCA==]
-            - string:
-                id: jenkins-env
-                scope: GLOBAL
-                description: Name of Jenkins deployment
-                secret: "%{::env_name}"
   security:
     # Enable CLI over Remoting
     remotingCLI:
