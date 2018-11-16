@@ -53,6 +53,21 @@ jenkinsx::casc:
     system:
       domainCredentials:
         - credentials:
+            - string:
+                id: slack-default-channel
+                scope: GLOBAL
+                description: Default slack channel
+                secret: dmj-jhoblitt-moe
+            - string:
+                id: slack-channel-prefix
+                scope: GLOBAL
+                description: Prefix for generated slack channels
+                secret: dmjjm
+            - string:
+                id: github-api-token-sqreadmin
+                scope: GLOBAL
+                description: github API personal access token (sqreadminmoe)
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAcn2aJVBBaUuqSkxh1BmmB+P/hxrxyMg3AJH6ORwltk4t7sN4iSCkWJ00foyxTwfBIV7ijdtrNRXwOT1KyyTBipvyGDgEQHvkV0ewS+JUrMJQrMD86l49G7+JtAhXRIOJTlObSCeQqYR0QxS3OPrqR59PnVRmg4rnE8dlgWtW7N+7ejdXJfoc4S5ZZGKxBY1o8dLsdoS7lqgJtBnbtmQE3/omNJ1J5uaVyDIRIakkGR2UG9hhNVJLkNTn0xv6EgHqJ0WMx+SPnCAZXidoGAZ5p8nvnl+iUvJaYtbHZv+ErgNKcUIOi2D8KDCRDU0YIRMoFtSgadKpKeXq8n287772vzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAuonGm6bce1QTUq3Ev1H9zgDBHwR+fdSNQYwS4U2XVGGcxvmKxT/tLcbq0CKStMsfQ/cd57KNnzcSoBhSPxNrfDnk=]
             - basicSSHUserPrivateKey:
                 id: github-jenkins-versiondb
                 scope: GLOBAL
@@ -69,13 +84,9 @@ jenkinsx::casc:
                 privateKeySource:
                   directEntry:
                     privateKey: *jenkinsx_osx_ssh_private_key
-            - string:
-                id: slack-default-channel
+            - usernamePassword:
+                id: dockerhub-sqreadmin
                 scope: GLOBAL
-                description: Default slack channel
-                secret: dmj-jhoblitt-moe
-            - string:
-                id: slack-channel-prefix
-                scope: GLOBAL
-                description: Prefix for generated slack channels
-                secret: dmjjm
+                description: dockerhub (sqreadminmoe)
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAZ+hsOnHZCp+aRf8OXrjVBdSLqF7l1fWIdNZ6yv/I9JNuIw6VWTBag2Z4Gr6+U/ZiNoqQnK/e/Qgm/b3LLet0TAKzEoCUObcN2Y+o5UcGi6qO64oUwdBBEIPIMQwHw7yhmV5v6aWsMb+5NS/bJntl1noZGMeh/5Csv2ZQ3WWX3NPD93BJ8eorRVg3A+8Fja1h0wXTaQnynDpScKCaa6zrrINEi/EYNBcwOml2evYubXV/BCthDIVn4yDA/dhy3armFMPjtpXZ5QU+CofB7gGHvD1bHwx+/NclQmRD/aKRB5hVRvsEC9TrueRtXp8noHHoXT9ylKZeKc6HHO1KB+IB7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBCGUPa9EXAl22hY3UxqoCKgBCTLxf7vdk+N5wFmDynaBay]
+                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAq6P0DBh2jJY0ZjUO0D+og+IPJPb2d69SIeauDYrfW4QWzd+SqkT+7JtQonp3UTgr4amU4Qlyl7tScpptkBFGr5JKySERR+PouDcw6po9X2iVIBmjo+7sH/MxAjaosJ9ojdAkFEdlbS1Yho/A+gHHJCQ2QVQYaYuaJLRwm/nTvhRxJT4G4601wVHibvsmuIlGhgd+NAtapijpcvsOEL67nyy4BTGsyknhaS5dX56dlQsdQWzhb4OkU8RgoGm6k3b0guRBZqJA8xvg6dtungcrZknIwty0E8nI3Enuhe6Ei3Qd0SfBlROp8NbGR0/90Cd/RKNGELR5T0oX/BgJ0xJZlDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDvVoOf0mTHKjqv5v2ie5u2gCCL3LNrUFdnavtCSsPsijnS1GihZnnAFW+mHgPwKOxxEQ==]

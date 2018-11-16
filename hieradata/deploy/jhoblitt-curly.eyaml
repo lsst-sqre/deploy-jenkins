@@ -47,3 +47,9 @@ jenkinsx::casc:
                 privateKeySource:
                   directEntry:
                     privateKey: *jenkinsx_versiondb_ssh_private_key
+            - usernamePassword:
+                id: dockerhub-sqreadmin
+                scope: GLOBAL
+                description: dockerhub (sqreadmincurly)
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALCngcMwLvUpwOOrWJzswpOHGOwDAmjQlHGfqnqiJKbYm25vanqOBCEINCN7AWuU1+MXE48vmQja6Ak8o2QBKMR73vX3tgyo1UzkMt/UgYKRE2L2bU81GlD2SJE8mQqj2SDr/r/Cv8OY36Hv4oN9E5T+3JhIMYx7m8z5Oj9iV/654IqDyeH5xS9ytIC+Z8U2hymGEYwSDvoSv94Teb55vPDkk+IO2jCKOz6VsVu0sanyNgnSK1SdlbHsS0hhXpUn0keU1pzYJ7G/RaT1UcmItlORmMq8RdX1H14BevyZ9QodKGCvvZdTuVgxFnFbP/uk0n4tz7oo+YlpwqFPwfm0jAjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDdenct2610uGYjpjqlJt2JgBBDliAvuYXSi8h2024GxIut]
+                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbGBxqJ92KELpnj0ylcCh4zneaYCruT+00IFyewgIki+TfOrG7i7PgnKysun2OYHaqSFrOxnqIqz1lejV+Cc6HpQpdeabCY5aVfhl/6Yt+cm8mtxQEOa8OKoA73QILkNC60hzbmjg+1q+7rbuZXY5xfDltm8W/+VOvHHw8w7xwMg3hnur6Yi19YPWcYFTpGab8+m6yqde2hZ8U5G04wjZT5lxonfr1svl2StiwZblBsxl26r7VGk1t4YcgXZ4YtITCiKCkJbSSfFikUvxSW5vIhtCIvXAJY3arCF05u15MNWIgPf1TosTIvC+ulz4QmkpS6K2HvSjhoHkhnXZIpry8TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBddAbsgQqbe6eXXdDhW8G5gCDOaCT2DsE/jbhsITC2CtSwgDzXZH9hd140bMpwaCfXgw==]
