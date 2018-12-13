@@ -8,10 +8,6 @@ provider "aws" {
   secret_key = "${var.aws_secret_key}"
 }
 
-provider "template" {
-  version = "~> 1.0"
-}
-
 locals {
   jenkins_master_internal_ip = "192.168.123.10"
 

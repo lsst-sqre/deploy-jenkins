@@ -31,12 +31,10 @@ variable "domain_name" {
   default     = "lsst.codes"
 }
 
-# remove "<env>-" prefix for production
-data "template_file" "fqdn" {
-  template = "${replace("${var.env_name}-${var.service_name}.${var.domain_name}", "jenkins-prod-", "")}"
-}
+locals {
+  # remove "<env>-" prefix for production
+  dns_prefix  = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
-data "template_file" "publish_release_bucket" {
-  template = "${var.env_name}-publish-release-tf"
-  template = "${replace("${var.env_name}-publish-release-tf", "jenkins-prod-", "")}"
+  master_fqdn             = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  publish_release_bucket  = "${local.dns_prefix}publish-release-tf"
 }

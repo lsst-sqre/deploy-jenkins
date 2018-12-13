@@ -3,7 +3,7 @@ data "terraform_remote_state" "pr" {
 
   config {
     region = "${var.aws_default_region}"
-    bucket = "${data.template_file.publish_release_bucket.rendered}"
+    bucket = "${local.publish_release_bucket}"
     key    = "terraform.tfstate"
   }
 }
