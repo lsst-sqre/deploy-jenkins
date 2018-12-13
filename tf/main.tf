@@ -184,7 +184,10 @@ resource "aws_security_group" "jenkins-demo-slaveport" {
     from_port   = 55555
     to_port     = 55555
     protocol    = "tcp"
-    cidr_blocks = ["140.252.0.0/16"]
+    cidr_blocks = [
+      "${aws_eip.jenkins-demo-master.public_ip}/32",
+      "0.0.0.0/0",
+    ]
   }
 
   tags {
