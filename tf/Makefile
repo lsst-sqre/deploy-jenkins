@@ -4,7 +4,7 @@ DL_DIR = downloads
 ARCH = amd64
 TF_PLUG_DIR := .terraform/plugins/$(UNAME)_$(ARCH)
 
-TF_VER = 0.11.7
+TF_VER = 0.11.10
 TF_ZIP_FILE := terraform_$(TF_VER)_$(UNAME)_$(ARCH).zip
 TF_ZIP_DL := $(DL_DIR)/$(TF_ZIP_FILE)
 TF_BIN := $(BIN_DIR)/terraform
