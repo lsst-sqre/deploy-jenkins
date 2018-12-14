@@ -54,10 +54,12 @@ resource "aws_vpc_dhcp_options_association" "jenkins" {
 
 resource "aws_route53_zone" "jenkins-internal" {
   name   = "${local.jenkins_internal_domain}"
-  vpc_id = "${aws_vpc.jenkins-demo.id}"
+
+  vpc {
+    vpc_id = "${aws_vpc.jenkins-demo.id}"
+  }
 
   # COMMENT
-
   tags {
     Name = "${var.env_name}"
   }
