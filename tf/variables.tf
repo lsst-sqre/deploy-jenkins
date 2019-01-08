@@ -23,10 +23,21 @@ variable "domain_name" {
   default     = "lsst.codes"
 }
 
+variable "scipipe_publish_region" {
+  description = "aws region of scipipe-publish deploy tf s3 remote state bucket."
+}
+
+variable "scipipe_publish_bucket" {
+  description = "scipipe-publish deploy tf s3 remote state bucket."
+}
+
+variable "scipipe_publish_key" {
+  description = "scipipe-publish deploy tf s3 remote state object key."
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
-  master_fqdn            = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
-  scipipe_publish_bucket = "${local.dns_prefix}scipipe-publish-tf"
+  master_fqdn = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
 }
