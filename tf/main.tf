@@ -53,7 +53,7 @@ resource "aws_vpc_dhcp_options_association" "jenkins" {
 }
 
 resource "aws_route53_zone" "jenkins-internal" {
-  name   = "${local.jenkins_internal_domain}"
+  name = "${local.jenkins_internal_domain}"
 
   vpc {
     vpc_id = "${aws_vpc.jenkins-demo.id}"
@@ -181,9 +181,10 @@ resource "aws_security_group" "jenkins-demo-slaveport" {
   description = "allow external access to jenkins slave agent port"
 
   ingress {
-    from_port   = 55555
-    to_port     = 55555
-    protocol    = "tcp"
+    from_port = 55555
+    to_port   = 55555
+    protocol  = "tcp"
+
     cidr_blocks = [
       "${aws_eip.jenkins-demo-master.public_ip}/32",
       "0.0.0.0/0",
