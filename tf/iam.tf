@@ -4,7 +4,7 @@
 data "aws_caller_identity" "current" {}
 
 module "snapshot_user" {
-  source = "github.com/lsst-sqre/tf_aws_iam_user"
+  source = "git::https://github.com/lsst-sqre/terraform-aws-iam-user"
   name   = "${var.env_name}-snap-master-funk"
 
   policy = <<POLICY
