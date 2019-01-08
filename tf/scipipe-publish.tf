@@ -3,7 +3,7 @@ data "terraform_remote_state" "pr" {
 
   config {
     region = "${var.aws_default_region}"
-    bucket = "${local.publish_release_bucket}"
+    bucket = "${local.scipipe_publish_bucket}"
     key    = "terraform.tfstate"
   }
 }

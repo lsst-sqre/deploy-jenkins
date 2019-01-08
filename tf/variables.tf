@@ -36,5 +36,5 @@ locals {
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
   master_fqdn            = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
-  publish_release_bucket = "${local.dns_prefix}publish-release-tf"
+  scipipe_publish_bucket = "${local.dns_prefix}scipipe-publish-tf"
 }
