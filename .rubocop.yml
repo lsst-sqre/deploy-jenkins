@@ -1,8 +1,10 @@
 AllCops:
   TargetRubyVersion: '2.5'
   Exclude:
-    - 'environments/**/*'
-
+    - .bundle/**/*
+    - environments/**/*
+    - .tmp/**/*
+    - vendor/**/*
 
 Metrics/BlockLength:
   Enabled: false
@@ -45,3 +47,7 @@ Lint/HandleExceptions:
   Enabled: false
 Lint/RescueException:
   Enabled: false
+
+Layout/AlignHash:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table

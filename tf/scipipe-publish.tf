@@ -2,9 +2,9 @@ data "terraform_remote_state" "pr" {
   backend = "s3"
 
   config {
-    region = "${var.aws_default_region}"
-    bucket = "${data.template_file.publish_release_bucket.rendered}"
-    key    = "terraform.tfstate"
+    region = "${var.scipipe_publish_region}"
+    bucket = "${var.scipipe_publish_bucket}"
+    key    = "${var.scipipe_publish_key}"
   }
 }
 

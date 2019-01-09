@@ -4,8 +4,8 @@ required_plugins = %w[
   vagrant-puppet-install
   vagrant-aws
 ]
-plugins_to_install = required_plugins.select do |plugin|
-  not Vagrant.has_plugin? plugin
+plugins_to_install = required_plugins.reject do |plugin|
+  Vagrant.has_plugin? plugin
 end
 unless plugins_to_install.empty?
   puts "Installing plugins: #{plugins_to_install.join(' ')}"

@@ -4,7 +4,7 @@ set -e
 shopt -s globstar nullglob
 
 CHECK=( **/*.sh )
-IGNORE=( environments/** .bundle/** .tmp/** )
+IGNORE=( environments/** .bundle/** .tmp/** vendor/** )
 
 for c in "${!CHECK[@]}"; do
   for i in "${IGNORE[@]}"; do
@@ -21,6 +21,6 @@ done
 echo
 
 docker run -ti -v "$(pwd):$(pwd)" -w "$(pwd)" \
-  koalaman/shellcheck-alpine:v0.4.6 -x "${CHECK[@]}"
+  koalaman/shellcheck-alpine:v0.6.0 shellcheck -x "${CHECK[@]}"
 
 # vim: tabstop=2 shiftwidth=2 expandtab

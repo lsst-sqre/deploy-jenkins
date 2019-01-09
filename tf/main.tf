@@ -1,15 +1,7 @@
-terraform {
-  backend "s3" {}
-}
-
 provider "aws" {
-  region     = "${var.aws_default_region}"
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
-}
+  version = "~> 1.54"
 
-provider "template" {
-  version = "~> 1.0"
+  region = "${var.aws_default_region}"
 }
 
 locals {
@@ -57,11 +49,13 @@ resource "aws_vpc_dhcp_options_association" "jenkins" {
 }
 
 resource "aws_route53_zone" "jenkins-internal" {
-  name   = "${local.jenkins_internal_domain}"
-  vpc_id = "${aws_vpc.jenkins-demo.id}"
+  name = "${local.jenkins_internal_domain}"
+
+  vpc {
+    vpc_id = "${aws_vpc.jenkins-demo.id}"
+  }
 
   # COMMENT
-
   tags {
     Name = "${var.env_name}"
   }
@@ -183,10 +177,14 @@ resource "aws_security_group" "jenkins-demo-slaveport" {
   description = "allow external access to jenkins slave agent port"
 
   ingress {
-    from_port   = 55555
-    to_port     = 55555
-    protocol    = "tcp"
-    cidr_blocks = ["140.252.0.0/16"]
+    from_port = 55555
+    to_port   = 55555
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "${aws_eip.jenkins-demo-master.public_ip}/32",
+      "0.0.0.0/0",
+    ]
   }
 
   tags {

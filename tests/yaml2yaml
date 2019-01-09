@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Parse a yaml file and then [re]dump the de-serialization as yaml. This may be
 # useful for checking formatting and/or processing of anchor/aliases.

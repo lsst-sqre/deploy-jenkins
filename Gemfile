@@ -7,4 +7,7 @@ gem 'librarian-puppet'
 gem 'puppet', '~> 5.5.6'
 gem 'puppet-lint', '~> 2.3.5'
 gem 'rake'
-gem 'rubocop', '~> 0.53.0'
+
+group :development do
+  gem 'rubocop', '~> 0.61.1', require: false
+end
