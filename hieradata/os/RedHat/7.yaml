@@ -1,23 +1,23 @@
 ---
 packages:
-  - 'ack'
-  - 'centos-release-scl'
-  - 'git'
-  - 'rh-git29'
-  - 'scl-utils'
-  - 'screen'
-  - 'tmux'
-  - 'tree'
-  - 'vim'
-jenkins_demo::profile::kernel::version: '3.10.0-862.11.6.el7.x86_64'
-java::package: 'java-1.8.0-openjdk-devel-1.8.0.181-3.b13.el7_5'
+  - ack
+  - centos-release-scl
+  - git
+  - rh-git29
+  - scl-utils
+  - screen
+  - tmux
+  - tree
+  - vim
+jenkins_demo::profile::kernel::version: 3.10.0-862.11.6.el7.x86_64
+java::package: java-1.8.0-openjdk-devel-1.8.0.181-3.b13.el7_5
 files:
-  '/etc/profile.d/rh-git29.sh':
+  /etc/profile.d/rh-git29.sh:
     content: |
       #!/bin/bash
       source scl_source enable rh-git29
-    owner: 'root'
-    group: 'root'
+    owner: root
+    group: root
     mode: '0555'
 docker::overlay2_override_kernel_check: true
 docker::storage_driver: overlay2
