@@ -25,6 +25,7 @@ mod 'jhoblitt/oauth2_proxy', '~> 1.4.1'
 mod 'puppetlabs/docker', '~> 2.0.0'
 mod 'puppet/archive', '> 2'
 mod 'puppetlabs/reboot', '~> 2.0.0'
+mod 'puppet/yum', '~> 3.1.1'
 
 mod 'voxpupuli/jenkins',
     git: 'https://github.com/lsst-sqre/puppet-jenkins.git',
