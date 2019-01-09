@@ -4,6 +4,7 @@ AllCops:
     - .bundle/**/*
     - environments/**/*
     - .tmp/**/*
+    - vendor/**/*
 
 Metrics/BlockLength:
   Enabled: false

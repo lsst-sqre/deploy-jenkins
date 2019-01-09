@@ -5,7 +5,7 @@ shopt -s globstar nullglob
 
 CHECK=( **/*.yaml **/*.yaml.tpl **/*.yml **/*.eyaml .travis.yml )
 EYAML=( **/*.eyaml )
-IGNORE=( environments/** .bundle/** .tmp/** )
+IGNORE=( environments/** .bundle/** .tmp/** vendor/** )
 CONF_FILE=".yamllint.yaml"
 
 # filter out plaintext versions of .eyaml files

@@ -4,7 +4,7 @@ set -e
 shopt -s globstar nullglob
 
 CHECK=( **/Makefile )
-IGNORE=( environments/** .bundle/** .tmp/** )
+IGNORE=( environments/** .bundle/** .tmp/** vendor/** )
 
 for c in "${!CHECK[@]}"; do
   for i in "${IGNORE[@]}"; do
