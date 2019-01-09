@@ -1,7 +1,9 @@
 AllCops:
   TargetRubyVersion: '2.5'
   Exclude:
-    - 'environments/**/*'
+    - .bundle/**/*
+    - environments/**/*
+    - .tmp/**/*
 
 Metrics/BlockLength:
   Enabled: false
