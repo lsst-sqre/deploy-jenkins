@@ -114,6 +114,6 @@ jenkins::slave::ui_pass: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBH
 # name and the pipeline script hangs forever.
 jenkins::slave::disable_clients_unique_id: true
 jenkins::slave::delete_existing_clients: true
-docker::version: '18.03.1.ce'
+docker::version: '18.09.1'
 timezone::timezone: 'US/Pacific'
 tuned::profile: 'virtual-host'
