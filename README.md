@@ -1,5 +1,5 @@
-Jenkins LSST Stack Demo
-=======================
+LSST Jenkins deployment
+===
 
 [![Build Status](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo.png)](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo)
 
