@@ -129,6 +129,17 @@ update nginx package version in `hieradata/common.eyaml`
 nginx::package_ensure: '1.14.0-1.el7_4.ngx'
 ```
 
+### Update gems
+
+In particular, to ensure that `librarian-puppet` is upgraded before attempting
+to update puppet modules.
+
+```sh
+bundle update
+git add Gemfile Gemfile.lock
+git commit -m "updating gems"
+```
+
 ### Update puppet modules
 
 Show outdated modules irrespective of version pinning:
