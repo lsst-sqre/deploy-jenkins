@@ -121,9 +121,12 @@ class jenkins_demo::profile::jenkins::master(
 
   nginx::resource::upstream { 'jenkins':
     ensure  => present,
-    members => [
-      'localhost:8080',
-    ],
+    members => {
+      'localhost:8080' => {
+        server => 'localhost',
+        port   => 8080,
+      },
+    },
   }
 
   # We need to redirect to the canonical https URL in one step.  If we do a
