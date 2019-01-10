@@ -1,6 +1,6 @@
 ---
 # yamllint disable rule:line-length
-nginx::package_ensure: '1.14.0-1.el7_4.ngx'
+nginx::package_ensure: 1.14.2-1.el7_4.ngx.x86_64
 nginx::confd_purge: true
 nginx::server_purge: true
 nginx::http2: 'on'
