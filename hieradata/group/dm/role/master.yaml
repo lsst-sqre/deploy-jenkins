@@ -1,0 +1,179 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkinsx::casc:
+  jenkins:
+    authorizationStrategy:
+      globalMatrix:
+        grantedPermissions:
+          # sqre-user github account used to auth swarm agents and should never
+          # be a member of lsst-sqre*square team, which would provide admin
+          # access.
+          - "Agent/Connect:sqre-user"
+          - "Agent/Create:sqre-user"
+          # "hard-coded" admin accounts "just in case"
+          - "Overall/Administer:jhoblitt"
+          - "Overall/Administer:frossie"
+          # lsst-sqre org
+          ## admin teams
+          - "Overall/Administer:lsst-sqre*square"
+          - "Overall/Administer:lsst-sqre*Leeroy Wranglers"
+          ## Friends
+          - "Overall/Read:lsst-sqre*Friends"
+          - "Job/Build:lsst-sqre*Friends"
+          - "Job/Cancel:lsst-sqre*Friends"
+          - "Job/Discover:lsst-sqre*Friends"
+          - "Job/Read:lsst-sqre*Friends"
+          # lsst org
+          ## Data Management
+          - "Overall/Read:lsst*Data Management"
+          - "Job/Build:lsst*Data Management"
+          - "Job/Cancel:lsst*Data Management"
+          - "Job/Discover:lsst*Data Management"
+          - "Job/Read:lsst*Data Management"
+          ## Simulations
+          - "Overall/Read:lsst*Simulations"
+          - "Job/Build:lsst*Simulations"
+          - "Job/Cancel:lsst*Simulations"
+          - "Job/Discover:lsst*Simulations"
+          - "Job/Read:lsst*Simulations"
+          # lsst-dm org
+          ## Data Management
+          - "Overall/Read:lsst-dm*Data Management"
+          - "Job/Build:lsst-dm*Data Management"
+          - "Job/Cancel:lsst-dm*Data Management"
+          - "Job/Discover:lsst-dm*Data Management"
+          - "Job/Read:lsst-dm*Data Management"
+  unclassified:
+    githubpluginconfig:
+      configs:
+        - credentialsId: "github-api-token-sqreadmin"
+  jobs:
+    - script: |
+        folder('sqre') {
+          description('SQRE mission related jobs')
+        }
+        folder('sqre/seeds') {}
+
+        job('sqre/seeds/dm-jobs') {
+          label('jenkins-master')
+          concurrentBuild(false)
+
+          scm {
+            git {
+              remote {
+                url('https://github.com/jhoblitt/jenkins-dm-jobs')
+              }
+              branch('*/tickets/DM-15866-test-curly')
+            }
+          } // scm
+
+          triggers {
+            githubPush()
+          }
+
+          steps {
+            shell('./gradlew libs')
+
+            jobDsl {
+              targets('jobs/*.groovy')
+              useScriptText(false)
+              ignoreExisting(false)
+              ignoreMissingFiles(false)
+              removedJobAction('DELETE')
+              removedViewAction('IGNORE')
+              lookupStrategy('JENKINS_ROOT')
+              additionalClasspath('lib/*.jar')
+            }
+          } // steps
+        } // job
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - string:
+                id: jenkins-env
+                scope: GLOBAL
+                description: Name of Jenkins deployment
+                secret: "%{::env_name}"
+            - usernamePassword:
+                id: aws-jenkins-master-snapshot
+                scope: GLOBAL
+                description: 'jenkins master snapshot AWS credentials'
+                username: "%{::snapshot_aws_access_key_id}"
+                password: "%{::snapshot_aws_secret_access_key}"
+            - string:
+                id: doxygen-url
+                scope: GLOBAL
+                description: 'URL of doxygen site'
+                secret: "%{::doxygen_url}"
+            - string:
+                id: eups-url
+                scope: GLOBAL
+                description: 'URL of eups site'
+                secret: "%{::eups_url}"
+            - usernamePassword:
+                id: aws-eups-push
+                scope: GLOBAL
+                description: push EUPS packages -> s3
+                username: "%{::eups_push_aws_access_key_id}"
+                password: "%{::eups_push_aws_secret_access_key}"
+            - string:
+                id: eups-push-bucket
+                scope: GLOBAL
+                description: name of EUPS s3 bucket
+                secret: "%{::eups_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-backup
+                scope: GLOBAL
+                description: backup EUPS s3 bucket -> s3 bucket
+                username: "%{::eups_backup_aws_access_key_id}"
+                password: "%{::eups_backup_aws_secret_access_key}"
+            - string:
+                id: eups-backup-bucket
+                scope: GLOBAL
+                description: name of EUPS backup s3 bucket
+                secret: "%{::eups_backup_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-tag-admin
+                scope: GLOBAL
+                description: manage eups distrib tags in s3 bucket
+                username: "%{::eups_tag_admin_aws_access_key_id}"
+                password: "%{::eups_tag_admin_aws_secret_access_key}"
+            - usernamePassword:
+                id: aws-doxygen-push
+                scope: GLOBAL
+                description: push doxygen builds -> s3
+                username: "%{::doxygen_push_aws_access_key_id}"
+                password: "%{::doxygen_push_aws_secret_access_key}"
+            - string:
+                id: doxygen-push-bucket
+                scope: GLOBAL
+                description: name of doxygen s3 bucket
+                secret: "%{::doxygen_s3_bucket}"
+            - string:
+                id: cmirror-s3-bucket
+                scope: GLOBAL
+                description: name of conda channel bucket
+                secret: conda-mirror.lsst.codes
+            - string:
+                id: github-api-token-sqrbot
+                scope: GLOBAL
+                description: 'github API personal access token (sqrbot)'
+                secret: 4268fd3f52b4636dd841aaa530b6027afeaa009c
+            - string:
+                id: slack-lsstc-token
+                scope: GLOBAL
+                description: slack lsstc org API token
+                secret: xoxp-6444004512-315218083601-316750761910-bdc58f6262ffcdcd8e6c95c1fdcb7d82
+            - usernamePassword:
+                id: ghslacker
+                scope: GLOBAL
+                description: api.lsst.codes/ghslacker
+                username: ghslacker
+                password: ghetrkjtl134

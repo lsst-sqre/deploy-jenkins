@@ -1,0 +1,179 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkinsx::casc:
+  jenkins:
+    authorizationStrategy:
+      globalMatrix:
+        grantedPermissions:
+          # sqre-user github account used to auth swarm agents and should never
+          # be a member of lsst-sqre*square team, which would provide admin
+          # access.
+          - "Agent/Connect:sqre-user"
+          - "Agent/Create:sqre-user"
+          # "hard-coded" admin accounts "just in case"
+          - "Overall/Administer:jhoblitt"
+          - "Overall/Administer:frossie"
+          # lsst-sqre org
+          ## admin teams
+          - "Overall/Administer:lsst-sqre*square"
+          - "Overall/Administer:lsst-sqre*Leeroy Wranglers"
+          ## Friends
+          - "Overall/Read:lsst-sqre*Friends"
+          - "Job/Build:lsst-sqre*Friends"
+          - "Job/Cancel:lsst-sqre*Friends"
+          - "Job/Discover:lsst-sqre*Friends"
+          - "Job/Read:lsst-sqre*Friends"
+          # lsst org
+          ## Data Management
+          - "Overall/Read:lsst*Data Management"
+          - "Job/Build:lsst*Data Management"
+          - "Job/Cancel:lsst*Data Management"
+          - "Job/Discover:lsst*Data Management"
+          - "Job/Read:lsst*Data Management"
+          ## Simulations
+          - "Overall/Read:lsst*Simulations"
+          - "Job/Build:lsst*Simulations"
+          - "Job/Cancel:lsst*Simulations"
+          - "Job/Discover:lsst*Simulations"
+          - "Job/Read:lsst*Simulations"
+          # lsst-dm org
+          ## Data Management
+          - "Overall/Read:lsst-dm*Data Management"
+          - "Job/Build:lsst-dm*Data Management"
+          - "Job/Cancel:lsst-dm*Data Management"
+          - "Job/Discover:lsst-dm*Data Management"
+          - "Job/Read:lsst-dm*Data Management"
+  unclassified:
+    githubpluginconfig:
+      configs:
+        - credentialsId: "github-api-token-sqreadmin"
+  jobs:
+    - script: |
+        folder('sqre') {
+          description('SQRE mission related jobs')
+        }
+        folder('sqre/seeds') {}
+
+        job('sqre/seeds/dm-jobs') {
+          label('jenkins-master')
+          concurrentBuild(false)
+
+          scm {
+            git {
+              remote {
+                url('https://github.com/jhoblitt/jenkins-dm-jobs')
+              }
+              branch('*/tickets/DM-15866-test-curly')
+            }
+          } // scm
+
+          triggers {
+            githubPush()
+          }
+
+          steps {
+            shell('./gradlew libs')
+
+            jobDsl {
+              targets('jobs/*.groovy')
+              useScriptText(false)
+              ignoreExisting(false)
+              ignoreMissingFiles(false)
+              removedJobAction('DELETE')
+              removedViewAction('IGNORE')
+              lookupStrategy('JENKINS_ROOT')
+              additionalClasspath('lib/*.jar')
+            }
+          } // steps
+        } // job
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - string:
+                id: jenkins-env
+                scope: GLOBAL
+                description: Name of Jenkins deployment
+                secret: "%{::env_name}"
+            - usernamePassword:
+                id: aws-jenkins-master-snapshot
+                scope: GLOBAL
+                description: 'jenkins master snapshot AWS credentials'
+                username: "%{::snapshot_aws_access_key_id}"
+                password: "%{::snapshot_aws_secret_access_key}"
+            - string:
+                id: doxygen-url
+                scope: GLOBAL
+                description: 'URL of doxygen site'
+                secret: "%{::doxygen_url}"
+            - string:
+                id: eups-url
+                scope: GLOBAL
+                description: 'URL of eups site'
+                secret: "%{::eups_url}"
+            - usernamePassword:
+                id: aws-eups-push
+                scope: GLOBAL
+                description: push EUPS packages -> s3
+                username: "%{::eups_push_aws_access_key_id}"
+                password: "%{::eups_push_aws_secret_access_key}"
+            - string:
+                id: eups-push-bucket
+                scope: GLOBAL
+                description: name of EUPS s3 bucket
+                secret: "%{::eups_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-backup
+                scope: GLOBAL
+                description: backup EUPS s3 bucket -> s3 bucket
+                username: "%{::eups_backup_aws_access_key_id}"
+                password: "%{::eups_backup_aws_secret_access_key}"
+            - string:
+                id: eups-backup-bucket
+                scope: GLOBAL
+                description: name of EUPS backup s3 bucket
+                secret: "%{::eups_backup_s3_bucket}"
+            - usernamePassword:
+                id: aws-eups-tag-admin
+                scope: GLOBAL
+                description: manage eups distrib tags in s3 bucket
+                username: "%{::eups_tag_admin_aws_access_key_id}"
+                password: "%{::eups_tag_admin_aws_secret_access_key}"
+            - usernamePassword:
+                id: aws-doxygen-push
+                scope: GLOBAL
+                description: push doxygen builds -> s3
+                username: "%{::doxygen_push_aws_access_key_id}"
+                password: "%{::doxygen_push_aws_secret_access_key}"
+            - string:
+                id: doxygen-push-bucket
+                scope: GLOBAL
+                description: name of doxygen s3 bucket
+                secret: "%{::doxygen_s3_bucket}"
+            - string:
+                id: cmirror-s3-bucket
+                scope: GLOBAL
+                description: name of conda channel bucket
+                secret: conda-mirror.lsst.codes
+            - string:
+                id: github-api-token-sqrbot
+                scope: GLOBAL
+                description: 'github API personal access token (sqrbot)'
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsIOS6DGR6aKWZ8Nwisba7AFa4br/MJsazu+rJXDwN/u2t2aZvV92LZR4c8ZAwLpv8GRd5NSzw0dTKvWF4W5foLYA5DIlyO2Pah91QCQQjqWUY0HOtH9Va8IFTVT0/66RRUJnD4v07l6Sdp0XcRGYAQbIpgc6GvFhkTKPdUAxwuqvk+hCsXyRlO4/WCV+23WNoahkXsruCO7aazfzS62ri6Q7fW5M/XAkt1HgeHhpze+QSDgUpxSP+ZMImXwUY0i8HxDFdAZEWdT4U0/67KyU6Z8yqTUKkGNKm1UNQ0cjr+MtQ4HusQSZIDUU6H17jP+pKi0Uo3ASsKFGEszubeJPRjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB99LG82bu/LBysOe7sK1TzgDCcS8mWzBjY9D1OPAplq+edZLgXzGY3Y7HxoJNUMCJtkc5H6kBHBC4R0foBUED1mmc=]
+            - string:
+                id: slack-lsstc-token
+                scope: GLOBAL
+                description: slack lsstc org API token
+                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc9dPGPrXzdHICLutl4t/nU/Mzq42jgaHSRQ8mIeKBPAMmnOiIBuwEbkKS30YCU2BeA7t6MJSt4MhHiTAijWW9pTJcR1Kn8ImbwDzdzwOeupexKmqdSZIME3UZyPfKkiKg9ZfccjHb2c4UGVl8QXK/YntcmVZmkAOpUxoeq6btPsvrpq1Af8M3wVMfQakjGqCuw183SDJv01mwafLa5qgrN3D1lGea5eHxdGlvUlf6BEyU8GnzhJZnGkqvM2IQIFud4gI6OUB2JAoI4p5HwghUl6CYsMeVMZvUohuf4cLIKyM3GIrLP823npFh+cY5zzyUX8xWduPWW7+uE4VwOE0NDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBf3IFJ3kvuQKBde0nbF4GUgFCcZW7kJoPcWrc1450sXpLdNE4Ayg8DsbBh0O6P7TpyOS76RYt8yX1V+poYsGs1F+mLn3dvYxQf2IV9nrjGcHDx3s5vyVvRHsFaPNnYCQvxrw==]
+            - usernamePassword:
+                id: ghslacker
+                scope: GLOBAL
+                description: api.lsst.codes/ghslacker
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
+                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
