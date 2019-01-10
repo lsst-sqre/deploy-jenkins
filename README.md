@@ -1,7 +1,7 @@
 LSST Jenkins deployment
 ===
 
-[![Build Status](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo.png)](https://travis-ci.org/lsst-sqre/sandbox-jenkins-demo)
+[![Build Status](https://travis-ci.org/lsst-sqre/deploy-jenkins.png)](https://travis-ci.org/lsst-sqre/deploy-jenkins)
 
 Synopsis
 ---
