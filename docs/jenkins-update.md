@@ -149,7 +149,8 @@ bundle exec librarian-puppet outdated
 ```
 
 ```sh
-bundle exec librarian-puppet update --verbose --destructive
+bundle exec librarian-puppet update --verbose
+bundle exec librarian-puppet install --verbose --destructive
 git add Puppetfile Puppetfile.lock
 git commit -m "updating puppet modules"
 ```
@@ -221,18 +222,20 @@ jenkins::slave::version: '3.13'
 
 * List installed / latest plugins
 
+XXX This needs to be run locally as, at least, the nginx BO redirect is
+breaking the /cli endpoint.
+
 ```sh
-/bin/java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080 -remoting -i /usr/lib/jenkins/admin_private_key
+/bin/java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080 -auth <user>:<github oauth token> list-plugins
 ```
 
 Eg.,
 
 ```sh
-[centos@jenkins-master ~]$ /bin/java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080 -remoting -i /usr/lib/jenkins/admin_private_key list-plugins
-credentials                        Credentials Plugin                                               2.1.16 (2.1.18)
-command-launcher                   Command Agent Launcher Plugin                                    1.2
-support-core                       Support Core Plugin                                              2.45.1 (2.49)
-metrics                            Metrics Plugin
+[centos@jenkins-master ~]$ /bin/java -jar /usr/lib/jenkins/jenkins-cli.jar -s http://localhost:8080 -auth <user>:<github oauth token> list-plugins
+credentials                        Credentials Plugin                                               2.1.18
+configuration-as-code              Configuration as Code Plugin                                     1.1 (1.4)
+configuration-as-code-support      Configuration as Code Support Plugin                             1.1 (1.4)
 ```
 
 An easy way to get to the plugin information page to look at release notes is
@@ -315,29 +318,18 @@ See
 https://github.com/lsst-sqre/sandbox-jenkins-demo/blob/master/quickstart.md#jenkins-job-development-workflow
 for instructions on updating the fork/branch used for the "seed job".
 
-* run the `dm-jobs` seed job and check the console for deprecation messages
+* Trigger the `dm-jobs` seed job and check the console for deprecation messages
 
-https://jhoblitt-moe-ci.lsst.codes/blue/organizations/jenkins/sqre%2Fseeds%2Fdm-jobs/detail/dm-jobs/55/pipeline
+https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/seeds/job/dm-jobs/
 
-https://github.com/jenkinsci/job-dsl-plugin/wiki/Migration
+Check: https://github.com/jenkinsci/job-dsl-plugin/wiki/Migration
 
-* run `jenkins-node-cleanup` job and look for error messages
+* Trigger `jenkins-node-cleanup` and inspect console output for errors
 
 Note that the groovy script will likely need manual security approval after
 `dm-jobs` has been reun.
 
 https://jhoblitt-moe-ci.lsst.codes/scriptApproval/
-https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/infra/job/jenkins-node-cleanup/
-
-* Trigger `dm-jobs` and inspect console output for errors
-
-https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/seeds/job/dm-jobs/
-
-* Approve `jenkins-node-cleanup` script
-
-https://jhoblitt-moe-ci.lsst.codes/scriptApproval/
-
-* Trigger `jenkins-node-cleanup` and inspect console output for errors
 
 https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/infra/job/jenkins-node-cleanup/
 
@@ -348,19 +340,7 @@ https://jhoblitt-moe-ci.lsst.codes/job/stack-os-matrix/build?delay=0sec
 This will inevitably fail due to the usage of groovy methods that haven't been
 whitelisted by default in the groovy security sandbox for `pipeline` jobs.
 
-Replay the job and edit the `debug` variable for `slack` notifications to be
-`true`.
-
-```groovy
-import groovy.transform.Field
-import org.codehaus.groovy.runtime.StackTraceUtils
-
-@Field String slackEndpoint = 'https://slack.com/api'
-@Field String ghslackerEndpoint = 'https://api.lsst.codes/ghslacker'
-@Field Boolean debug = false
-```
-
-Approve the signature:
+Run the job and approve the method signature:
 
 https://jhoblitt-moe-ci.lsst.codes/scriptApproval/
 
