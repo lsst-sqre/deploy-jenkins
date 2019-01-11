@@ -162,11 +162,6 @@ jenkinsx::casc:
                 description: name of conda channel bucket
                 secret: conda-mirror.lsst.codes
             - string:
-                id: github-api-token-sqrbot
-                scope: GLOBAL
-                description: 'github API personal access token (sqrbot)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsIOS6DGR6aKWZ8Nwisba7AFa4br/MJsazu+rJXDwN/u2t2aZvV92LZR4c8ZAwLpv8GRd5NSzw0dTKvWF4W5foLYA5DIlyO2Pah91QCQQjqWUY0HOtH9Va8IFTVT0/66RRUJnD4v07l6Sdp0XcRGYAQbIpgc6GvFhkTKPdUAxwuqvk+hCsXyRlO4/WCV+23WNoahkXsruCO7aazfzS62ri6Q7fW5M/XAkt1HgeHhpze+QSDgUpxSP+ZMImXwUY0i8HxDFdAZEWdT4U0/67KyU6Z8yqTUKkGNKm1UNQ0cjr+MtQ4HusQSZIDUU6H17jP+pKi0Uo3ASsKFGEszubeJPRjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB99LG82bu/LBysOe7sK1TzgDCcS8mWzBjY9D1OPAplq+edZLgXzGY3Y7HxoJNUMCJtkc5H6kBHBC4R0foBUED1mmc=]
-            - string:
                 id: slack-lsstc-token
                 scope: GLOBAL
                 description: slack lsstc org API token
