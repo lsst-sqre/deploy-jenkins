@@ -33,6 +33,10 @@ variable "scipipe_publish_key" {
   description = "scipipe-publish deploy tf s3 remote state object key."
 }
 
+variable "group_name" {
+  description = "select group specific configuration."
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
