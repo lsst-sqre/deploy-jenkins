@@ -164,8 +164,9 @@ jenkinsx::casc:
             - string:
                 id: slack-lsstc-token
                 scope: GLOBAL
+                # https://api.slack.com/custom-integrations/legacy-tokens
                 description: slack lsstc org API token
-                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc9dPGPrXzdHICLutl4t/nU/Mzq42jgaHSRQ8mIeKBPAMmnOiIBuwEbkKS30YCU2BeA7t6MJSt4MhHiTAijWW9pTJcR1Kn8ImbwDzdzwOeupexKmqdSZIME3UZyPfKkiKg9ZfccjHb2c4UGVl8QXK/YntcmVZmkAOpUxoeq6btPsvrpq1Af8M3wVMfQakjGqCuw183SDJv01mwafLa5qgrN3D1lGea5eHxdGlvUlf6BEyU8GnzhJZnGkqvM2IQIFud4gI6OUB2JAoI4p5HwghUl6CYsMeVMZvUohuf4cLIKyM3GIrLP823npFh+cY5zzyUX8xWduPWW7+uE4VwOE0NDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBf3IFJ3kvuQKBde0nbF4GUgFCcZW7kJoPcWrc1450sXpLdNE4Ayg8DsbBh0O6P7TpyOS76RYt8yX1V+poYsGs1F+mLn3dvYxQf2IV9nrjGcHDx3s5vyVvRHsFaPNnYCQvxrw==]
+                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiUb5ytDagLc/Ej7EFoxhQw7OHHmmKVWHdEk4XnzBFiXzmEWAXXo0dY0vLai4iAM+cgYS9WHLs2pxm4PkRDDnsPUrLgjG1u+Y+0p3KSIGuW0Gy4bWqlTBeu02jldjU+vHaCIkXw8TZDQnHlmsiD3Tei6x7dyf38vJ/QX0UxfSJ//j1JzIg8gHzu6N8kjbRQrxDWxuF3mk4Qn/p+/pwmCvMUHQio2C5SwZuA0CZQYYqd4CfmqRfVBiifDCxDtisnAvhCqCO9NchdS5Ser6LJuviFQuKBxCRYv0aAjfjTEbfj+PlAkkcNwhQfekbYzq6fiAcT2KgX0OfuD+he7F+hZw8zB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCnE1ghPVePUx9Wwnl2SuS0gFCRKuJtmVGk6CWntErdxmBIHVcpdIY1KFPyRFk+6E5zu2vlC4q6oU8LTT5XIEFbcBMhMhDrAWO1Z5UpW59giPAb/9Io7SOHID4CTukCg6edag==]
             - usernamePassword:
                 id: ghslacker
                 scope: GLOBAL
