@@ -13,8 +13,8 @@ Prerequisites
 Clone Source
 ---
 
-    hub clone lsst-sqre/sandbox-jenkins-demo sandbox-jenkins-demo-<topic>
-    cd sandbox-jenkins-demo-<topic>
+    hub clone lsst-sqre/deploy-jenkins deploy-jenkins-<topic>
+    cd deploy-jenkins-<topic>
     bundle install
     hub fork
     git branch -b tickets/<DM-XXXX>-<topic>
@@ -154,7 +154,7 @@ Fork `jenkins-dm-jobs`
 ---
 
 It is recommend the `jenkins-dm-jobs` clone *not* be nested under the
-`sandbox-jenkins-demo`.
+`deploy-jenkins`.
 
     cd
     hub clone lsst-sqre/jenkins-dm-jobs jenkins-dm-jobs-<topic>
@@ -163,10 +163,10 @@ It is recommend the `jenkins-dm-jobs` clone *not* be nested under the
     git checkout -b tickets/<DM-XXXX>-<topic>-dev
     git push $USER tickets/<DM-XXXX>-<topic>-dev
 
-return to the `sandbox-jenkins-demo` clone
+return to the `deploy-jenkins` clone
 
     cd
-    cd sandbox-jenkins-demo-<topic>
+    cd deploy-jenkins-<topic>
 
 Edit the jenkins "seed" job that pulls from `jenkins-dm-jobs` to point at the
 development fork/branch.

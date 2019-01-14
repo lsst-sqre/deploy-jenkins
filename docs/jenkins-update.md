@@ -315,7 +315,7 @@ To github.com:jhoblitt/jenkins-dm-jobs.git
 ```
 
 See
-https://github.com/lsst-sqre/sandbox-jenkins-demo/blob/master/quickstart.md#jenkins-job-development-workflow
+https://github.com/lsst-sqre/deploy-jenkins/blob/master/quickstart.md#jenkins-job-development-workflow
 for instructions on updating the fork/branch used for the "seed job".
 
 * Trigger the `dm-jobs` seed job and check the console for deprecation messages

@@ -251,8 +251,8 @@ To be used by vagrant.
 
 ### Clone & prepare demo
 
-    git clone git@github.com:jhoblitt/sandbox-jenkins-demo.git
-    cd sandbox-jenkins-demo
+    git clone git@github.com:jhoblitt/deploy-jenkins.git
+    cd deploy-jenkins
 
 #### Edit hiera data as necessary
 
@@ -392,13 +392,13 @@ $ vagrant package el6-1
 ==> el6-1: Burning instance i-bc806b6f into an ami
 ==> el6-1: Waiting for the AMI 'ami-ff18e494' to burn...
 ==> el6-1: Burn was successful in 60s
-==> el6-1: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+==> el6-1: Compressing package to: /home/jhoblitt/tmp/deploy-jenkins/package.box
 $ rm package.box
 $ vagrant package el7-1
 ==> el7-1: Burning instance i-a4ef0477 into an ami
 ==> el7-1: Waiting for the AMI 'ami-0515e96e' to burn...
 ==> el7-1: Burn was successful in 146s
-==> el7-1: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+==> el7-1: Compressing package to: /home/jhoblitt/tmp/deploy-jenkins/package.box
 $ rm package.box
 $ vagrant destroy -f el6-1 el7-1
 ==> el7-1: Terminating the instance...
@@ -409,7 +409,7 @@ $ vagrant package master
 ==> master: Burning instance i-7c0de6af into an ami
 ==> master: Waiting for the AMI 'ami-d312eeb8' to burn...
 ==> master: Burn was successful in 417s
-==> master: Compressing package to: /home/jhoblitt/tmp/sandbox-jenkins-demo/package.box
+==> master: Compressing package to: /home/jhoblitt/tmp/deploy-jenkins/package.box
 $ rm package.box
 $     vagrant destroy -f master
 ==> master: Terminating the instance...
