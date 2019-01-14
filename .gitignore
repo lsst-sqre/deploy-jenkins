@@ -1,8 +1,6 @@
 .bundle
 creds.sh
 environments/**/modules
-hieradata/common.yaml
-hieradata/role/master.yaml
 jenkins_demo/templates/id_rsa*
 keys
 .lsst-certs
@@ -10,10 +8,7 @@ keys
 *.patch
 pkg/
 *.rej
-.rspec_system/
-spec/fixtures/manifests/
-spec/fixtures/modules/
 *.swp
-tmp
 .tmp
+tmp
 .vagrant

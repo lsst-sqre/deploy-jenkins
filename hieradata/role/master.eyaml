@@ -2,9 +2,9 @@
 # yamllint disable rule:line-length
 classes:
   - jenkins_demo::role::master
-jenkins::version: '2.141-1.1'
-jenkins::lts: false
-jenkins::master::version: '3.14'
+jenkins::version: '2.150.1-1.1'
+jenkins::lts: true
+jenkins::master::version: '3.15'
 jenkins::config_firewall: false
 jenkins::cli: true
 jenkins::config_hash:
@@ -26,32 +26,32 @@ jenkins::plugin_hash:
   credentials:
     version: '2.1.18'
   configuration-as-code:
-    version: '1.1'
+    version: '1.4'
   configuration-as-code-support:
-    version: '1.1'
+    version: '1.4'
   command-launcher:
-    version: '1.2'
+    version: '1.3'
   # command-launcher deps
   # script-security
   # /command-launcher deps
   support-core:
-    version: '2.49'
+    version: '2.53'
   # support-core deps
   metrics:
     version: '4.0.2.2'
   jackson2-api:
-    version: '2.8.11.3'
+    version: '2.9.8'
   bouncycastle-api:
     version: '2.17'
   # /support-core deps
   junit:
-    version: '1.24'
+    version: '1.26.1'
   script-security:
-    version: '1.44'
+    version: '1.50'
   # validating-string-parameter:
   #   version: '2.3'
   plain-credentials:
-    version: '1.4'
+    version: '1.5'
   # plain-credentials deps
   # credentials:
   # plain-credentials -> credentials deps
@@ -59,7 +59,7 @@ jenkins::plugin_hash:
     version: '2.0.3'
   # /plain-credentials deps
   github:
-    version: '1.29.2'
+    version: '1.29.3'
   # github deps
   token-macro:
     version: '2.5'
@@ -68,26 +68,26 @@ jenkins::plugin_hash:
   git:
     version: '3.9.1'
   github-api:
-    version: '1.92'
+    version: '1.95'
   # github -> git deps
   scm-api:
-    version: '2.2.7'
+    version: '2.3.0'
   git-client:
-    version: '2.7.3'
+    version: '2.7.6'
   # /github -> git deps
   # /github deps
   github-oauth:
-    version: '0.29'
+    version: '0.31'
   # github-oauth deps
   # github-api:
   # git
   mailer:
-    version: '1.21'
+    version: '1.23'
   # /github-oauth deps
   display-url-api:
-    version: '2.2.0'
+    version: '2.3.0'
   credentials-binding:
-    version: '1.16'
+    version: '1.17'
   # credentials-binding deps
   # /credentials-binding deps
   nodelabelparameter:
@@ -98,11 +98,11 @@ jenkins::plugin_hash:
     version: '1.12.4-0'
   # /nodelabelparameter deps
   postbuildscript:
-    version: '2.7.0'
+    version: '2.8.1'
   # postbuildscript deps
   # mailer
   maven-plugin:
-    version: '3.1.2'
+    version: '3.2'
   # maven-plugin deps
   # javadoc
   # mailer
@@ -110,7 +110,7 @@ jenkins::plugin_hash:
   apache-httpcomponents-client-4-api:
     version: '4.5.5-3.0'
   jsch:
-    version: '0.1.54.2'
+    version: '0.1.55'
   # /maven-plugin deps
   javadoc:
     version: '1.4'
@@ -118,7 +118,7 @@ jenkins::plugin_hash:
   greenballs:
     version: '1.15'
   rebuild:
-    version: '1.28'
+    version: '1.29'
   build-user-vars-plugin:
     version: '1.5'
   # build-user-vars-plugin deps
@@ -138,7 +138,7 @@ jenkins::plugin_hash:
   # credentials
   # /ssh-credentials deps
   ssh-slaves:
-    version: '1.28'
+    version: '1.29.4'
   # ssh-slaves deps
   # ssh-credentials
   # credentials
@@ -176,7 +176,7 @@ jenkins::plugin_hash:
   #   version: '0.7'
   # kubernetes deps
   durable-task:
-    version: '1.25'
+    version: '1.28'
   # credentials
   # /kubernetes deps
   # dynamic-axis:
@@ -184,33 +184,36 @@ jenkins::plugin_hash:
   multiple-scms:
     version: '0.6'
   cloudbees-folder:
-    version: '6.5.1'
+    version: '6.7'
   job-dsl:
-    version: '1.70'
+    version: '1.71'
   structs:
-    version: '1.14'
+    version: '1.17'
   # /job-dsl deps
   workflow-scm-step:
-    version: '2.6'
+    version: '2.7'
   # update manager really seems to think these two plugins are needed
   windows-slaves:
-    version: '1.3.1'
+    version: '1.4'
   matrix-auth:
     version: '2.3'
   ### pipeline/workflow deps
   workflow-aggregator:
-    version: '2.5'
+    version: '2.6'
+  # workflow-aggregator deps
+  lockable-resources:
+    version: '2.3'
+  # /workflow-aggregator deps
   jquery-detached:
     version: '1.2.1'
   workflow-api:
-    version: '2.29'
+    version: '2.33'
   workflow-support:
-    version: '2.20'
+    version: '3.0'
   workflow-step-api:
-    version: '2.16'
-  # workflow-job 2.14.1 *is not * compabtile with core 2.60.x
+    version: '2.17'
   workflow-job:
-    version: '2.24'
+    version: '2.31'
   pipeline-stage-view:
     version: '2.10'
   pipeline-rest-api:
@@ -226,29 +229,29 @@ jenkins::plugin_hash:
   git-server:
     version: '1.7'
   branch-api:
-    version: '2.0.20'
+    version: '2.1.2'
   workflow-durable-task-step:
-    version: '2.21'
+    version: '2.27'
   pipeline-input-step:
-    version: '2.8'
+    version: '2.9'
   pipeline-stage-step:
     version: '2.3'
   workflow-basic-steps:
-    version: '2.10'
+    version: '2.13'
   workflow-cps:
-    version: '2.54'
+    version: '2.61.1'
   workflow-cps-global-lib:
-    version: '2.10'
+    version: '2.12'
   workflow-multibranch:
     version: '2.20'
   pipeline-milestone-step:
     version: '1.3.1'
   pipeline-graph-analysis:
-    version: '1.7'
+    version: '1.9'
   pipeline-model-declarative-agent:
     version: '1.1.1'
   pipeline-model-api:
-    version: &pipev '1.3.2'
+    version: &pipev '1.3.4.1'
   pipeline-model-definition:
     version: *pipev
   pipeline-model-extensions:
@@ -285,14 +288,14 @@ jenkins::plugin_hash:
   # docker-commons
   # /dockerhub-notification deps
   ssh-agent:
-    version: '1.16'
+    version: '1.17'
   groovy:
     version: '2.0'
   # what is github-branch-source a dep of?
   github-branch-source:
-    version: '2.3.6'
+    version: '2.4.1'
   blueocean:
-    version: &bov '1.8.2'
+    version: &bov '1.10.1'
   # blueocean deps
   # >= 1.4.0
   blueocean-core-js:
@@ -343,15 +346,15 @@ jenkins::plugin_hash:
   pubsub-light:
     version: '1.12'
   sse-gateway:
-    version: '1.15'
+    version: '1.17'
   variant:
     version: '1.1'
   jira:
-    version: '3.0.1'
+    version: '3.0.5'
   htmlpublisher:
-    version: '1.16'
+    version: '1.17'
   cloudbees-bitbucket-branch-source:
-    version: '2.2.12'
+    version: '2.3.0'
   # cloudbees-bitbucket-branch-source deps
   handy-uri-templates-2-api:
     version: '2.1.6-1.0'
@@ -360,7 +363,7 @@ jenkins::plugin_hash:
     version: '2.4'
   # /blueocean deps
   pipeline-utility-steps:
-    version: '2.1.0'
+    version: '2.2.0'
   # pipeline-utility-steps deps
   # workflow-cps
   # workflow-step-api
@@ -372,16 +375,13 @@ jenkins::plugin_hash:
   # token-macro
   # /build-timeout deps
   jdk-tool:
-    version: '1.1'
+    version: '1.2'
 jenkins_demo::profile::jenkins::agent::slave_mode: exclusive
 # prevent jobs tied to "docker" or "centos-7" from running on this node
 jenkins_demo::profile::jenkins::agent::use_default_labels: false
 jenkins_demo::profile::jenkins::agent::labels:
   - "%{::hostname}"
 jenkins_demo::profile::jenkins::agent::executors: 8
-# XXX RM ME
-# jenkins_demo::profile::jenkins::master::seed_url: &seed_url https://github.com/lsst-sqre/jenkins-dm-jobs
-# jenkins_demo::profile::jenkins::master::seed_ref: &seed_ref '*/master'
 jenkinsx::casc:
   configuration-as-code:
     version: 1
@@ -403,177 +403,9 @@ jenkinsx::casc:
     crumbIssuer:
       standard:
         excludeClientIPFromCrumb: true
-    authorizationStrategy:
-      globalMatrix:
-        grantedPermissions:
-          # sqre-user github account used to auth swarm agents and should never
-          # be a member of lsst-sqre*square team, which would provide admin
-          # access.
-          - "Agent/Connect:sqre-user"
-          - "Agent/Create:sqre-user"
-          # "hard-coded" admin accounts "just in case"
-          - "Overall/Administer:jhoblitt"
-          - "Overall/Administer:frossie"
-          # lsst-sqre org
-          ## admin teams
-          - "Overall/Administer:lsst-sqre*square"
-          - "Overall/Administer:lsst-sqre*Leeroy Wranglers"
-          ## Friends
-          - "Overall/Read:lsst-sqre*Friends"
-          - "Job/Build:lsst-sqre*Friends"
-          - "Job/Cancel:lsst-sqre*Friends"
-          - "Job/Discover:lsst-sqre*Friends"
-          - "Job/Read:lsst-sqre*Friends"
-          # lsst org
-          ## Data Management
-          - "Overall/Read:lsst*Data Management"
-          - "Job/Build:lsst*Data Management"
-          - "Job/Cancel:lsst*Data Management"
-          - "Job/Discover:lsst*Data Management"
-          - "Job/Read:lsst*Data Management"
-          ## Simulations
-          - "Overall/Read:lsst*Simulations"
-          - "Job/Build:lsst*Simulations"
-          - "Job/Cancel:lsst*Simulations"
-          - "Job/Discover:lsst*Simulations"
-          - "Job/Read:lsst*Simulations"
-          # lsst-dm org
-          ## Data Management
-          - "Overall/Read:lsst-dm*Data Management"
-          - "Job/Build:lsst-dm*Data Management"
-          - "Job/Cancel:lsst-dm*Data Management"
-          - "Job/Discover:lsst-dm*Data Management"
-          - "Job/Read:lsst-dm*Data Management"
   unclassified:
     location:
       url: "https://%{::jenkins_fqdn}"
-    githubpluginconfig:
-      configs:
-        - credentialsId: "github-api-token-sqreadmin"
-  jobs:
-    - script: |
-        folder('sqre') {
-          description('SQRE mission related jobs')
-        }
-        folder('sqre/seeds') {}
-
-        job('sqre/seeds/dm-jobs') {
-          label('jenkins-master')
-          concurrentBuild(false)
-
-          scm {
-            git {
-              remote {
-                url('https://github.com/lsst-sqre/jenkins-dm-jobs')
-              }
-              branch('*/master')
-            }
-          } // scm
-
-          triggers {
-            githubPush()
-          }
-
-          steps {
-            shell('./gradlew libs')
-
-            jobDsl {
-              targets('jobs/*.groovy')
-              useScriptText(false)
-              ignoreExisting(false)
-              ignoreMissingFiles(false)
-              removedJobAction('DELETE')
-              removedViewAction('IGNORE')
-              lookupStrategy('JENKINS_ROOT')
-              additionalClasspath('lib/*.jar')
-            }
-          } // steps
-        } // job
-  credentials:
-    system:
-      domainCredentials:
-        - credentials:
-            - string:
-                id: jenkins-env
-                scope: GLOBAL
-                description: Name of Jenkins deployment
-                secret: "%{::env_name}"
-            - usernamePassword:
-                id: aws-jenkins-master-snapshot
-                scope: GLOBAL
-                description: 'jenkins master snapshot AWS credentials'
-                username: "%{::snapshot_aws_access_key_id}"
-                password: "%{::snapshot_aws_secret_access_key}"
-            - string:
-                id: doxygen-url
-                scope: GLOBAL
-                description: 'URL of doxygen site'
-                secret: "%{::doxygen_url}"
-            - string:
-                id: eups-url
-                scope: GLOBAL
-                description: 'URL of eups site'
-                secret: "%{::eups_url}"
-            - usernamePassword:
-                id: aws-eups-push
-                scope: GLOBAL
-                description: push EUPS packages -> s3
-                username: "%{::eups_push_aws_access_key_id}"
-                password: "%{::eups_push_aws_secret_access_key}"
-            - string:
-                id: eups-push-bucket
-                scope: GLOBAL
-                description: name of EUPS s3 bucket
-                secret: "%{::eups_s3_bucket}"
-            - usernamePassword:
-                id: aws-eups-backup
-                scope: GLOBAL
-                description: backup EUPS s3 bucket -> s3 bucket
-                username: "%{::eups_backup_aws_access_key_id}"
-                password: "%{::eups_backup_aws_secret_access_key}"
-            - string:
-                id: eups-backup-bucket
-                scope: GLOBAL
-                description: name of EUPS backup s3 bucket
-                secret: "%{::eups_backup_s3_bucket}"
-            - usernamePassword:
-                id: aws-eups-tag-admin
-                scope: GLOBAL
-                description: manage eups distrib tags in s3 bucket
-                username: "%{::eups_tag_admin_aws_access_key_id}"
-                password: "%{::eups_tag_admin_aws_secret_access_key}"
-            - usernamePassword:
-                id: aws-doxygen-push
-                scope: GLOBAL
-                description: push doxygen builds -> s3
-                username: "%{::doxygen_push_aws_access_key_id}"
-                password: "%{::doxygen_push_aws_secret_access_key}"
-            - string:
-                id: doxygen-push-bucket
-                scope: GLOBAL
-                description: name of doxygen s3 bucket
-                secret: "%{::doxygen_s3_bucket}"
-            - string:
-                id: cmirror-s3-bucket
-                scope: GLOBAL
-                description: name of conda channel bucket
-                secret: conda-mirror.lsst.codes
-            - string:
-                id: github-api-token-sqrbot
-                scope: GLOBAL
-                description: 'github API personal access token (sqrbot)'
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsIOS6DGR6aKWZ8Nwisba7AFa4br/MJsazu+rJXDwN/u2t2aZvV92LZR4c8ZAwLpv8GRd5NSzw0dTKvWF4W5foLYA5DIlyO2Pah91QCQQjqWUY0HOtH9Va8IFTVT0/66RRUJnD4v07l6Sdp0XcRGYAQbIpgc6GvFhkTKPdUAxwuqvk+hCsXyRlO4/WCV+23WNoahkXsruCO7aazfzS62ri6Q7fW5M/XAkt1HgeHhpze+QSDgUpxSP+ZMImXwUY0i8HxDFdAZEWdT4U0/67KyU6Z8yqTUKkGNKm1UNQ0cjr+MtQ4HusQSZIDUU6H17jP+pKi0Uo3ASsKFGEszubeJPRjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB99LG82bu/LBysOe7sK1TzgDCcS8mWzBjY9D1OPAplq+edZLgXzGY3Y7HxoJNUMCJtkc5H6kBHBC4R0foBUED1mmc=]
-            - string:
-                id: slack-lsstc-token
-                scope: GLOBAL
-                description: slack lsstc org API token
-                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc9dPGPrXzdHICLutl4t/nU/Mzq42jgaHSRQ8mIeKBPAMmnOiIBuwEbkKS30YCU2BeA7t6MJSt4MhHiTAijWW9pTJcR1Kn8ImbwDzdzwOeupexKmqdSZIME3UZyPfKkiKg9ZfccjHb2c4UGVl8QXK/YntcmVZmkAOpUxoeq6btPsvrpq1Af8M3wVMfQakjGqCuw183SDJv01mwafLa5qgrN3D1lGea5eHxdGlvUlf6BEyU8GnzhJZnGkqvM2IQIFud4gI6OUB2JAoI4p5HwghUl6CYsMeVMZvUohuf4cLIKyM3GIrLP823npFh+cY5zzyUX8xWduPWW7+uE4VwOE0NDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBf3IFJ3kvuQKBde0nbF4GUgFCcZW7kJoPcWrc1450sXpLdNE4Ayg8DsbBh0O6P7TpyOS76RYt8yX1V+poYsGs1F+mLn3dvYxQf2IV9nrjGcHDx3s5vyVvRHsFaPNnYCQvxrw==]
-            - usernamePassword:
-                id: ghslacker
-                scope: GLOBAL
-                description: api.lsst.codes/ghslacker
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
   security:
     # Enable CLI over Remoting
     remotingCLI:

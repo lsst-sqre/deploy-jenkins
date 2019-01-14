@@ -45,3 +45,7 @@ output "ENV_NAME" {
 output "DOMAIN_NAME" {
   value = "${var.domain_name}"
 }
+
+output "GROUP_NAME" {
+  value = "${var.group_name}"
+}

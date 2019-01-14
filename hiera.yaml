@@ -11,5 +11,7 @@ hierarchy:
       - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
       - "os/%{facts.os.family}.yaml"
       - "deploy/%{::env_name}.yaml"
+      - "group/%{::group_name}/role/%{::role}.yaml"
+      - "group/%{::group_name}.yaml"
       - "role/%{::role}.yaml"
       - "common.yaml"
