@@ -67,9 +67,9 @@ jenkinsx::casc:
           scm {
             git {
               remote {
-                url('https://github.com/jhoblitt/jenkins-dm-jobs')
+                url('https://github.com/lsst-sqre/jenkins-dm-jobs')
               }
-              branch('*/tickets/DM-15866-test-curly')
+              branch('*/master')
             }
           } // scm
 
