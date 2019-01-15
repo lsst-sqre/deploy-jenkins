@@ -1,0 +1,27 @@
+---
+lookup_options:
+  classes:
+    merge: unique
+  files:
+    merge: deep
+classes:
+  - jenkins_demo::profile::sysctl
+docker::extra_parameters: --userns-remap="jenkins-slave:jenkins-slave"
+jenkins::slave::slave_uid: 888
+files:
+  '/etc/subuid':
+    content: |
+      jenkins-slave:888:65536
+    owner: root
+    group: root
+    mode: '0444'
+  '/etc/subgid':
+    content: |
+      jenkins-slave:888:65536
+    owner: root
+    group: root
+    mode: '0444'
+jenkins_demo::profile::sysctl::sysctl_hash:
+  user.max_user_namespaces:
+    ensure: present
+    value: 65536

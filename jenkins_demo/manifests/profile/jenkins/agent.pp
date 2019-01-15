@@ -26,7 +26,7 @@ class jenkins_demo::profile::jenkins::agent(
       minute  => '0',
       hour    => '4',
     }
-    Class[::docker] -> Class[::jenkins::slave]
+    Class[::jenkins::slave] -> Class[::docker]
   } else {
     $docker = undef
   }
@@ -48,7 +48,6 @@ class jenkins_demo::profile::jenkins::agent(
     masterurl    => 'http://jenkins-master:8080',
     slave_name   => $::hostname,
     slave_home   => '/j',
-    slave_groups => $docker,
     slave_mode   => $slave_mode,
     executors    => $executors,
     labels       => join(delete_undef_values($real_labels), ' '),

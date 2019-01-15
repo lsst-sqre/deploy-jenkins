@@ -6,6 +6,9 @@ lookup_options:
   packages:
     merge:
       strategy: unique
+  files:
+    merge:
+      strategy: deep
 classes:
   - yum
   - yum::plugin::versionlock
