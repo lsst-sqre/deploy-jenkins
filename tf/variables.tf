@@ -21,18 +21,6 @@ variable "domain_name" {
   description = "DNS domain name to use when creating route53 records."
 }
 
-variable "scipipe_publish_region" {
-  description = "aws region of scipipe-publish deploy tf s3 remote state bucket."
-}
-
-variable "scipipe_publish_bucket" {
-  description = "scipipe-publish deploy tf s3 remote state bucket."
-}
-
-variable "scipipe_publish_key" {
-  description = "scipipe-publish deploy tf s3 remote state object key."
-}
-
 variable "group_name" {
   description = "select group specific configuration."
 }
