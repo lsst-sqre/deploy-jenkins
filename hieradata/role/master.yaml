@@ -376,12 +376,6 @@ jenkins::plugin_hash:
   # /build-timeout deps
   jdk-tool:
     version: '1.2'
-jenkins_demo::profile::jenkins::agent::slave_mode: exclusive
-# prevent jobs tied to "docker" or "centos-7" from running on this node
-jenkins_demo::profile::jenkins::agent::use_default_labels: false
-jenkins_demo::profile::jenkins::agent::labels:
-  - "%{::hostname}"
-jenkins_demo::profile::jenkins::agent::executors: 8
 jenkinsx::casc:
   configuration-as-code:
     version: 1
