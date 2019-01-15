@@ -1,14 +1,16 @@
 provider "aws" {
   version = "~> 1.54"
-
-  region = "${var.aws_default_region}"
 }
+
+data "aws_region" "current" {}
 
 locals {
   jenkins_master_internal_ip = "192.168.123.10"
 
   # reserved domain options: https://tools.ietf.org/html/rfc6761
   jenkins_internal_domain = "${var.env_name}.test"
+
+  aws_default_region = "${data.aws_region.current.name}"
 }
 
 resource "aws_key_pair" "jenkins-demo" {
@@ -72,7 +74,7 @@ resource "aws_route53_record" "jenkins-master-internal" {
 
 resource "aws_subnet" "jenkins-demo" {
   vpc_id                  = "${aws_vpc.jenkins-demo.id}"
-  availability_zone       = "${var.aws_default_region}c"
+  availability_zone       = "${local.aws_default_region}c"
   cidr_block              = "192.168.123.0/24"
   map_public_ip_on_launch = true
 

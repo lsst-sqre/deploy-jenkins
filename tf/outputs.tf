@@ -35,7 +35,7 @@ output "SECURITY_GROUP_ID_INTERNAL" {
 }
 
 output "AWS_DEFAULT_REGION" {
-  value = "${var.aws_default_region}"
+  value = "${local.aws_default_region}"
 }
 
 output "ENV_NAME" {

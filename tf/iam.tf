@@ -35,7 +35,7 @@ module "snapshot_user" {
       "Action": [
         "ec2:CreateTags"
       ],
-      "Resource": [ "arn:aws:ec2:${var.aws_default_region}::snapshot/*" ],
+      "Resource": [ "arn:aws:ec2:${local.aws_default_region}::snapshot/*" ],
       "Condition": {
         "StringEquals": {
           "ec2:CreateAction" : "CreateSnapshot",
@@ -58,7 +58,7 @@ module "snapshot_user" {
       "Action": [
         "ec2:DeleteSnapshot"
       ],
-      "Resource": [ "arn:aws:ec2:${var.aws_default_region}::snapshot/*" ],
+      "Resource": [ "arn:aws:ec2:${local.aws_default_region}::snapshot/*" ],
       "Condition": {
         "StringEquals": {
           "ec2:ResourceTag/jenkins_env": "${var.env_name}"
