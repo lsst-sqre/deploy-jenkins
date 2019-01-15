@@ -20,9 +20,15 @@ variable "group_name" {
   description = "select group specific configuration."
 }
 
+variable "master_fqdn" {
+  description = "FQDN jenkins will respond to. If empty (default), it is generated from the env_name, service_name, and domain_name. This is useful to configure jenkins to respond to a DNS alias."
+  default     = ""
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
-  master_fqdn = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  master_fqdn  = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
 }
