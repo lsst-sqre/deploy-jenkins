@@ -13,6 +13,6 @@ hierarchy:
       - "os/%{facts.os.family}.yaml"
       - "deploy/%{::env_name}.yaml"
       - "group/%{::group_name}/role/%{::role}.yaml"
-      - "group/%{::group_name}.yaml"
       - "role/%{::role}.yaml"
+      - "group/%{::group_name}/common.yaml"
       - "common.yaml"
