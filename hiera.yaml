@@ -8,6 +8,8 @@ hierarchy:
     path: "%{::hostname}.yaml"
   - name: "role"
     paths:
+      - "group/%{::group_name}/os/%{facts.os.family}/%{facts.os.release.major}.yaml"
+      - "group/%{::group_name}/os/%{facts.os.family}.yaml"
       - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
       - "os/%{facts.os.family}.yaml"
       - "deploy/%{::env_name}.yaml"
