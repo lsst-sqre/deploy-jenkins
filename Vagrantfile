@@ -67,10 +67,12 @@ Vagrant.configure('2') do |config|
     hostname = gen_hostname('master')
     define.vm.hostname = hostname
 
-    define.vm.provider :aws do |provider, _override|
+    define.vm.provider :aws do |provider, override|
       ci_hostname(hostname, provider, 'master')
 
       provider.ami = master_ami
+      # XXX for old masters only
+      # override.ssh.username = 'vagrant'
       provider.private_ip_address = JENKINS_MASTER_INTERNAL_IP
       provider.elastic_ip = JENKINS_IP
       provider.security_groups = [
