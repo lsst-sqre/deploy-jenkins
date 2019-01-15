@@ -96,6 +96,9 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  agent_volsize = 1500
+  agent_volsize = 250 if GROUP_NAME == 'ts'
+
   el7_nodes&.each do |agent_id|
     config.vm.define "el7-#{agent_id}" do |define|
       hostname = gen_hostname("el7-#{agent_id}")
@@ -111,7 +114,7 @@ Vagrant.configure('2') do |config|
         }
         provider.block_device_mapping = [{
           'DeviceName'              => '/dev/sda1',
-          'Ebs.VolumeSize'          => 1500,
+          'Ebs.VolumeSize'          => agent_volsize,
           'Ebs.VolumeType'          => 'gp2',
           'Ebs.DeleteOnTermination' => 'true',
         }]
