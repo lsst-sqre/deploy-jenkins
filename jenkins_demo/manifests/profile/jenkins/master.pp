@@ -2,12 +2,9 @@ class jenkins_demo::profile::jenkins::master(
   $seed_url = undef,
   $seed_ref = '*/master',
 ) {
-  include ::wget # needed by jenkins
   include ::nginx
   include ::jenkins
   include ::jenkins::master # <- I am a swarm master
-
-  Class['::wget'] -> Class['::jenkins']
 
   # only required (?) under jdk8
   $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
