@@ -16,9 +16,7 @@ $versionlocks = lookup('yum::versionlock', {
 })
 
 if ($packages) {
-  package { $packages:
-    ensure => present,
-  }
+  ensure_packages($packages, { ensure => present })
 }
 
 if ($files) {
