@@ -5,6 +5,27 @@ require 'rake/clean'
 EYAML_FILES = FileList['hieradata/**/*.eyaml']
 CLEAN.include(EYAML_FILES.ext('.yaml'))
 
+desc 'checkout eyaml keys'
+task :checkoutkeys do |t|
+  c_dir = '.lsst-certs'
+  s_dir = 'keys'
+  lock_file = "#{c_dir}/.git/info/sparse-checkout"
+
+  Dir.mkdir(c_dir) unless Dir.exists?(c_dir)
+  unless File.exists?(lock_file)
+    Dir.chdir(c_dir) do
+      sh <<~EOS
+        git init
+        git remote add origin ~/Dropbox/lsst-sqre/git/lsst-certs.git
+        git config core.sparseCheckout true
+        echo "eyaml-keys/" >> .git/info/sparse-checkout
+        git pull --depth=1 origin master
+      EOS
+    end
+  end
+  File.symlink("#{c_dir}/eyaml-keys", s_dir) unless Dir.exists?(s_dir)
+end
+
 desc 'generate new eyaml keys'
 task :createkeys do |t|
   sh "eyaml #{t}"
@@ -44,6 +65,7 @@ task :puppet_lint do
 end
 
 task default: %i[
+  checkoutkeys
   decrypt
   librarian
 ]
