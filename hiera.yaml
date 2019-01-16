@@ -7,7 +7,7 @@ hierarchy:
   - name: "role"
     paths:
       # node name
-      - "group/%{::group_name}/node/%{::hostname}.yaml"
+      - "group/%{::group_name}/deploy/%{::env_name}/node/%{::hostname}.yaml"
       # deploy name
       - "group/%{::group_name}/deploy/%{::env_name}.yaml"
       # major release
