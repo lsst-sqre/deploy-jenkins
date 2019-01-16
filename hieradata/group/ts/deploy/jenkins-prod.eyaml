@@ -1,0 +1,31 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkinsx::casc:
+  jenkins:
+    securityRealm:
+      github:
+        clientID: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALahFqdwSMWbH+LMXumXTJ11lE18dL+t7f0M6vlTRfoYrpNtP8FjY59Ur6VmAS6tUEHCPzfB3lyt2BXnZgMWbrZNyTqu5TLcV1rFsvMtujJl12s6TKQofj9BwkTkVLPu3rYABuK9oA3QghYurZQsYU4/72gZ7Dvf5Fz8Q/qKq7X6bf5wxmIgm1U0LcWKZlJSqYQt4O1o4Rja8wevIPt1fC+b1R0jU1kj2NWFhIBN8ffZGru6MmT3FoRJJlXjZiEm53GHBqFZLk0A02P7Jc4U8OUC9RNTZQV14DiGeudlLNkgBPkVYMSKiCp9SeTQ9Q1BUGqbRmvekZuCh/veykOG/+TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBC9Q+lgb5X7uElf3v5xbfFgCAUPMk8jBAPE94iZ4s+tApH5lhhO64yvA1sF5kef3qFbQ==]
+        clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATii+XQvMjmNmhSrK3DnVWkNw8clmk0MMD4z0tNiQV/Xz0usIUfDjDNQeiKS8LpQnvtk3y+6UIla9RQt/bHxt0AFbuCOW14b7k8EBzNXRGi60EO/n+zhoOLWOxTZ7yzfAEbidsGjlxEieWtHzDMOvR3BiIPnVmScWb9mEEVkAgVqvYywKwK0KGP1N0x2V/TCshGwIbIUqhpN6LDZWuVa4e+mIp5Zk/JSG1ElDlKP+xtvR7wREvptoIQhpiTifgME0l+v1gpAEdfoltPRS1sHl/unFGswfGyjA2DiVj7yxghLAWGFD8TXsvuRNiR1myOv288OVb93t5xA2O42ay0omrzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB7bzbSRI9qAFH7sRNHcDUOgDBLzxOtbe4kQxiGGMVqB5KDeQc9nDnn4aAvdpzWd1DGrnBnqRs/Gv04nvfLVDv9nvw=]
+        githubApiUri: https://api.github.com
+        githubWebUri: https://github.com
+        oauthScopes: read:org
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - usernamePassword:
+                id: dockerhub-lsstsadmin
+                scope: GLOBAL
+                description: dockerhub (lssttsadmin)
+                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsqr4rlfP4EyK8XZaMUzfAfulkCrfyZkQ/cWtnC4KndbDQRfvObVT3qfWz3lK4c6VEbp68aSIhqIYOUJMUeEMJ6aKZ8sut6Y5mceMxUowRbqR6JPwNcfrQXgf8WkVwn1GAKzFCKZdWbedJmXCk290MfD8eybczGQzhK0RgC+YxjHX9Az9BMRyx7fgurRyWfJmjSdIIVxkaKOgA+m7cFl65pwO9gDONacWtOYlkqP66gcSbaxUU6q48SRB9MWiksPPkf5VHHJlfWc9QKcM+hvZvpKTCFP1+4fOcbMxj1tZVrIK2M+MwKomZEOalAzwb/WpGzP0Qnd/b71YxzgAoq97PjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBt98dpRhfinN7878sANMeMgBCv37Df6yPgVABGnpBGAwbv]
+                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnDdqUQRPYuLXEUoA2aahlH+zeksMCI0Pz9CBNbKB49lM3kqUlws8YRpkmJaqXJ6iBrhrLl9PzWNLtKnD8JBIlC/1ZPSa+c3LOvxfhYFEGkm5tsFlq0P4BjMzJkx97/5DQRthL20DMyM5+FKmMveTzBiLQr1dbfXFsa7Rxr5ZF2D0UYpN+/1Bi+HfuFcrPUM9N8F8iCcLwewxhIG2EMw8fkqUAeAz136nmEc4eqjKBNLg6Onuzpdne+7i1Uxaem/nT0sYcPaI8unbq7FEJnTrWTJYZR5jJXCXOR5/Agc+aSG7dbVAQCl6cYk3gMTUkRdutWmJmiulk3G01tZwSboGqTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD1cssiaDvVx2V/BJCbGojBgCAjVQRl9Ub2Vg6K6hz2CHbvYE7uGM/o2BqryGcHwyZcBg==]
+  unclassified:
+    githubpluginconfig:
+      configs:
+        - credentialsId: "github-api-token-sqreadmin"
