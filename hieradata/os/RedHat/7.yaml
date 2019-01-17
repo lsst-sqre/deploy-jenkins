@@ -36,8 +36,7 @@ files:
     mode: '0555'
 docker::overlay2_override_kernel_check: true
 docker::storage_driver: overlay2
-yum:
-  clean_old_kernels: false
+yum::clean_old_kernels: false
 yum::managed_repos:
   - C7.5.1804-updates
 yum::repos:
