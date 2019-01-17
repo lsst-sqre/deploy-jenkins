@@ -40,17 +40,25 @@ class jenkins_demo::profile::jenkins::master(
     value_type => Hash[String, Any],
   })
   if $casc {
-    $dom_creds = $casc['credentials']['system']['domainCredentials']
-    $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
-      $result + $value['credentials']
-    }
-    $real_casc = $casc + {
-      credentials => {
-        system => {
-          domainCredentials => [ credentials => $merged_creds ],
-        },
+
+    if $casc['credentials'] and
+       $casc['credentials']['system'] and
+       $casc['credentials']['system']['domainCredentials'] {
+      $dom_creds = $casc['credentials']['system']['domainCredentials']
+      $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
+        $result + $value['credentials']
       }
+      $real_casc = $casc + {
+        credentials => {
+          system => {
+            domainCredentials => [ credentials => $merged_creds ],
+          },
+        }
+      }
+    } else {
+      $real_casc = $casc
     }
+
     # debug -- WILL PRINT SECRETS
     # notice('merged config:')
     # notice(inline_template("<%- require 'json'-%><%= JSON.pretty_generate(@real_casc) %>"))
