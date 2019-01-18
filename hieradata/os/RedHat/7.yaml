@@ -37,6 +37,9 @@ files:
 docker::overlay2_override_kernel_check: true
 docker::storage_driver: overlay2
 yum::clean_old_kernels: false
+yum::config_options:
+  exclude:
+    ensure: absent
 yum::managed_repos:
   - C7.5.1804-updates
 yum::repos:
