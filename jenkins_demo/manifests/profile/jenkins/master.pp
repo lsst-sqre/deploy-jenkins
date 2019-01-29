@@ -22,6 +22,9 @@ class jenkins_demo::profile::jenkins::master(
     mode  => '0444',
   }
 
+  # exec provider by puppet/yum
+  Yumrepo[jenkins] ~> Exec['yum_clean_all']
+
   # deep merge w/ merge_hash_arrays is incapable of properly merging multiple
   # `- credentails` array of hash elements under:
   #
