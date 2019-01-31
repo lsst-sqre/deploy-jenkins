@@ -6,13 +6,13 @@ EYAML_FILES = FileList['hieradata/**/*.eyaml']
 CLEAN.include(EYAML_FILES.ext('.yaml'))
 
 desc 'checkout eyaml keys'
-task :checkoutkeys do |t|
+task :checkoutkeys do |_t|
   c_dir = '.lsst-certs'
   s_dir = 'keys'
   lock_file = "#{c_dir}/.git/info/sparse-checkout"
 
-  Dir.mkdir(c_dir) unless Dir.exists?(c_dir)
-  unless File.exists?(lock_file)
+  Dir.mkdir(c_dir) unless Dir.exist?(c_dir)
+  unless File.exist?(lock_file)
     Dir.chdir(c_dir) do
       sh <<~EOS
         git init
@@ -23,7 +23,7 @@ task :checkoutkeys do |t|
       EOS
     end
   end
-  File.symlink("#{c_dir}/eyaml-keys", s_dir) unless Dir.exists?(s_dir)
+  File.symlink("#{c_dir}/eyaml-keys", s_dir) unless Dir.exist?(s_dir)
 end
 
 desc 'generate new eyaml keys'
