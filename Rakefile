@@ -14,13 +14,13 @@ task :checkoutkeys do |_t|
   Dir.mkdir(c_dir) unless Dir.exist?(c_dir)
   unless File.exist?(lock_file)
     Dir.chdir(c_dir) do
-      sh <<~EOS
+      sh <<~TLS
         git init
         git remote add origin ~/Dropbox/lsst-sqre/git/lsst-certs.git
         git config core.sparseCheckout true
         echo "eyaml-keys/" >> .git/info/sparse-checkout
         git pull --depth=1 origin master
-      EOS
+      TLS
     end
   end
   File.symlink("#{c_dir}/eyaml-keys", s_dir) unless Dir.exist?(s_dir)

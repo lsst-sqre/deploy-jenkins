@@ -67,6 +67,7 @@ Vagrant.configure('2') do |config|
     hostname = gen_hostname('master')
     define.vm.hostname = hostname
 
+    # rubocop:disable Lint/UnusedBlockArgument
     define.vm.provider :aws do |provider, override|
       ci_hostname(hostname, provider, 'master')
 
@@ -94,6 +95,7 @@ Vagrant.configure('2') do |config|
         'Ebs.DeleteOnTermination' => 'true',
       }]
     end
+    # rubocop:enable Lint/UnusedBlockArgument
   end
 
   agent_volsize = 1500
