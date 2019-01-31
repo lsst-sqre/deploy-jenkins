@@ -45,8 +45,8 @@ class jenkins_demo::profile::jenkins::master(
   if $casc {
 
     if $casc['credentials'] and
-       $casc['credentials']['system'] and
-       $casc['credentials']['system']['domainCredentials'] {
+      $casc['credentials']['system'] and
+      $casc['credentials']['system']['domainCredentials'] {
       $dom_creds = $casc['credentials']['system']['domainCredentials']
       $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
         $result + $value['credentials']
