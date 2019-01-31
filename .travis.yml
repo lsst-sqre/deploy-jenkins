@@ -47,7 +47,12 @@ matrix:
       rvm: '2.5'
       script: bundle install && bundle exec rubocop
 
-    - env: TEST=make
+    - env:
+        - TEST=make
+        - TF_VAR_env_name=testenv
+        - TF_VAR_service_name=testsvc
+        - TF_VAR_domain_name=example.com
+        - AWS_DEFAULT_REGION=us-east-1
       script: ./tests/make.sh
 branches:
   only:
