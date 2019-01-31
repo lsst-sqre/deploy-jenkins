@@ -1,3 +1,15 @@
+variable "scipipe_publish_region" {
+  description = "aws region of scipipe-publish deploy tf s3 remote state bucket."
+}
+
+variable "scipipe_publish_bucket" {
+  description = "scipipe-publish deploy tf s3 remote state bucket."
+}
+
+variable "scipipe_publish_key" {
+  description = "scipipe-publish deploy tf s3 remote state object key."
+}
+
 data "terraform_remote_state" "pr" {
   backend = "s3"
 

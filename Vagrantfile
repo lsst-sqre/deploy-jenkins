@@ -67,10 +67,12 @@ Vagrant.configure('2') do |config|
     hostname = gen_hostname('master')
     define.vm.hostname = hostname
 
-    define.vm.provider :aws do |provider, _override|
+    define.vm.provider :aws do |provider, override|
       ci_hostname(hostname, provider, 'master')
 
       provider.ami = master_ami
+      # XXX for old masters only
+      # override.ssh.username = 'vagrant'
       provider.private_ip_address = JENKINS_MASTER_INTERNAL_IP
       provider.elastic_ip = JENKINS_IP
       provider.security_groups = [
@@ -94,6 +96,9 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  agent_volsize = 1500
+  agent_volsize = 250 if GROUP_NAME == 'ts'
+
   el7_nodes&.each do |agent_id|
     config.vm.define "el7-#{agent_id}" do |define|
       hostname = gen_hostname("el7-#{agent_id}")
@@ -109,7 +114,7 @@ Vagrant.configure('2') do |config|
         }
         provider.block_device_mapping = [{
           'DeviceName'              => '/dev/sda1',
-          'Ebs.VolumeSize'          => 1500,
+          'Ebs.VolumeSize'          => agent_volsize,
           'Ebs.VolumeType'          => 'gp2',
           'Ebs.DeleteOnTermination' => 'true',
         }]

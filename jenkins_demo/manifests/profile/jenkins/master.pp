@@ -2,12 +2,9 @@ class jenkins_demo::profile::jenkins::master(
   $seed_url = undef,
   $seed_ref = '*/master',
 ) {
-  include ::wget # needed by jenkins
   include ::nginx
   include ::jenkins
   include ::jenkins::master # <- I am a swarm master
-
-  Class['::wget'] -> Class['::jenkins']
 
   # only required (?) under jdk8
   $alpn = '/usr/lib/jenkins/alpn-boot-8.1.12.v20180117.jar'
@@ -24,6 +21,9 @@ class jenkins_demo::profile::jenkins::master(
     group => 'root',
     mode  => '0444',
   }
+
+  # exec provider by puppet/yum
+  Yumrepo[jenkins] ~> Exec['yum_clean_all']
 
   # deep merge w/ merge_hash_arrays is incapable of properly merging multiple
   # `- credentails` array of hash elements under:
@@ -43,17 +43,25 @@ class jenkins_demo::profile::jenkins::master(
     value_type => Hash[String, Any],
   })
   if $casc {
-    $dom_creds = $casc['credentials']['system']['domainCredentials']
-    $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
-      $result + $value['credentials']
-    }
-    $real_casc = $casc + {
-      credentials => {
-        system => {
-          domainCredentials => [ credentials => $merged_creds ],
-        },
+
+    if $casc['credentials'] and
+      $casc['credentials']['system'] and
+      $casc['credentials']['system']['domainCredentials'] {
+      $dom_creds = $casc['credentials']['system']['domainCredentials']
+      $merged_creds = $dom_creds.reduce([]) |Array $result, Hash $value| {
+        $result + $value['credentials']
       }
+      $real_casc = $casc + {
+        credentials => {
+          system => {
+            domainCredentials => [ credentials => $merged_creds ],
+          },
+        }
+      }
+    } else {
+      $real_casc = $casc
     }
+
     # debug -- WILL PRINT SECRETS
     # notice('merged config:')
     # notice(inline_template("<%- require 'json'-%><%= JSON.pretty_generate(@real_casc) %>"))

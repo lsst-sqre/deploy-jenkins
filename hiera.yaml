@@ -4,14 +4,21 @@ defaults:
   datadir: /tmp/vagrant-puppet/hieradata/
   data_hash: yaml_data
 hierarchy:
-  - name: "Per-node"
-    path: "%{::hostname}.yaml"
   - name: "role"
     paths:
+      # node name
+      - "group/%{::group_name}/deploy/%{::env_name}/node/%{::hostname}.yaml"
+      # deploy name
+      - "group/%{::group_name}/deploy/%{::env_name}.yaml"
+      # major release
+      - "group/%{::group_name}/os/%{facts.os.family}/%{facts.os.release.major}.yaml"
       - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
+      # os
+      - "group/%{::group_name}/os/%{facts.os.family}.yaml"
       - "os/%{facts.os.family}.yaml"
-      - "deploy/%{::env_name}.yaml"
+      # role
       - "group/%{::group_name}/role/%{::role}.yaml"
-      - "group/%{::group_name}.yaml"
       - "role/%{::role}.yaml"
+      # common
+      - "group/%{::group_name}/common.yaml"
       - "common.yaml"

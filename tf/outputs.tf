@@ -3,7 +3,7 @@ output "JENKINS_IP" {
 }
 
 output "JENKINS_FQDN" {
-  value = "${aws_route53_record.jenkins-demo-master.fqdn}"
+  value = "${local.master_alias}"
 }
 
 output "JENKINS_MASTER_INTERNAL_IP" {
@@ -35,7 +35,7 @@ output "SECURITY_GROUP_ID_INTERNAL" {
 }
 
 output "AWS_DEFAULT_REGION" {
-  value = "${var.aws_default_region}"
+  value = "${local.aws_default_region}"
 }
 
 output "ENV_NAME" {

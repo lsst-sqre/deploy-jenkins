@@ -114,5 +114,7 @@ jenkins::slave::ui_pass: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBH
 jenkins::slave::disable_clients_unique_id: true
 jenkins::slave::delete_existing_clients: true
 docker::version: '18.09.1'
+docker::docker_users:
+  - jenkins-slave
 timezone::timezone: 'US/Pacific'
 tuned::profile: 'virtual-host'

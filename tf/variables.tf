@@ -1,8 +1,3 @@
-variable "aws_default_region" {
-  description = "AWS region to launch servers."
-  default     = "us-east-1"
-}
-
 variable "aws_zone_id" {
   description = "route53 Hosted Zone ID to manage DNS records in."
 }
@@ -21,25 +16,19 @@ variable "domain_name" {
   description = "DNS domain name to use when creating route53 records."
 }
 
-variable "scipipe_publish_region" {
-  description = "aws region of scipipe-publish deploy tf s3 remote state bucket."
-}
-
-variable "scipipe_publish_bucket" {
-  description = "scipipe-publish deploy tf s3 remote state bucket."
-}
-
-variable "scipipe_publish_key" {
-  description = "scipipe-publish deploy tf s3 remote state object key."
-}
-
 variable "group_name" {
   description = "select group specific configuration."
+}
+
+variable "master_fqdn" {
+  description = "FQDN jenkins will respond to. If empty (default), it is generated from the env_name, service_name, and domain_name. This is useful to configure jenkins to respond to a DNS alias."
+  default     = ""
 }
 
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
-  master_fqdn = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  master_fqdn  = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
 }
