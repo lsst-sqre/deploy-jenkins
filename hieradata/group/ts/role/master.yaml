@@ -19,3 +19,5 @@ jenkins::plugin_hash:
     version: '2.12.1'
   ws-cleanup:
     version: '0.37'
+  robot:
+    version: '1.6.5'
