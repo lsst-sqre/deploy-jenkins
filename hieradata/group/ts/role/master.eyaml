@@ -1,0 +1,44 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  classes:
+  jenkins::plugin_hash:
+    merge:
+      strategy: hash
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkins::plugin_hash:
+  ant:
+    version: '1.9'
+  email-ext:
+    version: '2.63'
+  emailext-template:
+    version: '1.1'
+  mapdb-api:
+    version: '1.0.9.0'
+  resource-disposer:
+    version: '0.12'
+  subversion:
+    version: '2.12.1'
+  ws-cleanup:
+    version: '0.37'
+  robot:
+    version: '1.6.5'
+jenkinsx::casc:
+  jenkins:
+  unclassified:
+    githubpluginconfig:
+      configs:
+        - credentialsId: "github-pat-lssttsadmin-webhooks"
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - string:
+                id: github-pat-lssttsadmin-webhooks
+                scope: GLOBAL
+                description: github PAT to manage lsst-ts webhooks
+                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAWU96VwkJ0WJ8IRJ6mFbhgjLQCRMORRm8VeG+ZGKjU4XldY8JJCLACWqWSo8a454vzH7wDIHhyuzYhL8kmte1AwuGxBoOBQ4MidHYqlVQjcNTV9WV7+W/zrvMQJ1DW5J49pRAOTVK1yf3pTZGOvm3tOdAB9l0q3oHpcedWrnNjkL2jMspwiLeetAF1uvDDBRJZ+4gGpKplrAVuFQt09f8bOQiCJmHE8eniXxL8BiVEnpOzLh0PNakgZAMEQ6U+99uygxewDXtjA35nRiOZwWY4SyA9zeLnz6T+7Ri4A2km38kX0mnLKOP5JpIXlem/uhugHQWBw17FB4ahHN9FQB6+jBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBz7Xb098ei1Oh9TpipyUq7gDA8VRZp5AyD/W1nt7ubvHXPEZO3Qt27IZs4MKDMoElfl/OIqhhSr4g+yPNIsQHSA/A=]
