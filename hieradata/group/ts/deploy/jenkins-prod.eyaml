@@ -15,7 +15,7 @@ jenkinsx::casc:
         clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATii+XQvMjmNmhSrK3DnVWkNw8clmk0MMD4z0tNiQV/Xz0usIUfDjDNQeiKS8LpQnvtk3y+6UIla9RQt/bHxt0AFbuCOW14b7k8EBzNXRGi60EO/n+zhoOLWOxTZ7yzfAEbidsGjlxEieWtHzDMOvR3BiIPnVmScWb9mEEVkAgVqvYywKwK0KGP1N0x2V/TCshGwIbIUqhpN6LDZWuVa4e+mIp5Zk/JSG1ElDlKP+xtvR7wREvptoIQhpiTifgME0l+v1gpAEdfoltPRS1sHl/unFGswfGyjA2DiVj7yxghLAWGFD8TXsvuRNiR1myOv288OVb93t5xA2O42ay0omrzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB7bzbSRI9qAFH7sRNHcDUOgDBLzxOtbe4kQxiGGMVqB5KDeQc9nDnn4aAvdpzWd1DGrnBnqRs/Gv04nvfLVDv9nvw=]
         githubApiUri: https://api.github.com
         githubWebUri: https://github.com
-        oauthScopes: read:org
+        oauthScopes: read:org,user:email
   --credentials:
 #  credentials:
 #    system:
