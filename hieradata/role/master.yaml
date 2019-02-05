@@ -400,6 +400,8 @@ jenkinsx::casc:
   unclassified:
     location:
       url: "https://%{::jenkins_fqdn}"
+      # note that the domain_name for email sending may not match the fqdn
+      adminAddress: "jenkins@%{::domain_name}"
   security:
     # Enable CLI over Remoting
     remotingCLI:
