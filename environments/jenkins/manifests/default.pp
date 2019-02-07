@@ -20,11 +20,11 @@ if ($packages) {
 }
 
 if ($files) {
-  create_resources(file, $files)
+  ensure_resources(file, $files)
 }
 
 if ($versionlocks) {
-  create_resources(yum::versionlock, $versionlocks)
+  ensure_resources(yum::versionlock, $versionlocks)
   Class[yum] -> Class[java]
   Class[yum::plugin::versionlock] -> Class[java]
 }
