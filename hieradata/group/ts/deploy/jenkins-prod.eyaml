@@ -6,6 +6,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
+      knockout_prefix: --
 jenkinsx::casc:
   jenkins:
     securityRealm:
@@ -15,6 +16,7 @@ jenkinsx::casc:
         githubApiUri: https://api.github.com
         githubWebUri: https://github.com
         oauthScopes: read:org
+  --credentials:
 #  credentials:
 #    system:
 #      domainCredentials:
