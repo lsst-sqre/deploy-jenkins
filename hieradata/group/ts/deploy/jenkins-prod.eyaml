@@ -7,6 +7,9 @@ lookup_options:
       merge_hash_arrays: false
       sort_merged_arrays: false
       knockout_prefix: --
+  files:
+    merge:
+      strategy: deep
 jenkinsx::casc:
   jenkins:
     securityRealm:
@@ -27,3 +30,20 @@ jenkinsx::casc:
 #                description: dockerhub (lssttsadmin)
 #                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAsqr4rlfP4EyK8XZaMUzfAfulkCrfyZkQ/cWtnC4KndbDQRfvObVT3qfWz3lK4c6VEbp68aSIhqIYOUJMUeEMJ6aKZ8sut6Y5mceMxUowRbqR6JPwNcfrQXgf8WkVwn1GAKzFCKZdWbedJmXCk290MfD8eybczGQzhK0RgC+YxjHX9Az9BMRyx7fgurRyWfJmjSdIIVxkaKOgA+m7cFl65pwO9gDONacWtOYlkqP66gcSbaxUU6q48SRB9MWiksPPkf5VHHJlfWc9QKcM+hvZvpKTCFP1+4fOcbMxj1tZVrIK2M+MwKomZEOalAzwb/WpGzP0Qnd/b71YxzgAoq97PjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBt98dpRhfinN7878sANMeMgBCv37Df6yPgVABGnpBGAwbv]
 #                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnDdqUQRPYuLXEUoA2aahlH+zeksMCI0Pz9CBNbKB49lM3kqUlws8YRpkmJaqXJ6iBrhrLl9PzWNLtKnD8JBIlC/1ZPSa+c3LOvxfhYFEGkm5tsFlq0P4BjMzJkx97/5DQRthL20DMyM5+FKmMveTzBiLQr1dbfXFsa7Rxr5ZF2D0UYpN+/1Bi+HfuFcrPUM9N8F8iCcLwewxhIG2EMw8fkqUAeAz136nmEc4eqjKBNLg6Onuzpdne+7i1Uxaem/nT0sYcPaI8unbq7FEJnTrWTJYZR5jJXCXOR5/Agc+aSG7dbVAQCl6cYk3gMTUkRdutWmJmiulk3G01tZwSboGqTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD1cssiaDvVx2V/BJCbGojBgCAjVQRl9Ub2Vg6K6hz2CHbvYE7uGM/o2BqryGcHwyZcBg==]
+files:
+  /var/lib/jenkins/init.groovy.d/mailer.groovy:
+    content: |
+      import hudson.model.*;
+      import jenkins.model.*;
+
+      def j = Jenkins.getInstance()
+      def ms = j.getDescriptor("hudson.tasks.Mailer")
+      ms.setSmtpAuth(
+        'ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATWs2M6ZDKF+EgEaPSnGoen2nlkNBWbIPp2xsBDAEby8P75gE+Z+ikYZakPIukohX7C+osAIKcaSK6nwvi94+83cly5lpwAaC067VI2XA65yc8RE0w+lXb72DNVmNiddJSvZSwyzLRNVQ4BYP2/Ho7+lZLeN+5NFucS9CKV30/YY++gf0WgKocJThL4b0Mcby927EEDY7PVcEhjYRaQFseWB3UWUDz0rDuIiUVzIRGAZclpOohT0d8QvkGRhxMLL2k3ljHnBlmu8se68eSCHZ5Gm8SQXpf7wOv6zZ0mx/nrMRHrut/hFG1qne1koYVG1XyXooWJAcPKyI19E/grN3jTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBS80UBkgrGMpSKpu/9iYp5gCAZg2vobIpozrVufGOT6F4UbVkqofYbEFwhEsJm/PrHJg==]',
+        'ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJDHBhV1Ve96AtDQI0muhw6PVE6END/wz7VmsllVNN6RnpE68TAqL+hEhXdr8gUaD39iRgFmhVtY871dCwXeZtSn30eafG+vZ0OjVnKA5bjXoUeY9YIpMWRU51h0RpfrTqrZ+aoCojvs6Mr+Tpu3Z4ZqrIjq4imwpRt2rykXu2fQpAEM7Zf+PA25LfFtsxRR8uPMZQcs79+pwpPPiy1si6qja5BQosEu9Yb5AKnMMZZZ6FI4PejqZXDXt0BB2WXRfwCz+3Pauv93iRAaY4vbGYY1n+lEfceVOkIoTluVTnvK2gwisFi/fEddKtDaHvEdj4Nea8AgTKuZ2hFtQcNTPqjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC5gzUzyzGHYkHc4MC818KvgDD/fslECQJ8P+pZTzmlJxDfT726O0qKx4BdOej1ZfEED6GE4wd0QbhLHUMI/zx0HDE=]',
+      )
+      j.save()
+    owner: jenkins
+    group: jenkins
+    mode: '0440'
+    notify: Service[jenkins]
