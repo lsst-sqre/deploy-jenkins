@@ -1,0 +1,17 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkinsx::casc:
+  jenkins:
+    securityRealm:
+      github:
+        clientID: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAj/zVwNia4/apKmbGCKC1eDzXq7gB4RCi7vh1Rc5mSVXbVLiDaf3fa+B2N3wXIvx6Q0s1/TBwpp8qHyfCEpLf9nTlDvK0Cn3mz1fv+aXlmnXz7wjIfHuJSWRPBCuRlGr792ggBW325Sx+zpEHZHlbKqbmRQRWns3HPGv6r2yi+eS/1PQkzrNicZl+d2UTN3+o+2+sq83IxIcSH90VrvN9IcRlzn8xCn5Gscpv9yGYN2D8xVQwjQFVX1E+WFaYHoWmcvf7C+PxY/hp0hFTGCa+jntpbN3WCC0DmWBcsxSz8hWkWq3ZKkihlw0hruZyR5pJwXWw5elU4QxABHijkWPyrzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAQPPf68VaNmj0HG3XIpnfogCDnxiOEYExaV2wGIRpAs1zuudC3NCDuasfhyHTSBwivIA==]
+        clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiRnPluNBH/rZAf6u2X21e7LcTLyo8j4zDtwAH2gddVfkVg7GYps14NQGV2JrSuhJETy9wVT6e7o+9uhMjePVgmhctE6uEPty4we7++7mID2oD4WmVTgQVfZnlizKBQeY+xysYDhngkHmlcwlrpQ7wgswRDBK2zSL0ACvCV7GXQOTLH82wOj93NJozWyetOuGq4SP5y/8RIgsuv8Q18bT04CQejzowomeACHtX/fakoUZyJuMqLdsN0Gyq8dWKnbuZjP4FCpD/qXbbk/mnMi2x65R+u7/kff1Znb+Dcr5PTCMwWNXSWloFZNgIjrUkJ5fC+Q9ODJw/dXsGjQR4BcOVDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAfe4aiYdR9DaYKO/gyd4zRgDB5VgniMkY5w9JRfkvdIAckmkJYuWTE+FESOQJ0a8TxcD55Bc47D0HteiJzjg4O5qk=]
+        githubApiUri: https://api.github.com
+        githubWebUri: https://github.com
+        oauthScopes: read:org,user:email

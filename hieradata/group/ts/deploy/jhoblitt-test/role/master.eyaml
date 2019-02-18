@@ -1,0 +1,18 @@
+---
+# yamllint disable rule:line-length
+lookup_options:
+  jenkinsx::casc:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
+jenkinsx::casc:
+  jenkins:
+    securityRealm:
+      github:
+        # https://jhoblitt-test-ts-ci.lsst.codes/securityRealm/finishLogin
+        clientID: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOdWZ8/SjapG57g1sfH+CHTPY68Cg4T4CAD2qL7RzSEsuK0YVunuXuX1TU5phUhXTvFWuoiGa56NynRtiWndmLZxM5qah4mMfBk1UDjeveUg88nreltxqkvcbkWamXrE3bw/OfeEhaUPbhU5w0x1Hd1ibeI3AZlF42D8BlYch6TZFng9hwCBgRKLHhCeEHTbn6aE7WicYwwMItd6/6L85iO3/2n8HzwtbMmegd3wdqh0toclgVgLjXPJmXmDYvSy5xcLFrjn42QtZIoBi4Il6eMPnFxsBvr2le3AUhLRHGz5pc+qlsHeqGf1+mOurPAp6ypK8qs0x+Q30ADWxxlKq1TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB9uy7RdjQ4qTrbKucy7rg9gCBnQbZYX4+gEvT9hjFyH7Su4Y2+6ZQOC0Okn2BR/Uxdzg==]
+        clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEArriTk/goTGBBYbsI0JtrhI+HzEYHu2WZQ8XSjfM+iRYQPaWwKGh5GN3Vk6AwW37pjMxyc4G0081hLdunPpFHy393m7NIEoR72lbtZDsgu2BeNVV3+VqDpXusaRzLIfKR+zktwNcXG3BcEmLrGyRX4dLz1AFw6HbvTjD9RIS/coT7m6ALF8WRnzS/IwCid59XYdAlnTpv0KwjqHwAUiBL++NOvX+mDOzEUX0ULCKAVjRRnKMlEFseGORWixFsMmY0uHCAUx2fq2ot/zMj+VgQrUi+U8RRzU1lnY/mllR49BhxCXPTSgcei7b/vWeFt9Arys2VVZ/3pGc/JY9CyxlPsDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD3YE1iFM5q7Cv41TNFBs9HgDAsFgxneErY/wqNw5liw7lvkWz8/3Qa74MrsOHMyJ7Q8KHb7GY1mEp1veOWg7QArjw=]
+        githubApiUri: https://api.github.com
+        githubWebUri: https://github.com
+        oauthScopes: read:org,user:email

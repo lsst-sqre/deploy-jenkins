@@ -9,6 +9,7 @@ hierarchy:
       # node name
       - "group/%{::group_name}/deploy/%{::env_name}/node/%{::hostname}.yaml"
       # deploy name
+      - "group/%{::group_name}/deploy/%{::env_name}/role/%{::role}.yaml"
       - "group/%{::group_name}/deploy/%{::env_name}.yaml"
       # major release
       - "group/%{::group_name}/os/%{facts.os.family}/%{facts.os.release.major}.yaml"
