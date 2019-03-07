@@ -73,6 +73,14 @@ jenkinsx::casc:
             sSHLauncher:
               <<: *osx_ssh
               host: jenkins-sierra-4.lsst.cloud
+      - permanent:
+          <<: *osx_node
+          labelString: 'osx osx-10.14 mojave'
+          name: mojave-1
+          launcher:
+            sSHLauncher:
+              <<: *osx_ssh
+              host: mac-3.lsst.cloud
   credentials:
     system:
       domainCredentials:
