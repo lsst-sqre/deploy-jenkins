@@ -144,7 +144,7 @@ to update puppet modules.
 ```sh
 bundle update
 git add Gemfile Gemfile.lock
-git commit -m "updating gems"
+git commit -m "update gems"
 ```
 
 ### Update puppet modules
@@ -159,7 +159,7 @@ bundle exec librarian-puppet outdated
 bundle exec librarian-puppet update --verbose
 bundle exec librarian-puppet install --verbose --destructive
 git add Puppetfile Puppetfile.lock
-git commit -m "updating puppet modules"
+git commit -m "update puppet modules"
 ```
 
 This may fail due to conflicts -- this is normal.  Proceed to updating pinned
