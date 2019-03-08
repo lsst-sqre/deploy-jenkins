@@ -335,7 +335,7 @@ https://jhoblitt-moe-ci.lsst.codes/scriptApproval/
 
 https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/infra/job/jenkins-node-cleanup/
 
-* Trigger `stack-os-matrix` with a product of `cfitsio` and `SKIP_DEMO` checked.
+* Trigger `stack-os-matrix` with a `PRODUCT` of `cfitsio`.
 
 https://jhoblitt-moe-ci.lsst.codes/job/stack-os-matrix/build?delay=0sec
 
