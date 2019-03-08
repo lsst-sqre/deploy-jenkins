@@ -255,11 +255,6 @@ repo may need to be inspected for changesets._
 
 * update plugin version in `hieradata/role/master.eyaml`
 
-A few plugins are declared in
-`jenkins_demo/manifests/profile/jenkins/master.pp` rather than via hiera such
-as the `github` plugin, and may need their versions adjusted in the puppet
-manifest.
-
 Note that new deps may need to be added.
 
 ### apply changes
