@@ -28,11 +28,14 @@ end
 
 ### Update Java
 
+*Note that the java packages are currrently pinned to versions from centos
+7.5.1804, as more recent versions seem to break the jenkins master.*
+
 In the past, strange problems were observed that appear to have been caused by
 different java packages running on the jenkins master and the agents.  When
 feasible, try to deploy updates to the entire environment at once.
 
-An easy method of determining the most recent centos 7 `jdk 1.0.0` package:
+An easy method of determining the most recent centos 7 `jdk 1.8.0` package:
 
 ```sh
 $ docker run -ti centos:7
@@ -65,10 +68,14 @@ License     : ASL 1.1 and ASL 2.0 and BSD and BSD with advertising and GPL+ and
 Description : The OpenJDK development tools.
 ```
 
-Update the `jdk` package version in `hieradata/os/RedHat/7.yaml`.
+Update the `java-1.8.0-openjdk*` package version in `hieradata/os/RedHat/7.yaml`.
 
 ```yaml
-java::package: 'java-1.8.0-openjdk-devel-1.8.0.181-3.b13.el7_5'
+java::package: java-1.8.0-openjdk-devel-1.8.0.181-3.b13.el7_5
+yum::versionlock:
+  1:java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.x86_64: {}
+  1:java-1.8.0-openjdk-headless-1.8.0.181-3.b13.el7_5.x86_64: {}
+  1:java-1.8.0-openjdk-devel-1.8.0.181-3.b13.el7_5.x86_64: {}
 ```
 
 ### Update Centos 7 kernel
@@ -137,7 +144,7 @@ to update puppet modules.
 ```sh
 bundle update
 git add Gemfile Gemfile.lock
-git commit -m "updating gems"
+git commit -m "update gems"
 ```
 
 ### Update puppet modules
@@ -152,7 +159,7 @@ bundle exec librarian-puppet outdated
 bundle exec librarian-puppet update --verbose
 bundle exec librarian-puppet install --verbose --destructive
 git add Puppetfile Puppetfile.lock
-git commit -m "updating puppet modules"
+git commit -m "update puppet modules"
 ```
 
 This may fail due to conflicts -- this is normal.  Proceed to updating pinned
@@ -248,11 +255,6 @@ repo may need to be inspected for changesets._
 
 * update plugin version in `hieradata/role/master.eyaml`
 
-A few plugins are declared in
-`jenkins_demo/manifests/profile/jenkins/master.pp` rather than via hiera such
-as the `github` plugin, and may need their versions adjusted in the puppet
-manifest.
-
 Note that new deps may need to be added.
 
 ### apply changes
@@ -333,7 +335,7 @@ https://jhoblitt-moe-ci.lsst.codes/scriptApproval/
 
 https://jhoblitt-moe-ci.lsst.codes/job/sqre/job/infra/job/jenkins-node-cleanup/
 
-* Trigger `stack-os-matrix` with a product of `cfitsio` and `SKIP_DEMO` checked.
+* Trigger `stack-os-matrix` with a `PRODUCT` of `cfitsio`.
 
 https://jhoblitt-moe-ci.lsst.codes/job/stack-os-matrix/build?delay=0sec
 
