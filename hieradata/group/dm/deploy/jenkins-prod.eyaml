@@ -31,7 +31,7 @@ jenkinsx::casc:
         oauthScopes: read:org
     nodes:
       - permanent: &osx_node
-          labelString: 'osx osx-10.12 sierra-1'
+          labelString: 'osx osx-10.12 sierra'
           mode: EXCLUSIVE
           name: sierra-1
           numExecutors: 1
@@ -44,6 +44,9 @@ jenkinsx::casc:
               maxNumRetries: 0
               port: 22
               retryWaitTime: 15
+              sshHostKeyVerificationStrategy:
+                manuallyTrustedKeyVerificationStrategy:
+                  requireInitialManualTrust: true
           nodeProperties:
             - envVars:
                 env:
@@ -52,7 +55,6 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-2
-          labelString: 'osx osx-10.12 sierra-2'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
@@ -60,7 +62,6 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-3
-          labelString: 'osx osx-10.12 sierra-3'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
@@ -68,11 +69,18 @@ jenkinsx::casc:
       - permanent:
           <<: *osx_node
           name: sierra-4
-          labelString: 'osx osx-10.12 sierra-4'
           launcher:
             sSHLauncher:
               <<: *osx_ssh
               host: jenkins-sierra-4.lsst.cloud
+      - permanent:
+          <<: *osx_node
+          labelString: 'osx osx-10.14 mojave'
+          name: mojave-1
+          launcher:
+            sSHLauncher:
+              <<: *osx_ssh
+              host: mac-3.lsst.cloud
   credentials:
     system:
       domainCredentials:
