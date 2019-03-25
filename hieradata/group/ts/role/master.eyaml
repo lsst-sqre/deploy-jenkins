@@ -38,6 +38,42 @@ jenkinsx::casc:
       useSsl: true
       smtpPort: 465
       charset: UTF-8
+  jobs:
+    - script: |
+        folder('sqre') {
+          description('SQRE mission related jobs')
+        }
+        folder('sqre/seeds') {}
+
+        job('sqre/seeds/tssw-jobs') {
+          //label('jenkins-master')
+          concurrentBuild(false)
+
+          scm {
+            git {
+              remote {
+                url('https://github.com/lsst-sqre/jenkins-tssw-jobs')
+              }
+              branch('*/master')
+            }
+          } // scm
+
+          triggers {
+            githubPush()
+          }
+
+          steps {
+            jobDsl {
+              targets('jobs/*.groovy')
+              useScriptText(false)
+              ignoreExisting(false)
+              ignoreMissingFiles(false)
+              removedJobAction('DELETE')
+              removedViewAction('IGNORE')
+              lookupStrategy('JENKINS_ROOT')
+            }
+          } // steps
+        } // job
 #  credentials:
 #    system:
 #      domainCredentials:
