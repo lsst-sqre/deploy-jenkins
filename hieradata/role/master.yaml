@@ -3,7 +3,7 @@
 classes:
   - jenkins_demo::role::master
 selinux::mode: enforcing
-jenkins::version: '2.150.3-1.1'
+jenkins::version: '2.164.1-1.1'
 jenkins::lts: true
 jenkins::master::version: '3.15'
 jenkins::config_firewall: false
