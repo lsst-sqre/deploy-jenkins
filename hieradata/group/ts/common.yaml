@@ -6,7 +6,7 @@ lookup_options:
     merge: deep
 classes:
   - jenkins_demo::profile::sysctl
-docker::extra_parameters: --userns-remap="jenkins-slave:jenkins-slave"
+docker::extra_parameters: --userns-remap=jenkins-slave:jenkins-slave
 jenkins::slave::slave_uid: 888
 files:
   '/etc/subuid':
