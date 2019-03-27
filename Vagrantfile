@@ -56,6 +56,8 @@ end
 def master_ami
   # us-east-1 centos 1901_01 (2019-01-30)
   ENV['MASTER_AMI'] || 'ami-02eac2c0129f6376b'
+  # us-west-2 centos 1901_01 (2019-01-30)
+  # ENV['MASTER_AMI'] || 'ami-01ed306a12b7d1c96'
 end
 
 def centos7_ami
