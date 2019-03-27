@@ -21,6 +21,14 @@ files:
     owner: root
     group: root
     mode: '0444'
+  '/j':
+    mode: &jmode '6700'
+  '/j/ws':
+    mode: *jmode
+  '/j/.jenkins':
+    mode: *jmode
+  '/j/support':
+    mode: *jmode
 jenkins_demo::profile::sysctl::sysctl_hash:
   user.max_user_namespaces:
     ensure: present
