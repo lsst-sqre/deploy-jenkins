@@ -3,7 +3,7 @@
 classes:
   - jenkins_demo::role::master
 selinux::mode: enforcing
-jenkins::version: '2.150.3-1.1'
+jenkins::version: '2.164.1-1.1'
 jenkins::lts: true
 jenkins::master::version: '3.15'
 jenkins::config_firewall: false
@@ -27,7 +27,7 @@ jenkins::plugin_hash:
   credentials:
     version: '2.1.18'
   configuration-as-code:
-    version: &casc '1.7'
+    version: &casc '1.8'
   configuration-as-code-support:
     version: *casc
   command-launcher:
@@ -48,7 +48,7 @@ jenkins::plugin_hash:
   junit:
     version: '1.27'
   script-security:
-    version: '1.54'
+    version: '1.56'
   # validating-string-parameter:
   #   version: '2.3'
   plain-credentials:
@@ -72,7 +72,7 @@ jenkins::plugin_hash:
     version: '1.95'
   # github -> git deps
   scm-api:
-    version: '2.3.0'
+    version: '2.4.0'
   git-client:
     version: '2.7.6'
   # /github -> git deps
@@ -119,7 +119,7 @@ jenkins::plugin_hash:
   greenballs:
     version: '1.15'
   rebuild:
-    version: '1.29'
+    version: '1.30'
   build-user-vars-plugin:
     version: '1.5'
   # build-user-vars-plugin deps
@@ -203,7 +203,7 @@ jenkins::plugin_hash:
     version: '2.6'
   # workflow-aggregator deps
   lockable-resources:
-    version: '2.4'
+    version: '2.5'
   # /workflow-aggregator deps
   jquery-detached:
     version: '1.2.1'
@@ -214,7 +214,7 @@ jenkins::plugin_hash:
   workflow-step-api:
     version: '2.19'
   workflow-job:
-    version: '2.31'
+    version: '2.32'
   pipeline-stage-view:
     version: '2.10'
   pipeline-rest-api:
@@ -224,23 +224,23 @@ jenkins::plugin_hash:
   momentjs:
     version: '1.1.1'
   pipeline-build-step:
-    version: '2.7'
+    version: '2.8'
   ace-editor:
     version: '1.1'
   git-server:
     version: '1.7'
   branch-api:
-    version: '2.1.2'
+    version: '2.2.0'
   workflow-durable-task-step:
     version: '2.29'
   pipeline-input-step:
-    version: '2.9'
+    version: '2.10'
   pipeline-stage-step:
     version: '2.3'
   workflow-basic-steps:
-    version: '2.14'
+    version: '2.15'
   workflow-cps:
-    version: '2.64'
+    version: '2.65'
   workflow-cps-global-lib:
     version: '2.13'
   workflow-multibranch:
@@ -252,7 +252,7 @@ jenkins::plugin_hash:
   pipeline-model-declarative-agent:
     version: '1.1.1'
   pipeline-model-api:
-    version: &pipev '1.3.6'
+    version: &pipev '1.3.7'
   pipeline-model-definition:
     version: *pipev
   pipeline-model-extensions:
@@ -296,7 +296,7 @@ jenkins::plugin_hash:
   github-branch-source:
     version: '2.4.2'
   blueocean:
-    version: &bov '1.13.2'
+    version: &bov '1.14.0'
   # blueocean deps
   # >= 1.4.0
   blueocean-core-js:
