@@ -80,7 +80,7 @@ jenkinsx::casc:
           launcher:
             sSHLauncher:
               <<: *osx_ssh
-              host: mac-3.lsst.cloud
+              host: mac3.lsst.cloud
   credentials:
     system:
       domainCredentials:
