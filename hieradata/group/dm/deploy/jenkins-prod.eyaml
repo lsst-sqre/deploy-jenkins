@@ -44,6 +44,7 @@ jenkinsx::casc:
               maxNumRetries: 0
               port: 22
               retryWaitTime: 15
+              prefixStartSlaveCmd: "export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin;"
               sshHostKeyVerificationStrategy:
                 manuallyTrustedKeyVerificationStrategy:
                   requireInitialManualTrust: true
