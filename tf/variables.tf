@@ -33,6 +33,10 @@ variable "worker_root_volume_size" {
   default = "100"
 }
 
+variable "jenkins_agent_volume_size" {
+  default = "250Gi"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
