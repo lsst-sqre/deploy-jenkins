@@ -1,4 +1,4 @@
-resource "kubernetes_deployment" "jenkins_agent" {
+resource "kubernetes_service" "jenkins_agent" {
   metadata {
     namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
     name      = "jenkins-agent"
@@ -9,7 +9,28 @@ resource "kubernetes_deployment" "jenkins_agent" {
   }
 
   spec {
-    replicas = "1"
+    selector {
+      app = "jenkins"
+    }
+
+    cluster_ip = "None"
+  }
+}
+
+resource "kubernetes_stateful_set" "jenkins_agent" {
+  metadata {
+    namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
+    name      = "jenkins-agent"
+
+    labels {
+      app = "jenkins"
+    }
+  }
+
+  spec {
+    pod_management_policy  = "OrderedReady"
+    replicas               = 3
+    revision_history_limit = 10
 
     selector {
       match_labels {
@@ -18,7 +39,9 @@ resource "kubernetes_deployment" "jenkins_agent" {
       }
     }
 
-    strategy {
+    service_name = "${kubernetes_service.jenkins_agent.metadata.0.name}"
+
+    update_strategy {
       type = "RollingUpdate"
 
       #rolling_update {
@@ -26,6 +49,7 @@ resource "kubernetes_deployment" "jenkins_agent" {
       #  max_unavailable = "${floor(var.replicas * 0.5)}"
       #}
     }
+
     template {
       metadata {
         labels {
@@ -164,18 +188,27 @@ resource "kubernetes_deployment" "jenkins_agent" {
         } # container
 
         volume {
-          name = "jenkins-agent"
-
-          persistent_volume_claim {
-            claim_name = "${kubernetes_persistent_volume_claim.jenkins_agent.metadata.0.name}"
-          }
-        }
-
-        volume {
           name      = "docker-graph-storage"
           empty_dir = {}
         }
       } # spec
     } # template
+
+    volume_claim_template {
+      metadata {
+        name = "jenkins-agent"
+      }
+
+      spec {
+        access_modes       = ["ReadWriteOnce"]
+        storage_class_name = "${kubernetes_storage_class.gp2.metadata.0.name}"
+
+        resources {
+          requests {
+            storage = "${var.jenkins_agent_volume_size}"
+          }
+        }
+      }
+    }
   } # spec
 }
