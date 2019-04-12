@@ -160,7 +160,11 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name  = "JSWARM_AGENT_NAME"
-              value = "agent"
+              value_from {
+                field_ref {
+                  field_path = "metadata.name"
+                }
+              }
             },
             {
               name  = "JSWARM_DISABLE_CLIENTS_UNIQUE_ID"
