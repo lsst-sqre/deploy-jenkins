@@ -9,7 +9,7 @@ resource "kubernetes_secret" "jenkins_agent" {
   }
 
   data {
-    JENKINS_USERNAME = "${var.jenkins_agent_user}"
-    JENKINS_PASSWORD = "${var.jenkins_agent_pass}"
+    JSWARM_USERNAME = "${var.jenkins_agent_user}"
+    JSWARM_PASSWORD = "${var.jenkins_agent_pass}"
   }
 }

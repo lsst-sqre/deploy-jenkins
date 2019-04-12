@@ -1,7 +1,23 @@
+resource "kubernetes_secret" "jenkins_agent" {
+  metadata {
+    namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
+    name      = "agent"
+
+    labels {
+      app = "jenkins"
+    }
+  }
+
+  data {
+    JSWARM_USERNAME = "${var.jenkins_agent_user}"
+    JSWARM_PASSWORD = "${var.jenkins_agent_pass}"
+  }
+}
+
 resource "kubernetes_service" "jenkins_agent" {
   metadata {
     namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
-    name      = "jenkins-agent"
+    name      = "agent"
 
     labels {
       app = "jenkins"
@@ -10,7 +26,8 @@ resource "kubernetes_service" "jenkins_agent" {
 
   spec {
     selector {
-      app = "jenkins"
+      name = "agent"
+      app  = "jenkins"
     }
 
     cluster_ip = "None"
@@ -20,7 +37,7 @@ resource "kubernetes_service" "jenkins_agent" {
 resource "kubernetes_stateful_set" "jenkins_agent" {
   metadata {
     namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
-    name      = "jenkins-agent"
+    name      = "agent"
 
     labels {
       app = "jenkins"
@@ -34,7 +51,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
     selector {
       match_labels {
-        name = "jenkins-agent"
+        name = "agent"
         app  = "jenkins"
       }
     }
@@ -53,7 +70,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
     template {
       metadata {
         labels {
-          name = "jenkins-agent"
+          name = "agent"
           app  = "jenkins"
         }
       }
@@ -74,7 +91,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           }
 
           volume_mount {
-            name       = "jenkins-agent"
+            name       = "agent-ws"
             mount_path = "/j"
           }
 
@@ -126,63 +143,55 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               value = "tcp://localhost:2375"
             },
             {
-              name  = "MASTER_URL"
+              name  = "JSWARM_MASTER_URL"
               value = "https://${local.master_alias}"
             },
             {
-              name  = "JENKINS_SLAVE_MODE"
+              name  = "JSWARM_MODE"
               value = "normal"
             },
             {
-              name  = "LABELS"
+              name  = "JSWARM_LABELS"
               value = "docker"
             },
             {
-              name  = "EXECUTORS"
+              name  = "JSWARM_EXECUTORS"
               value = "1"
             },
             {
-              name  = "CLIENT_NAME"
+              name  = "JSWARM_AGENT_NAME"
               value = "agent"
             },
             {
-              name  = "FSROOT"
-              value = "/j"
-            },
-            {
-              name  = "DISABLE_CLIENTS_UNIQUE_ID"
+              name  = "JSWARM_DISABLE_CLIENTS_UNIQUE_ID"
               value = false
             },
             {
-              name  = "DELETE_EXISTING_CLIENTS"
+              name  = "JSWARM_DELETE_EXISTING_CLIENTS"
               value = true
+            },
+            {
+              name = "JSWARM_USERNAME"
+              value_from {
+                secret_key_ref {
+                  name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
+                  key  = "JSWARM_USERNAME"
+                }
+              }
+            },
+            {
+              name = "JSWARM_PASSWORD"
+              value_from {
+                secret_key_ref {
+                  name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
+                  key  = "JSWARM_PASSWORD"
+                }
+              }
             },
           ]
 
-          env {
-            name = "JENKINS_USERNAME"
-
-            value_from {
-              secret_key_ref {
-                name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
-                key  = "JENKINS_USERNAME"
-              }
-            }
-          }
-
-          env {
-            name = "JENKINS_PASSWORD"
-
-            value_from {
-              secret_key_ref {
-                name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
-                key  = "JENKINS_PASSWORD"
-              }
-            }
-          }
-
           volume_mount {
-            name       = "jenkins-agent"
+            name       = "agent-ws"
             mount_path = "/j"
           }
         } # container
@@ -196,7 +205,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
     volume_claim_template {
       metadata {
-        name = "jenkins-agent"
+        name = "agent-ws"
       }
 
       spec {
