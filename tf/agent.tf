@@ -168,11 +168,11 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name  = "JSWARM_DISABLE_CLIENTS_UNIQUE_ID"
-              value = true
+              value = "true"
             },
             {
               name  = "JSWARM_DELETE_EXISTING_CLIENTS"
-              value = true
+              value = "true"
             },
             {
               name = "JSWARM_USERNAME"
