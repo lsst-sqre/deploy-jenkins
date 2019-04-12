@@ -37,6 +37,9 @@ variable "jenkins_agent_volume_size" {
   default = "250Gi"
 }
 
+variable "jenkins_agent_user" {}
+variable "jenkins_agent_pass" {}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
