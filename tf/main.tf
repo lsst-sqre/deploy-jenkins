@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 1.54"
+  version = "~> 2"
 }
 
 data "aws_region" "current" {}
@@ -83,6 +83,17 @@ resource "aws_subnet" "jenkins-demo" {
   }
 }
 
+resource "aws_subnet" "jenkins-demo_d" {
+  vpc_id                  = "${aws_vpc.jenkins-demo.id}"
+  availability_zone       = "${local.aws_default_region}d"
+  cidr_block              = "192.168.124.0/24"
+  map_public_ip_on_launch = true
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
 resource "aws_route_table" "jenkins-demo" {
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
@@ -102,8 +113,12 @@ resource "aws_main_route_table_association" "jenkins-demo" {
 }
 
 resource "aws_network_acl" "jenkins-demo" {
-  vpc_id     = "${aws_vpc.jenkins-demo.id}"
-  subnet_ids = ["${aws_subnet.jenkins-demo.id}"]
+  vpc_id = "${aws_vpc.jenkins-demo.id}"
+
+  subnet_ids = [
+    "${aws_subnet.jenkins-demo.id}",
+    "${aws_subnet.jenkins-demo_d.id}",
+  ]
 
   ingress {
     rule_no    = 100
@@ -200,10 +215,14 @@ resource "aws_security_group" "jenkins-demo-internal" {
   description = "allow all VPC internal traffic"
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["${aws_subnet.jenkins-demo.cidr_block}"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "${aws_subnet.jenkins-demo.cidr_block}",
+      "${aws_subnet.jenkins-demo_d.cidr_block}",
+    ]
   }
 
   # allow all output traffic from the VPC

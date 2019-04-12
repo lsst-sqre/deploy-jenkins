@@ -25,6 +25,14 @@ variable "master_fqdn" {
   default     = ""
 }
 
+variable "worker_instance_type" {
+  default = "c5.2xlarge"
+}
+
+variable "worker_root_volume_size" {
+  default = "100"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
