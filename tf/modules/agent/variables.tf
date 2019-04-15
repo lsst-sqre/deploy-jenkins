@@ -8,7 +8,7 @@ variable "k8s_namespace" {
 }
 
 variable "agent_volume_size" {
-  default = "250Gi"
+  description = "Persistent volume for agent -- must include a unit postfix. Eg., Gi."
 }
 
 variable "agent_storage_class" {

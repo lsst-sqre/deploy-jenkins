@@ -34,7 +34,7 @@ variable "worker_root_volume_size" {
 }
 
 variable "jenkins_agent_volume_size" {
-  default = "250Gi"
+  description = "Persistent volume for agent -- must include a unit postfix. Eg., Gi."
 }
 
 variable "jenkins_agent_user" {
