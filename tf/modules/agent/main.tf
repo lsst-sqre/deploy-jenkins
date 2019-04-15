@@ -91,7 +91,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       spec {
         container {
           name              = "dind-daemon"
-          image             = "docker:18.06.1-dind"
+          image             = "docker:18.09.5-dind"
           image_pull_policy = "Always"
 
           security_context {
