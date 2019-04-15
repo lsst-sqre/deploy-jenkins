@@ -10,4 +10,5 @@ module "agent" {
   master_url          = "https://${local.master_alias}"
   agent_replicas      = "${var.jenkins_agent_replicas}"
   agent_labels        = ["docker"]
+  agent_executors     = "${var.jenkins_agent_executors}"
 }

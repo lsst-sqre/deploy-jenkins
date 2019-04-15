@@ -10,4 +10,5 @@ module "snowflake" {
   master_url          = "https://${local.master_alias}"
   agent_replicas      = "1"
   agent_labels        = ["docker", "snowflake"]
+  agent_executors     = "1"
 }

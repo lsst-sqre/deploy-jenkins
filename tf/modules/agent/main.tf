@@ -169,7 +169,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name  = "JSWARM_EXECUTORS"
-              value = "1"
+              value = "${var.agent_executors}"
             },
             {
               name = "JSWARM_AGENT_NAME"

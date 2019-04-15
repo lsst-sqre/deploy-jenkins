@@ -49,6 +49,11 @@ variable "jenkins_agent_replicas" {
   description = "number of jenkins agents to create."
 }
 
+variable "jenkins_agent_executors" {
+  description = "number of executors per agent."
+  default     = "1"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
