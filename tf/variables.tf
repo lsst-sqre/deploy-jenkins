@@ -37,8 +37,17 @@ variable "jenkins_agent_volume_size" {
   default = "250Gi"
 }
 
-variable "jenkins_agent_user" {}
-variable "jenkins_agent_pass" {}
+variable "jenkins_agent_user" {
+  description = "username to access jenkins master."
+}
+
+variable "jenkins_agent_pass" {
+  description = "password to access jenkins master."
+}
+
+variable "jenkins_agent_replicas" {
+  description = "number of jenkins agents to create."
+}
 
 locals {
   # remove "<env>-" prefix for production
