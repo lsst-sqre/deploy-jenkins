@@ -165,7 +165,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name  = "JSWARM_LABELS"
-              value = "docker"
+              value = "${join(" ", var.agent_labels)}"
             },
             {
               name  = "JSWARM_EXECUTORS"

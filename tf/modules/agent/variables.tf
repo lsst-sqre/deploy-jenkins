@@ -30,3 +30,8 @@ variable "master_url" {
 variable "agent_replicas" {
   description = "number of jenkins agents to create."
 }
+
+variable "agent_labels" {
+  description = "number of jenkins agents to create."
+  default     = []
+}
