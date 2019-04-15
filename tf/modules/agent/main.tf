@@ -147,7 +147,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
         container {
           name              = "swarm"
-          image             = "lsstsqre/jenkins-swarm-client:latest"
+          image             = "${var.swarm_image}"
           image_pull_policy = "Always"
 
           env = [
