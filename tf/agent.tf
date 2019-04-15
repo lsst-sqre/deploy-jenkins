@@ -1,3 +1,9 @@
+locals {
+  agent_uid    = "888"
+  agent_gid    = "${local.agent_uid}"
+  agent_fsroot = "/j"
+}
+
 resource "kubernetes_secret" "jenkins_agent" {
   metadata {
     namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
@@ -92,7 +98,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           volume_mount {
             name       = "agent-ws"
-            mount_path = "/j"
+            mount_path = "${local.agent_fsroot}"
           }
 
           # https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container
@@ -199,9 +205,21 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           volume_mount {
             name       = "agent-ws"
-            mount_path = "/j"
+            mount_path = "${local.agent_fsroot}"
           }
         } # container
+
+        init_container {
+          name              = "mount-chown"
+          image             = "alpine:3.9"
+          image_pull_policy = "IfNotPresent"
+          command           = ["sh", "-c", "chown 888:888 ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
+
+          volume_mount {
+            name       = "agent-ws"
+            mount_path = "${local.agent_fsroot}"
+          }
+        }
 
         volume {
           name      = "docker-graph-storage"
