@@ -104,7 +104,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           }
 
           volume_mount {
-            name       = "agent-ws"
+            name       = "ws"
             mount_path = "${local.agent_fsroot}"
           }
 
@@ -211,7 +211,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           ]
 
           volume_mount {
-            name       = "agent-ws"
+            name       = "ws"
             mount_path = "${local.agent_fsroot}"
           }
         } # container
@@ -223,7 +223,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           command           = ["sh", "-c", "chown 888:888 ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
 
           volume_mount {
-            name       = "agent-ws"
+            name       = "ws"
             mount_path = "${local.agent_fsroot}"
           }
         }
@@ -237,7 +237,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
     volume_claim_template {
       metadata {
-        name = "agent-ws"
+        name = "ws"
       }
 
       spec {
