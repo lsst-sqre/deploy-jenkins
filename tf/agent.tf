@@ -159,7 +159,8 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               value = "1"
             },
             {
-              name  = "JSWARM_AGENT_NAME"
+              name = "JSWARM_AGENT_NAME"
+
               value_from {
                 field_ref {
                   field_path = "metadata.name"
@@ -176,6 +177,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name = "JSWARM_USERNAME"
+
               value_from {
                 secret_key_ref {
                   name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
@@ -185,6 +187,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name = "JSWARM_PASSWORD"
+
               value_from {
                 secret_key_ref {
                   name = "${kubernetes_secret.jenkins_agent.metadata.0.name}"
