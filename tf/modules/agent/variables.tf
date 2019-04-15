@@ -40,3 +40,8 @@ variable "agent_executors" {
   description = "number of executors per agent."
   default     = "1"
 }
+
+variable "dind_image" {
+  description = "DinD docker image."
+  default     = "docker:18.09.5-dind"
+}
