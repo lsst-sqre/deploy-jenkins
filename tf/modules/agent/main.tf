@@ -2,6 +2,7 @@ locals {
   agent_uid    = "888"
   agent_gid    = "${local.agent_uid}"
   agent_fsroot = "/j"
+  docker_host  = "tcp://127.0.0.1:2375"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
@@ -90,12 +91,19 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
       spec {
         container {
-          name              = "dind-daemon"
+          name              = "dind"
           image             = "${var.dind_image}"
           image_pull_policy = "Always"
+          command           = ["/usr/local/bin/dockerd"]
+          args              = ["--host=${local.docker_host}"]
 
           security_context {
             privileged = true
+          }
+
+          env {
+            name  = "DOCKER_HOST"
+            value = "${local.docker_host}"
           }
 
           volume_mount {
@@ -153,7 +161,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           env = [
             {
               name  = "DOCKER_HOST"
-              value = "tcp://localhost:2375"
+              value = "${local.docker_host}"
             },
             {
               name  = "JSWARM_MASTER_URL"
