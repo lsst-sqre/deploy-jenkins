@@ -1,8 +1,11 @@
 locals {
-  agent_uid    = "888"
-  agent_gid    = "${local.agent_uid}"
-  agent_fsroot = "/j"
-  docker_host  = "tcp://127.0.0.1:2375"
+  agent_uid        = "888"
+  agent_gid        = "${local.agent_uid}"
+  agent_fsroot     = "/j"
+  docker_host_name = "localhost"
+  docker_host_port = "2375"
+  docker_tuple     = "${local.docker_host_name}:${local.docker_host_port}"
+  docker_host      = "tcp://${local.docker_tuple}"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
@@ -123,34 +126,44 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           #    memory = "512Mi"
           #  }
 
+
           #  requests {
           #    cpu    = "0.25"
           #    memory = "256Mi"
           #  }
           #}
 
-          ## https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
-          #liveness_probe {
-          #  http_get {
-          #    path = "/"
-          #    port = "80"
-          #  }
+          liveness_probe {
+            exec {
+              command = [
+                "wget",
+                "--spider",
+                "-q",
+                "http://${local.docker_tuple}/_ping",
+              ]
+            }
 
-          #  initial_delay_seconds = "30"
-          #  timeout_seconds       = "5"
-          #  period_seconds        = "10"
-          #}
+            initial_delay_seconds = "5"
+            timeout_seconds       = "1"
+            period_seconds        = "5"
+            failure_threshold     = "2"
+          }
 
-          #readiness_probe {
-          #  http_get {
-          #    path = "/"
-          #    port = "80"
-          #  }
+          readiness_probe {
+            exec {
+              command = [
+                "wget",
+                "--spider",
+                "-q",
+                "http://${local.docker_tuple}/_ping",
+              ]
+            }
 
-          #  initial_delay_seconds = "1"
-          #  timeout_seconds       = "2"
-          #  period_seconds        = "10"
-          #}
+            initial_delay_seconds = "5"
+            timeout_seconds       = "1"
+            period_seconds        = "5"
+            failure_threshold     = "2"
+          }
         } # container
 
         container {
