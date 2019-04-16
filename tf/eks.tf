@@ -127,6 +127,11 @@ autoDiscovery:
   enabled: true
 
 replicaCount: 1
+#nodeSelector:
+#  kubernetes.io/role: master
+#tolerations:
+#  - key: node-role.kubernetes.io/master
+#    effect: NoSchedule
 END
 
   vars {
