@@ -6,6 +6,9 @@ locals {
   docker_host_port = "2375"
   docker_tuple     = "${local.docker_host_name}:${local.docker_host_port}"
   docker_host      = "tcp://${local.docker_tuple}"
+  jmx_host         = "localhost"
+  jmx_port         = "8080"
+  jmx_tuple        = "${local.jmx_host}:${local.jmx_port}"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
@@ -148,7 +151,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
-
           readiness_probe {
             exec {
               command = [
@@ -170,6 +172,38 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           name              = "swarm"
           image             = "${var.swarm_image}"
           image_pull_policy = "Always"
+
+          liveness_probe {
+            exec {
+              command = [
+                "wget",
+                "--spider",
+                "-q",
+                "http://${local.jmx_tuple}/metrics",
+              ]
+            }
+
+            initial_delay_seconds = "5"
+            timeout_seconds       = "1"
+            period_seconds        = "5"
+            failure_threshold     = "2"
+          }
+
+          readiness_probe {
+            exec {
+              command = [
+                "wget",
+                "--spider",
+                "-q",
+                "http://${local.jmx_tuple}/metrics",
+              ]
+            }
+
+            initial_delay_seconds = "5"
+            timeout_seconds       = "1"
+            period_seconds        = "5"
+            failure_threshold     = "2"
+          }
 
           env = [
             {
