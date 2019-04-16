@@ -122,19 +122,17 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             mount_path = "${local.agent_fsroot}"
           }
 
-          # https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container
-          #resources {
-          #  limits {
-          #    cpu    = "0.5"
-          #    memory = "512Mi"
-          #  }
+          resources {
+            limits {
+              cpu    = "8"
+              memory = "12Gi"
+            }
 
-
-          #  requests {
-          #    cpu    = "0.25"
-          #    memory = "256Mi"
-          #  }
-          #}
+            requests {
+              cpu    = "6"
+              memory = "12Gi"
+            }
+          }
 
           liveness_probe {
             exec {
@@ -203,6 +201,18 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             timeout_seconds       = "1"
             period_seconds        = "5"
             failure_threshold     = "2"
+          }
+
+          resources {
+            limits {
+              cpu    = "2"
+              memory = "3Gi"
+            }
+
+            requests {
+              cpu    = "1"
+              memory = "2Gi"
+            }
           }
 
           env = [
