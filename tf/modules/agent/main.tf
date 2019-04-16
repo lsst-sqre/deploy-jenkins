@@ -149,6 +149,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
+
           readiness_probe {
             exec {
               command = [

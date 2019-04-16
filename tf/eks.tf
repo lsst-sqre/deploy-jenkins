@@ -4,7 +4,10 @@ locals {
       instance_type        = "${var.worker_instance_type}"
       root_volume_size     = "${var.worker_root_volume_size}"
       asg_desired_capacity = 2
-      asg_max_size         = 2
+      asg_max_size         = 6
+      autoscaling_enabled  = true
+      rotect_from_scale_in = true
+      subnets              = "${aws_subnet.jenkins-demo.id}"
     },
   ]
 }
@@ -88,4 +91,48 @@ resource "kubernetes_storage_class" "gp2" {
 
   # needed when the k8s cluster is recreated
   #  depends_on = ["module.eks"]
+}
+
+resource "helm_release" "cluster_autoscaler" {
+  name      = "cluster-autoscaler"
+  chart     = "stable/cluster-autoscaler"
+  namespace = "kube-system"
+  version   = "0.10.0"
+
+  keyring       = ""
+  force_update  = true
+  recreate_pods = true
+
+  values = [
+    "${data.template_file.cluster_autoscaler_values.rendered}",
+  ]
+
+  depends_on = [
+    "module.tiller",
+  ]
+}
+
+data "template_file" "cluster_autoscaler_values" {
+  template = <<END
+rbac:
+  create: true
+
+sslCertPath: /etc/ssl/certs/ca-bundle.crt
+
+cloudProvider: aws
+awsRegion: $${aws_region}
+
+autoDiscovery:
+  clusterName: $${cluster_name}
+  enabled: true
+
+replicaCount: 1
+END
+
+  vars {
+    aws_region = "us-east-1"
+
+    #XXX
+    cluster_name = "test-eks-cluster"
+  }
 }
