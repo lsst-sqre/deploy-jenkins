@@ -52,7 +52,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-  version = "~> 0.7.0"
+  version = "~> 0.9.0"
 
   service_account = "${module.tiller.service_account}"
   namespace       = "${module.tiller.namespace}"
@@ -101,7 +101,6 @@ resource "helm_release" "cluster_autoscaler" {
   namespace = "kube-system"
   version   = "0.10.0"
 
-  keyring       = ""
   force_update  = true
   recreate_pods = true
 
