@@ -307,9 +307,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
-        access_modes = ["ReadWriteOnce"]
-
-        #storage_class_name = "${kubernetes_storage_class.gp2.metadata.0.name}"
+        access_modes       = ["ReadWriteOnce"]
         storage_class_name = "${var.agent_storage_class}"
 
         resources {

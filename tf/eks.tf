@@ -44,8 +44,9 @@ module "eks" {
 provider "kubernetes" {
   version = "~> 1.5.2"
 
-  host                   = "${module.eks.cluster_endpoint}"
-  config_path            = "${path.module}/kubeconfig_test-eks-cluster"
+  host = "${module.eks.cluster_endpoint}"
+
+  config_path            = "${module.eks.kubeconfig_filename}"
   load_config_file       = true
   cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
 }
@@ -91,8 +92,7 @@ resource "kubernetes_storage_class" "gp2" {
     fsType = "ext4"
   }
 
-  # needed when the k8s cluster is recreated
-  #  depends_on = ["module.eks"]
+  depends_on = ["module.eks"]
 }
 
 resource "helm_release" "cluster_autoscaler" {
@@ -111,6 +111,7 @@ resource "helm_release" "cluster_autoscaler" {
 
   depends_on = [
     "module.tiller",
+    "module.eks",
   ]
 }
 
