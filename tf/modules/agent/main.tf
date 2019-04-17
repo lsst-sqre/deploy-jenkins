@@ -63,7 +63,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
   }
 
   spec {
-    pod_management_policy  = "OrderedReady"
+    pod_management_policy  = "Parallel"
     replicas               = "${var.agent_replicas}"
     revision_history_limit = 10
 
