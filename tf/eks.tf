@@ -10,6 +10,10 @@ locals {
       subnets              = "${aws_subnet.jenkins-demo.id}"
     },
   ]
+
+  # recent versions of eks are creating a gp2 sc by default; attempting to
+  # declare our own causes an error.
+  k8s_storage_class = "gp2"
 }
 
 module "eks" {
@@ -69,30 +73,6 @@ module "tiller" {
   source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=master"
   namespace       = "kube-system"
   service_account = "tiller"
-}
-
-resource "kubernetes_storage_class" "gp2" {
-  # note that storageclass is not namespaced
-  metadata {
-    name = "gp2"
-
-    labels {
-      name = "gp2"
-    }
-
-    #annotations {
-    #  "storageclass.kubernetes.io/is-default-class" = true
-    #}
-  }
-
-  storage_provisioner = "kubernetes.io/aws-ebs"
-
-  parameters {
-    type   = "gp2"
-    fsType = "ext4"
-  }
-
-  depends_on = ["module.eks"]
 }
 
 resource "helm_release" "cluster_autoscaler" {
