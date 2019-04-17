@@ -13,7 +13,9 @@ locals {
 }
 
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "3.0.0"
+
   cluster_name    = "test-eks-cluster"
   cluster_version = "1.12"
 
