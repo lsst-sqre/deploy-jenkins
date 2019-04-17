@@ -3,7 +3,7 @@ locals {
     {
       instance_type        = "${var.worker_instance_type}"
       root_volume_size     = "${var.worker_root_volume_size}"
-      asg_desired_capacity = 2
+      asg_desired_capacity = 1
       asg_max_size         = 6
       autoscaling_enabled  = true
       rotect_from_scale_in = true
