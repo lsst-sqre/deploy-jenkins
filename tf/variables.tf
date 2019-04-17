@@ -60,4 +60,6 @@ locals {
 
   master_fqdn  = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
   master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
+
+  k8s_cluster_name = "${var.service_name}-${var.env_name}"
 }

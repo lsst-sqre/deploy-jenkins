@@ -16,7 +16,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "3.0.0"
 
-  cluster_name    = "test-eks-cluster"
+  cluster_name    = "${local.k8s_cluster_name}"
   cluster_version = "1.12"
 
   subnets = [
@@ -25,7 +25,7 @@ module "eks" {
   ]
 
   tags = {
-    Name = "${var.env_name}"
+    Name = "${local.k8s_cluster_name}"
   }
 
   vpc_id = "${aws_vpc.jenkins-demo.id}"
@@ -44,8 +44,7 @@ module "eks" {
 provider "kubernetes" {
   version = "~> 1.5.2"
 
-  host = "${module.eks.cluster_endpoint}"
-
+  host                   = "${module.eks.cluster_endpoint}"
   config_path            = "${module.eks.kubeconfig_filename}"
   load_config_file       = true
   cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
@@ -60,7 +59,8 @@ provider "helm" {
 
   kubernetes {
     host                   = "${module.eks.cluster_endpoint}"
-    config_path            = "${path.module}/kubeconfig_test-eks-cluster"
+    config_path            = "${module.eks.kubeconfig_filename}"
+    load_config_file       = true
     cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
   }
 }
@@ -137,9 +137,7 @@ replicaCount: 1
 END
 
   vars {
-    aws_region = "us-east-1"
-
-    #XXX
-    cluster_name = "test-eks-cluster"
+    aws_region   = "us-east-1"
+    cluster_name = "${module.eks.cluster_id}"
   }
 }
