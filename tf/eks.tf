@@ -29,7 +29,8 @@ module "eks" {
   ]
 
   tags = {
-    Name = "${local.k8s_cluster_name}"
+    Name     = "${local.k8s_cluster_name}"
+    env_name = "${var.env_name}"
   }
 
   vpc_id = "${aws_vpc.jenkins-demo.id}"
