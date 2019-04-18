@@ -129,3 +129,34 @@ END
     cluster_name = "${module.eks.cluster_id}"
   }
 }
+
+resource "helm_release" "metrics_server" {
+  name      = "metrics-server"
+  chart     = "stable/metrics-server"
+  namespace = "kube-system"
+  version   = "2.6.0"
+
+  force_update  = true
+  recreate_pods = true
+
+  values = [
+    "${data.template_file.metrics_server_values.rendered}",
+  ]
+
+  depends_on = [
+    "module.eks",
+    "module.tiller",
+  ]
+}
+
+data "template_file" "metrics_server_values" {
+  template = <<END
+#service:
+#  labels:
+#    kubernetes.io/name: "Metrics-server"
+#    kubernetes.io/cluster-service: "true"
+args:
+  - --kubelet-insecure-tls
+  - --kubelet-preferred-address-types=InternalIP
+END
+}
