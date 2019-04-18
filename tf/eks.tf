@@ -53,6 +53,51 @@ module "eks" {
   ]
 }
 
+# if vpc networking related resources are destroyed down before k8s resources,
+# eks might break...
+# And the k8s api seems to like to timeout right after eks comes up
+resource "null_resource" "eks_ready" {
+  depends_on = [
+    "module.eks",
+    "aws_key_pair.jenkins-demo",
+    "aws_vpc.jenkins-demo",
+    "aws_internet_gateway.jenkins-demo",
+    "aws_vpc_dhcp_options.jenkins",
+    "aws_vpc_dhcp_options_association.jenkins",
+    "aws_route53_zone.jenkins-internal",
+    "aws_route53_record.jenkins-master-internal",
+    "aws_subnet.jenkins-demo",
+    "aws_subnet.jenkins-demo_d",
+    "aws_route_table.jenkins-demo",
+    "aws_main_route_table_association.jenkins-demo",
+    "aws_network_acl.jenkins-demo",
+    "aws_eip.jenkins-demo-master",
+    "aws_security_group.jenkins-demo-ssh",
+    "aws_security_group.jenkins-demo-http",
+    "aws_security_group.jenkins-demo-slaveport",
+    "aws_security_group.jenkins-demo-internal",
+  ]
+
+  provisioner "local-exec" {
+    working_dir = "${path.module}"
+
+    command = <<EOS
+for i in `seq 1 10`; do \
+kubectl --kubeconfig ${null_resource.eks_ready.triggers.config_path} get ns && break || \
+sleep 10; \
+done; \
+EOS
+
+    interpreter = ["/bin/sh", "-c"]
+  }
+
+  triggers {
+    host                   = "${module.eks.cluster_endpoint}"
+    config_path            = "${module.eks.kubeconfig_filename}"
+    cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
+  }
+}
+
 provider "kubernetes" {
   version = "~> 1.5.2"
 
@@ -77,9 +122,19 @@ provider "helm" {
   }
 }
 
+resource "kubernetes_namespace" "tiller" {
+  metadata {
+    name = "tiller"
+  }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
+}
+
 module "tiller" {
   source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=master"
-  namespace       = "kube-system"
+  namespace       = "${kubernetes_namespace.jenkins.metadata.0.name}"
   service_account = "tiller"
 }
 
@@ -97,8 +152,8 @@ resource "helm_release" "cluster_autoscaler" {
   ]
 
   depends_on = [
+    "null_resource.eks_ready",
     "module.tiller",
-    "module.eks",
   ]
 }
 
@@ -144,7 +199,7 @@ resource "helm_release" "metrics_server" {
   ]
 
   depends_on = [
-    "module.eks",
+    "null_resource.eks_ready",
     "module.tiller",
   ]
 }

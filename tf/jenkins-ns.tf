@@ -3,5 +3,7 @@ resource "kubernetes_namespace" "jenkins" {
     name = "jenkins"
   }
 
-  depends_on = ["module.eks"]
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
 }
