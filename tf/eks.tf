@@ -43,6 +43,13 @@ module "eks" {
   ]
 
   write_kubeconfig = true
+  cluster_enabled_log_types = [
+    "api",
+    "audit",
+    "authenticator",
+    "controllerManager",
+    "scheduler",
+  ]
 }
 
 provider "kubernetes" {
