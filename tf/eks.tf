@@ -177,6 +177,8 @@ autoDiscovery:
   enabled: true
 
 replicaCount: 1
+serviceMonitor:
+  enabled: true
 #nodeSelector:
 #  kubernetes.io/role: master
 #tolerations:
