@@ -10,5 +10,8 @@ controller:
       annotations:
         prometheus.io/scrape: true
         prometheus.io/port: "10254"
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
   extraArgs:
     v: 2
