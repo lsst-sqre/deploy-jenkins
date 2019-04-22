@@ -1,4 +1,5 @@
 #aws_zone_id = ""
+#dns_enable = "true"
 #domain_name = ""
 #env_name = ""
 #group_name = ""
@@ -11,3 +12,5 @@
 #scipipe_publish_bucket = ""
 #scipipe_publish_key = ""
 #scipipe_publish_region = ""
+#tls_crt_path = ""
+#tls_key_path = ""

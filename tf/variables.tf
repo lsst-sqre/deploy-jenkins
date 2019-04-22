@@ -54,6 +54,19 @@ variable "jenkins_agent_executors" {
   default     = "1"
 }
 
+variable "tls_crt_path" {
+  description = "wildcard tls certificate."
+}
+
+variable "tls_key_path" {
+  description = "wildcard tls private key."
+}
+
+variable "dns_enable" {
+  description = "create route53 dns records."
+  default     = false
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
@@ -63,5 +76,9 @@ locals {
 
   k8s_cluster_name = "${var.service_name}-${var.env_name}"
 
+  dns_suffix                  = "${local.master_fqdn}"
   tiller_k8s_namespace        = "tiller"
+  nginx_ingress_k8s_namespace = "nginx-ingress"
+  tls_crt                     = "${file(var.tls_crt_path)}"
+  tls_key                     = "${file(var.tls_key_path)}"
 }
