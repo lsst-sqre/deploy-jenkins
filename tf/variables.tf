@@ -67,6 +67,18 @@ variable "dns_enable" {
   default     = false
 }
 
+variable "prometheus_github_org" {
+  description = "limit access to prometheus dashboard to members of this org"
+}
+
+variable "prometheus_client_id" {
+  description = "github oauth client id"
+}
+
+variable "prometheus_client_secret" {
+  description = "github oauth client secret"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"

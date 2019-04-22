@@ -1,0 +1,17 @@
+---
+ingress:
+  enabled: true
+  hosts:
+    - ${prometheus_fqdn}
+  tls:
+    - secretName: prometheus-server-tls
+      hosts:
+        - ${prometheus_fqdn}
+config:
+  clientID: ${prometheus_client_id}
+  clientSecret: ${prometheus_client_secret}
+  configFile: |
+    upstreams = [ "http://prometheus-operator-prometheus:9090" ]
+    provider = "github"
+    github_org = "${prometheus_github_org}"
+    email_domains = [ "*" ]

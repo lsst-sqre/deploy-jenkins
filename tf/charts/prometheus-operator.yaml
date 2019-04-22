@@ -1,13 +1,4 @@
 ---
-prometheus:
-  ingress:
-    enabled: true
-    hosts:
-      - ${prometheus_fqdn}
-    tls:
-      - secretName: prometheus-server-tls
-        hosts:
-          - ${prometheus_fqdn}
 grafana:
   ingress:
     enabled: true

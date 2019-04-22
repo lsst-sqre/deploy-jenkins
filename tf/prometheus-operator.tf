@@ -37,8 +37,7 @@ data "template_file" "prometheus_operator_values" {
   template = "${file("${path.module}/charts/prometheus-operator.yaml")}"
 
   vars {
-    prometheus_fqdn = "${local.prometheus_fqdn}"
-    grafana_fqdn    = "${local.grafana_fqdn}"
+    grafana_fqdn = "${local.grafana_fqdn}"
   }
 }
 
@@ -51,6 +50,37 @@ resource "kubernetes_secret" "prometheus_tls" {
   data {
     tls.crt = "${local.tls_crt}"
     tls.key = "${local.tls_key}"
+  }
+}
+
+resource "helm_release" "prometheus_oauth2_proxy" {
+  name      = "prometheus-oauth2-proxy"
+  chart     = "stable/oauth2-proxy"
+  namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
+  version   = "0.12.1"
+
+  force_update  = true
+  recreate_pods = true
+
+  values = [
+    "${data.template_file.prometheus_oauth2_proxy_values.rendered}",
+  ]
+
+  depends_on = [
+    "null_resource.eks_ready",
+    "module.tiller",
+    "helm_release.nginx_ingress",
+  ]
+}
+
+data "template_file" "prometheus_oauth2_proxy_values" {
+  template = "${file("${path.module}/charts/prometheus-oauth2-proxy.yaml")}"
+
+  vars {
+    prometheus_client_id     = "${var.prometheus_client_id}"
+    prometheus_client_secret = "${var.prometheus_client_secret}"
+    prometheus_fqdn          = "${local.prometheus_fqdn}"
+    prometheus_github_org    = "${var.prometheus_github_org}"
   }
 }
 
