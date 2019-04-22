@@ -83,10 +83,21 @@ resource "aws_subnet" "jenkins-demo" {
   }
 }
 
-resource "aws_subnet" "jenkins-demo_d" {
+resource "aws_subnet" "jenkins_workers_c" {
+  vpc_id                  = "${aws_vpc.jenkins-demo.id}"
+  availability_zone       = "${local.aws_default_region}c"
+  cidr_block              = "192.168.124.0/24"
+  map_public_ip_on_launch = true
+
+  tags {
+    Name = "${var.env_name}"
+  }
+}
+
+resource "aws_subnet" "jenkins_workers_d" {
   vpc_id                  = "${aws_vpc.jenkins-demo.id}"
   availability_zone       = "${local.aws_default_region}d"
-  cidr_block              = "192.168.124.0/24"
+  cidr_block              = "192.168.125.0/24"
   map_public_ip_on_launch = true
 
   tags {
@@ -117,7 +128,8 @@ resource "aws_network_acl" "jenkins-demo" {
 
   subnet_ids = [
     "${aws_subnet.jenkins-demo.id}",
-    "${aws_subnet.jenkins-demo_d.id}",
+    "${aws_subnet.jenkins_workers_c.id}",
+    "${aws_subnet.jenkins_workers_d.id}",
   ]
 
   ingress {
@@ -221,7 +233,8 @@ resource "aws_security_group" "jenkins-demo-internal" {
 
     cidr_blocks = [
       "${aws_subnet.jenkins-demo.cidr_block}",
-      "${aws_subnet.jenkins-demo_d.cidr_block}",
+      "${aws_subnet.jenkins_workers_c.cidr_block}",
+      "${aws_subnet.jenkins_workers_d.cidr_block}",
     ]
   }
 

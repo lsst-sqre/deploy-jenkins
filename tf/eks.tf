@@ -7,7 +7,7 @@ locals {
       asg_max_size         = 6
       autoscaling_enabled  = true
       rotect_from_scale_in = true
-      subnets              = "${aws_subnet.jenkins-demo.id}"
+      subnets              = "${aws_subnet.jenkins_workers_c.id}"
     },
   ]
 
@@ -25,7 +25,8 @@ module "eks" {
 
   subnets = [
     "${aws_subnet.jenkins-demo.id}",
-    "${aws_subnet.jenkins-demo_d.id}",
+    "${aws_subnet.jenkins_workers_c.id}",
+    "${aws_subnet.jenkins_workers_d.id}",
   ]
 
   tags = {
@@ -39,9 +40,12 @@ module "eks" {
   worker_group_count = "1"
 
   # allow communication between worker nodes and jenkins master ec2 instance
-  worker_additional_security_group_ids = [
-    "${aws_security_group.jenkins-demo-internal.id}",
-  ]
+  cluster_security_group_id = "${aws_security_group.jenkins-demo-internal.id}"
+  worker_security_group_id  = "${aws_security_group.jenkins-demo-internal.id}"
+
+  #worker_additional_security_group_ids = [
+  #  "${aws_security_group.jenkins-demo-internal.id}",
+  #]
 
   write_kubeconfig = true
   cluster_enabled_log_types = [
@@ -67,7 +71,8 @@ resource "null_resource" "eks_ready" {
     "aws_route53_zone.jenkins-internal",
     "aws_route53_record.jenkins-master-internal",
     "aws_subnet.jenkins-demo",
-    "aws_subnet.jenkins-demo_d",
+    "aws_subnet.jenkins_workers_c",
+    "aws_subnet.jenkins_workers_d",
     "aws_route_table.jenkins-demo",
     "aws_main_route_table_association.jenkins-demo",
     "aws_network_acl.jenkins-demo",
