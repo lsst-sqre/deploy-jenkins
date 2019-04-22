@@ -1,10 +1,55 @@
 ---
 grafana:
+  # stable/grafana chart release values
+
+  # Add a persistent volume to maintain dashboards between restarts
+  persistence:
+    enabled: true
+    size: 1Gi
+    accessModes:
+      - ReadWriteOnce
+  adminUser: ${grafana_admin_user}
+  adminPassword: ${grafana_admin_pass}
+  service:
+    # ingress on gke requires "NodePort" or "LoadBalancer"
+    type: NodePort
   ingress:
     enabled: true
+    #annotations:
+    #  kubernetes.io/ingress.class: nginx
     hosts:
       - ${grafana_fqdn}
     tls:
-      - secretName: prometheus-server-tls
+      - secretName: ${grafana_secret_name}
         hosts:
           - ${grafana_fqdn}
+  grafana.ini:
+    auth.github:
+      enabled: true
+      client_id: ${client_id}
+      client_secret: ${client_secret}
+      scopes: user:email,read:org
+      auth_url: https://github.com/login/oauth/authorize
+      token_url: https://github.com/login/oauth/access_token
+      api_url: https://api.github.com/user
+      allow_sign_up: true
+      # space-delimited organization names
+      # allowed_organizations:
+      # comma seperated list of team ids
+      team_ids: "${team_ids}"
+    server:
+      root_url: https://${grafana_fqdn}
+    users:
+      auto_assign_org_role: Admin
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        updateIntervalSeconds: 15
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default

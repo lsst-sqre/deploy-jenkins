@@ -79,6 +79,18 @@ variable "prometheus_client_secret" {
   description = "github oauth client secret"
 }
 
+variable "grafana_oauth_client_id" {
+  description = "github oauth Client ID for grafana"
+}
+
+variable "grafana_oauth_client_secret" {
+  description = "github oauth Client Secret for grafana."
+}
+
+variable "grafana_oauth_team_ids" {
+  description = "github team id (integer value treated as string)"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"

@@ -4,7 +4,7 @@ ingress:
   hosts:
     - ${prometheus_fqdn}
   tls:
-    - secretName: prometheus-server-tls
+    - secretName: ${prometheus_secret_name}
       hosts:
         - ${prometheus_fqdn}
 config:
