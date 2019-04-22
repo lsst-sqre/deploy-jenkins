@@ -129,7 +129,7 @@ provider "helm" {
 
 resource "kubernetes_namespace" "tiller" {
   metadata {
-    name = "tiller"
+    name = "${local.tiller_k8s_namespace}"
   }
 
   depends_on = [
@@ -139,7 +139,7 @@ resource "kubernetes_namespace" "tiller" {
 
 module "tiller" {
   source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=master"
-  namespace       = "${kubernetes_namespace.jenkins.metadata.0.name}"
+  namespace       = "${kubernetes_namespace.tiller.metadata.0.name}"
   service_account = "tiller"
 }
 

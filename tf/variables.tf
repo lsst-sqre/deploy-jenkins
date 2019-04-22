@@ -62,4 +62,6 @@ locals {
   master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
 
   k8s_cluster_name = "${var.service_name}-${var.env_name}"
+
+  tiller_k8s_namespace        = "tiller"
 }
