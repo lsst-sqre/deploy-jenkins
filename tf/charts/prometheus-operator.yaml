@@ -1,4 +1,9 @@
 ---
+prometheus:
+  prometheusSpec:
+    # select all serviceMonitors
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
 grafana:
   # stable/grafana chart release values
 
