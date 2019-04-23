@@ -103,6 +103,16 @@ EOS
   }
 }
 
+#resource "aws_cloudwatch_log_group" "eks" {
+#  name = "/aws/eks/${local.k8s_cluster_name}/cluster"
+#
+#  retention_in_days = "7"
+#
+#  tags = {
+#    Name = "${local.k8s_cluster_name}"
+#  }
+#}
+
 provider "kubernetes" {
   version = "~> 1.5.2"
 
