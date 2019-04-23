@@ -8,6 +8,11 @@ matrix:
         - docker
       script: ./tests/mdl.sh
 
+    - env: TEST=pre-commit
+      services:
+        - docker
+      script: ./tests/pre-commit.sh
+
     - env: TEST=terraform
       services:
         - docker

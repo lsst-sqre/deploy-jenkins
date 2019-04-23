@@ -1,12 +1,12 @@
 #!/bin/bash
 
 set -e
-shopt -s globstar nullglob
 
-TF_VER="0.11.11"
+TF_VER="0.11.13"
 
 tf() {
-  docker run -ti -v "$(pwd):$(pwd)" -w "$(pwd)" "hashicorp/terraform:${TF_VER}" "$@"
+  docker run -ti -v "$(pwd):$(pwd)" -w "$(pwd)" \
+    "hashicorp/terraform:${TF_VER}" "$@"
 }
 
 tf fmt --check=true --diff=true
