@@ -61,6 +61,7 @@ resource "kubernetes_config_map" "nginx_ingress_grafana_dashboard" {
   metadata {
     name      = "nginx-ingress-grafana-dashboard"
     namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
+
     labels {
       grafana_dashboard = "1"
     }
