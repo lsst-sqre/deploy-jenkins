@@ -1,5 +1,7 @@
 bin
-*tfstate*
+config-map-aws-auth_*
+downloads/
+kubeconfig_*
 override.tf
 .terraform
-downloads/
+*tfstate*
