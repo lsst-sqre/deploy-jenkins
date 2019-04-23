@@ -11,4 +11,5 @@ module "snowflake" {
   agent_replicas      = "1"
   agent_labels        = ["docker", "snowflake"]
   agent_executors     = "1"
+  agent_mode          = "exclusive"
 }
