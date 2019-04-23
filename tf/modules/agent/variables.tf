@@ -41,6 +41,11 @@ variable "agent_executors" {
   default     = "1"
 }
 
+variable "agent_mode" {
+  description = "agent user mode: \"normal\" or \"exclusive\"."
+  default     = "normal"
+}
+
 variable "dind_image" {
   description = "DinD docker image."
   default     = "docker:18.09.5-dind"

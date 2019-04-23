@@ -227,7 +227,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             },
             {
               name  = "JSWARM_MODE"
-              value = "normal"
+              value = "${var.agent_mode}"
             },
             {
               name  = "JSWARM_LABELS"
