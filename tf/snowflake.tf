@@ -9,7 +9,7 @@ module "snowflake" {
   agent_pass          = "${var.jenkins_agent_pass}"
   master_url          = "https://${local.master_alias}"
   agent_replicas      = "1"
-  agent_labels        = ["docker", "snowflake"]
+  agent_labels        = ["snowflake"]
   agent_executors     = "1"
   agent_mode          = "exclusive"
 }
