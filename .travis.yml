@@ -54,6 +54,11 @@ matrix:
         - TF_VAR_domain_name=example.com
         - AWS_DEFAULT_REGION=us-east-1
       script: ./tests/make.sh
+
+    - env: TEST=jsonlint
+      services:
+        - docker
+      script: ./tests/jsonlint.sh
 branches:
   only:
     - master
