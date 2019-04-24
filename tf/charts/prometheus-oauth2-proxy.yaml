@@ -2,14 +2,14 @@
 ingress:
   enabled: true
   hosts:
-    - ${prometheus_fqdn}
+    - "${prometheus_fqdn}"
   tls:
-    - secretName: ${prometheus_secret_name}
+    - secretName: "${prometheus_secret_name}"
       hosts:
-        - ${prometheus_fqdn}
+        - "${prometheus_fqdn}"
 config:
-  clientID: ${prometheus_client_id}
-  clientSecret: ${prometheus_client_secret}
+  clientID: "${prometheus_client_id}"
+  clientSecret: "${prometheus_client_secret}"
   configFile: |
     upstreams = [ "http://prometheus-operator-prometheus:9090" ]
     provider = "github"

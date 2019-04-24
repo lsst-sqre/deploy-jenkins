@@ -26,6 +26,13 @@ resource "aws_vpc" "jenkins-demo" {
   tags {
     Name = "${var.env_name}"
   }
+
+  lifecycle {
+    ignore_changes = [
+      # eks created tags
+      "tags",
+    ]
+  }
 }
 
 resource "aws_internet_gateway" "jenkins-demo" {
@@ -81,6 +88,13 @@ resource "aws_subnet" "jenkins-demo" {
   tags {
     Name = "${var.env_name}"
   }
+
+  lifecycle {
+    ignore_changes = [
+      # eks created tags
+      "tags",
+    ]
+  }
 }
 
 resource "aws_subnet" "jenkins_workers_c" {
@@ -92,6 +106,13 @@ resource "aws_subnet" "jenkins_workers_c" {
   tags {
     Name = "${var.env_name}"
   }
+
+  lifecycle {
+    ignore_changes = [
+      # eks created tags
+      "tags",
+    ]
+  }
 }
 
 resource "aws_subnet" "jenkins_workers_d" {
@@ -102,6 +123,13 @@ resource "aws_subnet" "jenkins_workers_d" {
 
   tags {
     Name = "${var.env_name}"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      # eks created tags
+      "tags",
+    ]
   }
 }
 
