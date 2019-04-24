@@ -8,6 +8,11 @@ matrix:
         - docker
       script: ./tests/mdl.sh
 
+    - env: TEST=pre-commit
+      services:
+        - docker
+      script: ./tests/pre-commit.sh
+
     - env: TEST=terraform
       services:
         - docker
@@ -54,6 +59,11 @@ matrix:
         - TF_VAR_domain_name=example.com
         - AWS_DEFAULT_REGION=us-east-1
       script: ./tests/make.sh
+
+    - env: TEST=jsonlint
+      services:
+        - docker
+      script: ./tests/jsonlint.sh
 branches:
   only:
     - master

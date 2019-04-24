@@ -25,10 +25,85 @@ variable "master_fqdn" {
   default     = ""
 }
 
+variable "worker_instance_type" {
+  default = "c5.2xlarge"
+}
+
+variable "worker_root_volume_size" {
+  default = "100"
+}
+
+variable "jenkins_agent_volume_size" {
+  description = "Persistent volume for agent -- must include a unit postfix. Eg., Gi."
+}
+
+variable "jenkins_agent_user" {
+  description = "username to access jenkins master."
+}
+
+variable "jenkins_agent_pass" {
+  description = "password to access jenkins master."
+}
+
+variable "jenkins_agent_replicas" {
+  description = "number of jenkins agents to create."
+}
+
+variable "jenkins_agent_executors" {
+  description = "number of executors per agent."
+  default     = "1"
+}
+
+variable "tls_crt_path" {
+  description = "wildcard tls certificate."
+}
+
+variable "tls_key_path" {
+  description = "wildcard tls private key."
+}
+
+variable "dns_enable" {
+  description = "create route53 dns records."
+  default     = false
+}
+
+variable "prometheus_github_org" {
+  description = "limit access to prometheus dashboard to members of this org"
+}
+
+variable "prometheus_client_id" {
+  description = "github oauth client id"
+}
+
+variable "prometheus_client_secret" {
+  description = "github oauth client secret"
+}
+
+variable "grafana_oauth_client_id" {
+  description = "github oauth Client ID for grafana"
+}
+
+variable "grafana_oauth_client_secret" {
+  description = "github oauth Client Secret for grafana."
+}
+
+variable "grafana_oauth_team_ids" {
+  description = "github team id (integer value treated as string)"
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
   master_fqdn  = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
   master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
+
+  k8s_cluster_name = "${var.service_name}-${var.env_name}"
+
+  dns_suffix                  = "${local.master_fqdn}"
+  tiller_k8s_namespace        = "tiller"
+  nginx_ingress_k8s_namespace = "nginx-ingress"
+  prometheus_k8s_namespace    = "monitoring"
+  tls_crt                     = "${file(var.tls_crt_path)}"
+  tls_key                     = "${file(var.tls_key_path)}"
 }
