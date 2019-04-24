@@ -13,8 +13,8 @@ grafana:
     size: 1Gi
     accessModes:
       - ReadWriteOnce
-  adminUser: ${grafana_admin_user}
-  adminPassword: ${grafana_admin_pass}
+  adminUser: "${grafana_admin_user}"
+  adminPassword: "${grafana_admin_pass}"
   service:
     # ingress on gke requires "NodePort" or "LoadBalancer"
     type: NodePort
@@ -23,16 +23,16 @@ grafana:
     #annotations:
     #  kubernetes.io/ingress.class: nginx
     hosts:
-      - ${grafana_fqdn}
+      - "${grafana_fqdn}"
     tls:
-      - secretName: ${grafana_secret_name}
+      - secretName: "${grafana_secret_name}"
         hosts:
-          - ${grafana_fqdn}
+          - "${grafana_fqdn}"
   grafana.ini:
     auth.github:
       enabled: true
-      client_id: ${client_id}
-      client_secret: ${client_secret}
+      client_id: "${client_id}"
+      client_secret: "${client_secret}"
       scopes: user:email,read:org
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
