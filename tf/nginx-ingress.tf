@@ -29,6 +29,9 @@ resource "helm_release" "nginx_ingress" {
   depends_on = [
     "null_resource.eks_ready",
     "module.tiller",
+
+    # serviceMonitor CRD
+    "helm_release.prometheus_operator",
   ]
 }
 

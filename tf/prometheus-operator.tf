@@ -29,7 +29,6 @@ resource "helm_release" "prometheus_operator" {
   depends_on = [
     "null_resource.eks_ready",
     "module.tiller",
-    "helm_release.nginx_ingress",
   ]
 }
 
@@ -77,7 +76,6 @@ resource "helm_release" "prometheus_oauth2_proxy" {
   depends_on = [
     "null_resource.eks_ready",
     "module.tiller",
-    "helm_release.nginx_ingress",
   ]
 }
 
