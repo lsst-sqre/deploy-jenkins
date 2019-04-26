@@ -1,6 +1,4 @@
 locals {
-  agent_uid        = "888"
-  agent_gid        = "${local.agent_uid}"
   agent_fsroot     = "/j"
   docker_host_name = "localhost"
   docker_host_port = "2375"
@@ -96,6 +94,14 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
+        security_context {
+          run_as_user = "${var.agent_uid}"
+          fs_group    = "${var.agent_gid}"
+
+          # k8s 1.14+
+          #run_as_group = "${var.agent_gid}"
+        }
+
         container {
           name              = "dind"
           image             = "${var.dind_image}"
@@ -286,7 +292,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           name              = "mount-chown"
           image             = "alpine:3.9"
           image_pull_policy = "IfNotPresent"
-          command           = ["sh", "-c", "chown 888:888 ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
+          command           = ["sh", "-c", "chown ${var.agent_uid}:${var.agent_gid} ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
 
           volume_mount {
             name       = "ws"

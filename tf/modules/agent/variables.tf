@@ -46,6 +46,16 @@ variable "agent_mode" {
   default     = "normal"
 }
 
+variable "agent_uid" {
+  description = "swarm agent uid"
+  default     = "888"
+}
+
+variable "agent_gid" {
+  description = "swarm agent gid"
+  default     = "888"
+}
+
 variable "dind_image" {
   description = "DinD docker image."
   default     = "docker:18.09.5-dind"
