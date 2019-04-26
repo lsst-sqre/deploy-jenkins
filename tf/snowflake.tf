@@ -12,4 +12,5 @@ module "snowflake" {
   agent_labels        = ["snowflake"]
   agent_executors     = "1"
   agent_mode          = "exclusive"
+  env_name            = "${var.env_name}"
 }

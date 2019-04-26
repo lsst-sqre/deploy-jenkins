@@ -65,3 +65,7 @@ variable "swarm_image" {
   description = "jenkins swarm docker image."
   default     = "lsstsqre/jenkins-swarm-client:latest"
 }
+
+variable "env_name" {
+  description = "deploy name"
+}
