@@ -318,6 +318,10 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             name       = "ws"
             mount_path = "${local.agent_fsroot}"
           }
+
+          security_context {
+            run_as_user = "0"
+          }
         }
 
         volume {
