@@ -1,6 +1,7 @@
 locals {
   worker_groups = [
     {
+      name                  = "agents"
       instance_type         = "${var.worker_instance_type}"
       root_volume_size      = "${var.worker_root_volume_size}"
       asg_desired_capacity  = 1
@@ -8,7 +9,18 @@ locals {
       autoscaling_enabled   = true
       protect_from_scale_in = true
       subnets               = "${aws_subnet.jenkins_workers_c.id}"
+      kubelet_extra_args    = "--node-labels=nodegroup=agent"
     },
+    {
+      name                  = "admin"
+      instance_type         = "t3.medium"
+      root_volume_size      = "32"
+      asg_desired_capacity  = 1
+      asg_max_size          = 2
+      autoscaling_enabled   = true
+      protect_from_scale_in = true
+      subnets               = "${aws_subnet.jenkins_workers_c.id}"
+      kubelet_extra_args    = "--node-labels=nodegroup=admin"
     },
   ]
 
@@ -38,7 +50,7 @@ module "eks" {
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
   worker_groups      = "${local.worker_groups}"
-  worker_group_count = "1"
+  worker_group_count = "${length(local.worker_groups)}"
 
   # allow communication between worker nodes and jenkins master ec2 instance
   cluster_security_group_id = "${aws_security_group.jenkins-demo-internal.id}"
@@ -65,6 +77,7 @@ resource "null_resource" "eks_ready" {
   depends_on = [
     #"module.eks",
     "aws_key_pair.jenkins-demo",
+
     "aws_vpc.jenkins-demo",
     "aws_internet_gateway.jenkins-demo",
     "aws_vpc_dhcp_options.jenkins",
