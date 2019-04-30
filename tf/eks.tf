@@ -63,7 +63,7 @@ module "eks" {
 # And the k8s api seems to like to timeout right after eks comes up
 resource "null_resource" "eks_ready" {
   depends_on = [
-    "module.eks",
+    #"module.eks",
     "aws_key_pair.jenkins-demo",
     "aws_vpc.jenkins-demo",
     "aws_internet_gateway.jenkins-demo",
