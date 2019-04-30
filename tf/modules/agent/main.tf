@@ -341,16 +341,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             storage = "${var.agent_volume_size}"
           }
         }
-
-        selector {
-          match_labels {
-            "app.kubernetes.io/name"      = "${var.name}"
-            "app.kubernetes.io/instance"  = "${var.env_name}"
-            "app.kubernetes.io/version"   = "${local.app_version}"
-            "app.kubernetes.io/component" = "agent"
-            "app.kubernetes.io/part-of"   = "jenkins"
-          }
-        }
       }
     }
   } # spec
