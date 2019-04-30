@@ -190,28 +190,7 @@ resource "helm_release" "cluster_autoscaler" {
 }
 
 data "template_file" "cluster_autoscaler_values" {
-  template = <<END
-rbac:
-  create: true
-
-sslCertPath: /etc/ssl/certs/ca-bundle.crt
-
-cloudProvider: aws
-awsRegion: $${aws_region}
-
-autoDiscovery:
-  clusterName: $${cluster_name}
-  enabled: true
-
-replicaCount: 1
-serviceMonitor:
-  enabled: true
-#nodeSelector:
-#  kubernetes.io/role: master
-#tolerations:
-#  - key: node-role.kubernetes.io/master
-#    effect: NoSchedule
-END
+  template = "${file("${path.module}/charts/cluster-autoscaler.yaml")}"
 
   vars {
     aws_region   = "us-east-1"
