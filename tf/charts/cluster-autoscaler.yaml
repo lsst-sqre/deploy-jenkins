@@ -19,3 +19,13 @@ serviceMonitor:
 #tolerations:
 #  - key: node-role.kubernetes.io/master
 #    effect: NoSchedule
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - admin
