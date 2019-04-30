@@ -4,6 +4,18 @@ prometheus:
     # select all serviceMonitors
     serviceMonitorSelectorNilUsesHelmValues: false
     serviceMonitorSelector: {}
+
+prometheusOperator:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: nodegroup
+                operator: In
+                values:
+                  - admin
 grafana:
   # stable/grafana chart release values
 
