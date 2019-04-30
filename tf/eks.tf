@@ -187,13 +187,5 @@ resource "helm_release" "metrics_server" {
 }
 
 data "template_file" "metrics_server_values" {
-  template = <<END
-#service:
-#  labels:
-#    kubernetes.io/name: "Metrics-server"
-#    kubernetes.io/cluster-service: "true"
-args:
-  - --kubelet-insecure-tls
-  - --kubelet-preferred-address-types=InternalIP
-END
+  template = "${file("${path.module}/charts/metrics-server.yaml")}"
 }
