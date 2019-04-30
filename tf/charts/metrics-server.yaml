@@ -2,3 +2,13 @@
 args:
   - --kubelet-insecure-tls
   - --kubelet-preferred-address-types=InternalIP
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - admin
