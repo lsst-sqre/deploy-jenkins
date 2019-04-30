@@ -16,12 +16,12 @@ resource "kubernetes_secret" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      "app.kubernetes.io/name"       = "${var.name}"
-      "app.kubernetes.io/instance"   = "${var.env_name}"
-      "app.kubernetes.io/version"    = "${local.app_version}"
-      "app.kubernetes.io/component"  = "agent"
-      "app.kubernetes.io/part-of"    = "jenkins"
-      "app.kubernetes.io/managed-by" = "terraform"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
@@ -38,22 +38,22 @@ resource "kubernetes_service" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      "app.kubernetes.io/name"       = "${var.name}"
-      "app.kubernetes.io/instance"   = "${var.env_name}"
-      "app.kubernetes.io/version"    = "${local.app_version}"
-      "app.kubernetes.io/component"  = "agent"
-      "app.kubernetes.io/part-of"    = "jenkins"
-      "app.kubernetes.io/managed-by" = "terraform"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
   spec {
     selector {
-      "app.kubernetes.io/name"      = "${var.name}"
-      "app.kubernetes.io/instance"  = "${var.env_name}"
-      "app.kubernetes.io/version"   = "${local.app_version}"
-      "app.kubernetes.io/component" = "agent"
-      "app.kubernetes.io/part-of"   = "jenkins"
+      "app.k8s.io/name"      = "${var.name}"
+      "app.k8s.io/instance"  = "${var.env_name}"
+      "app.k8s.io/version"   = "${local.app_version}"
+      "app.k8s.io/component" = "agent"
+      "app.k8s.io/part-of"   = "jenkins"
     }
 
     cluster_ip = "None"
@@ -66,12 +66,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      "app.kubernetes.io/name"       = "${var.name}"
-      "app.kubernetes.io/instance"   = "${var.env_name}"
-      "app.kubernetes.io/version"    = "${local.app_version}"
-      "app.kubernetes.io/component"  = "agent"
-      "app.kubernetes.io/part-of"    = "jenkins"
-      "app.kubernetes.io/managed-by" = "terraform"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
@@ -82,11 +82,11 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
     selector {
       match_labels {
-        "app.kubernetes.io/name"      = "${var.name}"
-        "app.kubernetes.io/instance"  = "${var.env_name}"
-        "app.kubernetes.io/version"   = "${local.app_version}"
-        "app.kubernetes.io/component" = "agent"
-        "app.kubernetes.io/part-of"   = "jenkins"
+        "app.k8s.io/name"      = "${var.name}"
+        "app.k8s.io/instance"  = "${var.env_name}"
+        "app.k8s.io/version"   = "${local.app_version}"
+        "app.k8s.io/component" = "agent"
+        "app.k8s.io/part-of"   = "jenkins"
       }
     }
 
@@ -104,12 +104,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
     template {
       metadata {
         labels {
-          "app.kubernetes.io/name"       = "${var.name}"
-          "app.kubernetes.io/instance"   = "${var.env_name}"
-          "app.kubernetes.io/version"    = "${local.app_version}"
-          "app.kubernetes.io/component"  = "agent"
-          "app.kubernetes.io/part-of"    = "jenkins"
-          "app.kubernetes.io/managed-by" = "terraform"
+          "app.k8s.io/name"       = "${var.name}"
+          "app.k8s.io/instance"   = "${var.env_name}"
+          "app.k8s.io/version"    = "${local.app_version}"
+          "app.k8s.io/component"  = "agent"
+          "app.k8s.io/part-of"    = "jenkins"
+          "app.k8s.io/managed-by" = "terraform"
         }
       }
 
