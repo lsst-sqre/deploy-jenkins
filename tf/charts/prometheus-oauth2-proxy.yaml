@@ -15,3 +15,13 @@ config:
     provider = "github"
     github_org = "${prometheus_github_org}"
     email_domains = [ "*" ]
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - admin
