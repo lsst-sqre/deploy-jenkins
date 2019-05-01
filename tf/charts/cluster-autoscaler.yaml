@@ -1,0 +1,31 @@
+---
+rbac:
+  create: true
+
+sslCertPath: /etc/ssl/certs/ca-bundle.crt
+
+cloudProvider: aws
+awsRegion: "${aws_region}"
+
+autoDiscovery:
+  clusterName: "${cluster_name}"
+  enabled: true
+
+replicaCount: 1
+serviceMonitor:
+  enabled: true
+#nodeSelector:
+#  kubernetes.io/role: master
+#tolerations:
+#  - key: node-role.kubernetes.io/master
+#    effect: NoSchedule
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+            - key: nodegroup
+              operator: In
+              values:
+                - admin

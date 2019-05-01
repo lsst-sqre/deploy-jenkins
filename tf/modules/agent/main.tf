@@ -1,6 +1,4 @@
 locals {
-  agent_uid        = "888"
-  agent_gid        = "${local.agent_uid}"
   agent_fsroot     = "/j"
   docker_host_name = "localhost"
   docker_host_port = "2375"
@@ -9,6 +7,8 @@ locals {
   jmx_host         = "localhost"
   jmx_port         = "8080"
   jmx_tuple        = "${local.jmx_host}:${local.jmx_port}"
+  app_version      = "1.0.0"
+  dockergc_grace   = "3600"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
@@ -17,8 +17,12 @@ resource "kubernetes_secret" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      app  = "jenkins"
-      role = "agent"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
@@ -35,16 +39,22 @@ resource "kubernetes_service" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      app  = "jenkins"
-      role = "agent"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
   spec {
     selector {
-      name = "${var.name}"
-      app  = "jenkins"
-      role = "agent"
+      "app.k8s.io/name"      = "${var.name}"
+      "app.k8s.io/instance"  = "${var.env_name}"
+      "app.k8s.io/version"   = "${local.app_version}"
+      "app.k8s.io/component" = "agent"
+      "app.k8s.io/part-of"   = "jenkins"
     }
 
     cluster_ip = "None"
@@ -57,8 +67,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
     name      = "${var.name}"
 
     labels {
-      app  = "jenkins"
-      role = "agent"
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
     }
   }
 
@@ -69,9 +83,11 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
     selector {
       match_labels {
-        name = "${var.name}"
-        app  = "jenkins"
-        role = "agent"
+        "app.k8s.io/name"      = "${var.name}"
+        "app.k8s.io/instance"  = "${var.env_name}"
+        "app.k8s.io/version"   = "${local.app_version}"
+        "app.k8s.io/component" = "agent"
+        "app.k8s.io/part-of"   = "jenkins"
       }
     }
 
@@ -89,13 +105,24 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
     template {
       metadata {
         labels {
-          name = "${var.name}"
-          app  = "jenkins"
-          role = "agent"
+          "app.k8s.io/name"       = "${var.name}"
+          "app.k8s.io/instance"   = "${var.env_name}"
+          "app.k8s.io/version"    = "${local.app_version}"
+          "app.k8s.io/component"  = "agent"
+          "app.k8s.io/part-of"    = "jenkins"
+          "app.k8s.io/managed-by" = "terraform"
         }
       }
 
       spec {
+        security_context {
+          run_as_user = "${var.agent_uid}"
+          fs_group    = "${var.agent_gid}"
+
+          # k8s 1.14+
+          #run_as_group = "${var.agent_gid}"
+        }
+
         container {
           name              = "dind"
           image             = "${var.dind_image}"
@@ -164,6 +191,60 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             timeout_seconds       = "1"
             period_seconds        = "5"
             failure_threshold     = "2"
+          }
+        } # container
+
+        container {
+          name              = "docker-gc"
+          image             = "${var.dockergc_image}"
+          image_pull_policy = "Always"
+          command           = ["sh", "-c", "while true; do /usr/local/bin/docker-gc; sleep $GRACE_PERIOD_SECONDS; done"]
+
+          security_context {
+            # docker-gc writes to /var by default
+            run_as_user = "0"
+          }
+
+          env {
+            name  = "DOCKER_HOST"
+            value = "${local.docker_host}"
+          }
+
+          env {
+            name  = "GRACE_PERIOD_SECONDS"
+            value = "${local.dockergc_grace}"
+          }
+
+          env {
+            name  = "MINIMUM_IMAGES_TO_SAVE"
+            value = "5"
+          }
+
+          env {
+            name  = "REMOVE_VOLUMES"
+            value = "1"
+          }
+
+          env {
+            name  = "FORCE_CONTAINER_REMOVAL"
+            value = "1"
+          }
+
+          env {
+            name  = "FORCE_IMAGE_REMOVAL"
+            value = "1"
+          }
+
+          resources {
+            limits {
+              cpu    = "500m"
+              memory = "512Mi"
+            }
+
+            requests {
+              cpu    = "200m"
+              memory = "100Mi"
+            }
           }
         } # container
 
@@ -286,11 +367,15 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           name              = "mount-chown"
           image             = "alpine:3.9"
           image_pull_policy = "IfNotPresent"
-          command           = ["sh", "-c", "chown 888:888 ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
+          command           = ["sh", "-c", "chown ${var.agent_uid}:${var.agent_gid} ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
 
           volume_mount {
             name       = "ws"
             mount_path = "${local.agent_fsroot}"
+          }
+
+          security_context {
+            run_as_user = "0"
           }
         }
 

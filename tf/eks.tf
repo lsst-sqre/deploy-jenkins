@@ -1,13 +1,26 @@
 locals {
   worker_groups = [
     {
-      instance_type        = "${var.worker_instance_type}"
-      root_volume_size     = "${var.worker_root_volume_size}"
-      asg_desired_capacity = 1
-      asg_max_size         = 6
-      autoscaling_enabled  = true
-      rotect_from_scale_in = true
-      subnets              = "${aws_subnet.jenkins_workers_c.id}"
+      name                  = "agents"
+      instance_type         = "${var.worker_instance_type}"
+      root_volume_size      = "${var.worker_root_volume_size}"
+      asg_desired_capacity  = 1
+      asg_max_size          = 6
+      autoscaling_enabled   = true
+      protect_from_scale_in = true
+      subnets               = "${aws_subnet.jenkins_workers_c.id}"
+      kubelet_extra_args    = "--node-labels=nodegroup=agent"
+    },
+    {
+      name                  = "admin"
+      instance_type         = "t3.medium"
+      root_volume_size      = "32"
+      asg_desired_capacity  = 1
+      asg_max_size          = 2
+      autoscaling_enabled   = true
+      protect_from_scale_in = true
+      subnets               = "${aws_subnet.jenkins_workers_c.id}"
+      kubelet_extra_args    = "--node-labels=nodegroup=admin"
     },
   ]
 
@@ -37,7 +50,7 @@ module "eks" {
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
   worker_groups      = "${local.worker_groups}"
-  worker_group_count = "1"
+  worker_group_count = "${length(local.worker_groups)}"
 
   # allow communication between worker nodes and jenkins master ec2 instance
   cluster_security_group_id = "${aws_security_group.jenkins-demo-internal.id}"
@@ -62,8 +75,9 @@ module "eks" {
 # And the k8s api seems to like to timeout right after eks comes up
 resource "null_resource" "eks_ready" {
   depends_on = [
-    "module.eks",
+    #"module.eks",
     "aws_key_pair.jenkins-demo",
+
     "aws_vpc.jenkins-demo",
     "aws_internet_gateway.jenkins-demo",
     "aws_vpc_dhcp_options.jenkins",
@@ -151,87 +165,4 @@ module "tiller" {
   source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=master"
   namespace       = "${kubernetes_namespace.tiller.metadata.0.name}"
   service_account = "tiller"
-}
-
-resource "helm_release" "cluster_autoscaler" {
-  name      = "cluster-autoscaler"
-  chart     = "stable/cluster-autoscaler"
-  namespace = "kube-system"
-  version   = "0.10.0"
-
-  force_update  = true
-  recreate_pods = true
-
-  values = [
-    "${data.template_file.cluster_autoscaler_values.rendered}",
-  ]
-
-  depends_on = [
-    "null_resource.eks_ready",
-    "module.tiller",
-
-    # serviceMonitor CRD
-    "helm_release.prometheus_operator",
-  ]
-}
-
-data "template_file" "cluster_autoscaler_values" {
-  template = <<END
-rbac:
-  create: true
-
-sslCertPath: /etc/ssl/certs/ca-bundle.crt
-
-cloudProvider: aws
-awsRegion: $${aws_region}
-
-autoDiscovery:
-  clusterName: $${cluster_name}
-  enabled: true
-
-replicaCount: 1
-serviceMonitor:
-  enabled: true
-#nodeSelector:
-#  kubernetes.io/role: master
-#tolerations:
-#  - key: node-role.kubernetes.io/master
-#    effect: NoSchedule
-END
-
-  vars {
-    aws_region   = "us-east-1"
-    cluster_name = "${module.eks.cluster_id}"
-  }
-}
-
-resource "helm_release" "metrics_server" {
-  name      = "metrics-server"
-  chart     = "stable/metrics-server"
-  namespace = "kube-system"
-  version   = "2.6.0"
-
-  force_update  = true
-  recreate_pods = true
-
-  values = [
-    "${data.template_file.metrics_server_values.rendered}",
-  ]
-
-  depends_on = [
-    "null_resource.eks_ready",
-    "module.tiller",
-  ]
-}
-
-data "template_file" "metrics_server_values" {
-  template = <<END
-#service:
-#  labels:
-#    kubernetes.io/name: "Metrics-server"
-#    kubernetes.io/cluster-service: "true"
-args:
-  - --kubelet-insecure-tls
-  - --kubelet-preferred-address-types=InternalIP
-END
 }

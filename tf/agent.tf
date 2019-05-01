@@ -11,4 +11,5 @@ module "agent" {
   agent_replicas      = "${var.jenkins_agent_replicas}"
   agent_labels        = ["docker"]
   agent_executors     = "${var.jenkins_agent_executors}"
+  env_name            = "${var.env_name}"
 }
