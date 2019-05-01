@@ -194,6 +194,34 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
         } # container
 
         container {
+          name              = "docker-gc"
+          image             = "${var.dockergc_image}"
+          image_pull_policy = "Always"
+
+          security_context {
+            # crond wants to be root
+            run_as_user = "0"
+          }
+
+          env {
+            name  = "DOCKER_HOST"
+            value = "${local.docker_host}"
+          }
+
+          resources {
+            limits {
+              cpu    = "500m"
+              memory = "512Mi"
+            }
+
+            requests {
+              cpu    = "200m"
+              memory = "100Mi"
+            }
+          }
+        } # container
+
+        container {
           name              = "swarm"
           image             = "${var.swarm_image}"
           image_pull_policy = "Always"

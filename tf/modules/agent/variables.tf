@@ -66,6 +66,11 @@ variable "swarm_image" {
   default     = "lsstsqre/jenkins-swarm-client:latest"
 }
 
+variable "dockergc_image" {
+  description = "docker-gc image."
+  default     = "lsstsqre/docker-gc-cron:latest"
+}
+
 variable "env_name" {
   description = "deploy name"
 }
