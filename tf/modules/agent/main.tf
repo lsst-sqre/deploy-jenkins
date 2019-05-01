@@ -8,6 +8,7 @@ locals {
   jmx_port         = "8080"
   jmx_tuple        = "${local.jmx_host}:${local.jmx_port}"
   app_version      = "1.0.0"
+  dockergc_grace   = "3600"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
@@ -197,15 +198,41 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           name              = "docker-gc"
           image             = "${var.dockergc_image}"
           image_pull_policy = "Always"
+          command           = ["sh", "-c", "while true; do /usr/local/bin/docker-gc; sleep $GRACE_PERIOD_SECONDS; done"]
 
           security_context {
-            # crond wants to be root
+            # docker-gc writes to /var by default
             run_as_user = "0"
           }
 
           env {
             name  = "DOCKER_HOST"
             value = "${local.docker_host}"
+          }
+
+          env {
+            name  = "GRACE_PERIOD_SECONDS"
+            value = "${local.dockergc_grace}"
+          }
+
+          env {
+            name  = "MINIMUM_IMAGES_TO_SAVE"
+            value = "5"
+          }
+
+          env {
+            name  = "REMOVE_VOLUMES"
+            value = "1"
+          }
+
+          env {
+            name  = "FORCE_CONTAINER_REMOVAL"
+            value = "1"
+          }
+
+          env {
+            name  = "FORCE_IMAGE_REMOVAL"
+            value = "1"
           }
 
           resources {
