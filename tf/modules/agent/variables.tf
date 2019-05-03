@@ -68,7 +68,7 @@ variable "swarm_image" {
 
 variable "dockergc_image" {
   description = "docker-gc image."
-  default     = "lsstsqre/docker-gc-cron:latest"
+  default     = "lsstsqre/docker-gc:latest"
 }
 
 variable "env_name" {
