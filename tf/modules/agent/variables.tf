@@ -63,7 +63,7 @@ variable "dind_image" {
 
 variable "swarm_image" {
   description = "jenkins swarm docker image."
-  default     = "lsstsqre/jenkins-swarm-client:latest"
+  default     = "lsstsqre/jenkins-swarm-client:3.15"
 }
 
 variable "dockergc_image" {
