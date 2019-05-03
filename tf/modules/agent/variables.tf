@@ -58,7 +58,7 @@ variable "agent_gid" {
 
 variable "dind_image" {
   description = "DinD docker image."
-  default     = "docker:18.09.5-dind"
+  default     = "lsstsqre/dind:18.09.5"
 }
 
 variable "swarm_image" {
