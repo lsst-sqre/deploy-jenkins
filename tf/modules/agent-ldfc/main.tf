@@ -363,22 +363,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           }
         } # container
 
-        init_container {
-          name              = "mount-chown"
-          image             = "alpine:3.9"
-          image_pull_policy = "IfNotPresent"
-          command           = ["sh", "-c", "chown ${var.agent_uid}:${var.agent_gid} ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
-
-          volume_mount {
-            name       = "ws"
-            mount_path = "${local.agent_fsroot}"
-          }
-
-          security_context {
-            run_as_user = "0"
-          }
-        }
-
         volume {
           name      = "docker-graph-storage"
           empty_dir = {}
