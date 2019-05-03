@@ -1,14 +1,14 @@
 locals {
   agent_fsroot     = "/j"
+  app_version      = "1.0.0"
+  dockergc_grace   = "3600"
   docker_host_name = "localhost"
   docker_host_port = "2375"
-  docker_tuple     = "${local.docker_host_name}:${local.docker_host_port}"
   docker_host      = "tcp://${local.docker_tuple}"
+  docker_tuple     = "${local.docker_host_name}:${local.docker_host_port}"
   jmx_host         = "localhost"
   jmx_port         = "8080"
   jmx_tuple        = "${local.jmx_host}:${local.jmx_port}"
-  app_version      = "1.0.0"
-  dockergc_grace   = "3600"
 }
 
 resource "kubernetes_secret" "jenkins_agent" {
