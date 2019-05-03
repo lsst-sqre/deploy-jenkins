@@ -376,12 +376,21 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "${var.agent_storage_class}"
+        access_modes = ["ReadWriteMany"]
 
         resources {
           requests {
             storage = "${var.agent_volume_size}"
+          }
+        }
+
+        selector {
+          match_labels {
+            "app.k8s.io/name"      = "${var.name}"
+            "app.k8s.io/instance"  = "${var.env_name}"
+            "app.k8s.io/version"   = "${local.app_version}"
+            "app.k8s.io/component" = "agent"
+            "app.k8s.io/part-of"   = "jenkins"
           }
         }
       }
