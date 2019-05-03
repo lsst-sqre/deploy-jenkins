@@ -151,8 +151,8 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           resources {
             limits {
-              cpu    = "8"
-              memory = "12Gi"
+              cpu    = "32"
+              memory = "96Gi"
             }
 
             requests {
