@@ -49,3 +49,13 @@ output "DOMAIN_NAME" {
 output "GROUP_NAME" {
   value = "${var.group_name}"
 }
+
+output "kubeconfig" {
+  description = "kubectl config file contents for this EKS cluster."
+  value       = "${module.eks.kubeconfig}"
+}
+
+output "kubeconfig_filename" {
+  description = "The filename of the generated kubectl config."
+  value       = "${module.eks.kubeconfig_filename}"
+}
