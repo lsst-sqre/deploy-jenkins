@@ -1,5 +1,6 @@
 locals {
   agent_fsroot     = "/j"
+  app_name         = "jenkins"
   app_version      = "1.0.0"
   dockergc_grace   = "3600"
   docker_host_name = "localhost"
@@ -396,4 +397,38 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
     }
   } # spec
+}
+
+resource "kubernetes_persistent_volume" "jenkins_agent_ws" {
+  count = "${var.agent_replicas}"
+
+  metadata {
+    name = "${local.app_name}-${var.env_name}-ws-${count.index}"
+
+    labels {
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
+    }
+  }
+
+  spec {
+    capacity {
+      storage = "1500Gi"
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    mount_options = ["local_lock=all"]
+
+    persistent_volume_source {
+      nfs {
+        path   = "/lsst/project/${local.app_name}/${var.env_name}/${var.name}-ws-${count.index}"
+        server = "lsst-nfs.ncsa.illinois.edu"
+      }
+    }
+  }
 }
