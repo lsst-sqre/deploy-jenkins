@@ -115,14 +115,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
-        security_context {
-          run_as_user = "${var.agent_uid}"
-          fs_group    = "${var.agent_gid}"
-
-          # k8s 1.14+
-          #run_as_group = "${var.agent_gid}"
-        }
-
         container {
           name              = "dind"
           image             = "${var.dind_image}"
@@ -253,6 +245,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           image             = "${var.swarm_image}"
           image_pull_policy = "Always"
 
+          #security_context {
+          #  run_as_user = "${var.agent_uid}"
+          #  # k8s 1.14+
+          #  #run_as_group = "${var.agent_gid}"
+          #}
+
           liveness_probe {
             exec {
               command = [
@@ -268,7 +266,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
-
           readiness_probe {
             exec {
               command = [
@@ -284,7 +281,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
-
           resources {
             limits {
               cpu    = "2"
@@ -296,7 +292,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               memory = "2Gi"
             }
           }
-
           env = [
             {
               name  = "DOCKER_HOST"
@@ -356,7 +351,6 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
           ]
-
           volume_mount {
             name       = "ws"
             mount_path = "${local.agent_fsroot}"
