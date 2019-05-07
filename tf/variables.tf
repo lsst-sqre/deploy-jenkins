@@ -100,11 +100,12 @@ locals {
 
   k8s_cluster_name = "${var.service_name}-${var.env_name}"
 
-  dns_suffix                   = "${local.master_fqdn}"
-  tiller_k8s_namespace         = "tiller"
-  nginx_ingress_k8s_namespace  = "nginx-ingress"
-  prometheus_k8s_namespace     = "monitoring"
-  metrics_server_k8s_namespace = "metrics-server"
-  tls_crt                      = "${file(var.tls_crt_path)}"
-  tls_key                      = "${file(var.tls_key_path)}"
+  dns_suffix                       = "${local.master_fqdn}"
+  tiller_k8s_namespace             = "tiller"
+  nginx_ingress_k8s_namespace      = "nginx-ingress"
+  prometheus_k8s_namespace         = "monitoring"
+  metrics_server_k8s_namespace     = "metrics-server"
+  cluster_autoscaler_k8s_namespace = "cluster-autoscaler"
+  tls_crt                          = "${file(var.tls_crt_path)}"
+  tls_key                          = "${file(var.tls_key_path)}"
 }
