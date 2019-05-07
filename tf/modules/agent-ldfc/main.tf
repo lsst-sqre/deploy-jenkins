@@ -1,5 +1,6 @@
 locals {
   agent_fsroot     = "/j"
+  app_name         = "jenkins"
   app_version      = "1.0.0"
   dockergc_grace   = "3600"
   docker_host_name = "localhost"
@@ -115,6 +116,11 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
+        security_context {
+          # intended primary for dind; can not set fs_group at container level
+          fs_group = "${var.agent_gid}"
+        }
+
         container {
           name              = "dind"
           image             = "${var.dind_image}"
@@ -143,8 +149,8 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           resources {
             limits {
-              cpu    = "8"
-              memory = "12Gi"
+              cpu    = "32"
+              memory = "96Gi"
             }
 
             requests {
@@ -245,11 +251,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           image             = "${var.swarm_image}"
           image_pull_policy = "Always"
 
-          #security_context {
-          #  run_as_user = "${var.agent_uid}"
-          #  # k8s 1.14+
-          #  #run_as_group = "${var.agent_gid}"
-          #}
+          security_context {
+            run_as_user = "${var.agent_uid}"
+
+            # k8s 1.14+
+            run_as_group = "${var.agent_gid}"
+          }
 
           liveness_probe {
             exec {
@@ -266,6 +273,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
+
           readiness_probe {
             exec {
               command = [
@@ -281,6 +289,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             period_seconds        = "5"
             failure_threshold     = "2"
           }
+
           resources {
             limits {
               cpu    = "2"
@@ -292,6 +301,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               memory = "2Gi"
             }
           }
+
           env = [
             {
               name  = "DOCKER_HOST"
@@ -351,27 +361,12 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
           ]
+
           volume_mount {
             name       = "ws"
             mount_path = "${local.agent_fsroot}"
           }
         } # container
-
-        init_container {
-          name              = "mount-chown"
-          image             = "alpine:3.9"
-          image_pull_policy = "IfNotPresent"
-          command           = ["sh", "-c", "chown ${var.agent_uid}:${var.agent_gid} ${local.agent_fsroot} && chmod 6700 ${local.agent_fsroot}"]
-
-          volume_mount {
-            name       = "ws"
-            mount_path = "${local.agent_fsroot}"
-          }
-
-          security_context {
-            run_as_user = "0"
-          }
-        }
 
         volume {
           name      = "docker-graph-storage"
@@ -386,15 +381,58 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
       }
 
       spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "${var.agent_storage_class}"
+        access_modes = ["ReadWriteMany"]
 
         resources {
           requests {
             storage = "${var.agent_volume_size}"
           }
         }
+
+        selector {
+          match_labels {
+            "app.k8s.io/name"      = "${var.name}"
+            "app.k8s.io/instance"  = "${var.env_name}"
+            "app.k8s.io/version"   = "${local.app_version}"
+            "app.k8s.io/component" = "agent"
+            "app.k8s.io/part-of"   = "jenkins"
+          }
+        }
       }
     }
   } # spec
+}
+
+resource "kubernetes_persistent_volume" "jenkins_agent_ws" {
+  count = "${var.agent_replicas}"
+
+  metadata {
+    name = "${local.app_name}-${var.env_name}-ws-${count.index}"
+
+    labels {
+      "app.k8s.io/name"       = "${var.name}"
+      "app.k8s.io/instance"   = "${var.env_name}"
+      "app.k8s.io/version"    = "${local.app_version}"
+      "app.k8s.io/component"  = "agent"
+      "app.k8s.io/part-of"    = "jenkins"
+      "app.k8s.io/managed-by" = "terraform"
+    }
+  }
+
+  spec {
+    capacity {
+      storage = "1500Gi"
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    mount_options = ["local_lock=all"]
+
+    persistent_volume_source {
+      nfs {
+        path   = "/lsst/project/${local.app_name}/${var.env_name}/${var.name}-ws-${count.index}"
+        server = "lsst-nfs.ncsa.illinois.edu"
+      }
+    }
+  }
 }
