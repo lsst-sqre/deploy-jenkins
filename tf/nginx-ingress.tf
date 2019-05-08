@@ -46,6 +46,7 @@ data "kubernetes_service" "nginx_ingress" {
   }
 
   depends_on = [
+    "null_resource.eks_ready",
     "helm_release.nginx_ingress",
   ]
 }
@@ -74,4 +75,8 @@ resource "kubernetes_config_map" "nginx_ingress_grafana_dashboard" {
     # .json extension seems to be required
     nginx.json = "${data.template_file.nginx_ingress_grafana_dashboard.rendered}"
   }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
 }
