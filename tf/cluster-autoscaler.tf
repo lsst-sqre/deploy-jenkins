@@ -1,7 +1,17 @@
+resource "kubernetes_namespace" "cluster_autoscaler" {
+  metadata {
+    name = "${local.cluster_autoscaler_k8s_namespace}"
+  }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
+}
+
 resource "helm_release" "cluster_autoscaler" {
   name      = "cluster-autoscaler"
   chart     = "stable/cluster-autoscaler"
-  namespace = "kube-system"
+  namespace = "${kubernetes_namespace.cluster_autoscaler.metadata.0.name}"
   version   = "0.10.0"
 
   force_update  = true

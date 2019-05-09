@@ -1,7 +1,17 @@
+resource "kubernetes_namespace" "metrics_server" {
+  metadata {
+    name = "${local.metrics_server_k8s_namespace}"
+  }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
+}
+
 resource "helm_release" "metrics_server" {
   name      = "metrics-server"
   chart     = "stable/metrics-server"
-  namespace = "kube-system"
+  namespace = "${kubernetes_namespace.metrics_server.metadata.0.name}"
   version   = "2.6.0"
 
   force_update  = true

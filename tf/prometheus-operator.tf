@@ -58,6 +58,10 @@ resource "kubernetes_secret" "prometheus_tls" {
     tls.crt = "${local.tls_crt}"
     tls.key = "${local.tls_key}"
   }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
 }
 
 resource "helm_release" "prometheus_oauth2_proxy" {
