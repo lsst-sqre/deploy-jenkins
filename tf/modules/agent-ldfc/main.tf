@@ -121,6 +121,20 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           fs_group = "${var.agent_gid}"
         }
 
+        affinity {
+          node_affinity {
+            required_during_scheduling_ignored_during_execution {
+              node_selector_term {
+                match_expressions {
+                  key      = "kubernetes.io/hostname"
+                  operator = "NotIn"
+                  values   = ["lsst-kub005"]
+                }
+              }
+            }
+          }
+        }
+
         container {
           name              = "dind"
           image             = "${var.dind_image}"
