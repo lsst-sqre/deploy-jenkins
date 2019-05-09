@@ -140,7 +140,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
           image             = "${var.dind_image}"
           image_pull_policy = "Always"
           command           = ["/usr/local/bin/dockerd"]
-          args              = ["--host=${local.docker_host}"]
+          args              = ["--host=${local.docker_host}", "--mtu=1376"]
 
           security_context {
             privileged = true
