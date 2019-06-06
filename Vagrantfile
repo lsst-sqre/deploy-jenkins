@@ -55,7 +55,9 @@ end
 
 def master_ami
   # us-east-1 centos 1901_01 (2019-01-30)
-  ENV['MASTER_AMI'] || 'ami-02eac2c0129f6376b'
+  #ENV['MASTER_AMI'] || 'ami-02eac2c0129f6376b'
+  # jhoblitt-curly snapshot???
+  ENV['MASTER_AMI'] || 'ami-0acd9a4c3e61c73b4'
   # us-west-2 centos 1901_01 (2019-01-30)
   # ENV['MASTER_AMI'] || 'ami-01ed306a12b7d1c96'
 end
