@@ -15,9 +15,6 @@
 #prometheus_client_id = ""
 #prometheus_client_secret = ""
 #prometheus_github_org = "lsst-sqre"
-#scipipe_publish_bucket = ""
-#scipipe_publish_key = ""
-#scipipe_publish_region = ""
 #tls_crt_path = ""
 #tls_key_path = ""
 
