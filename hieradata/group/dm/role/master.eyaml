@@ -188,7 +188,7 @@ jenkinsx::casc:
                 id: slack-lsstc-token
                 scope: GLOBAL
                 description: slack lsstc org API token
-                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAN1yqJQ5ysARcRr8AJrhr1OkOSFuMLxD3q0rztzI4vB7bfz5DyCfsN5K5tpzYQOY7ko6TzZYAaErxFAJUIxHmwkDS5T5YoUq255FJGS+iaJu2vP5nKwrrzKaS6sxntvz0inU3GolBQS6rRetl9Wxuw3QQAEymJPEHA22vYZNmGxt7w8v/HTFAz1jUHwT8kLoHaH+UMkkBxcghrtqxY1PN9easKoRe0odMGkpIQoXG5HMcHzq+uojg/yO1K6tg+sMYLPz3udsS9NCB9Fg8rj+wxZFDchOiqDT6l5u9EV+bTEG5pFykIy2qUgObCXpBMReQOPjk2TMML9WEe1GIqNNqvTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjG5pB1Wo0sRmNR+hUFg5xgFBgbZd1x44Pykcn1QwwRtbLoFhrhHGH7LTmZYfJVXKFpoG/TK58ufrvFQlq1m1PWALv0y9TIW6EpM/BBwjMrA1WGGQCkuwqPBwE4p+5rqw5Eg==]
+                secret: "${slack_api_token}"
             - usernamePassword:
                 id: ghslacker
                 scope: GLOBAL
