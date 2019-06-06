@@ -15,8 +15,8 @@ jenkinsx::casc:
   jenkins:
     securityRealm:
       github:
-        clientID: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAcMy5R6pTF7RyfpOtZXnH2k+9h+JqWevn+mNmj9BHNoq+6Hn7OemHPojwjxWOQtvleQRZXaY4U8B8ij6SjlT6zx2hhxCm+1z43lwxVgsZHbrAXkzxqb7MHqheEr2+H48WylE0Tr+weL62tJ2Z06ZnrDhjxUeQc5esK4Ixcc+DIXjSj7NAd5VXTW5FMXPSivte0KPFX8JMDbVDfvacPwhjVRf3LOruXL3FUEOEwD90ApiczZQpgOHltugqeseaajzGLgKrS/g6P/PLEfo2pgOCJFprRIsuXxW987CohN3yY+mR70epqcHRS2oyxd8OgikcC4jmmvFLLhbYCSA0FEyuXTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBlnEGO+LF5BpxyGBfpHQOmgCB/dS8YmpjL5UQcqaKJ8UjVwQIpR7y8cOykjWr3mmYGrQ==]
-        clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgLrTJMWmAdQXG5ztxSxMngqWuY/RCe5KZicY7a1RJRDWGLCYuuDfizKc5shETGOj1K5Lp9YxFWd9ubc6IaH5RITPnqpNiJ8umJ4ylsEleHbrBOZj1/Qr6zqZMPmY2ir7G1JcvBGKDm4GaXbT2+eAhM3nc84PWQECwxKxV0GVPkUbHqJAo9tJkjxri3MAaRIeaAXKFDmLZvvBOJ1kr/FfpY9MdHPI4KxDqhDTSpBwUj5vigFY6Bv3+zySoIKEF1ZwPPW7ZTZwj24e2NczBmFIwzWdreQuRSgfbV8wApers2WpH6nvzVb4dksYkUPafhTIYU6xBVeS/y9L/yFm2YHsCTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD1282zZQol2DfdLu9HmUopgDC4EZlUf9CB54H/WllvIXN68DgyPNVnKnwdnZaQxLNkeiAN5spAzIzEJKoCv3sGWgU=]
+        clientID: "${github_oauth_client_id}"
+        clientSecret: "${github_oauth_client_secret}"
         githubApiUri: https://api.github.com
         githubWebUri: https://github.com
         oauthScopes: read:org
@@ -57,7 +57,7 @@ files:
   /etc/jenkins/vault:
     content: |
       CASC_VAULT_TOKEN=ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAdyFJxUzzs8ZtJPqX7G3bnvS0pKz2otDL8b17q8m8853jzofz2staPcFUDa+dKKGOKAf1ELTX33s2C3JA/Ly/p8pVRKR3Oh+GzEx92/xykZ8pXttXLxh4jEltOXpgiDvrcCdfC5vjokSOmK8PWMyJbFdK/aFqB+KJyMbgOeEIdu+5VOcyyHCUylPNC0Du3iui5lUXo9T2vAx9xVVJV93cyW9mOeYtvYKWfkQzoRiVfJoeRZqeyUzGadNQ9SeHJOnfUjSyHMNHEzAUhBfwutRTHl/XpUw94z/A0X7J1DfiWzxcNlJumzdhO8N9uAIoHjjtQ2qAuQVbeLL0eFGqzfNX/jBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB8aLRN1tedXfv+Mifp3K+ogCDAfYCWt+gLWFyJXqUrVYAjmn1VJKzZ+tB7P4um4ZtTAA==]
-      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker
+      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker,secret/dm/square/jenkins/jhoblitt-curly/github_oauth
       CASC_VAULT_URL=https://vault.lsst.codes
       CASC_VAULT_ENGINE_VERSION=2
     owner: jenkins
