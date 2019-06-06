@@ -193,5 +193,5 @@ jenkinsx::casc:
                 id: ghslacker
                 scope: GLOBAL
                 description: api.lsst.codes/ghslacker
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
+                username: "${ghslacker_user}"
+                password: "${ghslacker_pass}"
