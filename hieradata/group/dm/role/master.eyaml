@@ -9,6 +9,11 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
+  jenkins::config_hash:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
 classes:
   # run a jnlp agent to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
@@ -21,6 +26,9 @@ jenkins_demo::profile::jenkins::agent::use_default_labels: false
 jenkins_demo::profile::jenkins::agent::labels:
   - "%{::hostname}"
 jenkins_demo::profile::jenkins::agent::executors: 8
+jenkins::config_hash:
+  CASC_VAULT_FILE:
+    value: '/etc/jenkins/vault'
 jenkinsx::casc:
   jenkins:
     authorizationStrategy:
