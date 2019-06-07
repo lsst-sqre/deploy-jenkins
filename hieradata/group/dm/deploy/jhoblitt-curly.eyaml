@@ -6,11 +6,6 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
-jenkinsx::versiondb:
-  ssh_private_key: &jenkinsx_versiondb_ssh_private_key |
-    ENC[PKCS7,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]
-  ssh_public_key: |
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+eHYVsqrBePD0F8WNIJ3sTbJLRzgDyXMtYIixFmFNsBQzr+EIQMk+YOFzsXsRBKrCi5UXwBfN6vSRSEBTXLKITugsIR0ZwU7FpytMAg6E/R55o0Q0mn8Ft5EykWJhsGMGlb4yhd4QgumudP6FuzejrRNNHC8PkmmacJwBfSdkvxXLPnYEJI1DlCV2dnGJU6EvZ4AFk0AOfeeAeWVeZr6KsTHkz+BMfjLc9+yTZFGOoikrlRev+BRGgm6UfN3ZZbM2SlbtdkP8C0z99dezZtMnZPvxVqi9OBFgJBIVdGg5DnJgVnSj2SUwOTdGzwV36CRsKpcPyDUyv4Jt/GwBkdlH jhoblitt-curly@versiondb
 jenkinsx::casc:
   jenkins:
     securityRealm:
@@ -46,7 +41,7 @@ jenkinsx::casc:
                 username: git
                 privateKeySource:
                   directEntry:
-                    privateKey: *jenkinsx_versiondb_ssh_private_key
+                    privateKey: "${versiondb_ssh_private_key}"
             - usernamePassword:
                 id: dockerhub-sqreadmin
                 scope: GLOBAL
@@ -57,7 +52,7 @@ files:
   /etc/jenkins/vault:
     content: |
       CASC_VAULT_TOKEN=ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAdyFJxUzzs8ZtJPqX7G3bnvS0pKz2otDL8b17q8m8853jzofz2staPcFUDa+dKKGOKAf1ELTX33s2C3JA/Ly/p8pVRKR3Oh+GzEx92/xykZ8pXttXLxh4jEltOXpgiDvrcCdfC5vjokSOmK8PWMyJbFdK/aFqB+KJyMbgOeEIdu+5VOcyyHCUylPNC0Du3iui5lUXo9T2vAx9xVVJV93cyW9mOeYtvYKWfkQzoRiVfJoeRZqeyUzGadNQ9SeHJOnfUjSyHMNHEzAUhBfwutRTHl/XpUw94z/A0X7J1DfiWzxcNlJumzdhO8N9uAIoHjjtQ2qAuQVbeLL0eFGqzfNX/jBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB8aLRN1tedXfv+Mifp3K+ogCDAfYCWt+gLWFyJXqUrVYAjmn1VJKzZ+tB7P4um4ZtTAA==]
-      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker,secret/dm/square/jenkins/jhoblitt-curly/github_oauth,secret/dm/square/jenkins/jhoblitt-curly/github_api,secret/dm/square/jenkins/jhoblitt-curly/dockerhub
+      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker,secret/dm/square/jenkins/jhoblitt-curly/github_oauth,secret/dm/square/jenkins/jhoblitt-curly/github_api,secret/dm/square/jenkins/jhoblitt-curly/dockerhub,secret/dm/square/jenkins/jhoblitt-curly/versiondb_ssh
       CASC_VAULT_URL=https://vault.lsst.codes
       CASC_VAULT_ENGINE_VERSION=2
     owner: jenkins
