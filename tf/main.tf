@@ -2,6 +2,10 @@ provider "aws" {
   version = "~> 2.9.0"
 }
 
+provider "vault" {
+  version = "~> 1.8.0"
+}
+
 data "aws_region" "current" {}
 
 locals {

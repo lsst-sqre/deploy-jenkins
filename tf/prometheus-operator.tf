@@ -36,8 +36,8 @@ data "template_file" "prometheus_operator_values" {
   template = "${file("${path.module}/charts/prometheus-operator.yaml")}"
 
   vars {
-    client_id                = "${var.grafana_oauth_client_id}"
-    client_secret            = "${var.grafana_oauth_client_secret}"
+    client_id                = "${local.grafana_oauth_client_id}"
+    client_secret            = "${local.grafana_oauth_client_secret}"
     grafana_admin_pass       = "${random_string.grafana_admin_pass.result}"
     grafana_admin_user       = "admin"
     grafana_fqdn             = "${local.grafana_fqdn}"
