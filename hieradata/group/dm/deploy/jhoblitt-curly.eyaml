@@ -51,13 +51,13 @@ jenkinsx::casc:
                 id: dockerhub-sqreadmin
                 scope: GLOBAL
                 description: dockerhub (sqreadmincurly)
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALCngcMwLvUpwOOrWJzswpOHGOwDAmjQlHGfqnqiJKbYm25vanqOBCEINCN7AWuU1+MXE48vmQja6Ak8o2QBKMR73vX3tgyo1UzkMt/UgYKRE2L2bU81GlD2SJE8mQqj2SDr/r/Cv8OY36Hv4oN9E5T+3JhIMYx7m8z5Oj9iV/654IqDyeH5xS9ytIC+Z8U2hymGEYwSDvoSv94Teb55vPDkk+IO2jCKOz6VsVu0sanyNgnSK1SdlbHsS0hhXpUn0keU1pzYJ7G/RaT1UcmItlORmMq8RdX1H14BevyZ9QodKGCvvZdTuVgxFnFbP/uk0n4tz7oo+YlpwqFPwfm0jAjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDdenct2610uGYjpjqlJt2JgBBDliAvuYXSi8h2024GxIut]
-                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbGBxqJ92KELpnj0ylcCh4zneaYCruT+00IFyewgIki+TfOrG7i7PgnKysun2OYHaqSFrOxnqIqz1lejV+Cc6HpQpdeabCY5aVfhl/6Yt+cm8mtxQEOa8OKoA73QILkNC60hzbmjg+1q+7rbuZXY5xfDltm8W/+VOvHHw8w7xwMg3hnur6Yi19YPWcYFTpGab8+m6yqde2hZ8U5G04wjZT5lxonfr1svl2StiwZblBsxl26r7VGk1t4YcgXZ4YtITCiKCkJbSSfFikUvxSW5vIhtCIvXAJY3arCF05u15MNWIgPf1TosTIvC+ulz4QmkpS6K2HvSjhoHkhnXZIpry8TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBddAbsgQqbe6eXXdDhW8G5gCDOaCT2DsE/jbhsITC2CtSwgDzXZH9hd140bMpwaCfXgw==]
+                username: "${dockerhub_user}"
+                password: "${dockerhub_pass}"
 files:
   /etc/jenkins/vault:
     content: |
       CASC_VAULT_TOKEN=ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAdyFJxUzzs8ZtJPqX7G3bnvS0pKz2otDL8b17q8m8853jzofz2staPcFUDa+dKKGOKAf1ELTX33s2C3JA/Ly/p8pVRKR3Oh+GzEx92/xykZ8pXttXLxh4jEltOXpgiDvrcCdfC5vjokSOmK8PWMyJbFdK/aFqB+KJyMbgOeEIdu+5VOcyyHCUylPNC0Du3iui5lUXo9T2vAx9xVVJV93cyW9mOeYtvYKWfkQzoRiVfJoeRZqeyUzGadNQ9SeHJOnfUjSyHMNHEzAUhBfwutRTHl/XpUw94z/A0X7J1DfiWzxcNlJumzdhO8N9uAIoHjjtQ2qAuQVbeLL0eFGqzfNX/jBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB8aLRN1tedXfv+Mifp3K+ogCDAfYCWt+gLWFyJXqUrVYAjmn1VJKzZ+tB7P4um4ZtTAA==]
-      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker,secret/dm/square/jenkins/jhoblitt-curly/github_oauth,secret/dm/square/jenkins/jhoblitt-curly/github_api
+      CASC_VAULT_PATHS=secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish,secret/dm/square/jenkins/jhoblitt-curly/slack,secret/dm/square/jenkins/jhoblitt-curly/ghslacker,secret/dm/square/jenkins/jhoblitt-curly/github_oauth,secret/dm/square/jenkins/jhoblitt-curly/github_api,secret/dm/square/jenkins/jhoblitt-curly/dockerhub
       CASC_VAULT_URL=https://vault.lsst.codes
       CASC_VAULT_ENGINE_VERSION=2
     owner: jenkins
