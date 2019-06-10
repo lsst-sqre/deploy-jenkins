@@ -134,7 +134,6 @@ locals {
 
   k8s_cluster_name = "${var.service_name}-${var.env_name}"
 
-  dns_suffix                       = "${local.master_fqdn}"
   tiller_k8s_namespace             = "tiller"
   nginx_ingress_k8s_namespace      = "nginx-ingress"
   prometheus_k8s_namespace         = "monitoring"

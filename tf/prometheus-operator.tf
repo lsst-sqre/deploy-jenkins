@@ -1,6 +1,6 @@
 locals {
-  prometheus_fqdn = "prometheus-${local.dns_suffix}"
-  grafana_fqdn    = "grafana-${local.dns_suffix}"
+  prometheus_fqdn = "${local.dns_prefix}prometheus-${var.deploy_name}.${var.domain_name}"
+  grafana_fqdn    = "${local.dns_prefix}grafana-${var.deploy_name}.${var.domain_name}"
 }
 
 resource "kubernetes_namespace" "prometheus" {
