@@ -38,8 +38,8 @@ data "template_file" "prometheus_operator_values" {
   vars {
     client_id                = "${local.grafana_oauth_client_id}"
     client_secret            = "${local.grafana_oauth_client_secret}"
-    grafana_admin_pass       = "${random_string.grafana_admin_pass.result}"
-    grafana_admin_user       = "admin"
+    grafana_admin_pass       = "${local.grafana_admin_pass}"
+    grafana_admin_user       = "${local.grafana_admin_user}"
     grafana_fqdn             = "${local.grafana_fqdn}"
     grafana_secret_name      = "${kubernetes_secret.prometheus_tls.metadata.0.name}"
     prometheus_k8s_namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
@@ -92,14 +92,6 @@ data "template_file" "prometheus_oauth2_proxy_values" {
     prometheus_fqdn          = "${local.prometheus_fqdn}"
     prometheus_github_org    = "${var.prometheus_github_org}"
     prometheus_secret_name   = "${kubernetes_secret.prometheus_tls.metadata.0.name}"
-  }
-}
-
-resource "random_string" "grafana_admin_pass" {
-  length = 20
-
-  keepers = {
-    host = "${module.eks.cluster_endpoint}"
   }
 }
 

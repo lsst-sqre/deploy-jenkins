@@ -59,3 +59,14 @@ output "kubeconfig_filename" {
   description = "The filename of the generated kubectl config."
   value       = "${module.eks.kubeconfig_filename}"
 }
+
+output "grafana_admin_pass" {
+  description = "grafana admin user account password."
+  sensitive   = true
+  value       = "${local.grafana_admin_pass}"
+}
+
+output "grafana_admin_user" {
+  description = "name of the grafana admin user account."
+  value       = "${local.grafana_admin_user}"
+}
