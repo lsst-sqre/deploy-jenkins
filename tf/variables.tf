@@ -46,14 +46,6 @@ variable "jenkins_agent_executors" {
   default     = "1"
 }
 
-variable "tls_crt_path" {
-  description = "wildcard tls certificate."
-}
-
-variable "tls_key_path" {
-  description = "wildcard tls private key."
-}
-
 variable "dns_enable" {
   description = "create route53 dns records."
   default     = false
@@ -119,6 +111,20 @@ variable "prometheus_oauth_github_org" {
   default     = "lsst-sqre"
 }
 
+data "vault_generic_secret" "tls" {
+  path = "${local.vault_root}/tls"
+}
+
+variable "tls_crt" {
+  description = "wildcard tls certificate."
+  default     = ""
+}
+
+variable "tls_key" {
+  description = "wildcard tls private key."
+  default     = ""
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
@@ -134,10 +140,7 @@ locals {
   prometheus_k8s_namespace         = "monitoring"
   metrics_server_k8s_namespace     = "metrics-server"
   cluster_autoscaler_k8s_namespace = "cluster-autoscaler"
-  tls_crt                          = "${file(var.tls_crt_path)}"
-  tls_key                          = "${file(var.tls_key_path)}"
-
-  vault_root = "secret/dm/square/jenkins/${var.env_name}"
+  vault_root                       = "secret/dm/square/jenkins/${var.env_name}"
 
   jenkins_agent      = "${data.vault_generic_secret.jenkins_agent.data}"
   jenkins_agent_pass = "${var.jenkins_agent_pass != "" ? var.jenkins_agent_pass : local.jenkins_agent["pass"]}"
@@ -153,4 +156,8 @@ locals {
   prometheus_oauth               = "${data.vault_generic_secret.prometheus_oauth.data}"
   prometheus_oauth_client_id     = "${var.prometheus_oauth_client_id != "" ? var.prometheus_oauth_client_id : local.prometheus_oauth["client_id"]}"
   prometheus_oauth_client_secret = "${var.prometheus_oauth_client_secret != "" ? var.prometheus_oauth_client_secret : local.prometheus_oauth["client_secret"]}"
+
+  tls     = "${data.vault_generic_secret.tls.data}"
+  tls_crt = "${var.tls_crt!= "" ? var.tls_crt: local.tls["crt"]}"
+  tls_key = "${var.tls_key!= "" ? var.tls_key: local.tls["key"]}"
 }

@@ -9,6 +9,4 @@ grafana_oauth_team_ids = "1936535"
 #jenkins_agent_volume_size = "250Gi"
 #master_fqdn = ""
 prometheus_github_org = "lsst-sqre"
-#tls_crt_path = ""
-#tls_key_path = ""
 
