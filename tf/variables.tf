@@ -37,14 +37,6 @@ variable "jenkins_agent_volume_size" {
   description = "Persistent volume for agent -- must include a unit postfix. Eg., Gi."
 }
 
-variable "jenkins_agent_user" {
-  description = "username to access jenkins master."
-}
-
-variable "jenkins_agent_pass" {
-  description = "password to access jenkins master."
-}
-
 variable "jenkins_agent_replicas" {
   description = "number of jenkins agents to create."
 }
@@ -65,6 +57,20 @@ variable "tls_key_path" {
 variable "dns_enable" {
   description = "create route53 dns records."
   default     = false
+}
+
+data "vault_generic_secret" "jenkins_agent" {
+  path = "${local.vault_root}/jenkins_agent"
+}
+
+variable "jenkins_agent_user" {
+  description = "username to access jenkins master."
+  default     = ""
+}
+
+variable "jenkins_agent_pass" {
+  description = "password to access jenkins master."
+  default     = ""
 }
 
 data "vault_generic_secret" "grafana_oauth" {
@@ -132,6 +138,10 @@ locals {
   tls_key                          = "${file(var.tls_key_path)}"
 
   vault_root = "secret/dm/square/jenkins/${var.env_name}"
+
+  jenkins_agent      = "${data.vault_generic_secret.jenkins_agent.data}"
+  jenkins_agent_pass = "${var.jenkins_agent_pass != "" ? var.jenkins_agent_pass : local.jenkins_agent["pass"]}"
+  jenkins_agent_user = "${var.jenkins_agent_user != "" ? var.jenkins_agent_user : local.jenkins_agent["user"]}"
 
   grafana_oauth               = "${data.vault_generic_secret.grafana_oauth.data}"
   grafana_oauth_client_id     = "${var.grafana_oauth_client_id != "" ? var.grafana_oauth_client_id : local.grafana_oauth["client_id"]}"
