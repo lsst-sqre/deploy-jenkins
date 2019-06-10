@@ -87,11 +87,11 @@ data "template_file" "prometheus_oauth2_proxy_values" {
   template = "${file("${path.module}/charts/prometheus-oauth2-proxy.yaml")}"
 
   vars {
-    prometheus_client_id     = "${var.prometheus_client_id}"
-    prometheus_client_secret = "${var.prometheus_client_secret}"
-    prometheus_fqdn          = "${local.prometheus_fqdn}"
-    prometheus_github_org    = "${var.prometheus_github_org}"
-    prometheus_secret_name   = "${kubernetes_secret.prometheus_tls.metadata.0.name}"
+    prometheus_fqdn                = "${local.prometheus_fqdn}"
+    prometheus_oauth_client_id     = "${local.prometheus_oauth_client_id}"
+    prometheus_oauth_client_secret = "${local.prometheus_oauth_client_secret}"
+    prometheus_oauth_github_org    = "${var.prometheus_oauth_github_org}"
+    prometheus_secret_name         = "${kubernetes_secret.prometheus_tls.metadata.0.name}"
   }
 }
 

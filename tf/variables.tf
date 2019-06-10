@@ -67,18 +67,6 @@ variable "dns_enable" {
   default     = false
 }
 
-variable "prometheus_github_org" {
-  description = "limit access to prometheus dashboard to members of this org"
-}
-
-variable "prometheus_client_id" {
-  description = "github oauth client id"
-}
-
-variable "prometheus_client_secret" {
-  description = "github oauth client secret"
-}
-
 data "vault_generic_secret" "grafana_oauth" {
   path = "${local.vault_root}/grafana_oauth"
 }
@@ -104,6 +92,25 @@ resource "random_string" "grafana_admin_pass" {
   keepers = {
     host = "${module.eks.cluster_endpoint}"
   }
+}
+
+data "vault_generic_secret" "prometheus_oauth" {
+  path = "${local.vault_root}/prometheus_oauth"
+}
+
+variable "prometheus_oauth_client_id" {
+  description = "github oauth client id"
+  default     = ""
+}
+
+variable "prometheus_oauth_client_secret" {
+  description = "github oauth client secret"
+  default     = ""
+}
+
+variable "prometheus_oauth_github_org" {
+  description = "limit access to prometheus dashboard to members of this org"
+  default     = "lsst-sqre"
 }
 
 locals {
@@ -132,4 +139,8 @@ locals {
 
   grafana_admin_pass = "${random_string.grafana_admin_pass.result}"
   grafana_admin_user = "admin"
+
+  prometheus_oauth               = "${data.vault_generic_secret.prometheus_oauth.data}"
+  prometheus_oauth_client_id     = "${var.prometheus_oauth_client_id != "" ? var.prometheus_oauth_client_id : local.prometheus_oauth["client_id"]}"
+  prometheus_oauth_client_secret = "${var.prometheus_oauth_client_secret != "" ? var.prometheus_oauth_client_secret : local.prometheus_oauth["client_secret"]}"
 }
