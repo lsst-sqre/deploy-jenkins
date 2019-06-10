@@ -7,7 +7,7 @@ variable "env_name" {
   description = "Name of deployment environment."
 }
 
-variable "service_name" {
+variable "deploy_name" {
   description = "service / unqualifed hostname"
   default     = "ci"
 }
@@ -21,7 +21,7 @@ variable "group_name" {
 }
 
 variable "master_fqdn" {
-  description = "FQDN jenkins will respond to. If empty (default), it is generated from the env_name, service_name, and domain_name. This is useful to configure jenkins to respond to a DNS alias."
+  description = "FQDN jenkins will respond to. If empty (default), it is generated from the env_name, deploy_name, and domain_name. This is useful to configure jenkins to respond to a DNS alias."
   default     = ""
 }
 
@@ -129,10 +129,10 @@ locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
 
-  master_fqdn  = "${local.dns_prefix}${var.service_name}.${var.domain_name}"
+  master_fqdn  = "${local.dns_prefix}${var.deploy_name}.${var.domain_name}"
   master_alias = "${var.master_fqdn != "" ? var.master_fqdn : local.master_fqdn}"
 
-  k8s_cluster_name = "${var.service_name}-${var.env_name}"
+  k8s_cluster_name = "${var.deploy_name}-${var.env_name}"
 
   tiller_k8s_namespace             = "tiller"
   nginx_ingress_k8s_namespace      = "nginx-ingress"
