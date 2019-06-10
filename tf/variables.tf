@@ -56,12 +56,12 @@ data "vault_generic_secret" "jenkins_agent" {
 }
 
 variable "jenkins_agent_user" {
-  description = "username to access jenkins master."
+  description = "username to access jenkins master. (default: vault)"
   default     = ""
 }
 
 variable "jenkins_agent_pass" {
-  description = "password to access jenkins master."
+  description = "password to access jenkins master. (default: vault)"
   default     = ""
 }
 
@@ -70,12 +70,12 @@ data "vault_generic_secret" "grafana_oauth" {
 }
 
 variable "grafana_oauth_client_id" {
-  description = "github oauth Client ID for grafana"
+  description = "github oauth Client ID for grafana. (default: vault)"
   default     = ""
 }
 
 variable "grafana_oauth_client_secret" {
-  description = "github oauth Client Secret for grafana."
+  description = "github oauth Client Secret for grafana. (default: vault)"
   default     = ""
 }
 
@@ -97,12 +97,12 @@ data "vault_generic_secret" "prometheus_oauth" {
 }
 
 variable "prometheus_oauth_client_id" {
-  description = "github oauth client id"
+  description = "github oauth client id. (default: vault)"
   default     = ""
 }
 
 variable "prometheus_oauth_client_secret" {
-  description = "github oauth client secret"
+  description = "github oauth client secret. (default: vault)"
   default     = ""
 }
 
@@ -116,12 +116,12 @@ data "vault_generic_secret" "tls" {
 }
 
 variable "tls_crt" {
-  description = "wildcard tls certificate."
+  description = "wildcard tls certificate. (default: vault)"
   default     = ""
 }
 
 variable "tls_key" {
-  description = "wildcard tls private key."
+  description = "wildcard tls private key. (default: vault)"
   default     = ""
 }
 
