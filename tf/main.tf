@@ -200,7 +200,7 @@ resource "aws_security_group" "jenkins-demo-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["140.252.0.0/16", "64.119.41.0/24"]
+    cidr_blocks = ["140.252.0.0/16", "64.119.41.0/24", "73.227.61.235/32"]
   }
 
   tags {
