@@ -51,6 +51,8 @@ output "GROUP_NAME" {
 }
 
 output "kubeconfig" {
+  # not actually sensitive... just a lot of output
+  sensitive   = true
   description = "kubectl config file contents for this EKS cluster."
   value       = "${module.eks.kubeconfig}"
 }
