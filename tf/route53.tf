@@ -3,6 +3,6 @@ resource "aws_route53_record" "jenkins-demo-master" {
 
   name    = "${local.master_fqdn}"
   type    = "A"
-  ttl     = "300"
+  ttl     = "60"
   records = ["${aws_eip.jenkins-demo-master.public_ip}"]
 }
