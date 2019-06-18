@@ -1,6 +1,4 @@
-bin
 config-map-aws-auth_*
-downloads/
 kubeconfig_*
 override.tf
 .terraform
