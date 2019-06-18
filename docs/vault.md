@@ -23,7 +23,6 @@ vault kv put secret/dm/square/jenkins/jhoblitt-curly/dockerhub dockerhub_user= d
 vault kv put secret/dm/square/jenkins/jhoblitt-curly/versiondb_ssh versiondb_ssh_private_key=@ssh_private_key versiondb_ssh_public_key=@ssh_public_key
 ```
 
-
 k8s deployment secrets
 ---
 
