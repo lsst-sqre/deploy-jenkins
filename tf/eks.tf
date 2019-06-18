@@ -13,9 +13,10 @@ locals {
       kubelet_extra_args    = "--node-labels=nodegroup=agent"
     },
     {
-      name                  = "admin"
-      instance_type         = "t3.medium"
-      root_volume_size      = "32"
+      name             = "admin"
+      instance_type    = "t3.medium"
+      root_volume_size = "32"
+
       # eks needs at least one node online for dns pods/etc. or it bricks
       asg_min_size          = 1
       asg_desired_capacity  = 1
