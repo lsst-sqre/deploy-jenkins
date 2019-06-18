@@ -1,7 +1,8 @@
 ---
 version: 5
 defaults:
-  datadir: /tmp/vagrant-puppet/hieradata/
+  #datadir: /tmp/vagrant-puppet/hieradata/
+  datadir: ./hieradata/
   data_hash: yaml_data
 hierarchy:
   - name: "role"
