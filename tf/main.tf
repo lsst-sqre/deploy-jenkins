@@ -17,11 +17,6 @@ locals {
   aws_default_region = "${data.aws_region.current.name}"
 }
 
-resource "aws_key_pair" "jenkins-demo" {
-  key_name   = "${var.env_name}"
-  public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
-}
-
 resource "aws_vpc" "jenkins-demo" {
   cidr_block           = "192.168.0.0/16"
   enable_dns_support   = true
