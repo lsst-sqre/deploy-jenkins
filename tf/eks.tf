@@ -79,9 +79,6 @@ module "eks" {
 # And the k8s api seems to like to timeout right after eks comes up
 resource "null_resource" "eks_ready" {
   depends_on = [
-    #"module.eks",
-    "aws_key_pair.jenkins-demo",
-
     "aws_vpc.jenkins-demo",
     "aws_internet_gateway.jenkins-demo",
     "aws_vpc_dhcp_options.jenkins",
@@ -101,6 +98,8 @@ resource "null_resource" "eks_ready" {
     "aws_security_group.jenkins-demo-internal",
   ]
 
+  #"module.eks",
+
   provisioner "local-exec" {
     working_dir = "${path.module}"
 
@@ -113,7 +112,6 @@ EOS
 
     interpreter = ["/bin/sh", "-c"]
   }
-
   triggers {
     host                   = "${module.eks.cluster_endpoint}"
     config_path            = "${module.eks.kubeconfig_filename}"
