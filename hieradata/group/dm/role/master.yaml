@@ -9,6 +9,11 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
+  jenkins::config_hash:
+    merge:
+      strategy: deep
+      merge_hash_arrays: false
+      sort_merged_arrays: false
 classes:
   # run a jnlp agent to execute jobs that need to be bound to the
   # jenkins-master node (E.g., backups).  This provides some priviledge
@@ -21,6 +26,9 @@ jenkins_demo::profile::jenkins::agent::use_default_labels: false
 jenkins_demo::profile::jenkins::agent::labels:
   - "%{::hostname}"
 jenkins_demo::profile::jenkins::agent::executors: 8
+jenkins::config_hash:
+  CASC_VAULT_FILE:
+    value: '/etc/jenkins/vault'
 jenkinsx::casc:
   jenkins:
     authorizationStrategy:
@@ -120,57 +128,57 @@ jenkinsx::casc:
                 id: aws-jenkins-master-snapshot
                 scope: GLOBAL
                 description: 'jenkins master snapshot AWS credentials'
-                username: "%{::snapshot_aws_access_key_id}"
-                password: "%{::snapshot_aws_secret_access_key}"
+                username: "${snapshot_aws_access_key_id}"
+                password: "${snapshot_aws_secret_access_key}"
             - string:
                 id: doxygen-url
                 scope: GLOBAL
                 description: 'URL of doxygen site'
-                secret: "%{::doxygen_url}"
+                secret: "${doxygen_url}"
             - string:
                 id: eups-url
                 scope: GLOBAL
                 description: 'URL of eups site'
-                secret: "%{::eups_url}"
+                secret: "${eups_url}"
             - usernamePassword:
                 id: aws-eups-push
                 scope: GLOBAL
                 description: push EUPS packages -> s3
-                username: "%{::eups_push_aws_access_key_id}"
-                password: "%{::eups_push_aws_secret_access_key}"
+                username: "${eups_push_aws_access_key_id}"
+                password: "${eups_push_aws_secret_access_key}"
             - string:
                 id: eups-push-bucket
                 scope: GLOBAL
                 description: name of EUPS s3 bucket
-                secret: "%{::eups_s3_bucket}"
+                secret: "${eups_s3_bucket}"
             - usernamePassword:
                 id: aws-eups-backup
                 scope: GLOBAL
                 description: backup EUPS s3 bucket -> s3 bucket
-                username: "%{::eups_backup_aws_access_key_id}"
-                password: "%{::eups_backup_aws_secret_access_key}"
+                username: "${eups_backup_aws_access_key_id}"
+                password: "${eups_backup_aws_secret_access_key}"
             - string:
                 id: eups-backup-bucket
                 scope: GLOBAL
                 description: name of EUPS backup s3 bucket
-                secret: "%{::eups_backup_s3_bucket}"
+                secret: "${eups_backup_s3_bucket}"
             - usernamePassword:
                 id: aws-eups-tag-admin
                 scope: GLOBAL
                 description: manage eups distrib tags in s3 bucket
-                username: "%{::eups_tag_admin_aws_access_key_id}"
-                password: "%{::eups_tag_admin_aws_secret_access_key}"
+                username: "${eups_tag_admin_aws_access_key_id}"
+                password: "${eups_tag_admin_aws_secret_access_key}"
             - usernamePassword:
                 id: aws-doxygen-push
                 scope: GLOBAL
                 description: push doxygen builds -> s3
-                username: "%{::doxygen_push_aws_access_key_id}"
-                password: "%{::doxygen_push_aws_secret_access_key}"
+                username: "${doxygen_push_aws_access_key_id}"
+                password: "${doxygen_push_aws_secret_access_key}"
             - string:
                 id: doxygen-push-bucket
                 scope: GLOBAL
                 description: name of doxygen s3 bucket
-                secret: "%{::doxygen_s3_bucket}"
+                secret: "${doxygen_s3_bucket}"
             - string:
                 id: cmirror-s3-bucket
                 scope: GLOBAL
@@ -180,10 +188,10 @@ jenkinsx::casc:
                 id: slack-lsstc-token
                 scope: GLOBAL
                 description: slack lsstc org API token
-                secret: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAN1yqJQ5ysARcRr8AJrhr1OkOSFuMLxD3q0rztzI4vB7bfz5DyCfsN5K5tpzYQOY7ko6TzZYAaErxFAJUIxHmwkDS5T5YoUq255FJGS+iaJu2vP5nKwrrzKaS6sxntvz0inU3GolBQS6rRetl9Wxuw3QQAEymJPEHA22vYZNmGxt7w8v/HTFAz1jUHwT8kLoHaH+UMkkBxcghrtqxY1PN9easKoRe0odMGkpIQoXG5HMcHzq+uojg/yO1K6tg+sMYLPz3udsS9NCB9Fg8rj+wxZFDchOiqDT6l5u9EV+bTEG5pFykIy2qUgObCXpBMReQOPjk2TMML9WEe1GIqNNqvTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjG5pB1Wo0sRmNR+hUFg5xgFBgbZd1x44Pykcn1QwwRtbLoFhrhHGH7LTmZYfJVXKFpoG/TK58ufrvFQlq1m1PWALv0y9TIW6EpM/BBwjMrA1WGGQCkuwqPBwE4p+5rqw5Eg==]
+                secret: "${slack_api_token}"
             - usernamePassword:
                 id: ghslacker
                 scope: GLOBAL
                 description: api.lsst.codes/ghslacker
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABBcng67IMOoCn/Nna47cyIqPgg4Ft7cza9/qbhZpJ3ht7aP7q2Hjt+t1KVwESfEsKee5xdlBgfYRLfCx2VLL773vSwR37cSgB+15RpEiCqWvlIJcRCzO0o+th/UUI+Kv/NTFNjxrTFWadZpZs4eWcKEkWlTxTOdcM4dRcEb80YrxLUa0XCmKwfJMat8/8BgbVs57QN9f6qdmnq051k4b3Ei3bLijAmgc6ChWGQjRBCqR01Qz86hWqzxVFYhFI0X2KAUtY82Y75mg+hV9vapuGJvQrEXNIZWFKNnsR4ugHnyc/BN4Y3dMib5VrauNRi2K/CrJ8VgQYTuVam9VZ69q7zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB1KSl5mrrXqICEJJfx/bpSgBBUxCsDSUzsc5sUmr7QVZR2]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEq801p/sXE0XvxRuNt10YNpg+erwhaZjzkNAm+kRg2iEARth4qWs/2Uv1URsKNd8ou9xZMYR89wIDW1UiADq6uP58AJ30b8S6gQG0lRl13vHqLiRRDmUlJ6W50yKlHBba4TXEtUK2VrTk/0YOGlHBWexGIJzCLnAulR4S8CAHRQkHkfvmamt+vEZGNF/glESN+Oca0pYa9rC1ax5y3C2JgQMmlGfBqGDLmVa071MbMmHwyNIVc7a78XbAjV6hxJSqQAMyteC8Z9VQGs9HZtLSnnsVXeicNTZJoILQbGy71gQ8FKxvCZ00adB4IImZ/4G2IQXutIn5JUyft/PCzDeNjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCScXzJQL/pFcoUos4YFUmsgBBgrIrexevtyAY/kLThBikS]
+                username: "${ghslacker_user}"
+                password: "${ghslacker_pass}"

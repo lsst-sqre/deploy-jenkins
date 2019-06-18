@@ -4,7 +4,8 @@ locals {
       name                  = "agents"
       instance_type         = "${var.worker_instance_type}"
       root_volume_size      = "${var.worker_root_volume_size}"
-      asg_desired_capacity  = 1
+      asg_min_size          = 0
+      asg_desired_capacity  = 0
       asg_max_size          = 6
       autoscaling_enabled   = true
       protect_from_scale_in = true
@@ -12,9 +13,12 @@ locals {
       kubelet_extra_args    = "--node-labels=nodegroup=agent"
     },
     {
-      name                  = "admin"
-      instance_type         = "t3.medium"
-      root_volume_size      = "32"
+      name             = "admin"
+      instance_type    = "t3.medium"
+      root_volume_size = "32"
+
+      # eks needs at least one node online for dns pods/etc. or it bricks
+      asg_min_size          = 1
       asg_desired_capacity  = 1
       asg_max_size          = 2
       autoscaling_enabled   = true

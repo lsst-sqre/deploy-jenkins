@@ -8,12 +8,12 @@ ingress:
       hosts:
         - "${prometheus_fqdn}"
 config:
-  clientID: "${prometheus_client_id}"
-  clientSecret: "${prometheus_client_secret}"
+  clientID: "${prometheus_oauth_client_id}"
+  clientSecret: "${prometheus_oauth_client_secret}"
   configFile: |
     upstreams = [ "http://prometheus-operator-prometheus:9090" ]
     provider = "github"
-    github_org = "${prometheus_github_org}"
+    github_org = "${prometheus_oauth_github_org}"
     email_domains = [ "*" ]
 affinity:
   nodeAffinity:
