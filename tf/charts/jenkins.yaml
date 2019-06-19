@@ -1,6 +1,6 @@
 master:
   image: "jenkins/jenkins"
-  imageTag: "lts"
+  imageTag: "2.164.3"
   imagePullPolicy: "Always"
   lifecycle:
   #  postStart:
