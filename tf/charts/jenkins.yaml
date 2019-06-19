@@ -562,10 +562,8 @@ master:
 
   ingress:
     enabled: true
-    #annotations:
-    #  kubernetes.io/ingress.class: nginx
-    hosts:
-      - "${jenkins_fqdn}"
+    # XXX note this seems to break with the regular pattern for ingress keys
+    hostName: "${jenkins_fqdn}"
     tls:
       - secretName: "${jenkins_secret_name}"
         hosts:
