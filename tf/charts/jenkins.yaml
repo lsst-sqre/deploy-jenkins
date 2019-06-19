@@ -263,16 +263,226 @@ master:
   # become the content of the configuration yaml file.  The first line after this is a JCasC root element, eg jenkins, credentials,
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
-    enabled: false
+    enabled: true
     pluginVersion: 1.19
     # it's only used when plugin version is <=1.18 for later version the
     # configuration as code support plugin is no longer needed
     supportPluginVersion: 1.19
     configScripts:
-      welcome-message: |
+      01-casc: |
+        configuration-as-code:
+          version: 1
+          deprecated: warn
+          restricted: warn
+          unknown: warn
         jenkins:
-          systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
+          numExecutors: 0
+          slaveAgentPort: 55555
+          agentProtocols:
+          - JNLP4-connect
+          - Ping
+          remotingSecurity:
+            enabled: true
+          quietPeriod: 0
+          crumbIssuer:
+            standard:
+              excludeClientIPFromCrumb: true
+          authorizationStrategy:
+            globalMatrix:
+              grantedPermissions:
+              - Agent/Connect:sqre-user
+              - Agent/Create:sqre-user
+              - Overall/Administer:jhoblitt
+              - Overall/Administer:frossie
+              - Overall/Administer:lsst-sqre*square
+              - Overall/Administer:lsst-sqre*Leeroy Wranglers
+              - Overall/Read:lsst-sqre*Friends
+              - Job/Build:lsst-sqre*Friends
+              - Job/Cancel:lsst-sqre*Friends
+              - Job/Discover:lsst-sqre*Friends
+              - Job/Read:lsst-sqre*Friends
+              - Overall/Read:lsst*Data Management
+              - Job/Build:lsst*Data Management
+              - Job/Cancel:lsst*Data Management
+              - Job/Discover:lsst*Data Management
+              - Job/Read:lsst*Data Management
+              - Overall/Read:lsst*Simulations
+              - Job/Build:lsst*Simulations
+              - Job/Cancel:lsst*Simulations
+              - Job/Discover:lsst*Simulations
+              - Job/Read:lsst*Simulations
+              - Overall/Read:lsst-dm*Data Management
+              - Job/Build:lsst-dm*Data Management
+              - Job/Cancel:lsst-dm*Data Management
+              - Job/Discover:lsst-dm*Data Management
+              - Job/Read:lsst-dm*Data Management
+          securityRealm:
+            github:
+              clientID: "$${github_oauth_client_id}"
+              clientSecret: "$${github_oauth_client_secret}"
+              githubApiUri: https://api.github.com
+              githubWebUri: https://github.com
+              oauthScopes: read:org
+        unclassified:
+          location:
+            url: https://jhoblitt-curly-ci.lsst.codes
+            adminAddress: jenkins@lsst.codes
+          githubpluginconfig:
+            configs:
+            - credentialsId: github-api-token-sqreadmin
+        security:
+          remotingCLI:
+            enabled: false
+          GlobalJobDslSecurityConfiguration:
+            useScriptSecurity: false
+        jobs:
+        - script: |
+            folder('sqre') {
+              description('SQRE mission related jobs')
+            }
+            folder('sqre/seeds') {}
 
+            job('sqre/seeds/dm-jobs') {
+              label('jenkins-master')
+              concurrentBuild(false)
+
+              scm {
+                git {
+                  remote {
+                    url('https://github.com/lsst-sqre/jenkins-dm-jobs')
+                  }
+                  branch('*/master')
+                }
+              } // scm
+
+              triggers {
+                githubPush()
+              }
+
+              steps {
+                shell('./gradlew libs')
+
+                jobDsl {
+                  targets('jobs/*.groovy')
+                  useScriptText(false)
+                  ignoreExisting(false)
+                  ignoreMissingFiles(false)
+                  removedJobAction('DELETE')
+                  removedViewAction('IGNORE')
+                  lookupStrategy('JENKINS_ROOT')
+                  additionalClasspath('lib/*.jar')
+                }
+              } // steps
+            } // job
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - string:
+                  id: jenkins-env
+                  scope: GLOBAL
+                  description: Name of Jenkins deployment
+                  secret: jhoblitt-curly
+              - usernamePassword:
+                  id: aws-jenkins-master-snapshot
+                  scope: GLOBAL
+                  description: jenkins master snapshot AWS credentials
+                  username: "$${snapshot_aws_access_key_id}"
+                  password: "$${snapshot_aws_secret_access_key}"
+              - string:
+                  id: doxygen-url
+                  scope: GLOBAL
+                  description: URL of doxygen site
+                  secret: "$${doxygen_url}"
+              - string:
+                  id: eups-url
+                  scope: GLOBAL
+                  description: URL of eups site
+                  secret: "$${eups_url}"
+              - usernamePassword:
+                  id: aws-eups-push
+                  scope: GLOBAL
+                  description: push EUPS packages -> s3
+                  username: "$${eups_push_aws_access_key_id}"
+                  password: "$${eups_push_aws_secret_access_key}"
+              - string:
+                  id: eups-push-bucket
+                  scope: GLOBAL
+                  description: name of EUPS s3 bucket
+                  secret: "$${eups_s3_bucket}"
+              - usernamePassword:
+                  id: aws-eups-backup
+                  scope: GLOBAL
+                  description: backup EUPS s3 bucket -> s3 bucket
+                  username: "$${eups_backup_aws_access_key_id}"
+                  password: "$${eups_backup_aws_secret_access_key}"
+              - string:
+                  id: eups-backup-bucket
+                  scope: GLOBAL
+                  description: name of EUPS backup s3 bucket
+                  secret: "$${eups_backup_s3_bucket}"
+              - usernamePassword:
+                  id: aws-eups-tag-admin
+                  scope: GLOBAL
+                  description: manage eups distrib tags in s3 bucket
+                  username: "$${eups_tag_admin_aws_access_key_id}"
+                  password: "$${eups_tag_admin_aws_secret_access_key}"
+              - usernamePassword:
+                  id: aws-doxygen-push
+                  scope: GLOBAL
+                  description: push doxygen builds -> s3
+                  username: "$${doxygen_push_aws_access_key_id}"
+                  password: "$${doxygen_push_aws_secret_access_key}"
+              - string:
+                  id: doxygen-push-bucket
+                  scope: GLOBAL
+                  description: name of doxygen s3 bucket
+                  secret: "$${doxygen_s3_bucket}"
+              - string:
+                  id: cmirror-s3-bucket
+                  scope: GLOBAL
+                  description: name of conda channel bucket
+                  secret: conda-mirror.lsst.codes
+              - string:
+                  id: slack-lsstc-token
+                  scope: GLOBAL
+                  description: slack lsstc org API token
+                  secret: "$${slack_api_token}"
+              - usernamePassword:
+                  id: ghslacker
+                  scope: GLOBAL
+                  description: api.lsst.codes/ghslacker
+                  username: "$${ghslacker_user}"
+                  password: "$${ghslacker_pass}"
+              - string:
+                  id: slack-default-channel
+                  scope: GLOBAL
+                  description: Default slack channel
+                  secret: dmj-jhoblitt-curly
+              - string:
+                  id: slack-channel-prefix
+                  scope: GLOBAL
+                  description: Prefix for generated slack channels
+                  secret: dmjjc
+              - string:
+                  id: github-api-token-sqreadmin
+                  scope: GLOBAL
+                  description: github API personal access token (sqreadmincurly)
+                  secret: "$${github_api_token}"
+              - basicSSHUserPrivateKey:
+                  id: github-jenkins-versiondb
+                  scope: GLOBAL
+                  description: github provingground-curly/versiondb deploy key
+                  username: git
+                  privateKeySource:
+                    directEntry:
+                      privateKey: "$${versiondb_ssh_private_key}"
+              - usernamePassword:
+                  id: dockerhub-sqreadmin
+                  scope: GLOBAL
+                  description: dockerhub (sqreadmincurly)
+                  username: "$${dockerhub_user}"
+                  password: "$${dockerhub_pass}"
   # Optionally specify additional init-containers
   customInitContainers: []
   # - name: custom-init
