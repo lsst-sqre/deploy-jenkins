@@ -128,7 +128,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
                 match_expressions {
                   key      = "kubernetes.io/hostname"
                   operator = "NotIn"
-                  values   = ["lsst-kub005"]
+                  values   = ["lsst-kub005", "lsst-kub017"]
                 }
               }
             }
