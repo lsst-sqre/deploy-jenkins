@@ -34,13 +34,18 @@ master:
     limits:
       cpu: "2000m"
       memory: "4096Mi"
-  # Environment variables that get added to the init container (useful for e.g. http_proxy)
-  # initContainerEnv:
-  #   - name: http_proxy
-  #     value: "http://192.168.64.1:3128"
-  # containerEnv:
-  #   - name: http_proxy
-  #     value: "http://192.168.64.1:3128"
+  containerEnv:
+    - name: CASC_VAULT_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: "${casc_vault_secret_name}"
+          key: CASC_VAULT_TOKEN
+    - name: CASC_VAULT_PATHS
+      value: "${vault_root}/scipipe-publish,${vault_root}/slack,${vault_root}/ghslacker,${vault_root}/github_oauth,${vault_root}/github_api,${vault_root}/dockerhub,${vault_root}/versiondb_ssh"
+    - name: CASC_VAULT_URL
+      value: https://vault.lsst.codes
+    - name: CASC_VAULT_ENGINE_VERSION
+      value: '2'
   # Set min/max heap here if needed with:
   # javaOpts: "-Xms512m -Xmx512m"
   # jenkinsOpts: ""
@@ -553,7 +558,7 @@ master:
   # that the chart is installed.  Setting `overwriteConfig` to `true` will overwrite
   # the jenkins config with the contents of the configMap every time the pod starts.
   # This will also overwrite all init scripts
-  overwriteConfig: false
+  overwriteConfig: true
 
   # By default, the Jobs Map is only used to set the initial jobs the first time
   # that the chart is installed.  Setting `overwriteJobs` to `true` will overwrite
