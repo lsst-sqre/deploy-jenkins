@@ -34,4 +34,10 @@ vault kv put secret/dm/square/jenkins/jhoblitt-curly/prometheus_oauth client_id=
 vault kv put secret/dm/square/jenkins/jhoblitt-curly/jenkins_agent user= pass=
 
 vault kv put secret/dm/square/jenkins/jhoblitt-curly/tls crt=@ key=@
+
+
+vault kv put secret/dm/square/jenkins/jhoblitt-curly/tls crt=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2018/lsst.codes_chain.pem key=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2018/lsst.codes.key
+
+vault kv put secret/dm/square/jenkins/jhoblitt-curly/casc_vault token=
 ```
+
