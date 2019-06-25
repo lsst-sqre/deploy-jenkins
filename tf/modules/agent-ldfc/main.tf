@@ -163,13 +163,13 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           resources {
             limits {
-              cpu    = "32"
-              memory = "96Gi"
+              cpu    = "8"
+              memory = "64Gi"
             }
 
             requests {
-              cpu    = "6"
-              memory = "12Gi"
+              cpu    = "8"
+              memory = "64Gi"
             }
           }
 
@@ -254,8 +254,8 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
             }
 
             requests {
-              cpu    = "200m"
-              memory = "100Mi"
+              cpu    = "500m"
+              memory = "512Mi"
             }
           }
         } # container
@@ -306,8 +306,8 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
 
           resources {
             limits {
-              cpu    = "2"
-              memory = "3Gi"
+              cpu    = "1"
+              memory = "2Gi"
             }
 
             requests {
