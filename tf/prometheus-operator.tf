@@ -101,7 +101,7 @@ resource "aws_route53_record" "prometheus" {
 
   name    = "${local.prometheus_fqdn}"
   type    = "CNAME"
-  ttl     = "300"
+  ttl     = "60"
   records = ["${local.nginx_ingress_hostname}"]
 }
 
@@ -111,6 +111,6 @@ resource "aws_route53_record" "grafana" {
 
   name    = "${local.grafana_fqdn}"
   type    = "CNAME"
-  ttl     = "300"
+  ttl     = "60"
   records = ["${local.nginx_ingress_hostname}"]
 }
