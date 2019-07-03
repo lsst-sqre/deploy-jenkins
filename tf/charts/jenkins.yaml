@@ -68,6 +68,7 @@ master:
   overwritePlugins: true
   # List of plugins to be install during Jenkins master start
   installPlugins:
+    - swarm:3.15
     - credentials:2.2.0
     - configuration-as-code:1.19
     - configuration-as-code-support:1.18
