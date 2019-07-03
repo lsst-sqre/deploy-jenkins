@@ -283,15 +283,15 @@ master:
             folder('sqre/seeds') {}
 
             job('sqre/seeds/dm-jobs') {
-              label('jenkins-master')
+              //label('jenkins-master')
               concurrentBuild(false)
 
               scm {
                 git {
                   remote {
-                    url('https://github.com/lsst-sqre/jenkins-dm-jobs')
+                    url('https://github.com/jhoblitt/jenkins-dm-jobs')
                   }
-                  branch('*/master')
+                  branch('*/tickets/DM-20229-k8s-master-test')
                 }
               } // scm
 
