@@ -2,12 +2,6 @@ master:
   image: "jenkins/jenkins"
   imageTag: "2.164.3"
   imagePullPolicy: "Always"
-  lifecycle:
-  #  postStart:
-  #    exec:
-  #      command:
-  #      - "uname"
-  #      - "-a"
   numExecutors: 0
   # configAutoReload requires UseSecurity is set to true:
   useSecurity: true
@@ -23,10 +17,6 @@ master:
   # adminSshKey: <defaults to auto-generated>
   # If CasC auto-reload is enabled, an SSH (RSA) keypair is needed.  Can either provide your own, or leave unconfigured to allow a random key to be auto-generated.
   # If you supply your own, it is recommended that the values file that contains your key not be committed to source control in an unencrypted format
-  rollingUpdate: {}
-  # Ignored if Persistence is enabled
-  # maxSurge: 1
-  # maxUnavailable: 25%
   resources:
     requests:
       cpu: "1000m"
@@ -54,71 +44,15 @@ master:
   # jenkinsUriPrefix: "/jenkins"
   # Enable pod security context (must be `true` if runAsUser or fsGroup are set)
   usePodSecurityContext: true
-  # Set runAsUser to 1000 to let Jenkins run as non-root user 'jenkins' which exists in 'jenkins/jenkins' docker image.
-  # When setting runAsUser to a different value than 0 also set fsGroup to the same value:
-  # runAsUser: <defaults to 0>
-  # fsGroup: <will be omitted in deployment if runAsUser is 0>
+  runAsUser: 1000
+  fsGroup: 1000
   servicePort: 8080
   targetPort: 8080
   # For minikube, set this to NodePort, elsewhere use LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
   serviceType: ClusterIP
-  # Jenkins master service annotations
-  serviceAnnotations: {}
-  # Jenkins master custom labels
-  deploymentLabels: {}
-  #   foo: bar
-  #   bar: foo
-  # Jenkins master service labels
-  serviceLabels: {}
-  #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
-  # Put labels on Jenkins master pod
-  podLabels: {}
-  # Used to create Ingress record (should used with ServiceType: ClusterIP)
-  # nodePort: <to set explicitly, choose port between 30000-32767
-  # Enable Kubernetes Liveness and Readiness Probes
-  # ~ 2 minutes to allow Jenkins to restart when upgrading plugins. Set ReadinessTimeout to be shorter than LivenessTimeout.
-  healthProbes: true
-  healthProbesLivenessTimeout: 5
-  healthProbesReadinessTimeout: 5
-  healthProbeLivenessPeriodSeconds: 10
-  healthProbeReadinessPeriodSeconds: 10
-  healthProbeLivenessFailureThreshold: 5
-  healthProbeReadinessFailureThreshold: 3
-  healthProbeLivenessInitialDelay: 90
-  healthProbeReadinessInitialDelay: 60
-  slaveListenerPort: 50000
-  slaveHostPort:
-  disabledAgentProtocols:
-    - JNLP-connect
-    - JNLP2-connect
-  csrf:
-    defaultCrumbIssuer:
-      enabled: true
-      proxyCompatability: true
-  cli: false
-  # Kubernetes service type for the JNLP slave service
-  # slaveListenerServiceType is the Kubernetes Service type for the JNLP slave service,
-  # either 'LoadBalancer', 'NodePort', or 'ClusterIP'
-  # Note if you set this to 'LoadBalancer', you *must* define annotations to secure it. By default
-  # this will be an external load balancer and allowing inbound 0.0.0.0/0, a HUGE
-  # security risk:  https://github.com/kubernetes/charts/issues/1341
+  slaveListenerPort: 55555
   slaveListenerServiceType: "ClusterIP"
-  slaveListenerServiceAnnotations: {}
-  slaveKubernetesNamespace:
-
-  # Example of 'LoadBalancer' type of slave listener with annotations securing it
-  # slaveListenerServiceType: LoadBalancer
-  # slaveListenerServiceAnnotations:
-  #   service.beta.kubernetes.io/aws-load-balancer-internal: "True"
-  #   service.beta.kubernetes.io/load-balancer-source-ranges: "172.0.0.0/8, 10.0.0.0/8"
-
-  # LoadBalancerSourcesRange is a list of allowed CIDR values, which are combined with ServicePort to
-  # set allowed inbound rules on the security group assigned to the master load balancer
-  loadBalancerSourceRanges:
-  - 0.0.0.0/0
-  # Optionally assign a known public LB IP
-  # loadBalancerIP: 1.2.3.4
   # Optionally configure a JMX port
   # requires additional javaOpts, ie
   # javaOpts: >
