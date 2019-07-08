@@ -374,6 +374,159 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
                 }
               }
             },
+            {
+              name = "K8S_NODE_NAME"
+
+              value_from {
+                field_ref {
+                  field_path = "spec.nodeName"
+                }
+              }
+            },
+            {
+              name = "K8S_POD_NAMESPACE"
+
+              value_from {
+                field_ref {
+                  field_path = "metadata.namespace"
+                }
+              }
+            },
+            {
+              name = "K8S_POD_IP"
+
+              value_from {
+                field_ref {
+                  field_path = "status.podIP"
+                }
+              }
+            },
+            {
+              name = "K8S_SWARM_REQUESTS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "swarm"
+                  resource       = "requests.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_SWARM_LIMITS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "swarm"
+                  resource       = "limits.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_SWARM_REQUESTS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "swarm"
+                  resource       = "requests.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
+            {
+              name = "K8S_SWARM_LIMITS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "swarm"
+                  resource       = "limits.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
+            {
+              name = "K8S_DIND_REQUESTS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "dind"
+                  resource       = "requests.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_DIND_LIMITS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "dind"
+                  resource       = "limits.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_DIND_REQUESTS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "dind"
+                  resource       = "requests.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
+            {
+              name = "K8S_DIND_LIMITS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "dind"
+                  resource       = "limits.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
+            {
+              name = "K8S_DOCKER_GC_REQUESTS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "docker-gc"
+                  resource       = "requests.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_DOCKER_GC_LIMITS_CPU"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "docker-gc"
+                  resource       = "limits.cpu"
+                }
+              }
+            },
+            {
+              name = "K8S_DOCKER_GC_REQUESTS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "docker-gc"
+                  resource       = "requests.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
+            {
+              name = "K8S_DOCKER_GC_LIMITS_MEMORY"
+
+              value_from {
+                resource_field_ref {
+                  container_name = "docker-gc"
+                  resource       = "limits.memory"
+                  divisor        = "1Gi"
+                }
+              }
+            },
           ]
 
           volume_mount {
