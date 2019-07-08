@@ -422,7 +422,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
             {
-              name = "K8S_SWARM_REQUESTS_MEMORY"
+              name = "K8S_SWARM_REQUESTS_MEMORY_GI"
 
               value_from {
                 resource_field_ref {
@@ -433,7 +433,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
             {
-              name = "K8S_SWARM_LIMITS_MEMORY"
+              name = "K8S_SWARM_LIMITS_MEMORY_GI"
 
               value_from {
                 resource_field_ref {
@@ -464,7 +464,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
             {
-              name = "K8S_DIND_REQUESTS_MEMORY"
+              name = "K8S_DIND_REQUESTS_MEMORY_GI"
 
               value_from {
                 resource_field_ref {
@@ -475,7 +475,7 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
             {
-              name = "K8S_DIND_LIMITS_MEMORY"
+              name = "K8S_DIND_LIMITS_MEMORY_GI"
 
               value_from {
                 resource_field_ref {
@@ -486,44 +486,46 @@ resource "kubernetes_stateful_set" "jenkins_agent" {
               }
             },
             {
-              name = "K8S_DOCKER_GC_REQUESTS_CPU"
+              name = "K8S_DOCKER_GC_REQUESTS_CPU_M"
 
               value_from {
                 resource_field_ref {
                   container_name = "docker-gc"
                   resource       = "requests.cpu"
+                  divisor        = "1m"
                 }
               }
             },
             {
-              name = "K8S_DOCKER_GC_LIMITS_CPU"
+              name = "K8S_DOCKER_GC_LIMITS_CPU_M"
 
               value_from {
                 resource_field_ref {
                   container_name = "docker-gc"
                   resource       = "limits.cpu"
+                  divisor        = "1m"
                 }
               }
             },
             {
-              name = "K8S_DOCKER_GC_REQUESTS_MEMORY"
+              name = "K8S_DOCKER_GC_REQUESTS_MEMORY_MI"
 
               value_from {
                 resource_field_ref {
                   container_name = "docker-gc"
                   resource       = "requests.memory"
-                  divisor        = "1Gi"
+                  divisor        = "1Mi"
                 }
               }
             },
             {
-              name = "K8S_DOCKER_GC_LIMITS_MEMORY"
+              name = "K8S_DOCKER_GC_LIMITS_MEMORY_MI"
 
               value_from {
                 resource_field_ref {
                   container_name = "docker-gc"
                   resource       = "limits.memory"
-                  divisor        = "1Gi"
+                  divisor        = "1Mi"
                 }
               }
             },
