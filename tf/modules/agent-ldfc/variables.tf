@@ -74,3 +74,8 @@ variable "dockergc_image" {
 variable "env_name" {
   description = "deploy name"
 }
+
+variable "node_blacklist" {
+  description = "List of k8s cluster node names to blacklist. (note: must have at least one name, even if bogus until tf >= 0.12)"
+  type        = "list"
+}
