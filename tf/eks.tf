@@ -40,6 +40,9 @@ module "eks" {
   cluster_name    = "${local.k8s_cluster_name}"
   cluster_version = "1.12"
 
+  write_aws_auth_config = false
+  write_kubeconfig      = true
+
   subnets = [
     "${aws_subnet.jenkins-demo.id}",
     "${aws_subnet.jenkins_workers_c.id}",
@@ -64,7 +67,6 @@ module "eks" {
   #  "${aws_security_group.jenkins-demo-internal.id}",
   #]
 
-  write_kubeconfig = true
   cluster_enabled_log_types = [
     "api",
     "audit",
@@ -129,28 +131,21 @@ EOS
 #  }
 #}
 
+data "aws_eks_cluster" "cluster" {
+  name = "${module.eks.cluster_id}"
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = "${module.eks.cluster_id}"
+}
+
 provider "kubernetes" {
   version = "~> 1.8.0"
 
-  host                   = "${module.eks.cluster_endpoint}"
-  config_path            = "${module.eks.kubeconfig_filename}"
-  load_config_file       = true
-  cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
-}
-
-provider "helm" {
-  version = "~> 0.9.0"
-
-  service_account = "${module.tiller.service_account}"
-  namespace       = "${module.tiller.namespace}"
-  install_tiller  = false
-
-  kubernetes {
-    host                   = "${module.eks.cluster_endpoint}"
-    config_path            = "${module.eks.kubeconfig_filename}"
-    load_config_file       = true
-    cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
-  }
+  cluster_ca_certificate = "${base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)}"
+  host                   = "${data.aws_eks_cluster.cluster.endpoint}"
+  load_config_file       = false
+  token                  = "${data.aws_eks_cluster_auth.cluster.token}"
 }
 
 resource "kubernetes_namespace" "tiller" {
