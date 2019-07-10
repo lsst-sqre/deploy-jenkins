@@ -1,6 +1,6 @@
 master:
   image: "jenkins/jenkins"
-  imageTag: "2.164.3"
+  imageTag: "2.176.1"
   imagePullPolicy: "Always"
   numExecutors: 0
   # configAutoReload requires UseSecurity is set to true:
@@ -271,8 +271,6 @@ master:
             configs:
             - credentialsId: github-api-token-sqreadmin
         security:
-          remotingCLI:
-            enabled: false
           GlobalJobDslSecurityConfiguration:
             useScriptSecurity: false
         jobs:
