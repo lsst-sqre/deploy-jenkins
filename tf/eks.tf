@@ -130,7 +130,7 @@ EOS
 #}
 
 provider "kubernetes" {
-  version = "~> 1.6.2"
+  version = "~> 1.8.0"
 
   host                   = "${module.eks.cluster_endpoint}"
   config_path            = "${module.eks.kubeconfig_filename}"
