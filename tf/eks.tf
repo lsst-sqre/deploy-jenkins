@@ -38,7 +38,7 @@ module "eks" {
   version = "3.0.0"
 
   cluster_name    = "${local.k8s_cluster_name}"
-  cluster_version = "1.12"
+  cluster_version = "1.13"
 
   write_aws_auth_config = false
   write_kubeconfig      = true
