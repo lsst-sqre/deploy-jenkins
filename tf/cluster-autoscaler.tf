@@ -34,7 +34,7 @@ data "template_file" "cluster_autoscaler_values" {
   template = "${file("${path.module}/charts/cluster-autoscaler.yaml")}"
 
   vars {
-    aws_region   = "us-east-1"
+    aws_region   = "${data.aws_region.current.name}"
     cluster_name = "${module.eks.cluster_id}"
   }
 }
