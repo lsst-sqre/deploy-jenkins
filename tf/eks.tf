@@ -165,7 +165,7 @@ module "tiller" {
 }
 
 provider "helm" {
-  version = "~> 0.10.0"
+  version = "~> 0.10.2"
 
   service_account = "${module.tiller.service_account}"
   namespace       = "${module.tiller.namespace}"
