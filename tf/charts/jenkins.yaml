@@ -19,11 +19,11 @@ master:
   # If you supply your own, it is recommended that the values file that contains your key not be committed to source control in an unencrypted format
   resources:
     requests:
-      cpu: "1000m"
-      memory: "2048Mi"
+      cpu: "3"
+      memory: "8Gi"
     limits:
-      cpu: "2000m"
-      memory: "4096Mi"
+      cpu: "3"
+      memory: "8Gi"
   containerEnv:
     - name: CASC_VAULT_TOKEN
       valueFrom:
