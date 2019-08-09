@@ -1,3 +1,8 @@
+locals {
+  master_aws_region = "${data.aws_region.current.name}"
+  master_aws_zone   = "${local.master_aws_region}c"
+}
+
 resource "helm_release" "jenkins" {
   name      = "jenkins"
   chart     = "stable/jenkins"
@@ -63,4 +68,80 @@ resource "aws_route53_record" "jenkins" {
   type    = "CNAME"
   ttl     = "60"
   records = ["${local.nginx_ingress_hostname}"]
+}
+
+data "aws_ebs_volume" "jenkins_master" {
+  filter {
+    name   = "availability-zone"
+    values = ["${local.master_aws_zone}"]
+  }
+
+  filter {
+    name = "volume-id"
+
+    #values = ["vol-085e02406057778ce"]
+    #values = ["vol-0c4597368d89d4be9"]
+    values = ["vol-05ab79dc04422f710"]
+  }
+}
+
+resource "kubernetes_persistent_volume" "master_pv" {
+  metadata {
+    name = "master-pv"
+  }
+
+  spec {
+    capacity = {
+      storage = "500Gi"
+    }
+
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = "gp2"
+
+    persistent_volume_source {
+      aws_elastic_block_store {
+        fs_type = "ext4"
+
+        #volume_id = "aws://us-east-1c/vol-085e02406057778ce"
+        volume_id = "aws://${data.aws_ebs_volume.jenkins_master.availability_zone}/${data.aws_ebs_volume.jenkins_master.id}"
+      }
+    }
+
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key      = "failure-domain.beta.kubernetes.io/zone"
+            operator = "In"
+            values   = ["${data.aws_ebs_volume.jenkins_master.availability_zone}"]
+          }
+
+          match_expressions {
+            key      = "failure-domain.beta.kubernetes.io/region"
+            operator = "In"
+            values   = ["${data.aws_region.current.name}"]
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "master_pvc" {
+  metadata {
+    name      = "master-pvc"
+    namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
+  }
+
+  spec {
+    volume_name        = "${kubernetes_persistent_volume.master_pv.metadata.0.name}"
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = "gp2"
+
+    resources {
+      requests {
+        storage = "500Gi"
+      }
+    }
+  }
 }
