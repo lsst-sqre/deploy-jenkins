@@ -1,3 +1,12 @@
+locals {
+  master_aws_region = "${data.aws_region.current.name}"
+  master_aws_zone   = "${local.master_aws_region}c"
+
+  # XXX param lookup doesn't work here -- WHY???
+  #vol_size          = "${data.aws_ebs_volume.jenkins_master.size}Gi"
+  vol_size = "750Gi"
+}
+
 resource "helm_release" "jenkins" {
   name      = "jenkins"
   chart     = "stable/jenkins"
@@ -14,6 +23,7 @@ resource "helm_release" "jenkins" {
   depends_on = [
     "null_resource.eks_ready",
     "module.tiller",
+    "kubernetes_persistent_volume_claim.master_pvc",
   ]
 }
 
@@ -63,4 +73,88 @@ resource "aws_route53_record" "jenkins" {
   type    = "CNAME"
   ttl     = "60"
   records = ["${local.nginx_ingress_hostname}"]
+}
+
+resource "aws_ebs_volume" "jenkins_master" {
+  availability_zone = "${local.master_aws_zone}"
+  size              = 750
+
+  tags = {
+    Name = "jenkins-data"
+  }
+}
+
+data "aws_ebs_volume" "jenkins_master" {
+  filter {
+    name   = "availability-zone"
+    values = ["${local.master_aws_zone}"]
+  }
+
+  filter {
+    name   = "volume-id"
+    values = ["${aws_ebs_volume.jenkins_master.id}"]
+  }
+}
+
+resource "kubernetes_persistent_volume" "master_pv" {
+  metadata {
+    name = "master-pv"
+  }
+
+  spec {
+    capacity = {
+      storage = "${local.vol_size}"
+    }
+
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = "${data.aws_ebs_volume.jenkins_master.volume_type}"
+
+    persistent_volume_reclaim_policy = "Retain"
+
+    persistent_volume_source {
+      aws_elastic_block_store {
+        fs_type = "ext4"
+
+        #volume_id = "aws://us-east-1c/vol-085e02406057778ce"
+        volume_id = "aws://${data.aws_ebs_volume.jenkins_master.availability_zone}/${data.aws_ebs_volume.jenkins_master.id}"
+      }
+    }
+
+    node_affinity {
+      required {
+        node_selector_term {
+          match_expressions {
+            key      = "failure-domain.beta.kubernetes.io/zone"
+            operator = "In"
+            values   = ["${data.aws_ebs_volume.jenkins_master.availability_zone}"]
+          }
+
+          match_expressions {
+            key      = "failure-domain.beta.kubernetes.io/region"
+            operator = "In"
+            values   = ["${data.aws_region.current.name}"]
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "master_pvc" {
+  metadata {
+    name      = "master-pvc"
+    namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
+  }
+
+  spec {
+    volume_name        = "${kubernetes_persistent_volume.master_pv.metadata.0.name}"
+    access_modes       = ["${kubernetes_persistent_volume.master_pv.spec.0.access_modes}"]
+    storage_class_name = "${kubernetes_persistent_volume.master_pv.spec.0.storage_class_name}"
+
+    resources {
+      requests {
+        storage = "${kubernetes_persistent_volume.master_pv.spec.0.capacity.storage}"
+      }
+    }
+  }
 }
