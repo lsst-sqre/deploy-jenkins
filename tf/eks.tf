@@ -3,6 +3,7 @@ locals {
     {
       name                  = "agents"
       instance_type         = "${var.worker_instance_type}"
+      root_volume_size      = "50"
       root_volume_size      = "${var.worker_root_volume_size}"
       asg_min_size          = 0
       asg_desired_capacity  = 0
@@ -15,7 +16,7 @@ locals {
     {
       name             = "admin"
       instance_type    = "t3.medium"
-      root_volume_size = "32"
+      root_volume_size = "50"
 
       # eks needs at least one node online for dns pods/etc. or it bricks
       asg_min_size          = 1
