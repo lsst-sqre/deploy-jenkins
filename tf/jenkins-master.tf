@@ -19,6 +19,7 @@ resource "helm_release" "jenkins" {
   depends_on = [
     "null_resource.eks_ready",
     "module.tiller",
+    "kubernetes_persistent_volume_claim.master_pvc",
   ]
 }
 
@@ -96,7 +97,7 @@ resource "kubernetes_persistent_volume" "master_pv" {
     }
 
     access_modes       = ["ReadWriteOnce"]
-    storage_class_name = "gp2"
+    storage_class_name = "${data.aws_ebs_volume.jenkins_master.volume_type}"
 
     persistent_volume_source {
       aws_elastic_block_store {
@@ -135,12 +136,12 @@ resource "kubernetes_persistent_volume_claim" "master_pvc" {
 
   spec {
     volume_name        = "${kubernetes_persistent_volume.master_pv.metadata.0.name}"
-    access_modes       = ["ReadWriteOnce"]
-    storage_class_name = "gp2"
+    access_modes       = ["${kubernetes_persistent_volume.master_pv.spec.0.access_modes}"]
+    storage_class_name = "${kubernetes_persistent_volume.master_pv.spec.0.storage_class_name}"
 
     resources {
       requests {
-        storage = "500Gi"
+        storage = "${kubernetes_persistent_volume.master_pv.spec.0.capacity.storage}"
       }
     }
   }
