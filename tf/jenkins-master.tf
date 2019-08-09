@@ -145,3 +145,32 @@ resource "kubernetes_persistent_volume_claim" "master_pvc" {
     }
   }
 }
+
+# https://grafana.com/grafana/dashboards/9964
+data "template_file" "jenkins_grafana_dashboard" {
+  template = "${file("${path.module}/grafana-dashboards/jenkins-performance-and-health-overview_rev1.json")}"
+
+  vars {
+    DS_PROMETHEUS = "Prometheus"
+  }
+}
+
+resource "kubernetes_config_map" "jenkins_grafana_dashboard" {
+  metadata {
+    name      = "jenkins-grafana-dashboard"
+    namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
+
+    labels {
+      grafana_dashboard = "1"
+    }
+  }
+
+  data {
+    # .json extension seems to be required
+    jenkins-performance-and-health-overview_rev1.json = "${data.template_file.jenkins_grafana_dashboard.rendered}"
+  }
+
+  depends_on = [
+    "null_resource.eks_ready",
+  ]
+}
