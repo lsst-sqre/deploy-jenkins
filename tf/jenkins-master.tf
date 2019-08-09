@@ -2,7 +2,7 @@ resource "helm_release" "jenkins" {
   name      = "jenkins"
   chart     = "stable/jenkins"
   namespace = "${kubernetes_namespace.jenkins.metadata.0.name}"
-  version   = "1.3.5"
+  version   = "1.5.0"
 
   force_update  = true
   recreate_pods = true
