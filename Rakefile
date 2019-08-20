@@ -45,27 +45,7 @@ task :edit, [:file] do |t, args|
   Rake::Task[:decrypt].invoke
 end
 
-desc 'run librarian-puppet'
-task :librarian do
-  sh 'librarian-puppet install --destructive'
-end
-
-desc 'run puppet-lint'
-task :puppet_lint do
-  cmd = <<~PL
-    puppet-lint --fail-on-warnings \
-      environments/jenkins/manifests
-  PL
-  sh cmd do |ok, res|
-    unless ok
-      # exit without verbose rake error message
-      exit res.exitstatus
-    end
-  end
-end
-
 task default: %i[
   checkoutkeys
   decrypt
-  librarian
 ]
