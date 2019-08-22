@@ -21,14 +21,6 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjc
-            - basicSSHUserPrivateKey:
-                id: github-jenkins-versiondb
-                scope: GLOBAL
-                description: github provingground-curly/versiondb deploy key
-                username: git
-                privateKeySource:
-                  directEntry:
-                    privateKey: "${versiondb_ssh_private_key}"
             - usernamePassword:
                 id: dockerhub-sqreadmin
                 scope: GLOBAL

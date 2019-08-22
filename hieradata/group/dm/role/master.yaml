@@ -65,8 +65,8 @@ jenkinsx::casc:
           - "Job/Read:lsst-dm*Data Management"
       securityRealm:
         github:
-          clientID: "$${github_oauth_client_id}"
-          clientSecret: "$${github_oauth_client_secret}"
+          clientID: "${github_oauth_client_id}"
+          clientSecret: "${github_oauth_client_secret}"
           githubApiUri: https://api.github.com
           githubWebUri: https://github.com
           oauthScopes: read:org
@@ -198,3 +198,11 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: github API personal access token (sqreadmincurly)
                 secret: "${github_api_token}"
+            - basicSSHUserPrivateKey:
+                id: github-jenkins-versiondb
+                scope: GLOBAL
+                description: github <target org>/versiondb deploy key
+                username: git
+                privateKeySource:
+                  directEntry:
+                    privateKey: "${versiondb_ssh_private_key}"
