@@ -193,3 +193,8 @@ jenkinsx::casc:
                 description: api.lsst.codes/ghslacker
                 username: "${ghslacker_user}"
                 password: "${ghslacker_pass}"
+            - string:
+                id: github-api-token-sqreadmin
+                scope: GLOBAL
+                description: github API personal access token (sqreadmincurly)
+                secret: "${github_api_token}"

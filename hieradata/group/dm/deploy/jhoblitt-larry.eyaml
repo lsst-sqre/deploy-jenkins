@@ -26,11 +26,6 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjl
-            - string:
-                id: github-api-token-sqreadmin
-                scope: GLOBAL
-                description: github API personal access token (sqreadminlarry)
-                secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXriHuPGJgO3t+EWUmML5mgVLQuSGTheHqbQgXneVrlz8dse9zU+B+DpE5yw7JgIHEnhz2nLpCHTZKk/Q+vnAL0BQHC7gOuFB5TTkDZZ/j+RAVl3lyc3feKbst8DEAPMCo9e3JdHBFyhiGwAnvC1s/x4DfEvrjU03zd37HkcSX/Wuwt1lKOlusH5MJeagKgnV5ULJ4rFi4UtEBM6JBrCiZQ5sNH/gy3I2LQBuCHRvGIUodpBeAHIfxBjCwbkHWnJIMnbXUImrG4y/udEDRX/GhfHcIOqgszxTpdRblbsUO3NmzeJ4rwhNohADPNLVFgGFB1xk0AsajfmWUW45gFPYVjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAscNibyc6/Wj3qMICJTSwTgDBaVFooF7PjT/DusD9YEf1GlUEQblQV6Mfl5u3KtfnjEipEduGbEpbhYjIMicz7aaQ=]
             - basicSSHUserPrivateKey:
                 id: github-jenkins-versiondb
                 scope: GLOBAL
