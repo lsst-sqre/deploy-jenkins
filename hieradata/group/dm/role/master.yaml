@@ -63,6 +63,13 @@ jenkinsx::casc:
           - "Job/Cancel:lsst-dm*Data Management"
           - "Job/Discover:lsst-dm*Data Management"
           - "Job/Read:lsst-dm*Data Management"
+      securityRealm:
+        github:
+          clientID: "$${github_oauth_client_id}"
+          clientSecret: "$${github_oauth_client_secret}"
+          githubApiUri: https://api.github.com
+          githubWebUri: https://github.com
+          oauthScopes: read:org
   unclassified:
     githubpluginconfig:
       configs:

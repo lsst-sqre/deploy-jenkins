@@ -22,13 +22,6 @@ jenkinsx::osx:
     ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfXrhjxagJrhTSDhfJebjGUswDNfj4CNxM4NtthEi84opss7jBYJhnb567R1RFK1SBSOBuquQe/GpViQhelqJ4FoHzCYCygX58wreugAToQu33Aqn0iFLQLyBNSSuZmtIm/zp1pH2ygCii922RvwZeAznwF0ZH9VvdSFT208ups4BPVd+k+shc0QpsWRc8xiGGRmIexDHLXdnBOFvDncwKyjm1Op6txJTjfweqmn3ARJkVmGprKJYxRjXBDPwtv70DFU0xecCkCV5caS3h5XV8yGIU++BsbH/EDLtSNbcoS1JN6kSYBL26AzrVy0mE6LYybJZ4hbWsh6NKsVkkt+Kn jenkins-osx
 jenkinsx::casc:
   jenkins:
-    securityRealm:
-      github:
-        clientID: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAKTnPs9V39A8ZV3mYjQmM7m/dhdSmKwVGOrodA+JMr+GWVX5AxDulgCewZxGLNs9lK+NDPi2uG+x8mogJHxUnG59sl3si0jKmFt64QDuiF1wkb+zVoMeUg5fvEMrQq7jvKuCu9HrsWYcKGEN13RGEUH+W9nDgH8spZACZA4XShlxAC59Pihr5t0OgckNARyhJ7pl9G628sAFzAoh4Gyq61cJFnZX23Usv+lj7Yl7IKUXzgWBDFYfudMlyTP0fzno13TRkwR/lcqZ/iJHw8BmObz32LoT2EETLo/in5mAMiRPWChDoKMwX/nFVbC2J+ft0AYyAq10ZMH3MvRdh6peZczBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD4a7AIcnwzsQdQ6a/N+GJwgCDiUaTPnTNBBKmOOsjXG9wanp/hx+RXFc7wA8zXmHaI3g==]
-        clientSecret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEANbeA03u9GlLzBZgUtAQskGafWwP4f9aK9AH0ddheZlPwb2yK2UB5EHkO6GnTMgYuaqwHR+kFmC+TgEqoFWsGsftbvsv40RwxLBVPmTHqu14KRR4h+Fd8BStfo8ahojyriDI9xsigDGyrlcOAoiSaNrpzNaUpbaqU9wWdNjmDpmQmzvCuSm6tPQRgpMfSo81n2bafVihMe+27QFUOPcAVlkBndOtRN2At6ESswEbq3kyRFwY6bKbX9+ls+1Zo+/40Qy9PvPSKXHxgLpqrISug+AMSKDQ6qK9/Yq9VCQIHUI6qNooaZW4Z4OuPe/solWySD2wQ49iX8PBQG1ODEOgDzDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDDew9M7AsMKfdomJzO9KMkgDCEBSDjRQ8BSoNkJnQs+hY+M/xcBDD0RYPQwchLZG7NsZsV6uP4t7AXaXzQGEhvHe8=]
-        githubApiUri: https://api.github.com
-        githubWebUri: https://github.com
-        oauthScopes: read:org
     #nodes:
     #  - permanent: &osx_node
     #      labelString: 'osx osx-10.12 sierra-2'
