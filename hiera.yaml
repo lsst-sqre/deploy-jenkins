@@ -12,12 +12,6 @@ hierarchy:
       # deploy name
       - "group/%{::group_name}/deploy/%{::env_name}/role/%{::role}.yaml"
       - "group/%{::group_name}/deploy/%{::env_name}.yaml"
-      # major release
-      - "group/%{::group_name}/os/%{facts.os.family}/%{facts.os.release.major}.yaml"
-      - "os/%{facts.os.family}/%{facts.os.release.major}.yaml"
-      # os
-      - "group/%{::group_name}/os/%{facts.os.family}.yaml"
-      - "os/%{facts.os.family}.yaml"
       # role
       - "group/%{::group_name}/role/%{::role}.yaml"
       - "role/%{::role}.yaml"

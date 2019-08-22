@@ -1,7 +1,6 @@
 ---
 # yamllint disable rule:line-length
 lookup_options:
-  classes:
   jenkins::plugin_hash:
     merge:
       strategy: hash

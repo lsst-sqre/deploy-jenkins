@@ -1,9 +1,6 @@
 ---
 # yamllint disable rule:line-length
 lookup_options:
-  classes:
-    merge:
-      strategy: unique
   jenkinsx::casc:
     merge:
       strategy: deep
@@ -14,12 +11,6 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
-classes:
-  # run a jnlp agent to execute jobs that need to be bound to the
-  # jenkins-master node (E.g., backups).  This provides some priviledge
-  # separation between the master process and the builds as they will be
-  # executed under the jenkins-slave user instead of the jenkins user.
-  - jenkins_demo::profile::jenkins::agent
 jenkins_demo::profile::jenkins::agent::slave_mode: exclusive
 # prevent jobs tied to "docker" or "centos-7" from running on this node
 jenkins_demo::profile::jenkins::agent::use_default_labels: false
