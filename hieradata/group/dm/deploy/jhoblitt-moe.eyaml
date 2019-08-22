@@ -6,35 +6,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
-jenkinsx::osx:
-  ssh_private_key: &jenkinsx_osx_ssh_private_key |
-    ENC[PKCS7,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]
-  # the public key value is not used from hiera, it is here only as
-  # documentation.
-  ssh_public_key: |
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfXrhjxagJrhTSDhfJebjGUswDNfj4CNxM4NtthEi84opss7jBYJhnb567R1RFK1SBSOBuquQe/GpViQhelqJ4FoHzCYCygX58wreugAToQu33Aqn0iFLQLyBNSSuZmtIm/zp1pH2ygCii922RvwZeAznwF0ZH9VvdSFT208ups4BPVd+k+shc0QpsWRc8xiGGRmIexDHLXdnBOFvDncwKyjm1Op6txJTjfweqmn3ARJkVmGprKJYxRjXBDPwtv70DFU0xecCkCV5caS3h5XV8yGIU++BsbH/EDLtSNbcoS1JN6kSYBL26AzrVy0mE6LYybJZ4hbWsh6NKsVkkt+Kn jenkins-osx
 jenkinsx::casc:
-  jenkins:
-    #nodes:
-    #  - permanent: &osx_node
-    #      labelString: 'osx osx-10.12 sierra-2'
-    #      mode: EXCLUSIVE
-    #      name: sierra-2
-    #      numExecutors: 1
-    #      remoteFS: /Users/square/j
-    #      launcher:
-    #        sSHLauncher: &osx_ssh
-    #          credentialsId: sqre-osx
-    #          host: jenkins-sierra-2.lsst.cloud
-    #          launchTimeoutSeconds: 210
-    #          maxNumRetries: 0
-    #          port: 22
-    #          retryWaitTime: 15
-    #      nodeProperties:
-    #        - envVars:
-    #            env:
-    #              - key: 'PATH+LOCAL_BIN'
-    #                value: /usr/local/bin
   credentials:
     system:
       domainCredentials:
@@ -49,11 +21,3 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjm
-            - basicSSHUserPrivateKey:
-                id: sqre-osx
-                scope: GLOBAL
-                description: 'SQRE OSX build agents'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW1YYA2/RgnI2zs2ywqrZhYJN9endtt0rvw803xZNy7GjEIQmLXllsVPi88sH0AO30c0W43jCyGc756NdoaQ+j8T7bv/RQ7UMvS6ZVG/ntngB9IVx2J5qYL8zE+gYvPgEFWnRw4ZVTtzmJScJ1XYx2J2UjpBGH455W+im7lJZ6Ne7CkIR8wD9+Tv1drxa1zcrTbneFWZ5RxjKkD97UeRAIOpBaxs4WWpDZbF7jJkpvWKQHXYbbhxElBrX0Gjig7MLZrZUM3F6mKZAYaBys+io0VNEEhTofWxNm6CzSZsDOyWoxIBCRlWPHAUTCy9yB+a/dL+42p3kJJTPixTDArHZOTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDSxj/e/+nPm4yGTam5TXqYgBBxEnaRkdwxTNaJ2Jz0fo12]
-                privateKeySource:
-                  directEntry:
-                    privateKey: *jenkinsx_osx_ssh_private_key
