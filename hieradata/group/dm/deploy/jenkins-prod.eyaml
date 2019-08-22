@@ -6,13 +6,6 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: false
       sort_merged_arrays: false
-jenkinsx::osx:
-  ssh_private_key: &jenkinsx_osx_ssh_private_key |
-    ENC[PKCS7,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]
-  # the public key value is not used from hiera, it is here only as
-  # documentation.
-  ssh_public_key: |
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfXrhjxagJrhTSDhfJebjGUswDNfj4CNxM4NtthEi84opss7jBYJhnb567R1RFK1SBSOBuquQe/GpViQhelqJ4FoHzCYCygX58wreugAToQu33Aqn0iFLQLyBNSSuZmtIm/zp1pH2ygCii922RvwZeAznwF0ZH9VvdSFT208ups4BPVd+k+shc0QpsWRc8xiGGRmIexDHLXdnBOFvDncwKyjm1Op6txJTjfweqmn3ARJkVmGprKJYxRjXBDPwtv70DFU0xecCkCV5caS3h5XV8yGIU++BsbH/EDLtSNbcoS1JN6kSYBL26AzrVy0mE6LYybJZ4hbWsh6NKsVkkt+Kn jenkins-osx
 jenkinsx::casc:
   jenkins:
     nodes:
@@ -96,10 +89,10 @@ jenkinsx::casc:
                 id: sqre-osx
                 scope: GLOBAL
                 description: 'SQRE OSX build agents'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVz7D3zKBDcO+0MR5v+0iyv0shYjLLtBxtH3dFp70S3ilqhW69fG2RFMYcGbofyZzqR5LkEuh3LHAn28hiXKDtl4hTcwQzRshaNfsnZeAKPAuIK27SjVtGGk/QkbgLO9Sx2yKeJLf1wzT5HKZCLKDRqFf9QtF0mdeVP4ZuCgoS8n9YvrAF4PFxAfH8YA+ZyfOC5JkfaLhGXGeCHyVlT373ic+KJtxm0NjsADMegBAUIyqZ8HzbHCtwtvSl172wC+yW5WnXHUznd67DyR0W41xsV7L5N46/zq5xddPKBgfT3gO/S9aTdoHWAt1IoehoMjygGSevVC/ZGPsn0HdgIBz9DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrtjphvjxa4MaCdMohzvV1gBBcAb+YSLINrWOoP+v38aV5]
+                username: "${osx_ssh_user}"
                 privateKeySource:
                   directEntry:
-                    privateKey: *jenkinsx_osx_ssh_private_key
+                    privateKey: "${osx_ssh_private_key}"
             - usernamePassword:
                 id: aws-cmirror-push
                 scope: GLOBAL

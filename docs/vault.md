@@ -30,6 +30,8 @@ vault kv put secret/dm/square/jenkins/${ENV_NAME}/github_api github_api_token=
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/dockerhub dockerhub_user= dockerhub_pass=
 
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/versiondb_ssh versiondb_ssh_private_key=@ssh_private_key versiondb_ssh_public_key=@ssh_public_key
+
+vault kv put secret/dm/square/jenkins/${ENV_NAME}/agent_ssh osx_ssh_private_key=@ssh_private_key osx_ssh_public_key=@ssh_public_key osx_ssh_user=
 ```
 
 k8s deployment secrets
