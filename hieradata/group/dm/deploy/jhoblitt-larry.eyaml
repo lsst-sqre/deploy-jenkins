@@ -21,9 +21,3 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjl
-            - usernamePassword:
-                id: dockerhub-sqreadmin
-                scope: GLOBAL
-                description: dockerhub (sqreadminlarry)
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAMqYffQjNK3yvStGT47wRn65SNO3GEIlxmIUpwnNBB57OxX9oZhr6oz2SQIkCl2/bY2X/sg8IijDrwOHGrVY25sA19pz9BpHxJaksEsr5pRDEjVASf5cRe2JQoE/m3QmDumVlE4tABNG7XpnEohwO/m9VdxbGLUjkkJaYx9Zj3UmzvGwMmArhkkrSSeCdcUcDmIvzNVmBRvZXzRZyoQQyaKIXXkjb1013EY/KbJPyBxy77P2e/Bf3zF6hh4gzvh9jWrlM1tScFjomi+OPgq65oS9kxkfmi5OF7Rde5POQalSYGvK0Bh1oU51/l6B4WPIkm/YOwdvyP2wMpU82ObI24DA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB+rIP7Eqd4bxy68W1gdjv5gBB9055NhTDwWmq/NGrp8cHv]
-                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAL3hiO6Lt/XJypfR+wuWByk4DkzyGy7Y4QX/idRuAbgHprDkvd+kFvshCG1MMs8xeZM8StXSos5E265B9P7yqHqEH7OZlk7kKLz3M0tuFbIHWe/+Iug9RnVahxMi+dMzVKY/dpWI3mDLqU9Jorc8nfMTU8nz/8WSzpb/hymrxY+8gCkBwcam67hBbIs/IcF+ag95owAc1c51lwDgTUGVVIcz6feed0KvD618DhpnLjycfH8Z09MOaJMVvVz51e5CpVx0hvls11SW+PdF/ONEshEJuaIGmTwbiYe2pB8NDQtDR0pkVaW3d+Bl/9e6DqCgLpYzDHo1KTlw4/OEHqhn0aTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBXam8unCXFKSTOZUTeQM0YgCCMwJtqwLehTuN1a8HWwq8AqRqeItu9sZNCpmzfPYHbkA==]

@@ -21,12 +21,6 @@ jenkinsx::casc:
                 scope: GLOBAL
                 description: Prefix for generated slack channels
                 secret: dmjjc
-            - usernamePassword:
-                id: dockerhub-sqreadmin
-                scope: GLOBAL
-                description: dockerhub (sqreadmincurly)
-                username: "${dockerhub_user}"
-                password: "${dockerhub_pass}"
 files:
   /etc/jenkins/vault:
     content: |

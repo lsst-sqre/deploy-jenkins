@@ -206,3 +206,9 @@ jenkinsx::casc:
                 privateKeySource:
                   directEntry:
                     privateKey: "${versiondb_ssh_private_key}"
+            - usernamePassword:
+                id: dockerhub-sqreadmin
+                scope: GLOBAL
+                description: dockerhub (sqreadmincurly)
+                username: "${dockerhub_user}"
+                password: "${dockerhub_pass}"
