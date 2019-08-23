@@ -44,6 +44,8 @@ vault kv put secret/dm/square/jenkins/${ENV_NAME}/agent_ssh osx_ssh_private_key=
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/cmirror cmirror_aws_access_key_id= cmirror_aws_secret_access_key=
 
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/github_backup github_backup_aws_access_key_id= github_backup_aws_secret_access_key=
+
+vault kv put secret/dm/square/jenkins/${ENV_NAME}/squash_api squash_api_user= squash_api_pass=
 ```
 
 k8s deployment secrets

@@ -109,8 +109,8 @@ jenkinsx::casc:
                 id: squash-api-user
                 scope: GLOBAL
                 description: 'user/pass for Squash API endpoint'
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkPafs2ftvpjl1C9GJZY9bBZ3HvZx+tvmOhT5QW+AoTDguQx9LYEOUo11Q+fEBJvep4CY68Y//+4XFYCESsgpNrvql5IEnntR3a/3W8VhVKFNfMcMHZIL0RILg6VKDYemXV0VPRYztvSye5AB8h5/psrh54Z3+YxYJuZvTHikZB6JPutuOFnlTscVdK+cDLjzvAENskrCJMlRP1X7QnlQD6xY1x0zSqXiWz0kzxQFYq9f7ZojY52ciVc/NAugfwqv7zlSI8sEVKxb+D4HCoXXstAfZEnx9w5bMwujE4THol9gZTKN3AgCaHrTpaDyr66Rus7pyasIilZtajkrDJnnMzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBPvy6RQeVFWNaYGtoO4ZakgBDkgJjgPxGOBgTj9WA9TD07]
-                password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkq+VQe9gTPEO9KXnYWhPV6tDvyBV7rQCrfKS/bwAWPk48CYrYpKUqKT3a7rLCSvSwjwxdjjeOLTx7cImx3XKrehv2cNWrw8vjSYyCzfuboXJZZ/1goJZcpPegUQu7fukzWkvRHrgk8CI2S9onYrzV8tGqP5V2jaZnfjA1QD4uUsfX3kEDtjAKBMUm8QDAOPDBnm2/48Ulu5BpKpQWsFvrK9O9BaeW7pawBc4VH//cCSosQUb7tQbi1TsWFQCHr/cDL7uxmk6jbtSTAjTZUJK5ADc4zhN/5JAs8M83Wd8m9DL5i2IIdEnF+qH0Tup9yYsR4FDdjD7E06FO3Ak2rPJGzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAbypOS46tml8mvFHoAaTqJgBDwUptGXu4exdil7IxU0AYN]
+                username: "${squash_api_user}"
+                password: "${squash_api_pass}"
             - usernamePassword:
                 id: ltd-mason-aws
                 scope: GLOBAL
