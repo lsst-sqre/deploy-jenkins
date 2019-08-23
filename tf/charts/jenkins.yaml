@@ -316,7 +316,7 @@ master:
                   id: jenkins-env
                   scope: GLOBAL
                   description: Name of Jenkins deployment
-                  secret: jhoblitt-curly
+                  secret: "${env_name}"
               - usernamePassword:
                   id: aws-jenkins-master-snapshot
                   scope: GLOBAL
