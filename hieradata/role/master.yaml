@@ -1,21 +1,5 @@
 ---
 # yamllint disable rule:line-length
-jenkins::version: '2.164.3-1.1'
-jenkins::lts: true
-jenkins::master::version: '3.15'
-jenkins::config_firewall: false
-jenkins::cli: true
-jenkins::config_hash:
-  JENKINS_LISTEN_ADDRESS:
-    value: ''
-  JENKINS_HTTPS_PORT:
-    value: ''
-  JENKINS_AJP_PORT:
-    value: '-1'
-  CASC_JENKINS_CONFIG:
-    value: '/etc/jenkins/casc'
-jenkins::default_plugins: []
-jenkins::purge_plugins: true
 # XXX there is no recursive plugin dep resolution; so we have to do this by
 # hand -- ugh
 jenkins::plugin_hash:
