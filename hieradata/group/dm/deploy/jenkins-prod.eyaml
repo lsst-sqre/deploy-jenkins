@@ -121,5 +121,5 @@ jenkinsx::casc:
                 id: ltd-keeper
                 scope: GLOBAL
                 description: ltd-keeper
-                username: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlebOS6hd36Wl7sHpCuhq/Rigw0LVTgReS7wbNWeA6Dg5dL6FcoHiPg/qW/knJ6Gt+jFPfNI2fIiGla52Rt8qlJz44jDqvdDTcGGVfmydkIS2H8Y9BeTEfnYGqCb/WuAyExKlmPB8W50ckW5hz345CqrDkSzgP6Z+h1XFBOvGqjtreNcHMmZpmH4RlniYerEoLCErs1Ppkrdbq+ScKMN2u+KIO0lrdBq21V/PqBbbu7VjyWjEU7X6VwsffbS6b1+L4sn5c9h238oMnQyU7gbOvsQpgOuS5pfi/+3TA2uvW/+xENkTzoixQF+7cKZXLyg/VHOlZsuarHaNFADZd3FBXDA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCdslMKQNRG5nOFFIwecwHHgBDzlNPo4TkAU9Y+22U5VCYn]
-                password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACAQg0LhY2j62OWI8MpvFYpMCd7r3KWK8eHqdi0jbF1/adO1zo9R1Q8Pj4svSioohex8+0lbvH1GDbat/Ql2b7o7YDtlP6VTCtquO3tvaBz2OH6FVhlyZw98lpeSpGoLrauijGM+xKjTGaSJ+aeu15XS4qJffpwe2o0w++jfqO8/dqnbrre7S1BIF6pVwh9aVmHKrQSVd3sFmMD/PDct8RLMzi3SLoACFc/BZMAGtwRWfZDHc+6z5iZhRRx/wyrevdC5R9zg/Q6JLMMc+AdxeYX7SPwmzrnh0IyNoFT37lrNe3r1UzUk6wfi5wMSvXoBrzFQYjslo91kg/97k9RFCcjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCzfBYEW2ux2rE7BWXJplnggCBtv9JdbN9tjez83qwxHgZGP3Ra+HMHCZD/ZVk4Lajt0w==]
+                username: "${ltd_keeper_user}"
+                password: "${ltd_keeper_pass}"
