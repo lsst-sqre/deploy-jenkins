@@ -262,7 +262,7 @@ master:
         unclassified:
           location:
             url: "https://${jenkins_fqdn}"
-            adminAddress: jenkins@lsst.codes
+            adminAddress: "${admin_email}"
           githubpluginconfig:
             configs:
             - credentialsId: github-api-token-sqreadmin

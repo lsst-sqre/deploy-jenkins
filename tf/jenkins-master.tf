@@ -31,9 +31,10 @@ data "template_file" "jenkins_values" {
   template = "${file("${path.module}/charts/jenkins.yaml")}"
 
   vars {
+    admin_email            = "nobody@${var.domain_name}"
+    casc_vault_secret_name = "${kubernetes_secret.casc_vault.metadata.0.name}"
     jenkins_fqdn           = "${local.master_fqdn}"
     jenkins_secret_name    = "${kubernetes_secret.jenkins_tls.metadata.0.name}"
-    casc_vault_secret_name = "${kubernetes_secret.casc_vault.metadata.0.name}"
     vault_root             = "${local.vault_root}"
   }
 }
