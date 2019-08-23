@@ -97,8 +97,8 @@ jenkinsx::casc:
                 id: aws-cmirror-push
                 scope: GLOBAL
                 description: push conda packages -> s3
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAU/bftUNTj/XgqUnjvT/SSEXkzNnqf+6MelaXRjK6Gln1PYaDWXAQotGfrRDDg5GzXWFinOGh6JTzNHqriTvbKciHdyzWdGrn/NQIntFTCxZXudAkFfoIanrKuSCb/1RVprdp2oQNRKoDLzCtcB+PYjYiiVjYWtgq6Bg7g6Sm9rIkdWWEkv/mXuL19uHfacz++3TDiD18TeP9hRYbFB7TWe0HHY9J9Dazl/t0vjObx4HpnVXVD5Go8UKI7IFRUcA0LE2XXhOsV/UqGHdMMg6k/X3McTdPc8VqZ2QCU5QCWDoHNzqaSe1OIh+25IbGTVMmju/wKtsP2KH7wwv3E4zIujBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCSA8TI4s31A4MCPQttCf0FgCAEvhdG1IfVF745Qb/pZ9lrkFBoiP2ZdL1KvmMvbCFFgA==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJpi6mmhe+T8P0/rshzOpFxouduAbugUi7+3E7gPKSveG/lP/9ioWCf8qJ55HKcqTc5qdWqv59KwzegKF3WRJPsg7UhhOTEylCXLBxqaENbUmt9e8VHWEF97VvzFs70rjLmy6Xm4cmz2kHVE7X906rAXxGQbTKThQ5iDA07fUvCTLRw6vU/Bov9pzDYYr5JGUyc89KSJ9D55E4GtDnJOF0N3feLy0+6xM6gsSDJ2xz1WzFAcdy/wU+IhTir3V+5+IWNXRAfQBJ6KoyJVjNMXqM12krwEjRSN59BoKF5+b4RrL8wWu7SybsNnB5VcBxaPkRL87/tFg9a0QLL2KeM70SjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjsqghvFCTw/fmMNPUfrmRgDDcbSLm3fLqf+bCv7tyfKx5lQuSIgNYKsJltwrCoy3dWD4NIGT8EQlgf3owVNP0ciI=]
+                username: "${cmirror_aws_access_key_id}"
+                password: "${cmirror_aws_secret_access_key}"
             - usernamePassword:
                 id: github_backup
                 scope: GLOBAL
