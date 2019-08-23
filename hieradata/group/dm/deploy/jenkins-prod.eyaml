@@ -115,8 +115,8 @@ jenkinsx::casc:
                 id: ltd-mason-aws
                 scope: GLOBAL
                 description: ltd-mason
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAVUsvm7n6B2MtN6Kp0+CG9VxGBO0WVxdz0bXI79zZc3HDlyAgFz8NjERFKh8M6XbY9NE6y4v7OwzgHVnAuqLhnUiFYhRnyim8pkbx43HwxrAd0EgYCfur0nIFF/5QUeMcrGqwtI2M8kIZqN0pQAf4R0tZRY6gpFCPR1cj77OlA/ZNkp51ypanT34wLI+5PAlnsP+Vluwn96g4/+CVbVLnqxRv97D20FGsvBRl280W0uuA8cOBHCMmPzGAYYPGoR1f5MkPIMsgMmgVXh6VsjjQApKJRA8G6PxbF3rlbvfmszcsRlMviIjJgV1DNlGaWlS3zaDiJq0dJl3X88yK+TxVJzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDWRSIHstF5fOYmCRROVZ4tgCDosSK4J/iVBu1EfqDLSOWH1pjGgErKc5A8N9xhswUsFw==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPuJ84BAnNebJ5vSDlGk0gt0nTSn/kTXb9DBhNxlcYD0WY/aQNPgDvxbjOfBfTneIJ6ndTya3KR2yqwtG/lpy9tbjl3xPJhrQFmGWLE6Tr6tlgQMXqzcAyRSwRx//jVRZA0ClEGcEUk9y9XqfWpqfDDinHwpBHQjsSKUfG+r+sEcNX0yhx6QIVOZabOM4mgf9imTrKfYaD3gYe5x1YGYi9StzT1UrO7Yyl4DYYDbG5leiiSN9E0pl4Q33M+4ORj8sN9e/cmo5rIyVfeD/nkDkILMCu/kLg1uVI/pLudgaOSDDRxZ4sQ4q7xigikzgDckdHyLHTkBAEXE4k3603M838TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC38nNHNPw0qNT/YMcbOROWgDDQlqFg3u3DoISxJ6cb3bCqcjAjmjUpYgnvQXZDRH1iE1/A3+SS+BCOMLE50w+HZaI=]
+                username: "${ltd_mason_aws_access_key_id}"
+                password: "${ltd_mason_aws_secret_access_key}"
             - usernamePassword:
                 id: ltd-keeper
                 scope: GLOBAL
