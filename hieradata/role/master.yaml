@@ -400,7 +400,7 @@ jenkinsx::casc:
         excludeClientIPFromCrumb: true
   unclassified:
     location:
-      url: "https://%{::jenkins_fqdn}"
+      url: "https://${jenkins_fqdn}"
       # note that the domain_name for email sending may not match the fqdn
       adminAddress: "jenkins@%{::domain_name}"
   security:

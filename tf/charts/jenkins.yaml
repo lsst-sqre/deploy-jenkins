@@ -261,7 +261,7 @@ master:
               oauthScopes: read:org
         unclassified:
           location:
-            url: https://jhoblitt-curly-ci.lsst.codes
+            url: "https://${jenkins_fqdn}"
             adminAddress: jenkins@lsst.codes
           githubpluginconfig:
             configs:
