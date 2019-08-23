@@ -42,6 +42,8 @@ ENV_NAME=jhoblitt-curly
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/agent_ssh osx_ssh_private_key=@ssh_private_key osx_ssh_public_key=@ssh_public_key osx_ssh_user=
 
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/cmirror cmirror_aws_access_key_id= cmirror_aws_secret_access_key=
+
+vault kv put secret/dm/square/jenkins/${ENV_NAME}/github_backup github_backup_aws_access_key_id= github_backup_aws_secret_access_key=
 ```
 
 k8s deployment secrets

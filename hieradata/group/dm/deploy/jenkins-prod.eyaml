@@ -103,8 +103,8 @@ jenkinsx::casc:
                 id: github_backup
                 scope: GLOBAL
                 description: 'github_backup AWS credentials'
-                username: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAIciS2wJxhTrgb9nN72uaLIYooFCqUn5OG6+g3TP9bJupw4nUVU5F4k2D3wxrj500SYhBVbWsdcBWJzWSREC895dqeSHKq2iocRre/UOdy0G7ikSLUepubGmI+KfBWE5exV82jtTGIk27tKR4awyZHiLeJ19j2nfUbvRT5ZatAM85EiPNs1gPivtAJV6r+RofSyavVl6ZRioUSUb4JJfPrlqjkoAkNHiE2I7fXLwpkX1YHimj9WfysSKVUy7PT6vQL0jWyjo/r+FwZFmuaKVoSK1KOE+5JJ2drtv5fFT1b26h1Dy0hHwKWf/gshAQsyHbMSQ/urvSA61zY19B7YlQTTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC9qD4SkZB59V0Etk8TDZJEgCBQHafpBADwSxQXmfEVrqU5m5ewJ/I/oBvhBtiRVDwUIA==]
-                password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAoR/wobstOUwMZ70MwBzrIE7GPYlaOvXI34X/agfH7ACJ6SRfUX8DzFoK3VdtPy4fruuvceYhiL+HCDLbqD8iCBbMa3DiLJA/EX0d+jTRT7rEt+JcJDH5tpo3M+pghCW6CW4rDnC0SV15VnNW8nr/8tCZu05G5NmJmwN8BWtDg7GAAsX4ewa0Gn0MiweOJwRTwBe+VPsPTG1BIbsQE9QaZXsJlfoVFSEv9lZWkhCSngakT2XE5FhaIlZhg+etoJsOXI/CGrf5EUTNTyFkG7whQvIs4+WvMTKJ6TBQ5Gc6FlNZyxX1hbxVrLe8jZosdccwnaQRUEEQm1Vh/apel3cKmDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAkdSuIw//fZFAKyQuPSuWqgDAkgKzpfMPQsPyEQq/aFWTzWm04zXL2w80XIgHUtRGbB4Vxgp895j7UcVUlskxRHf4=]
+                username: "${github_backup_aws_access_key_id}"
+                password: "${github_backup_aws_secret_access_key}"
             - usernamePassword:
                 id: squash-api-user
                 scope: GLOBAL
