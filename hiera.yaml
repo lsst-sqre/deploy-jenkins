@@ -7,12 +7,9 @@ defaults:
 hierarchy:
   - name: "role"
     paths:
-      # deploy name
-      - "group/%{::group_name}/deploy/%{::env_name}/role/%{::role}.yaml"
+      # deploy/env name
       - "group/%{::group_name}/deploy/%{::env_name}.yaml"
-      # role
-      - "group/%{::group_name}/role/%{::role}.yaml"
-      - "role/%{::role}.yaml"
+      # group
+      - "group/%{::group_name}.yaml"
       # common
-      - "group/%{::group_name}/common.yaml"
       - "common.yaml"
