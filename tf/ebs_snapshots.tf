@@ -80,11 +80,8 @@ resource "aws_dlm_lifecycle_policy" "example" {
       copy_tags = true
     }
 
-    # claimName: {{ .Values.persistence.existingClaim | default (include "jenkins.fullname" .) }}
     target_tags = "${map(
-      "kubernetes.io/cluster/${module.eks.cluster_id}", "owned",
-      "kubernetes.io/created-for/pvc/name", "jenkins",
-      "kubernetes.io/created-for/pvc/namespace", "${kubernetes_namespace.jenkins.metadata.0.name}",
+      "Name", "${local.ebs_backup_tag}",
     )}"
   }
 }

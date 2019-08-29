@@ -1,6 +1,7 @@
 locals {
   master_aws_region = "${data.aws_region.current.name}"
   master_aws_zone   = "${local.master_aws_region}c"
+  ebs_backup_tag    = "jenkins-data-${local.master_fqdn}"
 
   # XXX param lookup doesn't work here -- WHY???
   #vol_size          = "${data.aws_ebs_volume.jenkins_master.size}Gi"
@@ -82,7 +83,7 @@ resource "aws_ebs_volume" "jenkins_master" {
   size              = 750
 
   tags = {
-    Name = "jenkins-data"
+    Name = "${local.ebs_backup_tag}"
   }
 }
 
