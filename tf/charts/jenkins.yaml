@@ -49,13 +49,13 @@ master:
     -XX:G1NewSizePercent=20
     -XX:+UnlockDiagnosticVMOptions
     -XX:G1SummarizeRSetStatsPeriod=1
-  jenkinsOpts: >
-    -Dhudson.security.csrf.requestfield=Jenkins-crumb
-    -Djava.awt.headless=true
-    -Djenkins.install.runSetupWizard=false
     -Dhudson.slaves.WorkspaceList=_
+    -Dhudson.security.csrf.requestfield=Jenkins-crumb
     -Dhudson.model.Slave.workspaceRoot=ws
     -Djenkins.CLI.disabled=false
+    -Djava.awt.headless=true
+    -Djenkins.install.runSetupWizard=false
+  #jenkinsOpts: >
   # jenkinsUrl: ""
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
