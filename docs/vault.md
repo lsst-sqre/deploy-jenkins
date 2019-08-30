@@ -75,7 +75,7 @@ vault kv put secret/dm/square/jenkins/${ENV_NAME}/prometheus_oauth client_id= cl
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/jenkins_agent user= pass=
 
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/tls crt=@ key=@
-# vault kv put secret/dm/square/jenkins/${ENV_NAME}/tls crt=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2018/lsst.codes_chain.pem key=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2018/lsst.codes.key
+# vault kv put secret/dm/square/jenkins/${ENV_NAME}/tls crt=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2019/lsst.codes_chain.pem key=@/home/jhoblitt/github/terragrunt-live-test/lsst-certs/lsst.codes/2019/lsst.codes.key
 
 vault kv put secret/dm/square/jenkins/${ENV_NAME}/casc_vault token=
 ```
