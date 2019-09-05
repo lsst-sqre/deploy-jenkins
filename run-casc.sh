@@ -1,4 +1,3 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-FACTER_group_name=dm FACTER_env_name=jhoblitt-curly FACTER_role=master FACTER_jenkins_fqdn=jhoblitt-curly-ci.lsst.codes FACTER_domain_name=lsst.codes \
-    bundle exec puppet apply --hiera_config="$(pwd)/hiera.yaml" casc.pp
+FACTER_pwd=$(pwd) FACTER_group_name=dm FACTER_env_name=prod bundle exec puppet apply --modulepath=$(pwd)/modules --hiera_config=./hiera.yaml ./casc.pp

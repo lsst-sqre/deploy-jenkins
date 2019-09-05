@@ -15,8 +15,18 @@ $casc = lookup({
   name       => 'jenkinsx::casc',
   value_type => Hash[String, Any],
 })
-if $casc {
 
+# helm jenkins chart values
+$master = lookup({
+  name              => 'jenkinsx::master',
+  value_type        => Hash[String, Any],
+  merge             => {
+    strategy          => 'deep',
+    merge_hash_arrays => false,
+  },
+})
+
+if $casc {
   if $casc['credentials'] and
     $casc['credentials']['system'] and
     $casc['credentials']['system']['domainCredentials'] {
@@ -35,7 +45,19 @@ if $casc {
     $real_casc = $casc
   }
 
+  $real_master = deep_merge($master, {
+    'master' => {
+      'JCasC' => {
+        'configScripts' => { '01-casc' => inline_template("<%- require 'yaml'-%><%= YAML.dump(@real_casc) %>") }
+      }
+    }
+  })
+
   # debug -- WILL PRINT SECRETS
   notice('merged config:')
-  notice(inline_template("<%- require 'yaml'-%><%= YAML.dump(@real_casc) %>"))
+  notice(inline_template("<%- require 'yaml'-%><%= YAML.dump(@real_master) %>"))
+
+  file { "${::pwd}/jenkins.yaml":
+    content => inline_template("<%- require 'yaml'-%><%= YAML.dump(@real_master) %>"),
+  }
 }
