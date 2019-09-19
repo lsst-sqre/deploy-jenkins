@@ -36,6 +36,12 @@ jenkinsx::casc:
           - "Job/Cancel:lsst*Data Management"
           - "Job/Discover:lsst*Data Management"
           - "Job/Read:lsst*Data Management"
+          ## Data Management
+          - "Overall/Read:lsst*DM Contributors"
+          - "Job/Build:lsst*DM Contributors"
+          - "Job/Cancel:lsst*DM Contributors"
+          - "Job/Discover:lsst*DM Contributors"
+          - "Job/Read:lsst*DM Contributors"
           ## Simulations
           - "Overall/Read:lsst*Simulations"
           - "Job/Build:lsst*Simulations"
