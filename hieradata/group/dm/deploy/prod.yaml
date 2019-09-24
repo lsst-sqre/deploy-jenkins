@@ -1,11 +1,5 @@
 ---
 # yamllint disable rule:line-length
-lookup_options:
-  jenkinsx::casc:
-    merge:
-      strategy: deep
-      merge_hash_arrays: false
-      sort_merged_arrays: false
 jenkinsx::casc:
   jenkins:
     nodes:
