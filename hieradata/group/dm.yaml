@@ -68,7 +68,6 @@ jenkinsx::casc:
         folder('sqre/seeds') {}
 
         job('sqre/seeds/dm-jobs') {
-          label('jenkins-master')
           concurrentBuild(false)
 
           scm {
