@@ -53,8 +53,7 @@ end
 desc 'run puppet-lint'
 task :puppet_lint do
   cmd = <<~PL
-    puppet-lint --fail-on-warnings \
-      environments/jenkins/manifests
+    puppet-lint --fail-on-warnings *.pp
   PL
   sh cmd do |ok, res|
     unless ok
