@@ -125,6 +125,15 @@ variable "tls_key" {
   default     = ""
 }
 
+data "vault_generic_secret" "casc_vault" {
+  path = "${local.vault_root}/casc_vault"
+}
+
+variable "casc_vault_token" {
+  description = "vault token for jenins casc configuration (default: vault)"
+  default     = ""
+}
+
 locals {
   # remove "<env>-" prefix for production
   dns_prefix = "${replace("${var.env_name}-", "jenkins-prod-", "")}"
@@ -155,6 +164,9 @@ locals {
   prometheus_oauth               = "${data.vault_generic_secret.prometheus_oauth.data}"
   prometheus_oauth_client_id     = "${var.prometheus_oauth_client_id != "" ? var.prometheus_oauth_client_id : local.prometheus_oauth["client_id"]}"
   prometheus_oauth_client_secret = "${var.prometheus_oauth_client_secret != "" ? var.prometheus_oauth_client_secret : local.prometheus_oauth["client_secret"]}"
+
+  casc_vault       = "${data.vault_generic_secret.casc_vault.data}"
+  casc_vault_token = "${var.casc_vault_token != "" ? var.casc_vault_token : local.casc_vault["token"]}"
 
   tls     = "${data.vault_generic_secret.tls.data}"
   tls_crt = "${var.tls_crt!= "" ? var.tls_crt: local.tls["crt"]}"

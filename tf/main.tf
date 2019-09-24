@@ -1,5 +1,5 @@
 provider "aws" {
-  version = "~> 2.9.0"
+  version = "~> 2.23.0"
 }
 
 provider "vault" {
@@ -15,11 +15,6 @@ locals {
   jenkins_internal_domain = "${var.env_name}.test"
 
   aws_default_region = "${data.aws_region.current.name}"
-}
-
-resource "aws_key_pair" "jenkins-demo" {
-  key_name   = "${var.env_name}"
-  public_key = "${file("../jenkins_demo/templates/id_rsa.pub")}"
 }
 
 resource "aws_vpc" "jenkins-demo" {
@@ -200,7 +195,7 @@ resource "aws_security_group" "jenkins-demo-ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["140.252.0.0/16", "64.119.41.0/24"]
+    cidr_blocks = ["140.252.0.0/16", "64.119.41.0/24", "73.227.61.235/32"]
   }
 
   tags {

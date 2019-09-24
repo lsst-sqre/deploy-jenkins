@@ -1,0 +1,17 @@
+---
+# yamllint disable rule:line-length
+jenkinsx::casc:
+  credentials:
+    system:
+      domainCredentials:
+        - credentials:
+            - string:
+                id: slack-default-channel
+                scope: GLOBAL
+                description: Default slack channel
+                secret: dmj-jhoblitt-moe
+            - string:
+                id: slack-channel-prefix
+                scope: GLOBAL
+                description: Prefix for generated slack channels
+                secret: dmjjm

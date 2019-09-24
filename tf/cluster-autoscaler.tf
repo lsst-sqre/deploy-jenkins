@@ -12,7 +12,7 @@ resource "helm_release" "cluster_autoscaler" {
   name      = "cluster-autoscaler"
   chart     = "stable/cluster-autoscaler"
   namespace = "${kubernetes_namespace.cluster_autoscaler.metadata.0.name}"
-  version   = "0.10.0"
+  version   = "3.2.0"
 
   force_update  = true
   recreate_pods = true
@@ -34,7 +34,7 @@ data "template_file" "cluster_autoscaler_values" {
   template = "${file("${path.module}/charts/cluster-autoscaler.yaml")}"
 
   vars {
-    aws_region   = "us-east-1"
+    aws_region   = "${data.aws_region.current.name}"
     cluster_name = "${module.eks.cluster_id}"
   }
 }

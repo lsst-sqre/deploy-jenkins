@@ -36,3 +36,5 @@ defaultBackend:
                 operator: In
                 values:
                   - admin
+tcp:
+  55555: "jenkins/jenkins-agent:55555"

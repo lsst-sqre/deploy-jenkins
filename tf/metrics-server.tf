@@ -12,7 +12,7 @@ resource "helm_release" "metrics_server" {
   name      = "metrics-server"
   chart     = "stable/metrics-server"
   namespace = "${kubernetes_namespace.metrics_server.metadata.0.name}"
-  version   = "2.6.0"
+  version   = "2.8.2"
 
   force_update  = true
   recreate_pods = true

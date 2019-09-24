@@ -17,7 +17,7 @@ resource "helm_release" "prometheus_operator" {
   name      = "prometheus-operator"
   chart     = "stable/prometheus-operator"
   namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
-  version   = "5.2.0"
+  version   = "6.4.2"
 
   force_update  = true
   recreate_pods = true
@@ -68,7 +68,7 @@ resource "helm_release" "prometheus_oauth2_proxy" {
   name      = "prometheus-oauth2-proxy"
   chart     = "stable/oauth2-proxy"
   namespace = "${kubernetes_namespace.prometheus.metadata.0.name}"
-  version   = "0.12.1"
+  version   = "0.14.0"
 
   force_update  = true
   recreate_pods = true

@@ -3,6 +3,7 @@ locals {
     {
       name                  = "agents"
       instance_type         = "${var.worker_instance_type}"
+      root_volume_size      = "50"
       root_volume_size      = "${var.worker_root_volume_size}"
       asg_min_size          = 0
       asg_desired_capacity  = 0
@@ -15,7 +16,7 @@ locals {
     {
       name             = "admin"
       instance_type    = "t3.medium"
-      root_volume_size = "32"
+      root_volume_size = "50"
 
       # eks needs at least one node online for dns pods/etc. or it bricks
       asg_min_size          = 1
@@ -35,10 +36,13 @@ locals {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "3.0.0"
+  version = "4.0.2"
 
   cluster_name    = "${local.k8s_cluster_name}"
-  cluster_version = "1.12"
+  cluster_version = "1.14"
+
+  write_aws_auth_config = false
+  write_kubeconfig      = true
 
   subnets = [
     "${aws_subnet.jenkins-demo.id}",
@@ -53,8 +57,11 @@ module "eks" {
 
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
-  worker_groups      = "${local.worker_groups}"
-  worker_group_count = "${length(local.worker_groups)}"
+  worker_groups = "${local.worker_groups}"
+
+  # length() does not work on first run under tf 0.11.14
+  #worker_group_count = "${length(local.worker_groups)}"
+  worker_group_count = "2"
 
   # allow communication between worker nodes and jenkins master ec2 instance
   cluster_security_group_id = "${aws_security_group.jenkins-demo-internal.id}"
@@ -64,7 +71,7 @@ module "eks" {
   #  "${aws_security_group.jenkins-demo-internal.id}",
   #]
 
-  write_kubeconfig = true
+  worker_ami_name_filter = "v20190822"
   cluster_enabled_log_types = [
     "api",
     "audit",
@@ -79,9 +86,6 @@ module "eks" {
 # And the k8s api seems to like to timeout right after eks comes up
 resource "null_resource" "eks_ready" {
   depends_on = [
-    #"module.eks",
-    "aws_key_pair.jenkins-demo",
-
     "aws_vpc.jenkins-demo",
     "aws_internet_gateway.jenkins-demo",
     "aws_vpc_dhcp_options.jenkins",
@@ -101,6 +105,8 @@ resource "null_resource" "eks_ready" {
     "aws_security_group.jenkins-demo-internal",
   ]
 
+  #"module.eks",
+
   provisioner "local-exec" {
     working_dir = "${path.module}"
 
@@ -113,7 +119,6 @@ EOS
 
     interpreter = ["/bin/sh", "-c"]
   }
-
   triggers {
     host                   = "${module.eks.cluster_endpoint}"
     config_path            = "${module.eks.kubeconfig_filename}"
@@ -131,28 +136,21 @@ EOS
 #  }
 #}
 
-provider "kubernetes" {
-  version = "~> 1.6.2"
-
-  host                   = "${module.eks.cluster_endpoint}"
-  config_path            = "${module.eks.kubeconfig_filename}"
-  load_config_file       = true
-  cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
+data "aws_eks_cluster" "cluster" {
+  name = "${module.eks.cluster_id}"
 }
 
-provider "helm" {
-  version = "~> 0.9.0"
+data "aws_eks_cluster_auth" "cluster" {
+  name = "${module.eks.cluster_id}"
+}
 
-  service_account = "${module.tiller.service_account}"
-  namespace       = "${module.tiller.namespace}"
-  install_tiller  = false
+provider "kubernetes" {
+  version = "~> 1.8.1"
 
-  kubernetes {
-    host                   = "${module.eks.cluster_endpoint}"
-    config_path            = "${module.eks.kubeconfig_filename}"
-    load_config_file       = true
-    cluster_ca_certificate = "${base64decode(module.eks.cluster_certificate_authority_data)}"
-  }
+  cluster_ca_certificate = "${base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)}"
+  host                   = "${data.aws_eks_cluster.cluster.endpoint}"
+  load_config_file       = false
+  token                  = "${data.aws_eks_cluster_auth.cluster.token}"
 }
 
 resource "kubernetes_namespace" "tiller" {
@@ -166,7 +164,22 @@ resource "kubernetes_namespace" "tiller" {
 }
 
 module "tiller" {
-  source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=master"
+  source          = "git::https://github.com/lsst-sqre/terraform-tinfoil-tiller.git//?ref=0.10.x"
   namespace       = "${kubernetes_namespace.tiller.metadata.0.name}"
   service_account = "tiller"
+}
+
+provider "helm" {
+  version = "~> 0.10.2"
+
+  service_account = "${module.tiller.service_account}"
+  namespace       = "${module.tiller.namespace}"
+  install_tiller  = false
+
+  kubernetes {
+    cluster_ca_certificate = "${base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)}"
+    host                   = "${data.aws_eks_cluster.cluster.endpoint}"
+    load_config_file       = false
+    token                  = "${data.aws_eks_cluster_auth.cluster.token}"
+  }
 }

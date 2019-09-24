@@ -4,6 +4,7 @@ environments/**/modules
 jenkins_demo/templates/id_rsa*
 keys
 .lsst-certs
+modules/
 *.orig
 *.patch
 pkg/

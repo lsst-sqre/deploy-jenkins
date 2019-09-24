@@ -17,7 +17,7 @@ resource "helm_release" "nginx_ingress" {
   name      = "nginx-ingress"
   chart     = "stable/nginx-ingress"
   namespace = "${kubernetes_namespace.nginx_ingress.metadata.0.name}"
-  version   = "1.6.0"
+  version   = "1.14.0"
 
   force_update  = true
   recreate_pods = true

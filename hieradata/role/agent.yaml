@@ -1,4 +1,0 @@
----
-classes:
-  - jenkins_demo::role::agent
-selinux::mode: disabled
