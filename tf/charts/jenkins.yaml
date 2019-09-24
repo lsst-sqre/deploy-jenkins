@@ -1,3 +1,4 @@
+---
 master:
   image: "jenkins/jenkins"
   imageTag: "2.176.3"
