@@ -7,12 +7,8 @@ Example:
 
     secret/dm/square/jenkins/jhoblitt-curly/scipipe-publish
 
-
-
 https://jhoblitt-larry-grafana-ci.lsst.codes/login/github
-
 https://jhoblitt-larry-prometheus-ci.lsst.codes/oauth2
-
 
 jenkins/casc secrets
 ---
@@ -64,7 +60,8 @@ Required secrets:
 * `jenkins_agent`
 * `tls`
 * `scipipe-publish`
-    Note that this secret is injected by a `terraform-scipipe-publish` deployment and is not expected to be configured manually.
+    Note that this secret is injected by a `terraform-scipipe-publish`
+    deployment and is not expected to be configured manually.
 
 ```bash
 ENV_NAME=jhoblitt-curly
