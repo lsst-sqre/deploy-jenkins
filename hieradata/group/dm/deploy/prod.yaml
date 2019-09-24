@@ -83,37 +83,37 @@ jenkinsx::casc:
                 id: sqre-osx
                 scope: GLOBAL
                 description: 'SQRE OSX build agents'
-                username: "${osx_ssh_user}"
+                username: "$${osx_ssh_user}"
                 privateKeySource:
                   directEntry:
-                    privateKey: "${osx_ssh_private_key}"
+                    privateKey: "$${osx_ssh_private_key}"
             - usernamePassword:
                 id: aws-cmirror-push
                 scope: GLOBAL
                 description: push conda packages -> s3
-                username: "${cmirror_aws_access_key_id}"
-                password: "${cmirror_aws_secret_access_key}"
+                username: "$${cmirror_aws_access_key_id}"
+                password: "$${cmirror_aws_secret_access_key}"
             - usernamePassword:
                 id: github_backup
                 scope: GLOBAL
                 description: 'github_backup AWS credentials'
-                username: "${github_backup_aws_access_key_id}"
-                password: "${github_backup_aws_secret_access_key}"
+                username: "$${github_backup_aws_access_key_id}"
+                password: "$${github_backup_aws_secret_access_key}"
             - usernamePassword:
                 id: squash-api-user
                 scope: GLOBAL
                 description: 'user/pass for Squash API endpoint'
-                username: "${squash_api_user}"
-                password: "${squash_api_pass}"
+                username: "$${squash_api_user}"
+                password: "$${squash_api_pass}"
             - usernamePassword:
                 id: ltd-mason-aws
                 scope: GLOBAL
                 description: ltd-mason
-                username: "${ltd_mason_aws_access_key_id}"
-                password: "${ltd_mason_aws_secret_access_key}"
+                username: "$${ltd_mason_aws_access_key_id}"
+                password: "$${ltd_mason_aws_secret_access_key}"
             - usernamePassword:
                 id: ltd-keeper
                 scope: GLOBAL
                 description: ltd-keeper
-                username: "${ltd_keeper_user}"
-                password: "${ltd_keeper_pass}"
+                username: "$${ltd_keeper_user}"
+                password: "$${ltd_keeper_pass}"

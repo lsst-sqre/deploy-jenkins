@@ -51,8 +51,8 @@ jenkinsx::casc:
           - "Job/Read:lsst-dm*Data Management"
       securityRealm:
         github:
-          clientID: "${github_oauth_client_id}"
-          clientSecret: "${github_oauth_client_secret}"
+          clientID: "$${github_oauth_client_id}"
+          clientSecret: "$${github_oauth_client_secret}"
           githubApiUri: https://api.github.com
           githubWebUri: https://github.com
           oauthScopes: read:org
@@ -111,57 +111,57 @@ jenkinsx::casc:
                 id: aws-jenkins-master-snapshot
                 scope: GLOBAL
                 description: 'jenkins master snapshot AWS credentials'
-                username: "${snapshot_aws_access_key_id}"
-                password: "${snapshot_aws_secret_access_key}"
+                username: "$${snapshot_aws_access_key_id}"
+                password: "$${snapshot_aws_secret_access_key}"
             - string:
                 id: doxygen-url
                 scope: GLOBAL
                 description: 'URL of doxygen site'
-                secret: "${doxygen_url}"
+                secret: "$${doxygen_url}"
             - string:
                 id: eups-url
                 scope: GLOBAL
                 description: 'URL of eups site'
-                secret: "${eups_url}"
+                secret: "$${eups_url}"
             - usernamePassword:
                 id: aws-eups-push
                 scope: GLOBAL
                 description: push EUPS packages -> s3
-                username: "${eups_push_aws_access_key_id}"
-                password: "${eups_push_aws_secret_access_key}"
+                username: "$${eups_push_aws_access_key_id}"
+                password: "$${eups_push_aws_secret_access_key}"
             - string:
                 id: eups-push-bucket
                 scope: GLOBAL
                 description: name of EUPS s3 bucket
-                secret: "${eups_s3_bucket}"
+                secret: "$${eups_s3_bucket}"
             - usernamePassword:
                 id: aws-eups-backup
                 scope: GLOBAL
                 description: backup EUPS s3 bucket -> s3 bucket
-                username: "${eups_backup_aws_access_key_id}"
-                password: "${eups_backup_aws_secret_access_key}"
+                username: "$${eups_backup_aws_access_key_id}"
+                password: "$${eups_backup_aws_secret_access_key}"
             - string:
                 id: eups-backup-bucket
                 scope: GLOBAL
                 description: name of EUPS backup s3 bucket
-                secret: "${eups_backup_s3_bucket}"
+                secret: "$${eups_backup_s3_bucket}"
             - usernamePassword:
                 id: aws-eups-tag-admin
                 scope: GLOBAL
                 description: manage eups distrib tags in s3 bucket
-                username: "${eups_tag_admin_aws_access_key_id}"
-                password: "${eups_tag_admin_aws_secret_access_key}"
+                username: "$${eups_tag_admin_aws_access_key_id}"
+                password: "$${eups_tag_admin_aws_secret_access_key}"
             - usernamePassword:
                 id: aws-doxygen-push
                 scope: GLOBAL
                 description: push doxygen builds -> s3
-                username: "${doxygen_push_aws_access_key_id}"
-                password: "${doxygen_push_aws_secret_access_key}"
+                username: "$${doxygen_push_aws_access_key_id}"
+                password: "$${doxygen_push_aws_secret_access_key}"
             - string:
                 id: doxygen-push-bucket
                 scope: GLOBAL
                 description: name of doxygen s3 bucket
-                secret: "${doxygen_s3_bucket}"
+                secret: "$${doxygen_s3_bucket}"
             - string:
                 id: cmirror-s3-bucket
                 scope: GLOBAL
@@ -171,18 +171,18 @@ jenkinsx::casc:
                 id: slack-lsstc-token
                 scope: GLOBAL
                 description: slack lsstc org API token
-                secret: "${slack_api_token}"
+                secret: "$${slack_api_token}"
             - usernamePassword:
                 id: ghslacker
                 scope: GLOBAL
                 description: api.lsst.codes/ghslacker
-                username: "${ghslacker_user}"
-                password: "${ghslacker_pass}"
+                username: "$${ghslacker_user}"
+                password: "$${ghslacker_pass}"
             - string:
                 id: github-api-token-sqreadmin
                 scope: GLOBAL
                 description: github API personal access token (sqreadmincurly)
-                secret: "${github_api_token}"
+                secret: "$${github_api_token}"
             - basicSSHUserPrivateKey:
                 id: github-jenkins-versiondb
                 scope: GLOBAL
@@ -190,10 +190,10 @@ jenkinsx::casc:
                 username: git
                 privateKeySource:
                   directEntry:
-                    privateKey: "${versiondb_ssh_private_key}"
+                    privateKey: "$${versiondb_ssh_private_key}"
             - usernamePassword:
                 id: dockerhub-sqreadmin
                 scope: GLOBAL
                 description: dockerhub (sqreadmincurly)
-                username: "${dockerhub_user}"
-                password: "${dockerhub_pass}"
+                username: "$${dockerhub_user}"
+                password: "$${dockerhub_pass}"
