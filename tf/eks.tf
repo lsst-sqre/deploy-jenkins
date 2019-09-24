@@ -57,7 +57,8 @@ module "eks" {
 
   vpc_id = "${aws_vpc.jenkins-demo.id}"
 
-  worker_groups      = "${local.worker_groups}"
+  worker_groups = "${local.worker_groups}"
+
   # length() does not work on first run under tf 0.11.14
   #worker_group_count = "${length(local.worker_groups)}"
   worker_group_count = "2"
