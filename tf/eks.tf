@@ -39,7 +39,7 @@ module "eks" {
   version = "4.0.2"
 
   cluster_name    = "${local.k8s_cluster_name}"
-  cluster_version = "1.13"
+  cluster_version = "1.14"
 
   write_aws_auth_config = false
   write_kubeconfig      = true
@@ -68,6 +68,7 @@ module "eks" {
   #  "${aws_security_group.jenkins-demo-internal.id}",
   #]
 
+  worker_ami_name_filter = "v20190822"
   cluster_enabled_log_types = [
     "api",
     "audit",
