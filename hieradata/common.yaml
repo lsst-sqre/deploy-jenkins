@@ -56,7 +56,7 @@ jenkinsx::master:
             name: "${casc_vault_secret_name}"
             key: CASC_VAULT_TOKEN
       - name: CASC_VAULT_PATHS
-        value: "${vault_root}/scipipe-publish,${vault_root}/slack,${vault_root}/ghslacker,${vault_root}/github_oauth,${vault_root}/github_api,${vault_root}/dockerhub,${vault_root}/versiondb_ssh"
+        value: "${vault_root}/agent_ssh,${vault_root}/cmirror,${vault_root}/dockerhub,${vault_root}/ghslacker,${vault_root}/github_api,${vault_root}/github_backup,${vault_root}/github_oauth,${vault_root}/grafana_oauth,${vault_root}/ltd_keeper,${vault_root}/ltd_mason,${vault_root}/prometheus_oauth,${vault_root}/scipipe-publish,${vault_root}/slack,${vault_root}/squash_api"
       - name: CASC_VAULT_URL
         value: https://vault.lsst.codes
       - name: CASC_VAULT_ENGINE_VERSION
