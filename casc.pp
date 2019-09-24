@@ -14,13 +14,17 @@
 $casc = lookup({
   name       => 'jenkinsx::casc',
   value_type => Hash[String, Any],
+  merge      => {
+    strategy          => 'deep',
+    merge_hash_arrays => false,
+  },
 })
 
 # helm jenkins chart values
 $master = lookup({
-  name              => 'jenkinsx::master',
-  value_type        => Hash[String, Any],
-  merge             => {
+  name       => 'jenkinsx::master',
+  value_type => Hash[String, Any],
+  merge      => {
     strategy          => 'deep',
     merge_hash_arrays => false,
   },
