@@ -23,7 +23,7 @@ Example:
 jenkins-dm-jobs
 ---------------
 
-Fork / create a branch of ``lsst-sqre/jenkins-dm-jobs`` for the test env, Eg.,
+Fork / create a branch of ``lsst-dm/jenkins-dm-jobs`` for the test env, Eg.,
 ``provingground/curly``
 
 deploy-jenkins
