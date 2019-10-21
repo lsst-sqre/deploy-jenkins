@@ -73,7 +73,7 @@ jenkinsx::casc:
           scm {
             git {
               remote {
-                url('https://github.com/lsst-sqre/jenkins-dm-jobs')
+                url('https://github.com/lsst-dm/jenkins-dm-jobs')
               }
               branch('*/master')
             }

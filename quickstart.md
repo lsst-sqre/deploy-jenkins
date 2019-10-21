@@ -157,7 +157,7 @@ It is recommend the `jenkins-dm-jobs` clone *not* be nested under the
 `deploy-jenkins`.
 
     cd
-    hub clone lsst-sqre/jenkins-dm-jobs jenkins-dm-jobs-<topic>
+    hub clone lsst-dm/jenkins-dm-jobs jenkins-dm-jobs-<topic>
     cd jenkins-dm-jobs-<topic>
     hub fork
     git checkout -b tickets/<DM-XXXX>-<topic>-dev
@@ -177,7 +177,7 @@ development fork/branch.
         <configVersion>2</configVersion>
         <userRemoteConfigs>
           <hudson.plugins.git.UserRemoteConfig>
-            <url>https://github.com/lsst-sqre/jenkins-dm-jobs</url>
+            <url>https://github.com/lsst-dm/jenkins-dm-jobs</url>
           </hudson.plugins.git.UserRemoteConfig>
         </userRemoteConfigs>
         <branches>
@@ -200,7 +200,7 @@ Example:
          <configVersion>2</configVersion>
          <userRemoteConfigs>
            <hudson.plugins.git.UserRemoteConfig>
-    -        <url>https://github.com/lsst-sqre/jenkins-dm-jobs</url>
+    -        <url>https://github.com/lsst-dm/jenkins-dm-jobs</url>
     +        <url>https://github.com/jhoblitt/jenkins-dm-jobs</url>
            </hudson.plugins.git.UserRemoteConfig>
          </userRemoteConfigs>
