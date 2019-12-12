@@ -599,7 +599,7 @@ resource "kubernetes_persistent_volume" "jenkins_agent_ws" {
 
     persistent_volume_source {
       nfs {
-        path   = "/lsst/project/${local.app_name}/${var.env_name}/${var.name}-ws-${count.index}"
+        path   = "/user/staff/project/${local.app_name}/${var.env_name}/${var.name}-ws-${count.index}"
         server = "lsst-nfs.ncsa.illinois.edu"
       }
     }
