@@ -49,7 +49,7 @@ GEM
       minitar
       semantic_puppet (~> 1.0)
     rainbow (3.0.0)
-    rake (12.3.2)
+    rake (12.3.3)
     rsync (1.0.9)
     rubocop (0.61.1)
       jaro_winkler (~> 1.5.1)
