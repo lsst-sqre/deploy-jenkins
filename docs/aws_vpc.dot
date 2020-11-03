@@ -52,34 +52,34 @@ digraph top {
     }
 
     subgraph cluster_2 {
-      label="slave el6-1"
+      label="agent el6-1"
 
       jel61
       gel61
     }
     subgraph cluster_3 {
-      label="slave el6-2"
+      label="agent el6-2"
       jel62
       gel62
     }
     subgraph cluster_4 {
-      label="slave el6-3"
+      label="agent el6-3"
       jel63
       gel63
     }
 
     subgraph cluster_5 {
-      label="slave el7-1"
+      label="agent el7-1"
       jel71
       gel71
     }
     subgraph cluster_6 {
-      label="slave el7-2"
+      label="agent el7-2"
       jel72
       gel72
     }
     subgraph cluster_7 {
-      label="slave el7-3"
+      label="agent el7-3"
       jel73
       gel73
     }
